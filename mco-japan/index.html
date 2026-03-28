@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M&Co. JAPAN PTY LTD - 2026年2月 月次財務分析レポート</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Password Lock Screen */
+#lock-screen{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:linear-gradient(135deg,#1a2332 0%,#1A2540 50%,#0F1829 100%);display:flex;align-items:center;justify-content:center;font-family:'Noto Sans JP',sans-serif}
+#lock-screen.hidden{display:none}
+.lock-box{text-align:center;color:#fff;max-width:380px;padding:40px}
+.lock-box .lock-icon{font-size:3rem;margin-bottom:20px;opacity:.7}
+.lock-box h2{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:700;margin-bottom:8px;letter-spacing:1px}
+.lock-box .lock-sub{color:rgba(255,255,255,.5);font-size:.82rem;margin-bottom:28px}
+.lock-box input{width:100%;padding:14px 18px;border:1px solid rgba(184,145,42,.3);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font-size:1rem;text-align:center;letter-spacing:4px;outline:none;transition:border .2s}
+.lock-box input:focus{border-color:#B8912A}
+.lock-box input::placeholder{color:rgba(255,255,255,.25);letter-spacing:1px}
+.lock-box button{margin-top:16px;width:100%;padding:14px;border:none;border-radius:10px;background:#B8912A;color:#0F1829;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .2s}
+.lock-box button:hover{background:#D4A843}
+.lock-box .lock-error{color:#FF8A80;font-size:.78rem;margin-top:12px;min-height:20px}
+.lock-box .lock-brand{color:rgba(255,255,255,.25);font-size:.68rem;margin-top:32px;letter-spacing:1px}
+#report-content{display:none}
+</style>
+<style>
+:root {
+  --navy: #1A2540;
+  --navy-light: #243352;
+  --navy-dark: #0F1829;
+  --gold: #B8912A;
+  --gold-light: #D4A843;
+  --gold-pale: rgba(184,145,42,0.08);
+  --paper: #F5F2EC;
+  --paper-dark: #EDE8DF;
+  --text: #2C2C2C;
+  --text-sub: #6B6B6B;
+  --text-light: #999;
+  --positive: #1B7A3D;
+  --positive-bg: #E8F5E9;
+  --negative: #B71C1C;
+  --negative-bg: #FFEBEE;
+  --neutral: #E65100;
+  --neutral-bg: #FFF3E0;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --border: #E0DCD4;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--paper);
+  color: var(--text);
+  line-height: 1.7;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #1a2332 0%, #1A2540 50%, #0F1829 100%);
+  color: #fff;
+  border-bottom: 1px solid rgba(184,145,42,0.15);
+  padding: 48px 24px 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(184,145,42,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 50%, rgba(184,145,42,0.06) 0%, transparent 60%);
+}
+.header-content { position: relative; z-index: 1; }
+.header-logo-row { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px; }
+.ticker-badge {
+  display: inline-block;
+  background: rgba(184,145,42,0.15);
+  border: 1px solid rgba(184,145,42,0.3);
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 14px;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+}
+.header h1 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+  letter-spacing: 2px;
+}
+.header .subtitle { color: rgba(255,255,255,0.7); font-size: 0.92rem; }
+.header .date { color: rgba(255,255,255,0.5); font-size: 0.78rem; margin-top: 8px; }
+
+/* Footer */
+.footer {
+  background: var(--navy-dark);
+  color: rgba(255,255,255,0.5);
+  padding: 28px 20px;
+  text-align: center;
+}
+.footer-logo { display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px; }
+.footer-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.footer-logo span { color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.85rem;line-height:1;letter-spacing:1.5px; }
+.footer-info { font-size: 0.72rem; margin-bottom: 10px; }
+.footer-confidential {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 3px;
+  border: 1px solid rgba(184,145,42,0.3);
+  display: inline-block;
+  padding: 4px 16px;
+  border-radius: 4px;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+/* Section */
+.section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title .icon {
+  font-size: 1.3rem;
+}
+
+/* Score Cards */
+.score-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.score-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px 16px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.score-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+}
+.score-card.positive::before { background: var(--positive); }
+.score-card.negative::before { background: var(--negative); }
+.score-card.neutral::before { background: var(--neutral); }
+.score-card .sc-label {
+  font-size: 0.72rem;
+  color: var(--text-sub);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.score-card .sc-value {
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: var(--navy);
+  line-height: 1.2;
+}
+.score-card .sc-value.up { color: var(--positive); }
+.score-card .sc-value.down { color: var(--negative); }
+.score-card .sc-change {
+  font-size: 0.72rem;
+  margin-top: 4px;
+  font-weight: 500;
+}
+.sc-change.up { color: var(--positive); }
+.sc-change.down { color: var(--negative); }
+.sc-sub {
+  font-size: 0.68rem;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.metric-card {
+  background: var(--paper);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--border);
+}
+.metric-card .mc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.metric-card .mc-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+.metric-card .mc-badge {
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+.mc-badge.good { background: var(--positive-bg); color: var(--positive); }
+.mc-badge.bad { background: var(--negative-bg); color: var(--negative); }
+.mc-badge.warn { background: var(--neutral-bg); color: var(--neutral); }
+.metric-card .mc-values {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.mc-current {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--navy);
+}
+.mc-prev {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+}
+.mc-bar {
+  margin-top: 10px;
+  height: 6px;
+  border-radius: 3px;
+  background: #E0DCD4;
+  overflow: hidden;
+}
+.mc-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s ease;
+}
+.mc-bar-fill.good { background: var(--positive); }
+.mc-bar-fill.bad { background: var(--negative); }
+.mc-bar-fill.warn { background: var(--neutral); }
+.mc-bar-fill.gold { background: var(--gold); }
+
+/* Comparison Table */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.comp-table thead th {
+  background: var(--navy);
+  color: #fff;
+  padding: 12px 16px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.78rem;
+}
+.comp-table thead th:first-child {
+  text-align: left;
+  border-radius: 8px 0 0 0;
+}
+.comp-table thead th:last-child {
+  border-radius: 0 8px 0 0;
+}
+.comp-table tbody td {
+  padding: 10px 16px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+.comp-table tbody td:first-child {
+  text-align: left;
+  font-weight: 500;
+  color: var(--navy);
+}
+.comp-table tbody tr:hover {
+  background: var(--gold-pale);
+}
+.comp-table .highlight-row {
+  background: rgba(184,145,42,0.06);
+  font-weight: 700;
+}
+.comp-table .up { color: var(--positive); font-weight: 700; }
+.comp-table .down { color: var(--negative); font-weight: 700; }
+
+/* Chart Container */
+.chart-container {
+  position: relative;
+  height: 320px;
+  margin: 20px 0;
+}
+.chart-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Proposal Cards */
+.proposal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.proposal-card {
+  border-radius: 12px;
+  padding: 24px;
+  border-left: 4px solid;
+  background: #fff;
+  box-shadow: var(--card-shadow);
+}
+.proposal-card.critical {
+  border-color: var(--negative);
+  background: linear-gradient(135deg, #fff 0%, #FFF5F5 100%);
+}
+.proposal-card.important {
+  border-color: var(--neutral);
+  background: linear-gradient(135deg, #fff 0%, #FFFAF0 100%);
+}
+.proposal-card.suggest {
+  border-color: var(--positive);
+  background: linear-gradient(135deg, #fff 0%, #F0FFF4 100%);
+}
+.proposal-card.info {
+  border-color: #1976D2;
+  background: linear-gradient(135deg, #fff 0%, #F0F8FF 100%);
+}
+.proposal-card .pc-priority {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.proposal-card.critical .pc-priority { color: var(--negative); }
+.proposal-card.important .pc-priority { color: var(--neutral); }
+.proposal-card.suggest .pc-priority { color: var(--positive); }
+.proposal-card.info .pc-priority { color: #1976D2; }
+.proposal-card .pc-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+.proposal-card .pc-body {
+  font-size: 0.82rem;
+  color: var(--text-sub);
+  line-height: 1.8;
+}
+.proposal-card .pc-impact {
+  margin-top: 12px;
+  font-size: 0.75rem;
+  padding: 8px 12px;
+  background: rgba(0,0,0,0.03);
+  border-radius: 6px;
+  color: var(--navy);
+  font-weight: 500;
+}
+
+/* Summary Box */
+.summary-box {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+}
+.summary-box h3 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.1rem;
+  color: var(--gold-light);
+  margin-bottom: 16px;
+}
+.summary-box p {
+  font-size: 0.88rem;
+  line-height: 2;
+  color: rgba(255,255,255,0.85);
+}
+.summary-box .highlight {
+  color: var(--gold-light);
+  font-weight: 700;
+}
+
+/* Gauge */
+.gauge-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.gauge-card {
+  text-align: center;
+  padding: 20px 12px;
+  background: var(--paper);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.gauge-card .gc-label {
+  font-size: 0.72rem;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.gauge-card .gc-value {
+  font-size: 1.8rem;
+  font-weight: 900;
+}
+.gauge-card .gc-unit {
+  font-size: 0.7rem;
+  color: var(--text-sub);
+}
+.gauge-card .gc-note {
+  font-size: 0.68rem;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+/* Two Column */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* FL Gauge */
+.fl-gauge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 20px 0;
+  padding: 20px;
+  background: var(--paper);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.fl-bar-container {
+  flex: 1;
+  height: 32px;
+  background: #E0DCD4;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+.fl-bar-fill {
+  height: 100%;
+  border-radius: 8px 0 0 8px;
+  display: flex;
+}
+.fl-bar-f {
+  background: var(--gold);
+  height: 100%;
+}
+.fl-bar-l {
+  background: var(--navy);
+  height: 100%;
+}
+.fl-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-sub);
+  margin-top: 6px;
+}
+.fl-target-line {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--negative);
+  z-index: 2;
+}
+.fl-target-label {
+  position: absolute;
+  top: -18px;
+  font-size: 0.6rem;
+  color: var(--negative);
+  font-weight: 700;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* Channel cards */
+.channel-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.channel-card {
+  text-align: center;
+  padding: 16px 8px;
+  background: var(--paper);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.channel-card .ch-icon { font-size: 1.5rem; margin-bottom: 6px; }
+.channel-card .ch-name { font-size: 0.7rem; color: var(--text-sub); margin-bottom: 4px; }
+.channel-card .ch-value { font-size: 1.1rem; font-weight: 900; color: var(--navy); }
+.channel-card .ch-pct { font-size: 0.68rem; color: var(--text-light); margin-top: 2px; }
+
+/* Alert Box */
+.alert-box {
+  padding: 16px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  border: 1px solid;
+}
+.alert-box.warning {
+  background: var(--neutral-bg);
+  color: var(--neutral);
+  border-color: rgba(230,81,0,0.15);
+}
+.alert-box.danger {
+  background: var(--negative-bg);
+  color: var(--negative);
+  border-color: rgba(183,28,28,0.15);
+}
+.alert-box.success {
+  background: var(--positive-bg);
+  color: var(--positive);
+  border-color: rgba(27,122,61,0.15);
+}
+
+/* Overview grid */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.overview-item {
+  padding: 16px;
+  background: var(--paper);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.overview-item .oi-label {
+  font-size: 0.72rem;
+  color: var(--text-sub);
+  margin-bottom: 4px;
+}
+.overview-item .oi-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+
+/* Responsive */
+@media(max-width:768px){
+  .score-row { grid-template-columns: repeat(2, 1fr); }
+  .metrics-grid { grid-template-columns: 1fr; }
+  .chart-row { grid-template-columns: 1fr; }
+  .proposal-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .gauge-row { grid-template-columns: repeat(2, 1fr); }
+  .channel-grid { grid-template-columns: repeat(3, 1fr); }
+  .overview-grid { grid-template-columns: 1fr; }
+  .header h1 { font-size: 1.4rem; }
+  .header-logo-row { flex-direction:column;gap:8px; }
+  .ticker-badge { font-size:12px;padding:4px 12px; }
+  .footer-confidential { color:var(--gold)!important;border-color:var(--gold)!important; }
+  .section { padding: 20px 16px; }
+  .comp-table { font-size: 0.75rem; }
+  .comp-table thead th, .comp-table tbody td { padding: 8px 10px; }
+  .fl-gauge { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- Password Lock Screen -->
+<div id="lock-screen">
+  <div class="lock-box">
+    <div class="lock-icon">🔒</div>
+    <h2>M&Co. JAPAN PTY LTD</h2>
+    <div class="lock-sub">月次財務分析レポート（社外秘）<br>閲覧にはパスワードが必要です</div>
+    <input type="password" id="pw-input" placeholder="パスワードを入力" autofocus>
+    <button onclick="checkPw()">閲覧する</button>
+    <div class="lock-error" id="pw-error"></div>
+    <div class="lock-brand">Atlas Financial Advisory</div>
+  </div>
+</div>
+
+<div id="report-content">
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <div class="header-logo-row">
+      <div class="ticker-badge">M&Co. JAPAN PTY LTD</div>
+    </div>
+    <h1>月次財務分析レポート</h1>
+    <div class="subtitle">Mr. Sushi Ashmore - 2026年2月度 前年同月比較分析</div>
+    <div class="date">分析日: 2026年3月28日 ｜ 作成: U&Iコンサルティング</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Executive Summary -->
+<div class="summary-box">
+  <h3>Executive Summary</h3>
+  <p>
+    2026年2月のMr. Sushi Ashmoreは、<span class="highlight">売上高$94,151（前年比+0.3%）</span>とほぼ横ばい。
+    しかし中身は大きく変化しており、<span class="highlight">店舗売上-6.8%</span>の減少を<span class="highlight">デリバリー売上+28.0%</span>がカバーした構図。
+    デリバリー比率の上昇に伴いプラットフォーム手数料が増加し、<span class="highlight">原価率は40.0%→42.6%へ+2.5pt悪化</span>。
+    加えて消耗品費の一時的急増（+$1,480）もあり、<span class="highlight">営業利益は$10,878→$7,893と前年比-27.4%</span>の大幅減益。
+    営業利益率は11.6%→8.4%へ低下した。人件費は-1.9%と改善しているものの、
+    <span class="highlight">店舗客単価の低下（$27.16→$25.92、-4.6%）</span>と店舗日販の減少が構造的課題として顕在化している。
+  </p>
+</div>
+
+<!-- Key Metrics -->
+<div class="score-row">
+  <div class="score-card positive">
+    <div class="sc-label">月商</div>
+    <div class="sc-value">$94,151</div>
+    <div class="sc-change up">前年比 +0.3%</div>
+    <div class="sc-sub">前年 $93,871</div>
+  </div>
+  <div class="score-card negative">
+    <div class="sc-label">原価率</div>
+    <div class="sc-value down">42.6%</div>
+    <div class="sc-change down">+2.5pt 悪化</div>
+    <div class="sc-sub">前年 40.0%</div>
+  </div>
+  <div class="score-card positive">
+    <div class="sc-label">人件費率</div>
+    <div class="sc-value up">37.1%</div>
+    <div class="sc-change up">-0.8pt 改善</div>
+    <div class="sc-sub">前年 38.0%</div>
+  </div>
+  <div class="score-card negative">
+    <div class="sc-label">粗利率</div>
+    <div class="sc-value down">57.4%</div>
+    <div class="sc-change down">-2.5pt 悪化</div>
+    <div class="sc-sub">前年 59.9%</div>
+  </div>
+  <div class="score-card negative">
+    <div class="sc-label">営業利益</div>
+    <div class="sc-value down">$7,893</div>
+    <div class="sc-change down">前年比 -27.4%</div>
+    <div class="sc-sub">前年 $10,878</div>
+  </div>
+</div>
+
+<!-- 1. 売上構成分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📊</span> 売上構成分析</div>
+
+  <div class="channel-grid">
+    <div class="channel-card">
+      <div class="ch-icon">🏪</div>
+      <div class="ch-name">POS（店内）</div>
+      <div class="ch-value">$56,550</div>
+      <div class="ch-pct">60.1%</div>
+    </div>
+    <div class="channel-card">
+      <div class="ch-icon">💵</div>
+      <div class="ch-name">現金売上</div>
+      <div class="ch-value">$8,183</div>
+      <div class="ch-pct">8.7%</div>
+    </div>
+    <div class="channel-card">
+      <div class="ch-icon">🚗</div>
+      <div class="ch-name">Uber Eats</div>
+      <div class="ch-value">$21,186</div>
+      <div class="ch-pct">22.5%</div>
+    </div>
+    <div class="channel-card">
+      <div class="ch-icon">🛵</div>
+      <div class="ch-name">DoorDash</div>
+      <div class="ch-value">$3,265</div>
+      <div class="ch-pct">3.5%</div>
+    </div>
+    <div class="channel-card">
+      <div class="ch-icon">🌐</div>
+      <div class="ch-name">オンライン</div>
+      <div class="ch-value">$4,968</div>
+      <div class="ch-pct">5.3%</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:24px">
+    <div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:8px;">チャネル別売上構成比</div>
+      <div class="chart-container" style="height:280px">
+        <canvas id="channelChart"></canvas>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:8px;">店舗 vs デリバリー/オンライン</div>
+      <div class="chart-container" style="height:280px">
+        <canvas id="storeVsDeliveryChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:16px;background:var(--paper);border-radius:10px;border:1px solid var(--border);font-size:0.82rem;color:var(--text-sub);line-height:1.9">
+    <strong style="color:var(--navy)">分析ポイント:</strong><br>
+    店舗売上（POS+現金）は<strong>$64,733（68.7%）</strong>、デリバリー＋オンラインは<strong>$29,419（31.2%）</strong>。<br>
+    Uber Eatsが全売上の22.5%と、デリバリーの中核を担う。前回コンサル（2026年1月）で広告ROAS 20倍が確認されたUber広告の継続効果が寄与。<br>
+    ただしデリバリーには<strong>プラットフォーム手数料（デリバリー売上の約30%）</strong>が発生するため、実質的な粗利は店舗売上と比較して大幅に低い点に留意。
+  </div>
+</div>
+
+<!-- 2. 月次P/L 前年同月比較 -->
+<div class="section">
+  <div class="section-title"><span class="icon">💰</span> 月次損益計算書 前年同月比較（P/L）</div>
+
+  <div class="gauge-row">
+    <div class="gauge-card">
+      <div class="gc-label">営業日数</div>
+      <div class="gc-value" style="color:var(--positive)">25日</div>
+      <div class="gc-unit">前年 24日</div>
+      <div class="gc-note">+1日</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">店舗客数</div>
+      <div class="gc-value" style="color:var(--negative)">2,689</div>
+      <div class="gc-unit">前年 2,753</div>
+      <div class="gc-note">-2.3%</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">店舗客単価</div>
+      <div class="gc-value" style="color:var(--negative)">$25.92</div>
+      <div class="gc-unit">前年 $27.16</div>
+      <div class="gc-note">-4.6%</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">店舗平均日販</div>
+      <div class="gc-value" style="color:var(--negative)">$2,788</div>
+      <div class="gc-unit">前年 $3,116</div>
+      <div class="gc-note">-10.5%</div>
+    </div>
+  </div>
+
+  <div class="gauge-row" style="margin-top:-8px">
+    <div class="gauge-card">
+      <div class="gc-label">デリバリー客数</div>
+      <div class="gc-value" style="color:var(--navy)">588</div>
+      <div class="gc-unit">前年データなし</div>
+      <div class="gc-note">—</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">デリバリー客単価</div>
+      <div class="gc-value" style="color:var(--navy)">$41.58</div>
+      <div class="gc-unit">前年データなし</div>
+      <div class="gc-note">—</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">デリバリー平均日販</div>
+      <div class="gc-value" style="color:var(--positive)">$978</div>
+      <div class="gc-unit">前年 $796</div>
+      <div class="gc-note">+22.9%</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">労働分配率</div>
+      <div class="gc-value" style="color:var(--neutral)">64.7%</div>
+      <div class="gc-unit">前年 63.3%</div>
+      <div class="gc-note">+1.4pt 悪化</div>
+    </div>
+  </div>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>勘定科目</th>
+        <th>2025年2月</th>
+        <th>構成比</th>
+        <th>2026年2月</th>
+        <th>構成比</th>
+        <th>増減額</th>
+        <th>YoY</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 売上 -->
+      <tr class="highlight-row">
+        <td>売上高（税抜）</td>
+        <td>$93,871</td>
+        <td>100.0%</td>
+        <td>$94,151</td>
+        <td>100.0%</td>
+        <td class="up">+$280</td>
+        <td class="up">+0.3%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">店舗売上</td>
+        <td>$74,772</td>
+        <td>79.7%</td>
+        <td>$69,701</td>
+        <td>74.0%</td>
+        <td class="down">-$5,072</td>
+        <td class="down">-6.8%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">デリバリー売上</td>
+        <td>$19,099</td>
+        <td>20.3%</td>
+        <td>$24,451</td>
+        <td>26.0%</td>
+        <td class="up">+$5,352</td>
+        <td class="up">+28.0%</td>
+      </tr>
+
+      <!-- 原価 -->
+      <tr class="highlight-row">
+        <td>売上原価（税抜）</td>
+        <td>$37,592</td>
+        <td>40.0%</td>
+        <td>$40,093</td>
+        <td>42.6%</td>
+        <td class="down">+$2,501</td>
+        <td class="down">+6.7%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">食材原価</td>
+        <td>—</td>
+        <td>—</td>
+        <td>$30,675</td>
+        <td>32.6%</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">PF手数料（デリバリー売上の約30%）</td>
+        <td>—</td>
+        <td>—</td>
+        <td>$9,417</td>
+        <td>10.0%</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+
+      <!-- 粗利 -->
+      <tr class="highlight-row">
+        <td>粗利益</td>
+        <td>$56,279</td>
+        <td>59.9%</td>
+        <td>$54,059</td>
+        <td>57.4%</td>
+        <td class="down">-$2,221</td>
+        <td class="down">-3.9%</td>
+      </tr>
+
+      <!-- 経費 -->
+      <tr class="highlight-row">
+        <td>固定費合計</td>
+        <td>$45,402</td>
+        <td>48.4%</td>
+        <td>$46,166</td>
+        <td>49.0%</td>
+        <td class="down">+$764</td>
+        <td class="down">+1.7%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td style="padding-left:28px">人件費合計（Labor）</td>
+        <td>$35,631</td>
+        <td>38.0%</td>
+        <td>$34,958</td>
+        <td>37.1%</td>
+        <td class="up">-$673</td>
+        <td class="up">-1.9%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">地代家賃</td>
+        <td>$6,131</td>
+        <td>6.5%</td>
+        <td>$6,293</td>
+        <td>6.7%</td>
+        <td>+$162</td>
+        <td>+2.6%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">水道光熱費</td>
+        <td>$1,361</td>
+        <td>1.5%</td>
+        <td>$1,366</td>
+        <td>1.5%</td>
+        <td>+$5</td>
+        <td>+0.3%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">消耗品費（Shop Items）</td>
+        <td>$108</td>
+        <td>0.1%</td>
+        <td>$1,588</td>
+        <td>1.7%</td>
+        <td class="down">+$1,480</td>
+        <td class="down">+1,371%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">衛生費（Cleaning）</td>
+        <td>$143</td>
+        <td>0.2%</td>
+        <td>$143</td>
+        <td>0.2%</td>
+        <td>$0</td>
+        <td>±0%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">帳簿費（Accounting）</td>
+        <td>$400</td>
+        <td>0.4%</td>
+        <td>$460</td>
+        <td>0.5%</td>
+        <td>+$60</td>
+        <td>+15.0%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">修繕費</td>
+        <td>$257</td>
+        <td>0.3%</td>
+        <td>—</td>
+        <td>—</td>
+        <td>-$257</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">教育費</td>
+        <td>$575</td>
+        <td>0.6%</td>
+        <td>—</td>
+        <td>—</td>
+        <td>-$575</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">コンサルティング費</td>
+        <td>—</td>
+        <td>—</td>
+        <td>$503</td>
+        <td>0.5%</td>
+        <td>+$503</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">POSシステム使用料</td>
+        <td>$245</td>
+        <td>0.3%</td>
+        <td>$283</td>
+        <td>0.3%</td>
+        <td>+$38</td>
+        <td>+15.3%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">車両費</td>
+        <td>$145</td>
+        <td>0.2%</td>
+        <td>$179</td>
+        <td>0.2%</td>
+        <td>+$34</td>
+        <td>+23.3%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:28px">その他経費</td>
+        <td>$407</td>
+        <td>0.4%</td>
+        <td>$394</td>
+        <td>0.4%</td>
+        <td>-$13</td>
+        <td>-3.2%</td>
+      </tr>
+
+      <!-- 営業利益 -->
+      <tr class="highlight-row">
+        <td>営業利益</td>
+        <td>$10,878</td>
+        <td>11.6%</td>
+        <td>$7,893</td>
+        <td>8.4%</td>
+        <td class="down">-$2,985</td>
+        <td class="down">-27.4%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:20px;padding:16px;background:var(--paper);border-radius:10px;border:1px solid var(--border);font-size:0.82rem;color:var(--text-sub);line-height:1.9">
+    <strong style="color:var(--navy)">前年同月比 分析サマリー:</strong><br>
+    <strong style="color:var(--positive)">売上高は前年比+0.3%（+$280）とほぼ横ばい。</strong>ただし中身は大きく変化している。<br>
+    <strong style="color:var(--negative)">店舗売上 -6.8%（-$5,072）</strong>の減少を、<strong style="color:var(--positive)">デリバリー売上 +28.0%（+$5,352）</strong>がカバーした構図。<br>
+    デリバリー構成比は20.3%→26.0%へ拡大しており、Uber広告投下の効果が顕著。<br><br>
+    <strong style="color:var(--negative)">営業利益は -27.4%（-$2,985）と大幅減。</strong>その主因は:<br>
+    (1) <strong>原価率の悪化（40.0%→42.6%、+2.5pt）</strong> — デリバリー比率の上昇に伴うPF手数料増が主因。粗利が$2,221減少<br>
+    (2) <strong>消耗品費の急増（$108→$1,588、+$1,480）</strong> — 一時的要因の可能性が高いが要確認<br>
+    (3) <strong>コンサルティング費の新規計上（+$503）</strong><br><br>
+    一方、人件費は <strong style="color:var(--positive)">-1.9%（-$673）</strong>と前年比で改善。家賃・光熱費も安定しており、固定費のコントロールは進んでいる。<br>
+    <strong style="color:var(--navy)">店舗客単価の低下（$27.16→$25.92、-4.6%）と店舗日販の減少（-10.5%）が最大の構造課題。</strong>
+  </div>
+</div>
+
+<!-- 3. FL分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🎯</span> FL比率分析（食材費+人件費）</div>
+
+  <div class="alert-box warning">
+    <strong>FL比率67.3%は目標60%を7.3pt超過。</strong>人件費率（37.1%）が主因。売上$94,151に対し人件費$34,958は過大であり、売上回復または人員適正化が必要。
+  </div>
+
+  <div class="gauge-row">
+    <div class="gauge-card">
+      <div class="gc-label">F（食材原価率）</div>
+      <div class="gc-value" style="color:var(--positive)">30.2%</div>
+      <div class="gc-unit">$28,434</div>
+      <div class="gc-note">目標35%以下 - 達成</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">L（人件費率）</div>
+      <div class="gc-value" style="color:var(--negative)">37.1%</div>
+      <div class="gc-unit">$34,958</div>
+      <div class="gc-note">業界目安 28〜35% - 超過</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">FL比率合計</div>
+      <div class="gc-value" style="color:var(--neutral)">67.3%</div>
+      <div class="gc-unit">$63,392</div>
+      <div class="gc-note">目標 60%以下 - 超過</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">労働分配率</div>
+      <div class="gc-value" style="color:var(--negative)">64.7%</div>
+      <div class="gc-unit">人件費/粗利</div>
+      <div class="gc-note">目標 50%以下</div>
+    </div>
+  </div>
+
+  <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:8px;">FL比率 構成バー</div>
+  <div class="fl-gauge">
+    <div style="min-width:80px;text-align:center">
+      <div style="font-size:0.7rem;color:var(--text-sub)">FL合計</div>
+      <div style="font-size:1.3rem;font-weight:900;color:var(--neutral)">67.3%</div>
+    </div>
+    <div style="flex:1">
+      <div class="fl-bar-container">
+        <div class="fl-bar-fill" style="width:67.3%">
+          <div class="fl-bar-f" style="width:44.9%"></div>
+          <div class="fl-bar-l" style="width:55.1%"></div>
+        </div>
+        <div class="fl-target-line" style="left:60%">
+          <div class="fl-target-label">目標60%</div>
+        </div>
+      </div>
+      <div class="fl-labels">
+        <span>F: 30.2%</span>
+        <span>L: 37.1%</span>
+        <span style="color:var(--negative)">超過 +7.3pt</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-row" style="margin-top:24px">
+    <div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:8px;">コスト構造内訳</div>
+      <div class="chart-container" style="height:280px">
+        <canvas id="costBreakdownChart"></canvas>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:8px;">売上$1あたりのコスト配分</div>
+      <div class="chart-container" style="height:280px">
+        <canvas id="perDollarChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:16px;background:var(--paper);border-radius:10px;border:1px solid var(--border);font-size:0.82rem;color:var(--text-sub);line-height:1.9">
+    <strong style="color:var(--navy)">FL改善シミュレーション:</strong><br>
+    <strong>Case A: 売上$110,000達成時（人件費据置）</strong> → FL比率 = 25.8% + 31.8% = <strong style="color:var(--positive)">57.6%</strong>（目標達成）<br>
+    <strong>Case B: 人件費$2,000削減（売上据置）</strong> → FL比率 = 30.2% + 35.0% = <strong style="color:var(--neutral)">65.2%</strong>（改善だが未達）<br>
+    <strong>Case C: 売上$105,000 + 人件費$1,500削減</strong> → FL比率 = 27.1% + 31.9% = <strong style="color:var(--positive)">59.0%</strong>（目標達成）<br>
+    → <strong style="color:var(--navy)">売上回復が最もインパクトが大きい。人件費削減のみでは不十分</strong>
+  </div>
+</div>
+
+<!-- 4. 原価構造分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🍣</span> 原価構造詳細分析</div>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>原価項目</th>
+        <th>金額</th>
+        <th>売上比率</th>
+        <th>原価内構成比</th>
+        <th>備考</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Food COG（食材）</td>
+        <td>$26,245</td>
+        <td>27.9%</td>
+        <td>65.5%</td>
+        <td><span class="up">良好</span> マネージャー値下げ交渉が奏功</td>
+      </tr>
+      <tr>
+        <td>Drink COG（飲料）</td>
+        <td>$2,189</td>
+        <td>2.3%</td>
+        <td>5.5%</td>
+        <td>適正</td>
+      </tr>
+      <tr>
+        <td>Delivery Cost（配達手数料）</td>
+        <td>$9,411</td>
+        <td>10.0%</td>
+        <td>23.5%</td>
+        <td><span class="down">原価の約1/4</span></td>
+      </tr>
+      <tr>
+        <td>Packaging（包材）</td>
+        <td>$2,128</td>
+        <td>2.3%</td>
+        <td>5.3%</td>
+        <td>テイクアウト比率に比例</td>
+      </tr>
+      <tr>
+        <td>Purchases（仕入）</td>
+        <td>$120</td>
+        <td>0.1%</td>
+        <td>0.3%</td>
+        <td>-</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>原価合計</td>
+        <td>$40,093</td>
+        <td>42.6%</td>
+        <td>100.0%</td>
+        <td>-</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:16px;padding:16px;background:var(--paper);border-radius:10px;border:1px solid var(--border);font-size:0.82rem;color:var(--text-sub);line-height:1.9">
+    <strong style="color:var(--navy)">デリバリーコストの影響:</strong><br>
+    配達手数料$9,411は原価全体の<strong>23.5%</strong>を占める。プラットフォーム手数料は<strong>デリバリー売上の約30%</strong>と非常に高く、デリバリー売上$24,451（Uber+DoorDash）に対し約$7,335が手数料として差し引かれる計算。<br>
+    これに食材原価を加えると、デリバリーの実質粗利率は店舗売上と比較して<strong>大幅に低い</strong>。<br>
+    → Uber/DoorDash上の<strong>価格5%値上げ</strong>（前回コンサルで合意済み）を早急に実行すべき。
+  </div>
+</div>
+
+<!-- 5. B/S分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🏦</span> 貸借対照表分析（B/S）</div>
+
+  <div class="alert-box success">
+    <strong>前期の債務超過を解消。</strong>純資産$28,389と黒字体質が定着しつつある。ただし自己資本比率7.7%は依然として低く、利益の積み上げ継続が必要。
+  </div>
+
+  <div class="two-col">
+    <div>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th colspan="2">資産の部</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row">
+            <td>流動資産合計</td>
+            <td>$156,074</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">銀行預金</td>
+            <td>$90,842</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">電子清算勘定</td>
+            <td>$15,158</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">手元現金</td>
+            <td>$100</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">銀行保証金</td>
+            <td>$34,975</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">棚卸資産</td>
+            <td>$15,000</td>
+          </tr>
+          <tr class="highlight-row">
+            <td>固定資産合計</td>
+            <td>$52,984</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">車両（純額）</td>
+            <td>$52,984</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">店舗・厨房設備（純額）</td>
+            <td>$0</td>
+          </tr>
+          <tr>
+            <td>のれん</td>
+            <td>$155,000</td>
+          </tr>
+          <tr>
+            <td>ウェブ開発費</td>
+            <td>$2,600</td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>資産合計</strong></td>
+            <td><strong>$367,059</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th colspan="2">負債・純資産の部</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row">
+            <td>流動負債合計</td>
+            <td>$69,841</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">買掛金</td>
+            <td>$4,987</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">GST負債</td>
+            <td>$37,217</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">PAYG源泉徴収</td>
+            <td>$13,404</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">退職年金未払</td>
+            <td>$12,871</td>
+          </tr>
+          <tr class="highlight-row">
+            <td>固定負債合計</td>
+            <td>$268,829</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">S&Co Pty Ltd借入</td>
+            <td>$68,600</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">松下ひふみ氏借入</td>
+            <td>$102,324</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">松下宗一郎氏借入</td>
+            <td>$39,037</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">Aimi Lenz氏借入</td>
+            <td>$33,000</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">割賦購入（純額）</td>
+            <td>$25,867</td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>負債合計</strong></td>
+            <td><strong>$338,670</strong></td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>純資産合計</strong></td>
+            <td><strong>$28,389</strong></td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">当期利益</td>
+            <td>$19,717</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px">利益剰余金</td>
+            <td>$17,223</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="metrics-grid" style="margin-top:24px">
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">流動比率</div>
+        <div class="mc-badge good">良好</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">223.4%</div>
+        <div class="mc-prev">目安 150%以上</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:100%"></div></div>
+      <div style="font-size:0.7rem;color:var(--text-sub);margin-top:6px">短期支払能力は十分確保</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">自己資本比率</div>
+        <div class="mc-badge bad">要改善</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">7.7%</div>
+        <div class="mc-prev">目安 30%以上</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill bad" style="width:8%"></div></div>
+      <div style="font-size:0.7rem;color:var(--text-sub);margin-top:6px">親族借入$242,961が主因。利益積上げで改善中</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">現預金月商倍率</div>
+        <div class="mc-badge warn">注視</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">1.13ヶ月</div>
+        <div class="mc-prev">目安 1.5ヶ月以上</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill warn" style="width:56%"></div></div>
+      <div style="font-size:0.7rem;color:var(--text-sub);margin-top:6px">現預金$106,100 / 月商$94,151。キャッシュの厚み増加が課題</div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:16px;background:var(--paper);border-radius:10px;border:1px solid var(--border);font-size:0.82rem;color:var(--text-sub);line-height:1.9">
+    <strong style="color:var(--navy)">B/S構造の特徴:</strong><br>
+    総資産$367,059のうち<strong>のれん$155,000（42.2%）</strong>が最大の資産項目。これは前オーナーからの事業買収時に計上されたもの。<br>
+    固定負債の大部分は<strong>親族借入$242,961（71.7%）</strong>であり、銀行借入はゼロ。<br>
+    前回コンサルで指摘した通り、<strong>外部金融機関からの借入</strong>を検討し、親族借入の整理と信用力の構築を進めるべき。<br>
+    店舗設備・厨房設備は<strong>全額償却済み</strong>であり、設備更新投資の時期も検討が必要。
+  </div>
+</div>
+
+<!-- 6. 月次トレンド -->
+<div class="section">
+  <div class="section-title"><span class="icon">📈</span> 月次売上トレンド（コンサル議事録ベース）</div>
+
+  <div class="chart-container" style="height:350px">
+    <canvas id="trendChart"></canvas>
+  </div>
+
+  <table class="comp-table" style="margin-top:20px">
+    <thead>
+      <tr>
+        <th>月</th>
+        <th>売上高</th>
+        <th>主要イベント</th>
+        <th>評価</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2024年8月</td>
+        <td>$110,908</td>
+        <td>コンサル開始月。高水準</td>
+        <td><span class="up">良好</span></td>
+      </tr>
+      <tr>
+        <td>2025年7月</td>
+        <td>$100,000+</td>
+        <td>久しぶりに10万超え</td>
+        <td><span class="up">回復</span></td>
+      </tr>
+      <tr>
+        <td>2025年10月</td>
+        <td>$111,000+</td>
+        <td>値上げ後最高水準。Uber急伸</td>
+        <td><span class="up">最高値</span></td>
+      </tr>
+      <tr>
+        <td>2025年12月</td>
+        <td>$103,194</td>
+        <td>粗利率57%。HP制作費計上</td>
+        <td>安定</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>2026年2月</td>
+        <td>$94,151</td>
+        <td>ホリデー後閑散期。最低ライン未達</td>
+        <td><span class="down">要改善</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:16px;padding:16px;background:var(--paper);border-radius:10px;border:1px solid var(--border);font-size:0.82rem;color:var(--text-sub);line-height:1.9">
+    <strong style="color:var(--navy)">トレンド分析:</strong><br>
+    2025年9月の値上げ（平均5%）以降、10月に$111,000超の最高水準を記録。しかし1〜2月はオーストラリアのホリデーシーズン後の反動で需要が低下。<br>
+    2月のコンサルでも「例年の最低ラインにも届かず」と報告されており、<strong>季節変動への対策</strong>が課題。<br>
+    ただし1月は前年比+2%であり、通年では成長基調。<strong>2月は構造的な弱月</strong>と位置づけ、コスト管理で利益を確保する方針が妥当。
+  </div>
+</div>
+
+<!-- 7. 企業概要 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🏢</span> 企業・店舗概要</div>
+
+  <div class="overview-grid">
+    <div class="overview-item">
+      <div class="oi-label">法人名</div>
+      <div class="oi-value">M&Co. JAPAN PTY LTD</div>
+    </div>
+    <div class="overview-item">
+      <div class="oi-label">店舗名</div>
+      <div class="oi-value">Mr. Sushi Ashmore</div>
+    </div>
+    <div class="overview-item">
+      <div class="oi-label">所在地</div>
+      <div class="oi-value">5/406 Southport Nerang Rd, Ashmore QLD 4214</div>
+    </div>
+    <div class="overview-item">
+      <div class="oi-label">代表</div>
+      <div class="oi-value">松下 宗一郎 氏</div>
+    </div>
+    <div class="overview-item">
+      <div class="oi-label">業態</div>
+      <div class="oi-value">回転寿司・日本食レストラン（Licensed Cafe）</div>
+    </div>
+    <div class="overview-item">
+      <div class="oi-label">座席数</div>
+      <div class="oi-value">27席</div>
+    </div>
+    <div class="overview-item">
+      <div class="oi-label">営業時間</div>
+      <div class="oi-value">月〜土 11:30-20:00（水〜金は20:30まで）/ 日曜定休</div>
+    </div>
+    <div class="overview-item">
+      <div class="oi-label">Googleレビュー</div>
+      <div class="oi-value">4.6 / 282件（2026年2月時点）</div>
+    </div>
+    <div class="overview-item">
+      <div class="oi-label">主要デリバリー</div>
+      <div class="oi-value">Uber Eats（4.8評価）、DoorDash、自社オンライン</div>
+    </div>
+    <div class="overview-item">
+      <div class="oi-label">コンサル開始</div>
+      <div class="oi-value">2024年9月〜（U&I 上間喜壽氏）</div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:16px;background:var(--paper);border-radius:10px;border:1px solid var(--border);font-size:0.82rem;color:var(--text-sub);line-height:1.9">
+    <strong style="color:var(--navy)">競合環境:</strong><br>
+    アシュモア5km圏内に日本食店7〜8店舗。主要競合は<strong>Sushi Train Nerang</strong>（豪州トップクラス売上）、<strong>Sushi Train Ashmore</strong>（3km圏）、<strong>丸屋 Japanese</strong>（Helensvale）。<br>
+    Mr. Sushiの強みは「<strong>早い・美味しい・接客</strong>」の3点。座って食べられる和食店は少数であり、価格競争力もある。<br>
+    <strong>マクロ環境:</strong> 豪州政策金利3.85%（5月追加利上げの可能性）。食品インフレ率+3.1%。最低賃金は2025年7月に3%上昇済み。
+  </div>
+</div>
+
+<!-- 8. KPI & 損益分岐点 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🎯</span> KPI・損益分岐点分析</div>
+
+  <div class="gauge-row">
+    <div class="gauge-card">
+      <div class="gc-label">損益分岐点売上</div>
+      <div class="gc-value" style="color:var(--navy)">$80,397</div>
+      <div class="gc-unit">固定費/粗利率</div>
+      <div class="gc-note">$46,166 / 57.4%</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">損益分岐点比率</div>
+      <div class="gc-value" style="color:var(--neutral)">85.4%</div>
+      <div class="gc-unit">BEP/実売上</div>
+      <div class="gc-note">70%以下が理想</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">安全余裕率</div>
+      <div class="gc-value" style="color:var(--neutral)">14.6%</div>
+      <div class="gc-unit">(売上-BEP)/売上</div>
+      <div class="gc-note">30%以上が理想</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">目標売上時の安全余裕率</div>
+      <div class="gc-value" style="color:var(--positive)">26.9%</div>
+      <div class="gc-unit">$110,000基準</div>
+      <div class="gc-note">目標達成で大幅改善</div>
+    </div>
+  </div>
+
+  <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:8px;">損益分岐点チャート</div>
+  <div class="chart-container" style="height:300px">
+    <canvas id="bepChart"></canvas>
+  </div>
+
+  <div style="margin-top:16px;padding:16px;background:var(--paper);border-radius:10px;border:1px solid var(--border);font-size:0.82rem;color:var(--text-sub);line-height:1.9">
+    <strong style="color:var(--navy)">損益分岐点の解説:</strong><br>
+    2月の固定費（経費合計）$46,166に対し、粗利率57.4%で除すと損益分岐点売上は<strong>$80,397</strong>。<br>
+    実売上$94,151との差額は<strong>$13,754</strong>（安全余裕率14.6%）と余裕は限定的。<br>
+    2024年9月コンサル時の損益分岐点$72,938〜$77,824と比較すると、松下氏の給与計上により<strong>BEPが上昇</strong>している。<br>
+    → <strong style="color:var(--navy)">売上$110,000を維持できればBEP比率73.1%と安定経営圏に入る</strong>
+  </div>
+</div>
+
+<!-- 9. 改善提案 -->
+<div class="section">
+  <div class="section-title"><span class="icon">💡</span> コンサルティング提案</div>
+
+  <div class="proposal-grid">
+    <div class="proposal-card critical">
+      <div class="pc-priority">最重要 / 即時対応</div>
+      <div class="pc-title">人件費の適正化</div>
+      <div class="pc-body">
+        人件費率37.1%（労働分配率64.7%）は目標を大幅に超過。<br>
+        閑散期の月火水のシフト最適化、機械化投資の検討、スタッフのマルチスキル化により$2,000〜$3,000/月の削減を目指す。
+      </div>
+      <div class="pc-impact">想定効果: 人件費率2〜3pt改善 → 営業利益率+2〜3pt</div>
+    </div>
+    <div class="proposal-card critical">
+      <div class="pc-priority">最重要 / 短期</div>
+      <div class="pc-title">デリバリー価格の値上げ（5%）</div>
+      <div class="pc-body">
+        Uber/DoorDashのプラットフォーム手数料はデリバリー売上の約30%と高額。デリバリー売上の実質粗利率は店舗より大幅に低い。<br>
+        デリバリー価格を5%値上げし、プラットフォーム手数料の負担を軽減する。
+      </div>
+      <div class="pc-impact">想定効果: 月$1,200〜$1,500の粗利改善</div>
+    </div>
+    <div class="proposal-card important">
+      <div class="pc-priority">重要 / 中期</div>
+      <div class="pc-title">閑散期（1〜2月）の売上底上げ戦略</div>
+      <div class="pc-body">
+        2月は構造的な弱月。BtoB注文の開拓（学校・企業ケータリング）、季節限定メニュー投入、Uber広告の月火水集中投下で底上げを図る。<br>
+        BtoB大口注文（$500/件）の実績を活かす。
+      </div>
+      <div class="pc-impact">想定効果: 月商$5,000〜$10,000の底上げ</div>
+    </div>
+    <div class="proposal-card important">
+      <div class="pc-priority">重要 / 中期</div>
+      <div class="pc-title">廃棄ロス管理の徹底</div>
+      <div class="pc-body">
+        前回コンサルで「原価悪化は仕入単価ではなくロス管理の問題」と指摘。廃棄記録の毎日記録、回転寿司レーンの適正投入量管理を制度化し、食材ロスを可視化する。
+      </div>
+      <div class="pc-impact">想定効果: 原価率1〜2pt改善 → 月$1,000〜$2,000</div>
+    </div>
+    <div class="proposal-card suggest">
+      <div class="pc-priority">推奨 / 中長期</div>
+      <div class="pc-title">資金調達と財務基盤の強化</div>
+      <div class="pc-body">
+        自己資本比率7.7%は脆弱。銀行借入ゼロ・親族借入$242,961の構造は金融機関から見て信用力に欠ける。<br>
+        日本法人設立による融資ルート確保、3期連続黒字による信用力構築を進める。
+      </div>
+      <div class="pc-impact">想定効果: 財務安全性の向上・次期出店の資金基盤</div>
+    </div>
+    <div class="proposal-card info">
+      <div class="pc-priority">参考 / 継続</div>
+      <div class="pc-title">Google評価4.7達成に向けた施策継続</div>
+      <div class="pc-body">
+        現在4.6（282件）。4.7達成には約40件の高評価レビューが必要。会計時の声かけ、QRコード設置を継続。<br>
+        Googleマップでの動画コンテンツ強化も検討。
+      </div>
+      <div class="pc-impact">想定効果: 新規客の自然流入増加 → 広告費削減</div>
+    </div>
+  </div>
+</div>
+
+<!-- 10. サマリー -->
+<div class="summary-box">
+  <h3>総合評価・次回コンサルに向けて</h3>
+  <p>
+    2026年2月は閑散期として<span class="highlight">売上$94,151</span>にとどまったが、
+    <span class="highlight">純利益率8.4%</span>はオーストラリア飲食業界平均（5〜10%）の上位に位置しており、
+    コンサル開始から約1年半で「P/L安定化」という当初目標は概ね達成されつつある。<br><br>
+    今後の焦点は<span class="highlight">「営業利益率20%」への引き上げ</span>。
+    そのためには (1) 人件費の適正化（労働分配率50%以下）、(2) デリバリー収益構造の改善、(3) 閑散期の売上底上げ の3点が鍵。<br><br>
+    中長期的には<span class="highlight">2店舗目の出店準備</span>として、標準化（マニュアル・チェックリスト）の整備、
+    予算管理の高度化、資金調達ルートの確保を並行して進めていくべき段階にある。
+  </p>
+</div>
+
+<!-- Footer -->
+</div><!-- container -->
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <img src="ui_logo_white.png" alt="U&I">
+      <span>Consulting</span>
+    </div>
+    <div class="footer-info">
+      M&Co. JAPAN PTY LTD 月次財務分析レポート ｜ 分析日: 2026年3月28日
+    </div>
+    <div class="footer-confidential">最重要機密（CONFIDENTIAL）</div>
+  </div>
+</div>
+
+<script>
+// Chart.js Global Config
+Chart.defaults.font.family = "'Noto Sans JP', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#6B6B6B';
+
+// 1. Channel Chart (Doughnut)
+new Chart(document.getElementById('channelChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['POS（店内）', '現金', 'Uber Eats', 'DoorDash', 'オンライン'],
+    datasets: [{
+      data: [56550, 8183, 21186, 3265, 4968],
+      backgroundColor: ['#1A2540', '#243352', '#B8912A', '#D4A843', '#8B7355'],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 12, font: { size: 10 } } }
+    }
+  }
+});
+
+// 2. Store vs Delivery (Doughnut)
+new Chart(document.getElementById('storeVsDeliveryChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['店舗売上', 'デリバリー/オンライン'],
+    datasets: [{
+      data: [64733, 29419],
+      backgroundColor: ['#1A2540', '#B8912A'],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } }
+    }
+  }
+});
+
+// 3. Cost Breakdown (Doughnut)
+new Chart(document.getElementById('costBreakdownChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['食材原価', '飲料原価', '配達手数料', '包材', '人件費', '家賃', 'その他経費', '利益'],
+    datasets: [{
+      data: [26245, 2189, 9411, 2128, 34958, 6293, 4915, 7921],
+      backgroundColor: ['#B8912A', '#D4A843', '#8B2020', '#8B7355', '#1A2540', '#243352', '#6B6B6B', '#1B7A3D'],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 8, font: { size: 9 } } }
+    }
+  }
+});
+
+// 4. Per Dollar Chart (Stacked Bar)
+new Chart(document.getElementById('perDollarChart'), {
+  type: 'bar',
+  data: {
+    labels: ['売上$1あたり'],
+    datasets: [
+      { label: '食材原価', data: [0.302], backgroundColor: '#B8912A' },
+      { label: '配達手数料', data: [0.100], backgroundColor: '#8B2020' },
+      { label: '包材等', data: [0.024], backgroundColor: '#8B7355' },
+      { label: '人件費', data: [0.371], backgroundColor: '#1A2540' },
+      { label: '家賃', data: [0.067], backgroundColor: '#243352' },
+      { label: 'その他経費', data: [0.052], backgroundColor: '#6B6B6B' },
+      { label: '利益', data: [0.084], backgroundColor: '#1B7A3D' }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { stacked: true, max: 1, ticks: { callback: v => (v*100)+'%' } },
+      y: { stacked: true }
+    },
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 8, font: { size: 9 } } },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label+': '+(ctx.raw*100).toFixed(1)+'%' } }
+    }
+  }
+});
+
+// 5. Trend Chart
+new Chart(document.getElementById('trendChart'), {
+  type: 'bar',
+  data: {
+    labels: ['24年8月', '25年7月', '25年10月', '25年12月', '26年2月'],
+    datasets: [{
+      label: '売上高 (AUD)',
+      data: [110908, 100000, 111000, 103194, 94151],
+      backgroundColor: function(ctx) {
+        return ctx.dataIndex === 4 ? '#8B2020' : '#1A2540';
+      },
+      borderRadius: 6,
+      barPercentage: 0.6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: false,
+        min: 80000,
+        ticks: { callback: v => '$'+v.toLocaleString() }
+      }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => '$'+ctx.raw.toLocaleString() } },
+      annotation: {
+        annotations: {
+          target: {
+            type: 'line',
+            yMin: 110000,
+            yMax: 110000,
+            borderColor: '#B8912A',
+            borderWidth: 2,
+            borderDash: [6, 3],
+            label: {
+              display: true,
+              content: '目標 $110,000',
+              position: 'end',
+              backgroundColor: '#B8912A',
+              font: { size: 10 }
+            }
+          }
+        }
+      }
+    }
+  }
+});
+
+// 6. BEP Chart
+new Chart(document.getElementById('bepChart'), {
+  type: 'line',
+  data: {
+    labels: ['$0', '$20K', '$40K', '$60K', '$80K', '$94K', '$100K', '$110K', '$120K'],
+    datasets: [
+      {
+        label: '売上高',
+        data: [0, 20000, 40000, 60000, 80000, 94151, 100000, 110000, 120000],
+        borderColor: '#1A2540',
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        pointRadius: 0
+      },
+      {
+        label: '総コスト',
+        data: [46166, 54676, 63186, 71696, 80206, 86158, 88716, 92966, 97216],
+        borderColor: '#8B2020',
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        pointRadius: 0
+      },
+      {
+        label: '固定費',
+        data: [46166, 46166, 46166, 46166, 46166, 46166, 46166, 46166, 46166],
+        borderColor: '#B8912A',
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderDash: [4, 4],
+        pointRadius: 0
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: { ticks: { callback: v => '$'+v.toLocaleString() } },
+      x: {}
+    },
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 10 } } },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label+': $'+Math.round(ctx.raw).toLocaleString() } }
+    }
+  }
+});
+</script>
+</div><!-- /report-content -->
+
+<script>
+// SHA-256 hash of "mco"
+var HASH='bc28fa7837894ffdaa9f37f53cb5c51ed545c5bd09f6267b1f43672007c9b876';
+async function sha256(s){var e=new TextEncoder().encode(s);var h=await crypto.subtle.digest('SHA-256',e);return Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,'0')}).join('')}
+async function checkPw(){var v=document.getElementById('pw-input').value;var h=await sha256(v);if(h===HASH){document.getElementById('lock-screen').classList.add('hidden');document.getElementById('report-content').style.display='block';sessionStorage.setItem('mco_auth','1')}else{document.getElementById('pw-error').textContent='パスワードが正しくありません';document.getElementById('pw-input').value='';document.getElementById('pw-input').focus()}}
+document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkPw()});
+(function(){if(sessionStorage.getItem('mco_auth')==='1'){document.getElementById('lock-screen').classList.add('hidden');document.getElementById('report-content').style.display='block'}})();
+</script>
+
+</body>
+</html>

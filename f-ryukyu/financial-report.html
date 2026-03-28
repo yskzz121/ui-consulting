@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社エフ琉球 財務分析レポート</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1A2540;
+  --navy-light: #243352;
+  --navy-dark: #0F1829;
+  --gold: #B8912A;
+  --gold-light: #D4A843;
+  --gold-pale: rgba(184,145,42,0.08);
+  --paper: #F5F2EC;
+  --paper-dark: #EDE8DF;
+  --text: #2C2C2C;
+  --text-sub: #6B6B6B;
+  --text-light: #999;
+  --positive: #1B7A3D;
+  --positive-bg: #E8F5E9;
+  --negative: #B71C1C;
+  --negative-bg: #FFEBEE;
+  --neutral: #E65100;
+  --neutral-bg: #FFF3E0;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --border: #E0DCD4;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--paper);
+  color: var(--text);
+  line-height: 1.7;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #1a2332 0%, var(--navy) 50%, var(--navy-dark) 100%);
+  color: #fff;
+  padding: 48px 24px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(184,145,42,0.1) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 50%, rgba(184,145,42,0.06) 0%, transparent 60%);
+}
+.header-content { position: relative; z-index: 1; }
+.header .label {
+  display: inline-block;
+  background: rgba(184,145,42,0.15);
+  border: 1px solid rgba(184,145,42,0.3);
+  border-radius: 6px;
+  padding: 4px 16px;
+  font-size: 12px;
+  color: var(--gold-light);
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+.header h1 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+.header .subtitle {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.95rem;
+}
+.header .period {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.8rem;
+  margin-top: 8px;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+/* Section */
+.section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title .icon {
+  font-size: 1.3rem;
+}
+
+/* Score Cards */
+.score-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.score-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px 16px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.score-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+}
+.score-card.positive::before { background: var(--positive); }
+.score-card.negative::before { background: var(--negative); }
+.score-card.neutral::before { background: var(--neutral); }
+.score-card .sc-label {
+  font-size: 0.72rem;
+  color: var(--text-sub);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.score-card .sc-value {
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: var(--navy);
+  line-height: 1.2;
+}
+.score-card .sc-value.up { color: var(--positive); }
+.score-card .sc-value.down { color: var(--negative); }
+.score-card .sc-change {
+  font-size: 0.72rem;
+  margin-top: 4px;
+  font-weight: 500;
+}
+.sc-change.up { color: var(--positive); }
+.sc-change.down { color: var(--negative); }
+.sc-sub {
+  font-size: 0.68rem;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.metric-card {
+  background: var(--paper);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--border);
+}
+.metric-card .mc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.metric-card .mc-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+.metric-card .mc-badge {
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+.mc-badge.good { background: var(--positive-bg); color: var(--positive); }
+.mc-badge.bad { background: var(--negative-bg); color: var(--negative); }
+.mc-badge.warn { background: var(--neutral-bg); color: var(--neutral); }
+.metric-card .mc-values {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.mc-current {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--navy);
+}
+.mc-prev {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+}
+.mc-bar {
+  margin-top: 10px;
+  height: 6px;
+  border-radius: 3px;
+  background: #E0DCD4;
+  overflow: hidden;
+}
+.mc-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s ease;
+}
+.mc-bar-fill.good { background: var(--positive); }
+.mc-bar-fill.bad { background: var(--negative); }
+.mc-bar-fill.warn { background: var(--neutral); }
+.mc-bar-fill.gold { background: var(--gold); }
+
+/* Comparison Table */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.comp-table thead th {
+  background: var(--navy);
+  color: #fff;
+  padding: 12px 16px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.78rem;
+}
+.comp-table thead th:first-child {
+  text-align: left;
+  border-radius: 8px 0 0 0;
+}
+.comp-table thead th:last-child {
+  border-radius: 0 8px 0 0;
+}
+.comp-table tbody td {
+  padding: 10px 16px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+.comp-table tbody td:first-child {
+  text-align: left;
+  font-weight: 500;
+  color: var(--navy);
+}
+.comp-table tbody tr:hover {
+  background: var(--gold-pale);
+}
+.comp-table .highlight-row {
+  background: rgba(184,145,42,0.06);
+  font-weight: 700;
+}
+.comp-table .up { color: var(--positive); font-weight: 700; }
+.comp-table .down { color: var(--negative); font-weight: 700; }
+
+/* Chart Container */
+.chart-container {
+  position: relative;
+  height: 320px;
+  margin: 20px 0;
+}
+.chart-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Proposal Cards */
+.proposal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.proposal-card {
+  border-radius: 12px;
+  padding: 24px;
+  border-left: 4px solid;
+  background: #fff;
+  box-shadow: var(--card-shadow);
+}
+.proposal-card.critical {
+  border-color: var(--negative);
+  background: linear-gradient(135deg, #fff 0%, #FFF5F5 100%);
+}
+.proposal-card.important {
+  border-color: var(--neutral);
+  background: linear-gradient(135deg, #fff 0%, #FFFAF0 100%);
+}
+.proposal-card.suggest {
+  border-color: var(--positive);
+  background: linear-gradient(135deg, #fff 0%, #F0FFF4 100%);
+}
+.proposal-card.info {
+  border-color: #1976D2;
+  background: linear-gradient(135deg, #fff 0%, #F0F8FF 100%);
+}
+.proposal-card .pc-priority {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.proposal-card.critical .pc-priority { color: var(--negative); }
+.proposal-card.important .pc-priority { color: var(--neutral); }
+.proposal-card.suggest .pc-priority { color: var(--positive); }
+.proposal-card.info .pc-priority { color: #1976D2; }
+.proposal-card .pc-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+.proposal-card .pc-body {
+  font-size: 0.82rem;
+  color: var(--text-sub);
+  line-height: 1.8;
+}
+.proposal-card .pc-impact {
+  margin-top: 12px;
+  font-size: 0.75rem;
+  padding: 8px 12px;
+  background: rgba(0,0,0,0.03);
+  border-radius: 6px;
+  color: var(--navy);
+  font-weight: 500;
+}
+
+/* Summary Box */
+.summary-box {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+}
+.summary-box h3 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.1rem;
+  color: var(--gold-light);
+  margin-bottom: 16px;
+}
+.summary-box p {
+  font-size: 0.88rem;
+  line-height: 2;
+  color: rgba(255,255,255,0.85);
+}
+.summary-box .highlight {
+  color: var(--gold-light);
+  font-weight: 700;
+}
+
+/* Gauge */
+.gauge-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.gauge-card {
+  text-align: center;
+  padding: 20px 12px;
+  background: var(--paper);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.gauge-card .gc-label {
+  font-size: 0.72rem;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.gauge-card .gc-value {
+  font-size: 1.8rem;
+  font-weight: 900;
+}
+.gauge-card .gc-unit {
+  font-size: 0.7rem;
+  color: var(--text-sub);
+}
+.gauge-card .gc-note {
+  font-size: 0.68rem;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+/* Two Column */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--text-light);
+  font-size: 0.75rem;
+}
+
+/* CCC Flow */
+.ccc-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.ccc-item {
+  padding: 12px 20px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 120px;
+}
+.ccc-item .ci-label {
+  font-size: 0.7rem;
+  color: var(--text-sub);
+  margin-bottom: 4px;
+}
+.ccc-item .ci-value {
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+.ccc-item.asset { background: #E3F2FD; color: #1565C0; }
+.ccc-item.liability { background: #E8F5E9; color: #2E7D32; }
+.ccc-item.result { background: var(--navy); color: var(--gold-light); }
+.ccc-arrow {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  font-weight: 700;
+}
+
+/* Inventory breakdown */
+.inv-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 16px 0;
+}
+.inv-item {
+  padding: 16px;
+  border-radius: 10px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+}
+.inv-item .ii-label {
+  font-size: 0.75rem;
+  color: var(--text-sub);
+  margin-bottom: 6px;
+}
+.inv-item .ii-value {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--navy);
+}
+.inv-item .ii-days {
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+.inv-item .ii-change {
+  font-size: 0.7rem;
+  margin-top: 2px;
+}
+
+@media(max-width:768px){
+  .score-row { grid-template-columns: repeat(2, 1fr); }
+  .metrics-grid { grid-template-columns: 1fr; }
+  .chart-row { grid-template-columns: 1fr; }
+  .proposal-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .gauge-row { grid-template-columns: repeat(2, 1fr); }
+  .ccc-flow { flex-direction: column; }
+  .inv-breakdown { grid-template-columns: 1fr; }
+  .header h1 { font-size: 1.4rem; }
+  .section { padding: 20px 16px; }
+  .comp-table { font-size: 0.75rem; }
+  .comp-table thead th, .comp-table tbody td { padding: 8px 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px">
+      <img src="character_transparent.png" alt="エフ琉球" style="height:52px;width:auto;border-radius:8px;">
+      <div class="label" style="margin-bottom:0">株式会社エフ琉球</div>
+    </div>
+    <h1>財務分析レポート</h1>
+    <div class="subtitle">総合推移財務諸表に基づく経営指標分析・改善提案</div>
+    <div class="period">対象期間: 令和7年8月〜令和8年2月（7ヶ月累計） ｜ 分析日: 2026年3月28日 ｜ 作成: U&Iコンサルティング</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Executive Summary -->
+<div class="summary-box">
+  <h3>Executive Summary</h3>
+  <p>
+    株式会社エフ琉球は、当期7ヶ月累計で<span class="highlight">純売上高24.97億円</span>（前期比△20.1%）と減収となったものの、
+    店舗発行クーポンの大幅削減（△8.4億円）を主因に<span class="highlight">売上原価率が93.4%→90.0%へ改善</span>。
+    その結果、<span class="highlight">営業利益は前期比+41.0%の1.54億円</span>、経常利益は+14.8%の1.56億円と<span class="highlight">減収増益</span>を達成した。
+    自己資本比率は43.9%→50.2%へ上昇し財務安全性も向上。一方、<span class="highlight">在庫回転日数が40.5日→59.2日へ悪化</span>しており、
+    原材料在庫の適正化が最優先課題である。
+  </p>
+</div>
+
+<!-- Key Metrics -->
+<div class="score-row">
+  <div class="score-card positive">
+    <div class="sc-label">粗利益率</div>
+    <div class="sc-value up">10.0%</div>
+    <div class="sc-change up">+3.4pt 改善</div>
+    <div class="sc-sub">前期 6.6%</div>
+  </div>
+  <div class="score-card positive">
+    <div class="sc-label">営業利益率</div>
+    <div class="sc-value up">6.2%</div>
+    <div class="sc-change up">+2.7pt 改善</div>
+    <div class="sc-sub">前期 3.5%</div>
+  </div>
+  <div class="score-card positive">
+    <div class="sc-label">自己資本比率</div>
+    <div class="sc-value up">50.2%</div>
+    <div class="sc-change up">+6.3pt 改善</div>
+    <div class="sc-sub">前期 43.9%</div>
+  </div>
+  <div class="score-card negative">
+    <div class="sc-label">在庫回転日数</div>
+    <div class="sc-value down">59.2日</div>
+    <div class="sc-change down">+18.7日 悪化</div>
+    <div class="sc-sub">前期 40.5日</div>
+  </div>
+  <div class="score-card positive">
+    <div class="sc-label">経常利益</div>
+    <div class="sc-value">1.56億</div>
+    <div class="sc-change up">+14.8%</div>
+    <div class="sc-sub">前期 1.36億</div>
+  </div>
+</div>
+
+<!-- 1. 収益性分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📊</span> 収益性分析</div>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>指標</th>
+        <th>当期（7ヶ月累計）</th>
+        <th>前期同期</th>
+        <th>増減</th>
+        <th>評価</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>純売上高</td>
+        <td>2,496,830,440円</td>
+        <td>3,126,544,672円</td>
+        <td class="down">△20.1%</td>
+        <td><span class="down">要注視</span></td>
+      </tr>
+      <tr class="highlight-row">
+        <td>原価率（売上原価/売上高）</td>
+        <td>90.0%</td>
+        <td>93.4%</td>
+        <td class="up">△3.4pt改善</td>
+        <td><span class="up">改善</span></td>
+      </tr>
+      <tr class="highlight-row">
+        <td>粗利益率（売上総利益率）</td>
+        <td>10.0%</td>
+        <td>6.6%</td>
+        <td class="up">+3.4pt</td>
+        <td><span class="up">大幅改善</span></td>
+      </tr>
+      <tr>
+        <td>販管費率</td>
+        <td>3.8%</td>
+        <td>3.1%</td>
+        <td class="down">+0.7pt</td>
+        <td>微増</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>営業利益率</td>
+        <td>6.2%</td>
+        <td>3.5%</td>
+        <td class="up">+2.7pt</td>
+        <td><span class="up">大幅改善</span></td>
+      </tr>
+      <tr>
+        <td>経常利益率</td>
+        <td>6.3%</td>
+        <td>4.4%</td>
+        <td class="up">+1.9pt</td>
+        <td><span class="up">改善</span></td>
+      </tr>
+      <tr class="highlight-row">
+        <td>純利益率</td>
+        <td>6.3%</td>
+        <td>4.4%</td>
+        <td class="up">+1.9pt</td>
+        <td><span class="up">改善</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="chart-row" style="margin-top:24px">
+    <div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:8px;">利益率推移比較</div>
+      <div class="chart-container" style="height:280px">
+        <canvas id="profitChart"></canvas>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:8px;">原価構造の変化</div>
+      <div class="chart-container" style="height:280px">
+        <canvas id="costChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. 効率性・ROI/ROE -->
+<div class="section">
+  <div class="section-title"><span class="icon">📈</span> 資本効率性分析（ROA・ROE）</div>
+
+  <div class="gauge-row">
+    <div class="gauge-card">
+      <div class="gc-label">ROA（総資産利益率）</div>
+      <div class="gc-value" style="color:var(--positive)">6.8%</div>
+      <div class="gc-unit">7ヶ月実績</div>
+      <div class="gc-note">年換算 約11.7%</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">ROE（自己資本利益率）</div>
+      <div class="gc-value" style="color:var(--positive)">14.5%</div>
+      <div class="gc-unit">7ヶ月実績</div>
+      <div class="gc-note">年換算 約24.9%</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">総資産回転率</div>
+      <div class="gc-value" style="color:var(--navy)">1.09回</div>
+      <div class="gc-unit">7ヶ月実績</div>
+      <div class="gc-note">年換算 約1.86回</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">財務レバレッジ</div>
+      <div class="gc-value" style="color:var(--navy)">1.99倍</div>
+      <div class="gc-unit">総資産/純資産</div>
+      <div class="gc-note">前期 2.28倍</div>
+    </div>
+  </div>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>指標</th>
+        <th>当期（7ヶ月）</th>
+        <th>年換算</th>
+        <th>前期同期</th>
+        <th>前期年換算</th>
+        <th>評価</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ROA（当期純利益/総資産）</td>
+        <td>6.8%</td>
+        <td>11.7%</td>
+        <td>6.2%</td>
+        <td>10.6%</td>
+        <td><span class="up">改善</span></td>
+      </tr>
+      <tr class="highlight-row">
+        <td>ROE（当期純利益/平均純資産）</td>
+        <td>14.5%</td>
+        <td>24.9%</td>
+        <td>15.2%</td>
+        <td>26.1%</td>
+        <td>微減</td>
+      </tr>
+      <tr>
+        <td>総資産回転率（売上高/総資産）</td>
+        <td>1.09回</td>
+        <td>1.86回</td>
+        <td>1.42回</td>
+        <td>2.44回</td>
+        <td><span class="down">低下</span></td>
+      </tr>
+      <tr>
+        <td>財務レバレッジ（総資産/純資産）</td>
+        <td colspan="2">1.99倍</td>
+        <td colspan="2">2.28倍</td>
+        <td>改善（レバレッジ低下）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:20px;padding:16px;background:var(--paper);border-radius:10px;border:1px solid var(--border);font-size:0.82rem;color:var(--text-sub);line-height:1.9">
+    <strong style="color:var(--navy)">DuPont分析（ROE分解）:</strong><br>
+    ROE = 純利益率 × 総資産回転率 × 財務レバレッジ<br>
+    <strong>当期:</strong> 6.3% × 1.09回 × 1.99倍 = <strong style="color:var(--positive)">13.6%</strong>（7ヶ月ベース）<br>
+    <strong>前期:</strong> 4.4% × 1.42回 × 2.28倍 = <strong>14.2%</strong>（7ヶ月ベース）<br>
+    → 純利益率は大幅改善したが、資産回転率の低下とレバレッジ縮小により、ROEはほぼ横ばい。<br>
+    → <strong style="color:var(--navy)">資産回転率の改善（特に在庫圧縮）がROE向上の鍵</strong>
+  </div>
+</div>
+
+<!-- 3. 安全性分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🛡️</span> 安全性分析</div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">流動比率</div>
+        <div class="mc-badge good">優良</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">507.4%</div>
+        <div class="mc-prev">前期 713.1%</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:100%"></div></div>
+      <div style="font-size:0.7rem;color:var(--text-sub);margin-top:6px">目安200%以上で安全。500%超は極めて高水準</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">自己資本比率</div>
+        <div class="mc-badge good">改善</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">50.2%</div>
+        <div class="mc-prev">前期 43.9%</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:50%"></div></div>
+      <div style="font-size:0.7rem;color:var(--text-sub);margin-top:6px">50%超で財務健全。借入返済と利益蓄積で改善傾向</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">負債比率</div>
+        <div class="mc-badge good">改善</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">99.4%</div>
+        <div class="mc-prev">前期 127.9%</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill gold" style="width:50%"></div></div>
+      <div style="font-size:0.7rem;color:var(--text-sub);margin-top:6px">100%以下で純資産が負債を上回る。良好な水準に到達</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">固定比率</div>
+        <div class="mc-badge good">極めて低い</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">2.5%</div>
+        <div class="mc-prev">前期 3.3%</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:3%"></div></div>
+      <div style="font-size:0.7rem;color:var(--text-sub);margin-top:6px">100%以下が目安。固定資産への依存度は極めて低い</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">借入金月商倍率</div>
+        <div class="mc-badge warn">要観察</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">1.96ヶ月</div>
+        <div class="mc-prev">前期 2.08ヶ月</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill warn" style="width:33%"></div></div>
+      <div style="font-size:0.7rem;color:var(--text-sub);margin-top:6px">長期借入金6.98億÷月商3.57億。3ヶ月以内で健全</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">有利子負債/EBITDA倍率</div>
+        <div class="mc-badge warn">注視</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">4.3倍</div>
+        <div class="mc-prev">（年換算ベース）</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill warn" style="width:43%"></div></div>
+      <div style="font-size:0.7rem;color:var(--text-sub);margin-top:6px">借入金6.98億÷EBITDA年換算1.63億。5倍以下が目安</div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. 在庫分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📦</span> 在庫回転分析（重要）</div>
+
+  <div style="background:var(--negative-bg);padding:16px 20px;border-radius:10px;margin-bottom:20px;font-size:0.85rem;color:var(--negative);border:1px solid rgba(183,28,28,0.15)">
+    <strong>在庫回転日数が40.5日→59.2日（+46.2%）へ大幅悪化。</strong>原材料在庫の増加が主因。資金効率と滞留リスクに直結するため最優先で対策が必要。
+  </div>
+
+  <div class="inv-breakdown">
+    <div class="inv-item">
+      <div class="ii-label">原材料在庫</div>
+      <div class="ii-value">4.38億円</div>
+      <div class="ii-days" style="color:var(--negative);font-weight:700">回転日数: 41.5日</div>
+      <div class="ii-change" style="color:var(--negative)">前期 23.6日 → +17.9日悪化</div>
+    </div>
+    <div class="inv-item">
+      <div class="ii-label">製品在庫</div>
+      <div class="ii-value">1.42億円</div>
+      <div class="ii-days" style="color:var(--negative);font-weight:700">回転日数: 13.5日</div>
+      <div class="ii-change" style="color:var(--negative)">前期 8.1日 → +5.4日悪化</div>
+    </div>
+    <div class="inv-item">
+      <div class="ii-label">未納品</div>
+      <div class="ii-value">0.44億円</div>
+      <div class="ii-days" style="color:var(--positive);font-weight:700">回転日数: 4.2日</div>
+      <div class="ii-change" style="color:var(--positive)">前期 8.8日 → △4.6日改善</div>
+    </div>
+  </div>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>在庫指標</th>
+        <th>当期</th>
+        <th>前期同期</th>
+        <th>増減</th>
+        <th>評価</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="highlight-row">
+        <td>棚卸資産合計</td>
+        <td>624,680,849円</td>
+        <td>555,218,948円</td>
+        <td class="down">+12.5%</td>
+        <td><span class="down">増加</span></td>
+      </tr>
+      <tr>
+        <td>棚卸資産回転率（年換算）</td>
+        <td>6.17回</td>
+        <td>9.02回</td>
+        <td class="down">△31.6%</td>
+        <td><span class="down">悪化</span></td>
+      </tr>
+      <tr class="highlight-row">
+        <td>棚卸資産回転日数</td>
+        <td>59.2日</td>
+        <td>40.5日</td>
+        <td class="down">+18.7日</td>
+        <td><span class="down">大幅悪化</span></td>
+      </tr>
+      <tr>
+        <td>　うち原材料回転日数</td>
+        <td>41.5日</td>
+        <td>23.6日</td>
+        <td class="down">+17.9日</td>
+        <td><span class="down">主要因</span></td>
+      </tr>
+      <tr>
+        <td>　うち製品回転日数</td>
+        <td>13.5日</td>
+        <td>8.1日</td>
+        <td class="down">+5.4日</td>
+        <td><span class="down">悪化</span></td>
+      </tr>
+      <tr>
+        <td>棚卸資産/総資産比率</td>
+        <td>27.2%</td>
+        <td>25.3%</td>
+        <td class="down">+1.9pt</td>
+        <td>微増</td>
+      </tr>
+      <tr>
+        <td>棚卸資産/月商倍率</td>
+        <td>1.75ヶ月分</td>
+        <td>1.24ヶ月分</td>
+        <td class="down">+0.51ヶ月</td>
+        <td><span class="down">過剰傾向</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="chart-row" style="margin-top:24px">
+    <div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:8px;">月次在庫推移（原材料 + 製品）</div>
+      <div class="chart-container" style="height:280px">
+        <canvas id="inventoryChart"></canvas>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:8px;">在庫回転日数の比較</div>
+      <div class="chart-container" style="height:280px">
+        <canvas id="turnoverChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. CCC分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🔄</span> キャッシュ・コンバージョン・サイクル（CCC）</div>
+
+  <div class="ccc-flow">
+    <div class="ccc-item asset">
+      <div class="ci-label">売掛金回転日数</div>
+      <div class="ci-value">15.6日</div>
+    </div>
+    <div class="ccc-arrow">+</div>
+    <div class="ccc-item asset">
+      <div class="ci-label">在庫回転日数</div>
+      <div class="ci-value">59.2日</div>
+    </div>
+    <div class="ccc-arrow">−</div>
+    <div class="ccc-item liability">
+      <div class="ci-label">買掛金回転日数</div>
+      <div class="ci-value">21.9日</div>
+    </div>
+    <div class="ccc-arrow">=</div>
+    <div class="ccc-item result">
+      <div class="ci-label">CCC</div>
+      <div class="ci-value">52.9日</div>
+    </div>
+  </div>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>CCC構成要素</th>
+        <th>当期</th>
+        <th>前期同期</th>
+        <th>増減</th>
+        <th>備考</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>売掛金回転日数</td>
+        <td>15.6日</td>
+        <td>13.7日</td>
+        <td class="down">+1.9日</td>
+        <td>微増（許容範囲）</td>
+      </tr>
+      <tr>
+        <td>棚卸資産回転日数</td>
+        <td>59.2日</td>
+        <td>40.5日</td>
+        <td class="down">+18.7日</td>
+        <td><span class="down">CCC悪化の主因</span></td>
+      </tr>
+      <tr>
+        <td>買掛金回転日数</td>
+        <td>21.9日</td>
+        <td>9.8日</td>
+        <td class="up">+12.1日</td>
+        <td><span class="up">支払サイト延長（改善）</span></td>
+      </tr>
+      <tr class="highlight-row">
+        <td>CCC（キャッシュ・コンバージョン・サイクル）</td>
+        <td>52.9日</td>
+        <td>44.4日</td>
+        <td class="down">+8.5日</td>
+        <td><span class="down">資金繰り効率が悪化</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:16px;padding:14px 20px;background:var(--paper);border-radius:10px;border:1px solid var(--border);font-size:0.82rem;color:var(--text-sub);line-height:1.9">
+    CCC 52.9日は、仕入から売上代金回収まで約53日間の運転資金が必要であることを意味する。<br>
+    買掛金の支払サイト延長（+12.1日）で一部相殺されたが、在庫回転の悪化（+18.7日）が大きく、<br>
+    <strong style="color:var(--navy)">CCC 1日短縮 ≒ 約1,055万円の運転資金削減効果</strong>が見込める。在庫圧縮が最も効果的。
+  </div>
+</div>
+
+<!-- 6. 月次P/L推移 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📅</span> 月次損益推移</div>
+  <div class="chart-container" style="height:340px">
+    <canvas id="monthlyPL"></canvas>
+  </div>
+  <div style="margin-top:16px;font-size:0.82rem;color:var(--text-sub);line-height:1.9">
+    <strong style="color:var(--negative)">8月・12月が営業赤字。</strong>
+    8月は期初で売上原価が売上を上回り粗利がほぼゼロ。12月は売上原価が売上を超過し粗利がマイナスに転落。
+    月次変動が大きく、<strong style="color:var(--navy)">季節要因と原価管理の月次精度に課題</strong>がある。
+  </div>
+</div>
+
+<!-- 7. 原価構造分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🏭</span> 原価構造分析</div>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>製造原価内訳</th>
+        <th>当期累計</th>
+        <th>構成比</th>
+        <th>前期同期</th>
+        <th>構成比</th>
+        <th>増減率</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>材料費</td>
+        <td>977,038,031</td>
+        <td>43.5%</td>
+        <td>801,211,431</td>
+        <td>27.4%</td>
+        <td class="down">+21.9%</td>
+      </tr>
+      <tr>
+        <td>労務費</td>
+        <td>89,442,575</td>
+        <td>4.0%</td>
+        <td>79,673,606</td>
+        <td>2.7%</td>
+        <td class="down">+12.3%</td>
+      </tr>
+      <tr>
+        <td>外注加工費</td>
+        <td>74,166,916</td>
+        <td>3.3%</td>
+        <td>62,496,835</td>
+        <td>2.1%</td>
+        <td class="down">+18.7%</td>
+      </tr>
+      <tr>
+        <td>製造経費</td>
+        <td>1,106,600,206</td>
+        <td>49.2%</td>
+        <td>1,977,509,201</td>
+        <td>67.7%</td>
+        <td class="up">△44.0%</td>
+      </tr>
+      <tr>
+        <td>　うちネット運賃</td>
+        <td>206,139,293</td>
+        <td>9.2%</td>
+        <td>206,215,367</td>
+        <td>7.1%</td>
+        <td>△0.0%</td>
+      </tr>
+      <tr>
+        <td>　うちネット広告宣伝費</td>
+        <td>274,154,581</td>
+        <td>12.2%</td>
+        <td>345,668,454</td>
+        <td>11.8%</td>
+        <td class="up">△20.7%</td>
+      </tr>
+      <tr>
+        <td>　うちネット販売原価</td>
+        <td>337,137,741</td>
+        <td>15.0%</td>
+        <td>294,580,581</td>
+        <td>10.1%</td>
+        <td class="down">+14.4%</td>
+      </tr>
+      <tr style="background:rgba(183,28,28,0.05)">
+        <td><strong>　うち店舗発行クーポン</strong></td>
+        <td><strong>286,332,825</strong></td>
+        <td><strong>12.7%</strong></td>
+        <td><strong>1,127,182,422</strong></td>
+        <td><strong>38.6%</strong></td>
+        <td class="up"><strong>△74.6%</strong></td>
+      </tr>
+      <tr class="highlight-row">
+        <td>当期製品製造原価 合計</td>
+        <td>2,247,247,728</td>
+        <td>100.0%</td>
+        <td>2,920,891,073</td>
+        <td>100.0%</td>
+        <td class="up">△23.1%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:16px;padding:14px 20px;background:rgba(184,145,42,0.06);border-radius:10px;border:1px solid rgba(184,145,42,0.15);font-size:0.82rem;color:var(--text);line-height:1.9">
+    <strong style="color:var(--gold)">最大の変化: 店舗発行クーポン △8.41億円（△74.6%）</strong><br>
+    クーポン費用の大幅削減が粗利率改善の最大要因。構成比も38.6%→12.7%に低下。<br>
+    一方、材料費は構成比27.4%→43.5%へ上昇（絶対額も+21.9%増）。クーポン削減効果を材料費増が一部相殺している。
+  </div>
+</div>
+
+<!-- 8. 総合指標一覧 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📋</span> 経営指標サマリー</div>
+
+  <div class="two-col">
+    <div>
+      <h4 style="font-size:0.85rem;color:var(--navy);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">収益性指標</h4>
+      <table class="comp-table">
+        <thead><tr><th>指標</th><th>当期</th><th>前期</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr><td>原価率</td><td>90.0%</td><td>93.4%</td><td class="up">改善</td></tr>
+          <tr><td>粗利益率</td><td>10.0%</td><td>6.6%</td><td class="up">改善</td></tr>
+          <tr><td>営業利益率</td><td>6.2%</td><td>3.5%</td><td class="up">改善</td></tr>
+          <tr><td>経常利益率</td><td>6.3%</td><td>4.4%</td><td class="up">改善</td></tr>
+          <tr><td>純利益率</td><td>6.3%</td><td>4.4%</td><td class="up">改善</td></tr>
+          <tr><td>ROA（年換算）</td><td>11.7%</td><td>10.6%</td><td class="up">改善</td></tr>
+          <tr><td>ROE（年換算）</td><td>24.9%</td><td>26.1%</td><td>微減</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h4 style="font-size:0.85rem;color:var(--navy);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">安全性・効率性指標</h4>
+      <table class="comp-table">
+        <thead><tr><th>指標</th><th>当期</th><th>前期</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr><td>流動比率</td><td>507.4%</td><td>713.1%</td><td class="up">良好</td></tr>
+          <tr><td>自己資本比率</td><td>50.2%</td><td>43.9%</td><td class="up">改善</td></tr>
+          <tr><td>負債比率</td><td>99.4%</td><td>127.9%</td><td class="up">改善</td></tr>
+          <tr><td>在庫回転日数</td><td>59.2日</td><td>40.5日</td><td class="down">悪化</td></tr>
+          <tr><td>売掛金回転日数</td><td>15.6日</td><td>13.7日</td><td>微増</td></tr>
+          <tr><td>買掛金回転日数</td><td>21.9日</td><td>9.8日</td><td class="up">延長</td></tr>
+          <tr><td>CCC</td><td>52.9日</td><td>44.4日</td><td class="down">悪化</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 9. 経営改善提案 -->
+<div class="section">
+  <div class="section-title"><span class="icon">💡</span> 経営改善提案</div>
+
+  <div class="proposal-grid">
+    <div class="proposal-card critical">
+      <div class="pc-priority">最優先 / Critical</div>
+      <div class="pc-title">原材料在庫の適正化</div>
+      <div class="pc-body">
+        原材料在庫が3.24億→4.38億へ+35.4%増加し、回転日数は23.6日→41.5日へ大幅悪化。
+        売上が減少している中での在庫積み増しは、資金の固定化と滞留リスクを高める。<br><br>
+        <strong>施策:</strong><br>
+        ・ABC分析による品目別の適正在庫水準の設定<br>
+        ・発注ロットの見直し（小ロット・高頻度化）<br>
+        ・長期滞留在庫（90日超）の定期棚卸と処分ルール策定<br>
+        ・需要予測に基づくSKU別の発注点管理の導入
+      </div>
+      <div class="pc-impact">期待効果: 在庫回転日数を前期水準（40日）に戻せば約2億円の運転資金を解放</div>
+    </div>
+
+    <div class="proposal-card critical">
+      <div class="pc-priority">最優先 / Critical</div>
+      <div class="pc-title">売上減少トレンドへの対応</div>
+      <div class="pc-body">
+        純売上高が前期比△20.1%（△6.3億円）と大幅減収。クーポン削減による販促効果の低下が一因と推察される。<br><br>
+        <strong>施策:</strong><br>
+        ・クーポン依存からの脱却: リピーター育成型のCRM施策（ポイント制度、会員ランク等）<br>
+        ・商品単価の引き上げ余地の検討（付加価値型商品の開発）<br>
+        ・顧客LTV分析に基づく効率的な広告投資の再配分<br>
+        ・チャネル別の売上分析と成長チャネルへの経営資源集中
+      </div>
+      <div class="pc-impact">期待効果: 粗利率10%を維持しつつ売上回復できれば、営業利益の大幅増が見込める</div>
+    </div>
+
+    <div class="proposal-card important">
+      <div class="pc-priority">重要 / Important</div>
+      <div class="pc-title">月次収益のボラティリティ改善</div>
+      <div class="pc-body">
+        8月・12月が営業赤字で月次の振れ幅が大きい。特に12月は売上原価が売上を超過（粗利マイナス）し構造的な問題を示唆。<br><br>
+        <strong>施策:</strong><br>
+        ・月次原価の計上基準の精緻化（期末一括調整→月次按分）<br>
+        ・季節変動に合わせた仕入計画の策定<br>
+        ・12月の原価超過の原因分析（在庫評価損、年末棚卸影響等）<br>
+        ・月次予実管理の精度向上と早期アラート体制構築
+      </div>
+      <div class="pc-impact">期待効果: 月次赤字の解消により資金繰りの安定化とキャッシュフロー改善</div>
+    </div>
+
+    <div class="proposal-card important">
+      <div class="pc-priority">重要 / Important</div>
+      <div class="pc-title">手数料コストの急増対策</div>
+      <div class="pc-body">
+        販管費の手数料が845万→2,599万（+307.7%）と3倍超に急増。EC プラットフォーム手数料の上昇、または取扱チャネルの変化が推察される。<br><br>
+        <strong>施策:</strong><br>
+        ・手数料の内訳分析（プラットフォーム別・取引種別）<br>
+        ・自社EC比率の引き上げによるマーケットプレイス手数料の削減<br>
+        ・プラットフォームとの手数料交渉（取引ボリュームを交渉材料に）<br>
+        ・決済手数料の見直し（決済代行会社の比較検討）
+      </div>
+      <div class="pc-impact">期待効果: 手数料率を前期水準に抑制すれば年間約2,000万円のコスト削減</div>
+    </div>
+
+    <div class="proposal-card suggest">
+      <div class="pc-priority">提案 / Suggestion</div>
+      <div class="pc-title">借入金返済と資金効率の最適化</div>
+      <div class="pc-body">
+        長期借入金を月約1,900万円ペースで着実に返済中（9.28億→6.98億）。自己資本比率は50%超に到達し財務安全性は高い。<br><br>
+        <strong>施策:</strong><br>
+        ・定期預金3.8億円の一部を繰上返済に充当し、金利負担を削減<br>
+        ・余剰現預金の有効活用（運転資金として在庫投資を圧縮しつつ活用）<br>
+        ・借入金利の見直し交渉（財務改善を根拠に金利引下げ交渉）
+      </div>
+      <div class="pc-impact">期待効果: 繰上返済1億円で年間約76万円の金利削減。総合的な資金効率向上</div>
+    </div>
+
+    <div class="proposal-card suggest">
+      <div class="pc-priority">提案 / Suggestion</div>
+      <div class="pc-title">クーポン戦略の段階的最適化</div>
+      <div class="pc-body">
+        店舗発行クーポンの大幅削減（11.3億→2.9億）は粗利改善に大きく貢献したが、売上20%減との因果関係を精査する必要がある。<br><br>
+        <strong>施策:</strong><br>
+        ・クーポン削減と売上減の相関分析（弾力性の測定）<br>
+        ・利益最大化ポイントの特定（クーポン額 vs 粗利額の最適点）<br>
+        ・ターゲティング型クーポン（全員配布→購買データに基づく個別配信）<br>
+        ・クーポンの効果測定KPIの設定（増分売上・新規獲得率・リピート率）
+      </div>
+      <div class="pc-impact">期待効果: ROI最大化型のクーポン運用で粗利率を維持しながら売上回復を両立</div>
+    </div>
+
+    <div class="proposal-card info">
+      <div class="pc-priority">中長期 / Strategic</div>
+      <div class="pc-title">製品在庫の回転率改善</div>
+      <div class="pc-body">
+        製品在庫も8.1日→13.5日に悪化。売れ筋・死に筋の把握と、製造計画の見直しが必要。<br><br>
+        <strong>施策:</strong><br>
+        ・SKU別の売上速度分析と製造優先度の見直し<br>
+        ・Make-to-Order（受注生産）比率の段階的引き上げ<br>
+        ・賞味期限管理の厳格化（食品の場合）と廃棄ロスの可視化<br>
+        ・在庫回転率をKPIとして月次経営会議でモニタリング
+      </div>
+      <div class="pc-impact">期待効果: 製品在庫を前期水準に圧縮すれば約3,000万円の資金解放</div>
+    </div>
+
+    <div class="proposal-card info">
+      <div class="pc-priority">中長期 / Strategic</div>
+      <div class="pc-title">営業外収益の安定化</div>
+      <div class="pc-body">
+        営業外収益が3.17億→0.74億（△76.8%）と大幅減少。前期に一時的な特殊収益があった可能性が高い。<br><br>
+        <strong>施策:</strong><br>
+        ・前期の営業外収益3.17億円の内訳確認（補助金、為替差益、資産売却等）<br>
+        ・安定的な営業外収益源の確保（金融資産運用の見直し等）<br>
+        ・本業の営業利益で十分な利益を確保できる体質への転換
+      </div>
+      <div class="pc-impact">期待効果: 本業利益の安定化により、営業外収益に依存しない収益構造を構築</div>
+    </div>
+  </div>
+</div>
+
+<!-- Closing -->
+<div class="summary-box">
+  <h3>総括</h3>
+  <p>
+    エフ琉球は<span class="highlight">「減収増益」フェーズ</span>にあり、クーポン費用の大幅削減により収益性は大きく改善した。
+    営業利益率は3.5%→6.2%、自己資本比率は50%超と、財務体質は着実に強化されている。<br><br>
+    しかし、<span class="highlight">在庫回転の悪化（59.2日）</span>と<span class="highlight">売上の減少トレンド（△20%）</span>は経営上の重要課題である。
+    在庫の適正化による運転資金の解放（推定2億円以上）と、クーポンに依存しない売上回復策の構築が次期の最重要テーマとなる。<br><br>
+    短期的には<span class="highlight">在庫管理の厳格化とCCCの改善</span>、中長期的には<span class="highlight">粗利率10%を維持しながらの売上回復</span>を目指す二段構えの経営改善を推奨する。
+  </p>
+</div>
+
+</div>
+
+<div class="footer" style="background:var(--navy-dark,#0F1829);color:rgba(255,255,255,0.5);padding:28px 20px;text-align:center">
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px">
+    <img src="ui_logo_white.png" alt="U&I" style="height:28px;opacity:0.85;flex-shrink:0;">
+    <span style="color:#D4A843;font-weight:700;font-size:0.85rem;line-height:1;font-family:Inter,sans-serif;letter-spacing:1.5px;font-weight:600">Consulting</span>
+  </div>
+  <div style="font-size:0.72rem;margin-bottom:10px">
+    株式会社エフ琉球 財務分析レポート ｜ 分析日: 2026年3月28日
+  </div>
+  <div style="font-size:0.7rem;font-weight:700;color:#B8912A;letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);display:inline-block;padding:4px 16px;border-radius:4px">最重要機密（CONFIDENTIAL）</div>
+</div>
+
+<script>
+// Color Palette
+const navy = '#1A2540';
+const gold = '#B8912A';
+const goldLight = '#D4A843';
+const positive = '#1B7A3D';
+const negative = '#B71C1C';
+const blue = '#1565C0';
+
+// Chart defaults
+Chart.defaults.font.family = "'Noto Sans JP', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#6B6B6B';
+
+// 1. Profitability Chart
+new Chart(document.getElementById('profitChart'), {
+  type: 'bar',
+  data: {
+    labels: ['粗利益率', '営業利益率', '経常利益率', '純利益率'],
+    datasets: [
+      {
+        label: '当期',
+        data: [10.0, 6.2, 6.3, 6.3],
+        backgroundColor: gold,
+        borderRadius: 4,
+        barPercentage: 0.6,
+      },
+      {
+        label: '前期同期',
+        data: [6.6, 3.5, 4.4, 4.4],
+        backgroundColor: '#C5C0B5',
+        borderRadius: 4,
+        barPercentage: 0.6,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', padding: 16 } },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { callback: v => v + '%' },
+        grid: { color: '#E0DCD4' }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 2. Cost Structure Chart
+new Chart(document.getElementById('costChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['材料費', '労務費', '外注加工費', 'ネット運賃', 'ネット広告費', 'ネット販売原価', '店舗クーポン', 'その他経費'],
+    datasets: [{
+      data: [977, 89, 74, 206, 274, 337, 286, 4],
+      backgroundColor: [navy, '#2E5090', '#4A7CC9', gold, goldLight, '#D4C490', negative, '#999'],
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right', labels: { usePointStyle: true, pointStyle: 'circle', padding: 8, font: { size: 10 } } },
+      tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed + '百万円' } }
+    }
+  }
+});
+
+// 3. Inventory Monthly Trend
+new Chart(document.getElementById('inventoryChart'), {
+  type: 'bar',
+  data: {
+    labels: ['8月', '9月', '10月', '11月', '12月', '1月', '2月'],
+    datasets: [
+      {
+        label: '原材料',
+        data: [294006189, 289153376, 299539837, 324489837, 354724988, 403813051, 438303620].map(v => v/1000000),
+        backgroundColor: navy,
+        borderRadius: 2,
+        stack: 'inventory',
+      },
+      {
+        label: '製品',
+        data: [84660974, 91391722, 104865627, 108520702, 101696052, 104462610, 142279937].map(v => v/1000000),
+        backgroundColor: gold,
+        borderRadius: 2,
+        stack: 'inventory',
+      },
+      {
+        label: '未納品',
+        data: [54785479, 75385479, 75385479, 26302151, 65542861, 45258568, 44097292].map(v => v/1000000),
+        backgroundColor: '#C5C0B5',
+        borderRadius: 2,
+        stack: 'inventory',
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', padding: 12 } },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + Math.round(ctx.parsed.y) + '百万円' } }
+    },
+    scales: {
+      y: {
+        stacked: true,
+        ticks: { callback: v => v + '百万' },
+        grid: { color: '#E0DCD4' }
+      },
+      x: { stacked: true, grid: { display: false } }
+    }
+  }
+});
+
+// 4. Turnover Days Comparison
+new Chart(document.getElementById('turnoverChart'), {
+  type: 'bar',
+  data: {
+    labels: ['在庫回転\n(総合)', '原材料\n回転', '製品\n回転', '売掛金\n回転', '買掛金\n回転', 'CCC'],
+    datasets: [
+      {
+        label: '当期',
+        data: [59.2, 41.5, 13.5, 15.6, 21.9, 52.9],
+        backgroundColor: [negative, negative, negative, navy, positive, gold],
+        borderRadius: 4,
+        barPercentage: 0.5,
+      },
+      {
+        label: '前期同期',
+        data: [40.5, 23.6, 8.1, 13.7, 9.8, 44.4],
+        backgroundColor: '#D5D0C5',
+        borderRadius: 4,
+        barPercentage: 0.5,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', padding: 12 } },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y + '日' } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { callback: v => v + '日' },
+        grid: { color: '#E0DCD4' }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 5. Monthly P/L
+new Chart(document.getElementById('monthlyPL'), {
+  type: 'bar',
+  data: {
+    labels: ['8月', '9月', '10月', '11月', '12月', '1月', '2月'],
+    datasets: [
+      {
+        label: '純売上高',
+        data: [335752417, 359342125, 349413226, 409688516, 345361013, 377459047, 319814096].map(v => v/1000000),
+        backgroundColor: 'rgba(26,37,64,0.15)',
+        borderColor: navy,
+        borderWidth: 2,
+        type: 'line',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 4,
+        pointBackgroundColor: navy,
+        order: 0,
+      },
+      {
+        label: '売上総利益',
+        data: [1264752, 59507374, 49920076, 69669509, -3088297, 22151772, 50157526].map(v => v/1000000),
+        backgroundColor: gold,
+        borderRadius: 4,
+        order: 1,
+      },
+      {
+        label: '営業利益',
+        data: [-10260287, 48120454, 38005625, 51143995, -14857325, 1488492, 40706683].map(v => v/1000000),
+        backgroundColor: function(ctx) {
+          var val = ctx.parsed ? ctx.parsed.y : 0;
+          return val < 0 ? negative : positive;
+        },
+        borderRadius: 4,
+        order: 2,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'circle', padding: 12 } },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + Math.round(ctx.parsed.y) + '百万円' } }
+    },
+    scales: {
+      y: {
+        ticks: { callback: v => v + '百万' },
+        grid: { color: '#E0DCD4' }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
