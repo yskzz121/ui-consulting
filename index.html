@@ -13,9 +13,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
 .header{background:linear-gradient(135deg,#1a2332 0%,#1A2540 50%,#0F1829 100%);color:#fff;padding:48px 24px 36px;text-align:center;position:relative;overflow:hidden}
 .header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(184,145,42,0.08) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(184,145,42,0.06) 0%,transparent 60%)}
 .header .inner{position:relative;z-index:1}
-.header-logo{margin-bottom:16px}
-.header-logo img{height:36px;opacity:0.9}
-.header-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:1rem;letter-spacing:2px;margin-left:12px;vertical-align:middle}
+.header-logo{margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:12px}
+.header-logo img{height:36px;opacity:0.9;flex-shrink:0}
+.header-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:1rem;letter-spacing:2px;line-height:1}
 .header h1{font-family:'Noto Serif JP',serif;font-size:1.6rem;margin-bottom:4px;letter-spacing:1px}
 .header .sub{color:rgba(255,255,255,0.5);font-size:0.85rem}
 
