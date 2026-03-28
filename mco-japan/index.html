@@ -1811,5 +1811,13 @@ document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.
 (function(){if(sessionStorage.getItem('mco_auth')==='1'){document.getElementById('lock-screen').classList.add('hidden');document.getElementById('report-content').style.display='block'}})();
 </script>
 
+<style>
+.portal-link{position:fixed;top:16px;left:16px;z-index:999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;background:#1A2540;border:1px solid rgba(184,145,42,0.2);color:#D4A843;text-decoration:none;font-size:.78rem;font-weight:500;font-family:"Noto Sans JP",sans-serif;transition:all .15s;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.portal-link:hover{background:#B8912A;color:#0F1829;border-color:#B8912A}
+.portal-link svg{flex-shrink:0}
+</style>
+<a class="portal-link" href="../index.html">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>クライアント一覧</a>
+
 </body>
 </html>
