@@ -22,7 +22,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
 .container{max-width:800px;margin:0 auto;padding:48px 24px 60px}
 .section-label{font-size:0.72rem;color:var(--text-sub);font-weight:700;letter-spacing:2px;margin-bottom:16px}
 
-.client-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.client-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
 .client-card{background:#fff;border-radius:16px;padding:28px 24px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.06);transition:all 0.2s;text-decoration:none;color:var(--text);display:block}
 .client-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.1);border-color:var(--gold)}
 .client-card .cc-name{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:6px}
@@ -37,6 +37,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
 .footer-info{font-size:0.72rem;margin-bottom:10px}
 .footer-conf{font-size:0.7rem;font-weight:700;color:var(--gold);letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);display:inline-block;padding:4px 16px;border-radius:4px}
 
+@media(max-width:900px){.client-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.client-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -64,6 +65,12 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
     <a class="client-card" href="./mco-japan/index.html">
       <div class="cc-name">M&amp;Co. JAPAN PTY LTD</div>
       <div class="cc-sub">オーストラリア・QLD州（Mr. Sushi Ashmore）<br>月次P/L分析・前年同月比較</div>
+      <div class="cc-badge">1 REPORT</div>
+      <div class="cc-count">最終更新: 2026年3月</div>
+    </a>
+    <a class="client-card" href="./sankai/index.html">
+      <div class="cc-name">有限会社三海</div>
+      <div class="cc-sub">沖縄県・不動産保有事業（4エリア展開）<br>事業計画・中期経営計画プレゼンテーション</div>
       <div class="cc-badge">1 REPORT</div>
       <div class="cc-count">最終更新: 2026年3月</div>
     </a>

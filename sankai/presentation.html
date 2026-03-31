@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>有限会社三海 中期経営計画 2026–2028</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* === Variables — 三海ブランドカラー === */
+  :root {
+    --dark-navy: #0B1426;
+    --bg: #0B1426;
+    --bg-card: #122040;
+    --bg-card2: #183058;
+    --marine-blue: #1B5E9E;
+    --light-blue: #5BA4D9;
+    --brand-gold: #5BA4D9;
+    --brand-gold2: #7BBCE8;
+    --brand-navy: #0B1426;
+    --white: #FFFFFF;
+    --text: #F0F4F8;
+    --text-sub: #9CA3AF;
+    --green: #2E7D32;
+    --green-light: #4CAF50;
+    --red: #C0392B;
+    --blue: #1B5E9E;
+    --blue-light: #5BA4D9;
+    --border: rgba(255,255,255,0.1);
+    --slide-w: 1280;
+    --slide-h: 720;
+  }
+
+  /* === Reset === */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #000;
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* === Deck Container === */
+  .deck {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* === Slide === */
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: calc(2vh + 50px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 0;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+  }
+
+  .slide-inner {
+    width: 1280px;
+    height: 720px;
+    background: var(--dark-navy);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    transform-origin: center center;
+  }
+
+  /* === Common Components === */
+  .section-accent {
+    width: 40px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--marine-blue), var(--light-blue));
+    border-radius: 2px;
+    margin-bottom: 12px;
+  }
+
+  .s-title {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .s-subtitle {
+    font-size: 14px;
+    color: var(--white);
+    opacity: 0.6;
+    margin-bottom: 20px;
+  }
+
+  .s-pad {
+    padding: 40px 50px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .kpi-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: center;
+  }
+  .kpi-card .kpi-value {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--brand-gold2);
+    line-height: 1.2;
+  }
+  .kpi-card .kpi-label {
+    font-size: 12px;
+    color: var(--white);
+    opacity: 0.7;
+    margin-top: 4px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+  }
+  .badge-gold { /* marine blue */  background: rgba(27,94,158,0.2); color: var(--light-blue); }
+  .badge-green { background: rgba(46,125,50,0.2); color: var(--green-light); }
+  .badge-blue { background: rgba(21,101,192,0.2); color: var(--blue-light); }
+  .badge-red { background: rgba(192,57,43,0.2); color: #E57373; }
+
+  .tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .tbl th, .tbl td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .tbl th {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .tbl td { color: var(--text); }
+  .tbl tr:last-child td { border-bottom: none; }
+
+  /* === Slide Number Tag === */
+  .slide-num {
+    position: absolute;
+    bottom: 16px;
+    right: 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* === Cover Slide === */
+  .cover-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('Picture/スライド表紙.jpg') center center / cover no-repeat;
+    overflow: hidden;
+  }
+  .cover-bg::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(11,20,38,0.72) 0%, rgba(18,32,64,0.62) 50%, rgba(11,20,38,0.78) 100%);
+  }
+  .cover-bg::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 30% 40%, rgba(91,164,217,0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 60%, rgba(27,94,158,0.1) 0%, transparent 50%);
+  }
+
+  .brand-line {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--marine-blue), var(--light-blue), var(--marine-blue), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  .cover-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+  }
+
+  .cover-brand {
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--brand-gold2);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .cover-title {
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+  }
+
+  .cover-sub {
+    font-size: 18px;
+    color: var(--text-sub);
+    margin-bottom: 32px;
+  }
+
+  .cover-date {
+    font-size: 13px;
+    color: var(--text-sub);
+    letter-spacing: 0.1em;
+  }
+
+  .cover-kpis {
+    display: flex;
+    gap: 24px;
+    margin-top: 36px;
+  }
+  .cover-kpi {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(27,94,158,0.2);
+    border-radius: 12px;
+    padding: 16px 28px;
+    text-align: center;
+  }
+  .cover-kpi .ck-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--brand-gold2);
+  }
+  .cover-kpi .ck-label {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-top: 2px;
+  }
+
+  /* === Utility === */
+  .flex { display: flex; }
+  .flex-1 { flex: 1; }
+  .gap-16 { gap: 16px; }
+  .gap-20 { gap: 20px; }
+  .gap-24 { gap: 24px; }
+  .items-center { align-items: center; }
+  .items-start { align-items: flex-start; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+  .mt-auto { margin-top: auto; }
+  .mt-8 { margin-top: 8px; }
+  .mt-12 { margin-top: 12px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-20 { margin-top: 20px; }
+  .mb-8 { margin-bottom: 8px; }
+  .mb-12 { margin-bottom: 12px; }
+  .text-center { text-align: center; }
+  .text-gold { color: var(--brand-gold2); }
+  .text-green { color: var(--green-light); }
+  .text-red { color: #E57373; }
+  .text-sub { color: var(--text-sub); }
+  .text-sm { font-size: 12px; }
+  .text-xs { font-size: 11px; }
+  .fw-700 { font-weight: 700; }
+  .fw-900 { font-weight: 900; }
+  .mono { font-family: 'DM Mono', monospace; }
+
+  /* === Bar chart (CSS only) === */
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .bar-label {
+    width: 80px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .bar-track {
+    flex: 1;
+    height: 28px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--brand-gold), var(--brand-gold2));
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--bg);
+    transition: width 0.8s ease;
+  }
+
+  /* === Progress ring (CSS) === */
+  .big-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--brand-gold2);
+    line-height: 1;
+  }
+
+  .progress-bar {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--brand-gold), var(--brand-gold2));
+  }
+
+  /* === Arrow flow === */
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-gold);
+    font-size: 28px;
+    padding: 0 8px;
+  }
+
+  /* === Before/After === */
+  .ba-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    flex: 1;
+  }
+  .ba-card.before { border-top: none; }
+  .ba-card.after { border-top: none; }
+  .ba-tag {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    margin-bottom: 16px;
+  }
+
+  /* === Risk table === */
+  .risk-row {
+    display: grid;
+    grid-template-columns: 1fr 32px 1fr;
+    gap: 0;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .risk-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+  .risk-arrow {
+    text-align: center;
+    color: var(--brand-gold);
+    font-size: 20px;
+  }
+
+  /* === Scenario cards === */
+  .scenario-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    flex: 1;
+    text-align: center;
+  }
+  .scenario-card .sc-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  /* === Year cards === */
+  .year-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    flex: 1;
+  }
+  .year-card .year-tag {
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--brand-gold2);
+    margin-bottom: 10px;
+  }
+  .year-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  .year-card li {
+    font-size: 12px;
+    color: var(--text);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .year-card li:last-child { border-bottom: none; }
+  .year-card li::before {
+    content: '▸';
+    color: var(--brand-gold);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* === List with dot === */
+  .dot-list {
+    list-style: none;
+    padding: 0;
+  }
+  .dot-list li {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+    padding: 8px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    line-height: 1.4;
+  }
+  .dot-list li::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--light-blue);
+    flex-shrink: 0;
+    margin-top: 10px;
+  }
+
+  /* === Closing === */
+  .closing-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, #0B1426 0%, #122040 50%, #0B1426 100%);
+  }
+  .closing-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+  }
+  .closing-summary {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .closing-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    text-align: left;
+    margin-bottom: 16px;
+  }
+  .closing-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 43px;
+    font-weight: 700;
+    color: var(--brand-gold2);
+    flex-shrink: 0;
+    width: 60px;
+  }
+  .closing-text {
+    font-size: 30px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* === Nav Bar === */
+  .nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(14,18,40,0.92);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(27,94,158,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 20px;
+  }
+
+  .nav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: var(--text-sub);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover { border-color: var(--brand-gold); color: var(--brand-gold2); }
+
+  .nav-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-dot.active {
+    background: var(--light-blue);
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  .nav-counter {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-sub);
+    min-width: 50px;
+    text-align: center;
+  }
+
+  /* === Fullscreen btn === */
+  .fs-btn {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 100;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(14,18,40,0.8);
+    color: var(--text-sub);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .fs-btn:hover { border-color: var(--brand-gold); color: var(--brand-gold2); }
+
+  /* === Print === */
+  @media print {
+    body { overflow: visible; height: auto; background: #fff; }
+    .deck { height: auto; overflow: visible; }
+    .slide {
+      position: relative;
+      opacity: 1;
+      pointer-events: auto;
+      page-break-after: always;
+      height: auto;
+      width: auto;
+    }
+    .slide-inner { transform: none !important; border-radius: 0; }
+    .nav-bar, .fs-btn { display: none; }
+  }
+
+  /* === Compact list helper === */
+  .compact-list {
+    list-style: none;
+    padding: 0;
+    font-size: 12px;
+  }
+  .compact-list li {
+    padding: 4px 0;
+    color: var(--text);
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .compact-list li::before {
+    content: '•';
+    color: var(--brand-gold);
+    flex-shrink: 0;
+  }
+
+  /* === Principle cards === */
+  .principle-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .principle-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+  .principle-card .p-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--brand-gold2);
+  }
+  .principle-card .p-text {
+    font-size: 12px;
+    color: var(--text);
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- ==================== Slide 1: Cover ==================== -->
+  <div class="slide active" data-slide="1">
+    <div class="slide-inner">
+      <div class="cover-bg"></div>
+      <div class="cover-content">
+        <div class="cover-brand">有限会社三海</div>
+        <div class="cover-title">中期経営計画 2026–2028</div>
+        <div class="cover-sub">事業概要と成長戦略</div>
+        <div class="cover-date">2026年3月</div>
+      </div>
+      <div class="brand-line"></div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 2: 会社概要 ==================== -->
+  <div class="slide" data-slide="2">
+    <div class="slide-inner">
+      <div class="s-pad">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px">会社概要</div>
+        <div class="s-subtitle">Company Overview</div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center">
+          <table class="tbl" style="font-size:22px;">
+            <tr><td style="color:rgba(255,255,255,0.65);font-weight:700;width:200px;padding:11px 14px">商号</td><td style="padding:11px 14px">有限会社三海</td></tr>
+            <tr><td style="color:rgba(255,255,255,0.65);font-weight:700;padding:11px 14px">設立</td><td style="padding:11px 14px">1999年9月28日</td></tr>
+            <tr><td style="color:rgba(255,255,255,0.65);font-weight:700;padding:11px 14px">創業者</td><td style="padding:11px 14px">小渡 克則（先代代表取締役 / 2022年逝去）</td></tr>
+            <tr><td style="color:rgba(255,255,255,0.65);font-weight:700;padding:11px 14px">代表取締役</td><td style="padding:11px 14px">小渡 貴文（二代目 / 2022年11月就任）</td></tr>
+            <tr><td style="color:rgba(255,255,255,0.65);font-weight:700;padding:11px 14px">役員構成</td><td style="padding:11px 14px">家族・親族7名（兄弟4人が経営に参加）</td></tr>
+            <tr><td style="color:rgba(255,255,255,0.65);font-weight:700;padding:11px 14px">事業内容</td><td style="padding:11px 14px">不動産保有・賃貸・管理（住居・テナント・駐車場・太陽光）</td></tr>
+            <tr><td style="color:rgba(255,255,255,0.65);font-weight:700;padding:11px 14px">事業エリア</td><td style="padding:11px 14px">沖縄・札幌・福岡・群馬</td></tr>
+            <tr><td style="color:rgba(255,255,255,0.65);font-weight:700;padding:11px 14px">総資産</td><td style="color:var(--brand-gold2);font-weight:900;padding:11px 14px">32.9億円</td></tr>
+            <tr><td style="color:rgba(255,255,255,0.65);font-weight:700;padding:11px 14px">年間売上</td><td style="color:var(--brand-gold2);font-weight:900;padding:11px 14px">3.9億円（2024年）</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="slide-num">01 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 3: 事業規模 ==================== -->
+  <div class="slide" data-slide="3">
+    <div class="slide-inner">
+      <div class="s-pad">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px">総資産33億円・年商3.9億円の不動産保有会社です</div>
+        <div class="s-subtitle">事業規模 — Business Scale</div>
+        <div style="flex:1;min-height:0;display:flex;align-items:flex-start;padding-top:24px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;width:100%">
+            <div class="kpi-card" style="padding:40px 28px">
+              <div style="font-size:24px;font-weight:700;color:var(--white);margin-bottom:16px">総資産</div>
+              <div style="font-size:72px;font-weight:900;color:var(--brand-gold2);line-height:1">32.9<span style="font-size:32px;color:rgba(255,255,255,0.65)">億円</span></div>
+              <div style="font-size:16px;color:rgba(255,255,255,0.65);margin-top:16px">4エリアに分散した実物不動産</div>
+            </div>
+            <div class="kpi-card" style="padding:40px 28px">
+              <div style="font-size:24px;font-weight:700;color:var(--white);margin-bottom:16px">年間売上</div>
+              <div style="font-size:72px;font-weight:900;color:var(--brand-gold2);line-height:1">3.9<span style="font-size:32px;color:rgba(255,255,255,0.65)">億円</span></div>
+              <div style="font-size:16px;color:rgba(255,255,255,0.65);margin-top:16px">2024年実績</div>
+            </div>
+            <div class="kpi-card" style="padding:40px 28px">
+              <div style="font-size:24px;font-weight:700;color:var(--white);margin-bottom:16px">事業展開</div>
+              <div style="font-size:72px;font-weight:900;color:var(--brand-gold2);line-height:1">4<span style="font-size:32px;color:rgba(255,255,255,0.65)">エリア</span></div>
+              <div style="font-size:16px;color:rgba(255,255,255,0.65);margin-top:16px">沖縄・札幌・福岡・群馬</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">02 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 4: 4エリア ==================== -->
+  <div class="slide" data-slide="4">
+    <div class="slide-inner">
+      <div class="s-pad">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px">4エリアに分散した実物資産が収益を生んでいます</div>
+        <div class="s-subtitle">エリア別ポートフォリオ — Area Portfolio</div>
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <!-- 沖縄 -->
+          <div class="card" style="padding:16px 20px;display:flex;gap:16px;align-items:stretch">
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+              <div style="font-size:26px;font-weight:900;color:#3B9FE3;margin-bottom:2px">沖縄</div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:12px">米軍基地外居住向け 高収益賃貸</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">投資数</div><div style="font-size:24px;font-weight:900;color:var(--white)">6<span style="font-size:13px;color:rgba(255,255,255,0.65)"> 棟</span></div></div>
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">部屋数</div><div style="font-size:24px;font-weight:900;color:var(--white)">111<span style="font-size:13px;color:rgba(255,255,255,0.65)"> 室</span></div></div>
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">月次収入</div><div style="font-size:24px;font-weight:900;color:#3B9FE3">2,000<span style="font-size:13px;color:rgba(255,255,255,0.65)"> 万円</span></div></div>
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">平均賃料</div><div style="font-size:24px;font-weight:900;color:var(--white)">22-25<span style="font-size:13px;color:rgba(255,255,255,0.65)"> 万円</span></div></div>
+              </div>
+            </div>
+            <div style="width:180px;border-radius:8px;overflow:hidden;flex-shrink:0"><img src="Picture/沖縄_米軍属向けマンション.jpg" alt="沖縄物件" style="width:100%;height:100%;object-fit:cover"></div>
+          </div>
+          <!-- 札幌 -->
+          <div class="card" style="padding:16px 20px;display:flex;gap:16px;align-items:stretch">
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+              <div style="font-size:26px;font-weight:900;color:#FFFFFF;margin-bottom:2px">札幌</div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:12px">駅近特化 安定インカム事業</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">投資数</div><div style="font-size:24px;font-weight:900;color:var(--white)">15<span style="font-size:13px;color:rgba(255,255,255,0.65)"> 棟超</span></div></div>
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">部屋数</div><div style="font-size:24px;font-weight:900;color:var(--white)">100<span style="font-size:13px;color:rgba(255,255,255,0.65)"> 室超</span></div></div>
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">月次収入</div><div style="font-size:24px;font-weight:900;color:#FFFFFF">1,400<span style="font-size:13px;color:rgba(255,255,255,0.65)"> 万円</span></div></div>
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">平均賃料</div><div style="font-size:24px;font-weight:900;color:var(--white)">5-9<span style="font-size:13px;color:rgba(255,255,255,0.65)"> 万円</span></div></div>
+              </div>
+            </div>
+            <div style="width:180px;border-radius:8px;overflow:hidden;flex-shrink:0"><img src="Picture/札幌_マンション.jpg" alt="札幌物件" style="width:100%;height:100%;object-fit:cover"></div>
+          </div>
+          <!-- 福岡 -->
+          <div class="card" style="padding:16px 20px;display:flex;gap:16px;align-items:stretch">
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+              <div style="font-size:26px;font-weight:900;color:var(--green-light);margin-bottom:2px">福岡</div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:12px">太陽光FIT売電事業</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">投資数</div><div style="font-size:24px;font-weight:900;color:var(--white)">1<span style="font-size:13px;color:rgba(255,255,255,0.65)"> 区画</span></div></div>
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">部屋数</div><div style="font-size:24px;font-weight:900;color:rgba(255,255,255,0.65)">—</div></div>
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">月次収入</div><div style="font-size:24px;font-weight:900;color:var(--green-light)">安定CF</div></div>
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">平均賃料</div><div style="font-size:24px;font-weight:900;color:rgba(255,255,255,0.65)">—</div></div>
+              </div>
+            </div>
+            <div style="width:180px;border-radius:8px;overflow:hidden;flex-shrink:0"><img src="Picture/福岡＿太陽光.jpg" alt="福岡太陽光" style="width:100%;height:100%;object-fit:cover"></div>
+          </div>
+          <!-- 群馬 -->
+          <div class="card" style="padding:16px 20px;display:flex;gap:16px;align-items:stretch">
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+              <div style="font-size:26px;font-weight:900;color:#6B7280;margin-bottom:2px">群馬</div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:12px">広木マンション（出口検討中）</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">投資数</div><div style="font-size:24px;font-weight:900;color:var(--white)">1<span style="font-size:13px;color:rgba(255,255,255,0.65)"> 棟</span></div></div>
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">部屋数</div><div style="font-size:24px;font-weight:900;color:var(--white)">20<span style="font-size:13px;color:rgba(255,255,255,0.65)"> 室</span></div></div>
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">月次収入</div><div style="font-size:24px;font-weight:900;color:var(--white)">少額</div></div>
+                <div><div style="font-size:12px;color:rgba(255,255,255,0.65)">平均賃料</div><div style="font-size:24px;font-weight:900;color:var(--white)">3-4<span style="font-size:13px;color:rgba(255,255,255,0.65)"> 万円</span></div></div>
+              </div>
+            </div>
+            <div style="width:180px;border-radius:8px;overflow:hidden;flex-shrink:0"><img src="Picture/広木マンション.jpg" alt="広木マンション" style="width:100%;height:100%;object-fit:cover"></div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">03 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 5: 収益構成比（円グラフ） ==================== -->
+  <div class="slide" data-slide="5">
+    <div class="slide-inner">
+      <div class="s-pad">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px">売上構成 — 札幌・沖縄・福岡の3極で97%を占めます</div>
+        <div class="s-subtitle">2024年度 エリア別売上構成比 — Revenue Composition</div>
+        <div style="flex:1;min-height:0;display:flex;gap:32px;align-items:center">
+          <!-- 左: 円グラフ conic: 札幌44.3% → 沖縄29.4% → 福岡18.9% → 群馬2.7% → その他4.7% -->
+          <div style="flex:1;display:flex;align-items:center;justify-content:center">
+            <div style="position:relative;width:420px;height:420px">
+              <div style="width:420px;height:420px;border-radius:50%;background:conic-gradient(#FFFFFF 0% 44.3%, #1B5E9E 44.3% 73.7%, #4CAF50 73.7% 92.6%, #6B7280 92.6% 95.3%, rgba(255,255,255,0.15) 95.3% 100%);box-shadow:0 0 40px rgba(91,164,217,0.2)"></div>
+              <!-- 中央ドーナツ穴 -->
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:160px;height:160px;border-radius:50%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center">
+                <div style="font-size:14px;color:rgba(255,255,255,0.65)">年間売上</div>
+                <div style="font-size:32px;font-weight:900;color:var(--brand-gold2)">3.9億</div>
+              </div>
+              <!-- 札幌ラベル（0%~44.3%の中心=22.15% → 右上） -->
+              <div style="position:absolute;top:20%;left:72%;transform:translate(-50%,-50%)">
+                <div style="background:rgba(0,0,0,0.75);border:2px solid #fff;border-radius:8px;padding:6px 14px;text-align:center;white-space:nowrap">
+                  <div style="font-size:18px;font-weight:900;color:#fff">札幌</div>
+                  <div style="font-size:14px;font-weight:700;color:#FFFFFF">44.3%</div>
+                </div>
+              </div>
+              <!-- 沖縄ラベル（44.3%~73.7%の中心=59% → 左下） -->
+              <div style="position:absolute;top:76%;left:28%;transform:translate(-50%,-50%)">
+                <div style="background:rgba(0,0,0,0.75);border:2px solid #fff;border-radius:8px;padding:6px 14px;text-align:center;white-space:nowrap">
+                  <div style="font-size:18px;font-weight:900;color:#fff">沖縄</div>
+                  <div style="font-size:14px;font-weight:700;color:#5BA4D9">29.4%</div>
+                </div>
+              </div>
+              <!-- 福岡ラベル（73.7%~92.6%の中心=83.15% → 左上） -->
+              <div style="position:absolute;top:22%;left:18%;transform:translate(-50%,-50%)">
+                <div style="background:rgba(0,0,0,0.75);border:2px solid #fff;border-radius:8px;padding:6px 14px;text-align:center;white-space:nowrap">
+                  <div style="font-size:18px;font-weight:900;color:#fff">福岡</div>
+                  <div style="font-size:14px;font-weight:700;color:#4CAF50">18.9%</div>
+                </div>
+              </div>
+              <!-- 群馬ラベル（92.6%~95.3% → 上寄り） -->
+              <div style="position:absolute;top:4%;left:40%;transform:translate(-50%,-50%)">
+                <div style="background:rgba(0,0,0,0.75);border:2px solid #fff;border-radius:8px;padding:5px 12px;text-align:center;white-space:nowrap">
+                  <div style="font-size:15px;font-weight:900;color:#fff">群馬</div>
+                  <div style="font-size:12px;font-weight:700;color:#9CA3AF">2.7%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 右: エリア別カード -->
+          <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+            <div class="card" style="padding:18px 24px;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-size:28px;font-weight:900;color:#FFFFFF">札幌</div>
+                <div style="font-size:14px;color:rgba(255,255,255,0.65)">駅近インカム事業</div>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:16px">
+                <div style="font-size:28px;font-weight:900;color:var(--white)">1.73<span style="font-size:16px;color:rgba(255,255,255,0.65)">億円</span></div>
+                <div style="font-size:28px;font-weight:900;color:#FFFFFF">44.3<span style="font-size:16px">%</span></div>
+              </div>
+            </div>
+            <div class="card" style="padding:18px 24px;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-size:28px;font-weight:900;color:#3B9FE3">沖縄</div>
+                <div style="font-size:14px;color:rgba(255,255,255,0.65)">米軍向け高収益賃貸</div>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:16px">
+                <div style="font-size:28px;font-weight:900;color:var(--white)">1.15<span style="font-size:16px;color:rgba(255,255,255,0.65)">億円</span></div>
+                <div style="font-size:28px;font-weight:900;color:var(--brand-gold2)">29.4<span style="font-size:16px">%</span></div>
+              </div>
+            </div>
+            <div class="card" style="padding:18px 24px;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-size:28px;font-weight:900;color:var(--green-light)">福岡</div>
+                <div style="font-size:14px;color:rgba(255,255,255,0.65)">太陽光売電（八女）</div>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:16px">
+                <div style="font-size:28px;font-weight:900;color:var(--white)">0.74<span style="font-size:16px;color:rgba(255,255,255,0.65)">億円</span></div>
+                <div style="font-size:28px;font-weight:900;color:#4CAF50">18.9<span style="font-size:16px">%</span></div>
+              </div>
+            </div>
+            <div class="card" style="padding:18px 24px;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-size:28px;font-weight:900;color:rgba(255,255,255,0.65)">群馬</div>
+                <div style="font-size:14px;color:rgba(255,255,255,0.65)">広木マンション</div>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:16px">
+                <div style="font-size:28px;font-weight:900;color:var(--white)">0.11<span style="font-size:16px;color:rgba(255,255,255,0.65)">億円</span></div>
+                <div style="font-size:28px;font-weight:900;color:rgba(255,255,255,0.65)">2.7<span style="font-size:16px">%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">04 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 6: 経営体制転換 ==================== -->
+  <div class="slide" data-slide="6">
+    <div class="slide-inner">
+      <div class="s-pad">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px">2022年に二代目が就任し、計画経営に転換しています</div>
+        <div class="s-subtitle">経営体制の転換 — Management Transition</div>
+        <div class="flex gap-24" style="flex:1;min-height:0">
+          <div class="ba-card before" style="display:flex;flex-direction:column;overflow:hidden;padding:16px 18px">
+            <div class="ba-tag text-red" style="font-size:26px;margin-bottom:8px;flex-shrink:0">BEFORE — 先代体制</div>
+            <div style="width:100%;flex:1;min-height:0;border-radius:10px;overflow:hidden;margin-bottom:10px">
+              <img src="Picture/先代.jpg" alt="先代・小渡克則と家族" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0.85">
+            </div>
+            <ul class="dot-list" style="margin:0;flex-shrink:0">
+              <li style="font-size:17px;padding:3px 0">創業者一人による意思決定</li>
+              <li style="font-size:17px;padding:3px 0">場当たり的な投資判断</li>
+              <li style="font-size:17px;padding:3px 0">管理会社に一任、P&L未可視化</li>
+              <li style="font-size:17px;padding:3px 0">修繕計画なし、事後対応中心</li>
+              <li style="font-size:17px;padding:3px 0">物件ごとの収支管理が不明確</li>
+            </ul>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="ba-card after" style="display:flex;flex-direction:column;overflow:hidden;padding:16px 18px">
+            <div class="ba-tag text-green" style="font-size:26px;margin-bottom:8px;flex-shrink:0">AFTER — 二代目体制</div>
+            <div style="width:100%;flex:1;min-height:0;border-radius:10px;overflow:hidden;margin-bottom:10px">
+              <img src="Picture/二代目体制.jpg" alt="二代目体制" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0.85">
+            </div>
+            <ul class="dot-list" style="margin:0;flex-shrink:0">
+              <li style="font-size:17px;padding:3px 0">計画経営への全面転換</li>
+              <li style="font-size:17px;padding:3px 0">兄弟4人体制による役割分担</li>
+              <li style="font-size:17px;padding:3px 0">月次KPI管理の導入</li>
+              <li style="font-size:17px;padding:3px 0">優先順位付き修繕計画策定</li>
+              <li style="font-size:17px;padding:3px 0">物件別P&Lの完全可視化</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">05 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 7: 代表プロフィール ==================== -->
+  <div class="slide" data-slide="7">
+    <div class="slide-inner">
+      <div class="s-pad">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px">代表取締役 プロフィール</div>
+        <div class="s-subtitle">Representative Profile</div>
+        <div style="flex:1;min-height:0;display:flex;gap:36px;align-items:flex-start">
+          <!-- 左: 写真 + 名前・基本情報 -->
+          <div style="flex:0.85;display:flex;flex-direction:column;gap:16px;align-items:center">
+            <!-- 写真 -->
+            <div style="width:252px;height:306px;border-radius:16px;overflow:hidden;border:3px solid rgba(27,94,158,0.3);flex-shrink:0">
+              <img src="Picture/小渡貴文.jpg" alt="小渡 貴文" style="width:100%;height:100%;object-fit:cover;object-position:center top">
+            </div>
+            <div style="text-align:center">
+              <div style="font-size:36px;font-weight:900;color:var(--white);letter-spacing:-0.5px">小渡 貴文</div>
+              <div style="font-size:16px;color:rgba(255,255,255,0.65);margin-top:2px">ODO Takafumi</div>
+              <div style="font-size:16px;color:var(--brand-gold2);font-weight:700;margin-top:6px">有限会社三海 代表取締役</div>
+              <div style="font-size:14px;color:rgba(255,255,255,0.65)">有限会社サンショウ 代表取締役</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%">
+              <div class="card" style="padding:12px 16px;text-align:center">
+                <div style="font-size:13px;color:rgba(255,255,255,0.65)">就任</div>
+                <div style="font-size:22px;font-weight:900;color:var(--white)">2022年11月</div>
+              </div>
+              <div class="card" style="padding:12px 16px;text-align:center">
+                <div style="font-size:13px;color:rgba(255,255,255,0.65)">経営歴</div>
+                <div style="font-size:22px;font-weight:900;color:var(--white)">約3年</div>
+              </div>
+            </div>
+          </div>
+          <!-- 右: キャリア経歴 -->
+          <div style="flex:1;display:flex;flex-direction:column;gap:0">
+            <div style="font-size:22px;font-weight:700;color:var(--brand-gold2);margin-bottom:16px;letter-spacing:0.05em">経歴</div>
+            <div style="border-left:3px solid rgba(27,94,158,0.3);padding-left:20px;display:flex;flex-direction:column;gap:16px">
+              <div>
+                <div style="font-size:17px;color:rgba(255,255,255,0.65)">沖縄・昭和薬科大学附属高校</div>
+                <div style="font-size:24px;font-weight:700;color:var(--white)">高校卒業</div>
+              </div>
+              <div>
+                <div style="font-size:17px;color:rgba(255,255,255,0.65)">日本大学商学部</div>
+                <div style="font-size:24px;font-weight:700;color:var(--white)">商学部卒業</div>
+                <div style="font-size:18px;color:rgba(255,255,255,0.65);margin-top:2px">在学中、米国モンタナ大学へ1年間の交換留学</div>
+              </div>
+              <div>
+                <div style="font-size:17px;color:rgba(255,255,255,0.65)">就職活動期（コロナ禍）</div>
+                <div style="font-size:24px;font-weight:700;color:var(--white)">不動産会社の内定を獲得</div>
+                <div style="font-size:18px;color:rgba(255,255,255,0.65);margin-top:2px">50社受験の末、株式会社スカイコート内定 → 先代の要請で辞退</div>
+              </div>
+              <div>
+                <div style="font-size:17px;color:var(--brand-gold2)">先代のもとで実務を学ぶ</div>
+                <div style="font-size:24px;font-weight:700;color:var(--white)">父に1年間密着し現場で経営を習得</div>
+              </div>
+              <div>
+                <div style="font-size:17px;color:var(--brand-gold2)">2022年11月</div>
+                <div style="font-size:24px;font-weight:900;color:var(--brand-gold2)">有限会社三海 代表取締役に就任</div>
+                <div style="font-size:18px;color:rgba(255,255,255,0.65);margin-top:2px">総資産約33億円・4エリアのポートフォリオを承継</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">06 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 8: エリア別事業レポート（セクション扉） ==================== -->
+  <div class="slide" data-slide="8">
+    <div class="slide-inner" style="background:linear-gradient(135deg, #0B1426 0%, #122040 50%, #0B1426 100%);display:flex;align-items:center;justify-content:center">
+      <div style="text-align:center">
+        <div style="font-size:18px;font-weight:700;color:rgba(255,255,255,0.65);letter-spacing:0.1em;margin-bottom:12px">有限会社三海</div>
+        <div style="width:60px;height:4px;background:linear-gradient(90deg,var(--brand-gold),var(--brand-gold2));border-radius:2px;margin:0 auto 28px"></div>
+        <div style="font-size:52px;font-weight:900;color:var(--white);letter-spacing:-0.5px;margin-bottom:12px">エリアごとの事業レポート</div>
+        <div style="font-size:20px;color:rgba(255,255,255,0.65);margin-bottom:40px">Area Business Report</div>
+        <div style="display:flex;gap:20px;justify-content:center">
+          <div style="background:rgba(27,94,158,0.12);border:1px solid rgba(27,94,158,0.3);border-radius:10px;padding:16px 28px;text-align:center">
+            <div style="font-size:28px;font-weight:900;color:#3B9FE3">沖縄</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.65);margin-top:4px">米軍向け賃貸</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:16px 28px;text-align:center">
+            <div style="font-size:28px;font-weight:900;color:#FFFFFF">札幌</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.65);margin-top:4px">駅近インカム</div>
+          </div>
+          <div style="background:rgba(76,175,80,0.12);border:1px solid rgba(76,175,80,0.3);border-radius:10px;padding:16px 28px;text-align:center">
+            <div style="font-size:28px;font-weight:900;color:var(--green-light)">福岡</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.65);margin-top:4px">太陽光売電</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:16px 28px;text-align:center">
+            <div style="font-size:28px;font-weight:900;color:rgba(255,255,255,0.65)">群馬</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.65);margin-top:4px">出口検討中</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 9: 沖縄詳細 ==================== -->
+  <div class="slide" data-slide="9">
+    <div class="slide-inner">
+      <div class="s-pad" style="padding:32px 44px">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px;margin-bottom:4px">沖縄エリア — Okinawa Portfolio</div>
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:12px">
+          <!-- 左列: 上=KPI、下=写真 -->
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <!-- KPIグリッド -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">保有棟数</div>
+                <div class="kpi-value" style="font-size:42px">6<span style="font-size:20px;color:rgba(255,255,255,0.65)">棟</span></div>
+              </div>
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">総戸数</div>
+                <div class="kpi-value" style="font-size:42px">111<span style="font-size:20px;color:rgba(255,255,255,0.65)">室</span></div>
+              </div>
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">稼働率</div>
+                <div class="kpi-value" style="font-size:42px;color:var(--green-light)">90%<span style="font-size:20px;color:rgba(255,255,255,0.65)">超</span></div>
+              </div>
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">平均賃料</div>
+                <div class="kpi-value" style="font-size:42px">22-25<span style="font-size:20px;color:rgba(255,255,255,0.65)">万</span></div>
+              </div>
+            </div>
+            <div class="kpi-card" style="padding:16px 20px;text-align:center">
+              <div class="kpi-label" style="font-size:16px;margin-bottom:8px">月次収入</div>
+              <div class="kpi-value" style="font-size:48px;color:#3B9FE3">2,000<span style="font-size:24px;color:rgba(255,255,255,0.65)">万円/月</span></div>
+            </div>
+            <!-- 写真エリア -->
+            <div style="flex:1;min-height:120px;border-radius:10px;overflow:hidden;background:#1a2744;display:flex;align-items:center;justify-content:center">
+              <img src="Picture/沖縄_米軍属向けマンション.jpg" alt="沖縄 米軍属向けマンション" style="width:100%;height:100%;object-fit:cover;opacity:0.85">
+            </div>
+          </div>
+          <!-- 右列: 投資特徴見出し + 競争優位性 -->
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="card" style="padding:24px 28px">
+              <div style="font-size:32px;font-weight:900;color:#3B9FE3;line-height:1.3">米軍需要×オーシャンフロント<br>高単価・高稼働の安定収益基盤</div>
+            </div>
+            <div class="card" style="padding:20px 24px;flex:1">
+              <div style="font-size:20px;font-weight:700;color:#3B9FE3;margin-bottom:16px">競争優位性</div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:#3B9FE3;font-size:20px;flex-shrink:0">●</span>GATE至近×海岸沿いの代替不可能な立地</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:#3B9FE3;font-size:20px;flex-shrink:0">●</span>遮蔽物ゼロのオーシャンビュー</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:#3B9FE3;font-size:20px;flex-shrink:0">●</span>退去後1ヶ月以内で次入居（高回転）</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:#3B9FE3;font-size:20px;flex-shrink:0">●</span>家電・家具完備で即入居可能</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:#3B9FE3;font-size:20px;flex-shrink:0">●</span>米軍住宅手当（OHA）による安定収入</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:#3B9FE3;font-size:20px;flex-shrink:0">●</span>基地内稼働97%超 → 基地外需要が増加</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">07 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 10: 札幌詳細 ==================== -->
+  <div class="slide" data-slide="10">
+    <div class="slide-inner">
+      <div class="s-pad" style="padding:32px 44px">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px;margin-bottom:4px">札幌エリア — Sapporo Portfolio</div>
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:12px">
+          <!-- 左列: KPI + 写真 -->
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <!-- KPIグリッド -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">保有棟数</div>
+                <div class="kpi-value" style="font-size:42px">15<span style="font-size:20px;color:rgba(255,255,255,0.65)">棟超</span></div>
+              </div>
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">部屋数</div>
+                <div class="kpi-value" style="font-size:42px">100<span style="font-size:20px;color:rgba(255,255,255,0.65)">室超</span></div>
+              </div>
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">駐車場</div>
+                <div class="kpi-value" style="font-size:42px">50<span style="font-size:20px;color:rgba(255,255,255,0.65)">台超</span></div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">稼働率</div>
+                <div class="kpi-value" style="font-size:42px;color:var(--green-light)">高稼働</div>
+              </div>
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">倉庫</div>
+                <div class="kpi-value" style="font-size:42px">あり</div>
+              </div>
+            </div>
+            <div class="kpi-card" style="padding:16px 20px;text-align:center">
+              <div class="kpi-label" style="font-size:16px;margin-bottom:8px">月次収入</div>
+              <div class="kpi-value" style="font-size:48px;color:#FFFFFF">1,400<span style="font-size:24px;color:rgba(255,255,255,0.65)">万円/月</span></div>
+            </div>
+            <!-- 写真エリア -->
+            <div style="flex:1;min-height:120px;border-radius:10px;overflow:hidden;background:#1a2744;display:flex;align-items:center;justify-content:center">
+              <img src="Picture/札幌_マンション.jpg" alt="札幌マンション" style="width:100%;height:100%;object-fit:cover;opacity:0.85">
+            </div>
+          </div>
+          <!-- 右列: 投資特徴見出し + 競争優位性 -->
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="card" style="padding:24px 28px">
+              <div style="font-size:32px;font-weight:900;color:#FFFFFF;line-height:1.3">主要駅 徒歩5分圏に集中投資<br>住居×テナント×駐車場の複合収益</div>
+            </div>
+            <div class="card" style="padding:20px 24px;flex:1">
+              <div style="font-size:20px;font-weight:700;color:#FFFFFF;margin-bottom:16px">競争優位性</div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:#FFFFFF;font-size:20px;flex-shrink:0">●</span>全物件が主要駅徒歩5分圏内の厳選立地</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:#FFFFFF;font-size:20px;flex-shrink:0">●</span>住居・テナント・駐車場の複合収益構造</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:#FFFFFF;font-size:20px;flex-shrink:0">●</span>入居入替時に相場連動で家賃値上げ実施中</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:#FFFFFF;font-size:20px;flex-shrink:0">●</span>管理委託による低コスト・高稼働運営</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:#FFFFFF;font-size:20px;flex-shrink:0">●</span>沖縄との地理的分散でリスクヘッジ</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:#FFFFFF;font-size:20px;flex-shrink:0">●</span>札幌賃料3年連続上昇+新幹線延伸の追い風</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">08 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 11: 福岡詳細 ==================== -->
+  <div class="slide" data-slide="11">
+    <div class="slide-inner">
+      <div class="s-pad" style="padding:32px 44px">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px;margin-bottom:4px">福岡エリア — Fukuoka Portfolio</div>
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:12px">
+          <!-- 左列: KPI + 写真 -->
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">投資数</div>
+                <div class="kpi-value" style="font-size:42px">1<span style="font-size:20px;color:rgba(255,255,255,0.65)">区画</span></div>
+              </div>
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">事業種別</div>
+                <div class="kpi-value" style="font-size:32px;color:var(--green-light)">太陽光</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">年間売上</div>
+                <div class="kpi-value" style="font-size:42px;color:#4CAF50">7,380<span style="font-size:20px;color:rgba(255,255,255,0.65)">万円</span></div>
+              </div>
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">月次収入</div>
+                <div class="kpi-value" style="font-size:42px;color:var(--green-light)">615<span style="font-size:20px;color:rgba(255,255,255,0.65)">万円</span></div>
+              </div>
+            </div>
+            <div class="kpi-card" style="padding:16px 20px;text-align:center">
+              <div class="kpi-label" style="font-size:16px;margin-bottom:8px">売上構成比</div>
+              <div class="kpi-value" style="font-size:48px;color:#4CAF50">18.9<span style="font-size:24px;color:rgba(255,255,255,0.65)">%</span></div>
+            </div>
+            <!-- 写真エリア -->
+            <div style="flex:1;min-height:120px;border-radius:10px;overflow:hidden;background:#1a2744;display:flex;align-items:center;justify-content:center">
+              <img src="Picture/福岡＿太陽光.jpg" alt="福岡 太陽光パネル" style="width:100%;height:100%;object-fit:cover;opacity:0.85">
+            </div>
+          </div>
+          <!-- 右列: 投資特徴 + 警告パネル -->
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="card" style="padding:24px 28px">
+              <div style="font-size:32px;font-weight:900;color:var(--green-light);line-height:1.3">FIT制度による固定価格買取<br>管理負荷ゼロの安定キャッシュフロー</div>
+            </div>
+            <div class="card" style="padding:20px 24px;flex:1">
+              <div style="font-size:20px;font-weight:700;color:var(--green-light);margin-bottom:16px">事業特性</div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:var(--green-light);font-size:20px;flex-shrink:0">●</span>FIT制度に基づく固定価格での売電収入</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:var(--green-light);font-size:20px;flex-shrink:0">●</span>管理負荷が極めて低いパッシブ収益</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:var(--green-light);font-size:20px;flex-shrink:0">●</span>投資回収は順調に進行中</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:var(--green-light);font-size:20px;flex-shrink:0">●</span>天候変動リスクはあるが年間では安定</div>
+              </div>
+            </div>
+            <!-- 出口判断警告パネル -->
+            <div class="card" style="padding:18px 24px;background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.4);font-weight:900;color:#ff4444;margin-bottom:6px">⚠ 出口判断が必要なタイミング</div>
+              <div style="font-size:16px;color:rgba(255,150,150,0.9);line-height:1.5">FIT買取期間の終了時期を見据え、売電単価低下後の収益性と売却タイミングを検討する必要がある</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">09 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 12: 群馬詳細 ==================== -->
+  <div class="slide" data-slide="12">
+    <div class="slide-inner">
+      <div class="s-pad" style="padding:32px 44px">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px;margin-bottom:4px">群馬エリア — Gunma Portfolio</div>
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:12px">
+          <!-- 左列: KPI + 写真 -->
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">投資数</div>
+                <div class="kpi-value" style="font-size:42px">1<span style="font-size:20px;color:rgba(255,255,255,0.65)">棟</span></div>
+              </div>
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">部屋数</div>
+                <div class="kpi-value" style="font-size:42px">20<span style="font-size:20px;color:rgba(255,255,255,0.65)">室</span></div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">年間売上</div>
+                <div class="kpi-value" style="font-size:42px">1,056<span style="font-size:20px;color:rgba(255,255,255,0.65)">万円</span></div>
+              </div>
+              <div class="kpi-card" style="padding:16px 20px">
+                <div class="kpi-label" style="font-size:16px;margin-bottom:8px">月次収入</div>
+                <div class="kpi-value" style="font-size:42px">88<span style="font-size:20px;color:rgba(255,255,255,0.65)">万円</span></div>
+              </div>
+            </div>
+            <div class="kpi-card" style="padding:16px 20px;text-align:center">
+              <div class="kpi-label" style="font-size:16px;margin-bottom:8px">修繕費見込み</div>
+              <div class="kpi-value" style="font-size:48px;color:#ff4444">4,700<span style="font-size:24px;color:rgba(255,255,255,0.65)">万円</span></div>
+            </div>
+            <!-- 写真エリア -->
+            <div style="flex:1;min-height:120px;border-radius:10px;overflow:hidden;background:#1a2744;display:flex;align-items:center;justify-content:center">
+              <img src="Picture/広木マンション.jpg" alt="広木マンション" style="width:100%;height:100%;object-fit:cover;opacity:0.85">
+            </div>
+          </div>
+          <!-- 右列: 投資特徴 + 警告パネル -->
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="card" style="padding:24px 28px">
+              <div style="font-size:32px;font-weight:900;color:#6B7280;line-height:1.3">広木マンション<br>売却 vs 保有継続の判断局面</div>
+            </div>
+            <div class="card" style="padding:20px 24px;flex:1">
+              <div style="font-size:20px;font-weight:700;color:rgba(255,255,255,0.65);margin-bottom:16px">現状と課題</div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:rgba(255,255,255,0.65);font-size:20px;flex-shrink:0">●</span>築年数の経過による修繕費の急増リスク</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:rgba(255,255,255,0.65);font-size:20px;flex-shrink:0">●</span>修繕費見込み約4,700万円（収益対比で過大）</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:rgba(255,255,255,0.65);font-size:20px;flex-shrink:0">●</span>売却シナリオ：即時CF確保＋修繕費回避</div>
+                <div style="font-size:18px;color:var(--text);display:flex;align-items:flex-start;gap:10px"><span style="color:rgba(255,255,255,0.65);font-size:20px;flex-shrink:0">●</span>保有継続シナリオ：長期インカム＋修繕投資必要</div>
+              </div>
+            </div>
+            <!-- 出口判断警告パネル -->
+            <div class="card" style="padding:18px 24px;background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.4);font-weight:900;color:#ff4444;margin-bottom:6px">⚠ 出口判断が必要なタイミング</div>
+              <div style="font-size:16px;color:rgba(255,150,150,0.9);line-height:1.5">2027年までに売却/保有の最終判断を実施。NPV比較に基づく意思決定基準を明確化する</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">10 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 13: 強みと弱み ==================== -->
+  <div class="slide" data-slide="13">
+    <div class="slide-inner">
+      <div class="s-pad" style="padding:32px 44px">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px">有限会社三海の「強み」と「弱み」</div>
+        <div class="s-subtitle">Strengths & Weaknesses</div>
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px">
+          <!-- 強み -->
+          <div class="card" style="padding:28px 32px;display:flex;flex-direction:column">
+            <div style="font-size:28px;font-weight:900;color:var(--green-light);margin-bottom:20px">強み — Strengths</div>
+            <div style="display:flex;flex-direction:column;gap:20px">
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:var(--green-light);font-size:22px;flex-shrink:0">●</span>沖縄：GATE至近×オーシャンフロントの代替不可能な立地</div>
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:var(--green-light);font-size:22px;flex-shrink:0">●</span>札幌：全物件が主要駅徒歩5分圏内に集中</div>
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:var(--green-light);font-size:22px;flex-shrink:0">●</span>4エリア地理的分散によるリスクヘッジ</div>
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:var(--green-light);font-size:22px;flex-shrink:0">●</span>全社稼働率90%超の安定した賃貸需要</div>
+            </div>
+          </div>
+          <!-- 弱み -->
+          <div class="card" style="padding:28px 32px;display:flex;flex-direction:column">
+            <div style="font-size:28px;font-weight:900;color:#ff4444;margin-bottom:20px">弱み — Weaknesses</div>
+            <div style="display:flex;flex-direction:column;gap:20px">
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:#ff4444;font-size:22px;flex-shrink:0">●</span>財務数値の全体集計が経営者主導でできていない</div>
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:#ff4444;font-size:22px;flex-shrink:0">●</span>稼働率管理が受け身（管理会社の報告待ち）</div>
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:#ff4444;font-size:22px;flex-shrink:0">●</span>築20〜30年の老朽化 — 長期修繕計画が未策定</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">11 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 14: 追い風と向かい風 ==================== -->
+  <div class="slide" data-slide="14">
+    <div class="slide-inner">
+      <div class="s-pad" style="padding:32px 44px">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px">環境的な「追い風」と「向かい風」</div>
+        <div class="s-subtitle">Opportunities & Threats</div>
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px">
+          <!-- 追い風 -->
+          <div class="card" style="padding:28px 32px;display:flex;flex-direction:column">
+            <div style="font-size:28px;font-weight:900;color:var(--blue-light);margin-bottom:20px">追い風 — Tailwinds</div>
+            <div style="display:flex;flex-direction:column;gap:20px">
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:var(--blue-light);font-size:22px;flex-shrink:0">●</span>沖縄：基地内稼働97%超 → 基地外居住推奨で需要流入</div>
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:var(--blue-light);font-size:22px;flex-shrink:0">●</span>沖縄：軍検制度緩和（5年に1回へ）でコスト減</div>
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:var(--blue-light);font-size:22px;flex-shrink:0">●</span>札幌：賃料3年連続上昇（+3%超）— 全国上位水準</div>
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:var(--blue-light);font-size:22px;flex-shrink:0">●</span>札幌：北海道新幹線延伸（2030年）で駅近需要拡大</div>
+            </div>
+          </div>
+          <!-- 向かい風 -->
+          <div class="card" style="padding:28px 32px;display:flex;flex-direction:column">
+            <div style="font-size:28px;font-weight:900;color:#FF9800;margin-bottom:20px">向かい風 — Headwinds</div>
+            <div style="display:flex;flex-direction:column;gap:20px">
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:#FF9800;font-size:22px;flex-shrink:0">●</span>沖縄：基地内マンション大規模改修 — 直接競合が強化</div>
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:#FF9800;font-size:22px;flex-shrink:0">●</span>米軍再編・基地返還リスク — 政策変動の不確実性</div>
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:#FF9800;font-size:22px;flex-shrink:0">●</span>金利上昇局面 — 借入コスト増大と賃貸需要抑制の同時リスク</div>
+              <div style="font-size:20px;color:var(--text);display:flex;align-items:flex-start;gap:12px;line-height:1.5"><span style="color:#FF9800;font-size:22px;flex-shrink:0">●</span>競合新築・フルリノベ物件による家賃下落圧力</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">12 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 15: 課題セクション扉 ==================== -->
+  <div class="slide" data-slide="15">
+    <div class="slide-inner" style="background:linear-gradient(135deg, #0B1426 0%, #122040 50%, #0B1426 100%);display:flex;align-items:center;justify-content:center">
+      <div style="width:100%;max-width:1100px;padding:0 50px">
+        <div style="text-align:center;margin-bottom:48px">
+          <div style="width:60px;height:4px;background:linear-gradient(90deg,#ff4444,#FF9800);border-radius:2px;margin:0 auto 32px"></div>
+          <div style="font-size:56px;font-weight:900;color:var(--white);letter-spacing:-0.5px;margin-bottom:16px">有限会社三海の課題</div>
+          <div style="font-size:22px;color:rgba(255,255,255,0.65)">Challenges & Action Plan</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:28px 24px;text-align:center">
+            <div style="font-size:48px;font-weight:900;color:#ff4444;margin-bottom:12px">1</div>
+            <div style="font-size:30px;font-weight:900;color:#ff4444;margin-bottom:10px">大型修繕</div>
+            <div style="font-size:22px;color:var(--white);line-height:1.5">築20〜30年の物件群に<br>大型修繕が多数控えている</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:28px 24px;text-align:center">
+            <div style="font-size:48px;font-weight:900;color:#ff4444;margin-bottom:12px">2</div>
+            <div style="font-size:30px;font-weight:900;color:#ff4444;margin-bottom:10px">計量管理</div>
+            <div style="font-size:22px;color:var(--white);line-height:1.5">経営を数字で管理する<br>体制への転換が急務</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:28px 24px;text-align:center">
+            <div style="font-size:48px;font-weight:900;color:#ff4444;margin-bottom:12px">3</div>
+            <div style="font-size:30px;font-weight:900;color:#ff4444;margin-bottom:10px">ポートフォリオ整理</div>
+            <div style="font-size:22px;color:var(--white);line-height:1.5">福岡・群馬の<br>出口判断と資産再配分</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 16: 大型修繕詳細 ==================== -->
+  <div class="slide" data-slide="16">
+    <div class="slide-inner">
+      <div class="s-pad" style="padding:28px 44px">
+        <div class="section-accent" style="background:linear-gradient(90deg,#ff4444,#FF9800)"></div>
+        <div class="s-title" style="font-size:36px">課題① 大型修繕が多数控えています</div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:14px;margin-top:8px">
+          <!-- 上段: KPI 4枚 -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
+            <div class="kpi-card" style="padding:14px;border-color:rgba(255,255,255,0.2)">
+              <div class="kpi-label" style="font-size:14px;margin-bottom:6px">修繕案件数</div>
+              <div class="kpi-value" style="font-size:52px;color:#ff4444">7<span style="font-size:26px;color:rgba(255,255,255,0.65)">件</span></div>
+            </div>
+            <div class="kpi-card" style="padding:14px;border-color:rgba(255,255,255,0.2)">
+              <div class="kpi-label" style="font-size:14px;margin-bottom:6px">3年間トータル</div>
+              <div class="kpi-value" style="font-size:52px;color:#ff4444">3.1<span style="font-size:26px;color:rgba(255,255,255,0.65)">億円</span></div>
+            </div>
+            <div class="kpi-card" style="padding:14px;border-color:rgba(255,255,255,0.2)">
+              <div class="kpi-label" style="font-size:14px;margin-bottom:6px">修繕期間</div>
+              <div class="kpi-value" style="font-size:52px;color:#ff4444">3<span style="font-size:26px;color:rgba(255,255,255,0.65)">年間</span></div>
+            </div>
+            <div class="kpi-card" style="padding:14px;border-color:rgba(255,255,255,0.2)">
+              <div class="kpi-label" style="font-size:14px;margin-bottom:6px">初年度（最大）</div>
+              <div class="kpi-value" style="font-size:52px;color:#ff4444">1.4<span style="font-size:26px;color:rgba(255,255,255,0.65)">億円</span></div>
+            </div>
+          </div>
+          <!-- 中段: 年度別バー -->
+          <div class="card" style="padding:16px 24px;border-color:rgba(255,255,255,0.2)">
+            <div style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:12px">年度別 想定修繕額</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="font-size:16px;font-weight:700;color:rgba(255,255,255,0.65);width:70px">2026年</div>
+                <div style="flex:1;height:26px;background:rgba(255,255,255,0.06);border-radius:5px;overflow:hidden">
+                  <div style="height:100%;width:100%;background:linear-gradient(90deg,#C0392B,#ff4444);border-radius:5px"></div>
+                </div>
+                <div style="font-size:20px;font-weight:900;color:#ff4444;width:110px;text-align:right">1億4,220万</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="font-size:16px;font-weight:700;color:rgba(255,255,255,0.65);width:70px">2027年</div>
+                <div style="flex:1;height:26px;background:rgba(255,255,255,0.06);border-radius:5px;overflow:hidden">
+                  <div style="height:100%;width:64%;background:linear-gradient(90deg,#D97706,#FF9800);border-radius:5px"></div>
+                </div>
+                <div style="font-size:20px;font-weight:900;color:#FF9800;width:110px;text-align:right">9,100万</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="font-size:16px;font-weight:700;color:rgba(255,255,255,0.65);width:70px">2028年</div>
+                <div style="flex:1;height:26px;background:rgba(255,255,255,0.06);border-radius:5px;overflow:hidden">
+                  <div style="height:100%;width:55%;background:linear-gradient(90deg,#2E7D32,#4CAF50);border-radius:5px"></div>
+                </div>
+                <div style="font-size:20px;font-weight:900;color:var(--green-light);width:110px;text-align:right">7,800万</div>
+              </div>
+            </div>
+          </div>
+          <!-- 下段: エリア別件数 -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+            <div class="card" style="padding:14px 20px;border-color:rgba(255,255,255,0.2);text-align:center">
+              <div style="font-size:23px;font-weight:900;color:var(--white);margin-bottom:2px">沖縄</div>
+              <div style="font-size:47px;font-weight:900;color:var(--white)">4<span style="font-size:23px;color:rgba(255,255,255,0.65)">件</span></div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.65)">3年合計 <span style="font-size:20px;font-weight:900;color:var(--white)">2億4,700万円</span></div>
+            </div>
+            <div class="card" style="padding:14px 20px;border-color:rgba(255,255,255,0.2);text-align:center">
+              <div style="font-size:23px;font-weight:900;color:var(--white);margin-bottom:2px">札幌</div>
+              <div style="font-size:47px;font-weight:900;color:var(--white)">2<span style="font-size:23px;color:rgba(255,255,255,0.65)">件</span></div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.65)">3年合計 <span style="font-size:20px;font-weight:900;color:var(--white)">1,720万円</span></div>
+            </div>
+            <div class="card" style="padding:14px 20px;border-color:rgba(255,255,255,0.2);text-align:center">
+              <div style="font-size:23px;font-weight:900;color:var(--white);margin-bottom:2px">群馬</div>
+              <div style="font-size:47px;font-weight:900;color:var(--white)">1<span style="font-size:23px;color:rgba(255,255,255,0.65)">件</span></div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.65)"><span style="font-size:20px;font-weight:900;color:var(--white)">4,700万円</span>（保有継続時）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">13 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 17: 課題②計量管理 ==================== -->
+  <div class="slide" data-slide="17">
+    <div class="slide-inner">
+      <div class="s-pad" style="padding:24px 44px 20px">
+        <div class="section-accent" style="background:linear-gradient(90deg,#ff4444,#FF9800)"></div>
+        <div class="s-title" style="font-size:34px;margin-bottom:4px">課題② 計量管理の仕組みを徹底</div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;margin-top:6px">
+          <!-- BEFORE / AFTER -->
+          <div class="flex gap-24" style="flex:1;min-height:0">
+            <div class="ba-card before" style="flex:1;display:flex;flex-direction:column;padding:14px 18px;overflow:hidden">
+              <div class="ba-tag text-red" style="font-size:24px;margin-bottom:8px">BEFORE — 現状</div>
+              <div style="width:100%;flex:1;min-height:0;max-height:300px;border-radius:10px;overflow:hidden;margin-bottom:10px">
+                <img src="Picture/Before_計量管理.jpg" alt="Before 計量管理" style="width:100%;height:100%;object-fit:cover;object-position:center center;opacity:0.85">
+              </div>
+              <ul class="dot-list" style="margin:0;flex-shrink:0">
+                <li style="font-size:16px;padding:3px 0">感覚と経験による判断</li>
+                <li style="font-size:16px;padding:3px 0">管理会社に運営を一任</li>
+                <li style="font-size:16px;padding:3px 0">P&L（損益計算書）が未整備</li>
+                <li style="font-size:16px;padding:3px 0">修繕は問題発生後に対応</li>
+              </ul>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="ba-card after" style="flex:1;display:flex;flex-direction:column;padding:14px 18px;overflow:hidden">
+              <div class="ba-tag text-green" style="font-size:24px;margin-bottom:8px">AFTER — 目指す姿</div>
+              <div style="width:100%;flex:1;min-height:0;max-height:300px;border-radius:10px;overflow:hidden;margin-bottom:10px">
+                <img src="Picture/after_計量管理.png" alt="After 計量管理" style="width:100%;height:100%;object-fit:cover;object-position:center center;opacity:0.85">
+              </div>
+              <ul class="dot-list" style="margin:0;flex-shrink:0">
+                <li style="font-size:16px;padding:3px 0">月次KPIによるデータ駆動経営</li>
+                <li style="font-size:16px;padding:3px 0">オーナー主導の能動的管理</li>
+                <li style="font-size:16px;padding:3px 0">全物件の損益を完全可視化</li>
+                <li style="font-size:16px;padding:3px 0">計画に基づく予防的修繕</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">14 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 18: 賃上げ戦略 ==================== -->
+  <div class="slide" data-slide="18">
+    <div class="slide-inner">
+      <div class="s-pad" style="padding:28px 44px">
+        <div class="section-accent"></div>
+        <div class="s-title" style="font-size:36px">修繕・計量管理の先にある狙い — 賃料引き上げ</div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:16px;margin-top:12px">
+          <!-- 上段: 戦略フロー -->
+          <div class="card" style="padding:20px 28px;border-color:rgba(255,255,255,0.2);text-align:center">
+            <div style="display:flex;align-items:center;justify-content:center;gap:20px">
+              <div style="font-size:22px;font-weight:700;color:var(--white)">修繕完了</div>
+              <div style="font-size:28px;color:var(--light-blue)">→</div>
+              <div style="font-size:22px;font-weight:700;color:var(--white)">計量管理で適正把握</div>
+              <div style="font-size:28px;color:var(--light-blue)">→</div>
+              <div style="font-size:22px;font-weight:900;color:var(--light-blue)">インフレ環境に合わせた賃上げ実行</div>
+            </div>
+          </div>
+          <!-- 中段: 沖縄・札幌 2列 -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;min-height:0">
+            <!-- 沖縄 -->
+            <div class="card" style="padding:20px 24px;border-color:rgba(255,255,255,0.2);display:flex;flex-direction:column;gap:12px">
+              <div style="font-size:26px;font-weight:900;color:#3B9FE3">沖縄 — 米軍賃貸の賃料改定</div>
+              <div style="font-size:18px;color:var(--white);line-height:1.5">
+                <span style="font-weight:700">賃上げの根拠:</span> 修繕完了により軍検基準クリア。インフレ・最低登録家賃改定（175,000円）を背景に、市場水準へ引き上げ
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="kpi-card" style="padding:12px;border-color:rgba(255,255,255,0.2)">
+                  <div class="kpi-label" style="font-size:14px;margin-bottom:4px">対象</div>
+                  <div class="kpi-value" style="font-size:52px;color:#3B9FE3">111<span style="font-size:25px;color:rgba(255,255,255,0.65)">室</span></div>
+                </div>
+                <div class="kpi-card" style="padding:12px;border-color:rgba(255,255,255,0.2)">
+                  <div class="kpi-label" style="font-size:14px;margin-bottom:4px">賃料改定</div>
+                  <div class="kpi-value" style="font-size:45px;color:var(--white)">22→25<span style="font-size:22px;color:rgba(255,255,255,0.65)">万</span></div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="kpi-card" style="padding:12px;border-color:rgba(255,255,255,0.2)">
+                  <div class="kpi-label" style="font-size:14px;margin-bottom:4px">年間増収</div>
+                  <div class="kpi-value" style="font-size:52px;color:#3B9FE3">+3,996<span style="font-size:22px;color:rgba(255,255,255,0.65)">万</span></div>
+                </div>
+                <div class="kpi-card" style="padding:12px;border-color:rgba(255,255,255,0.2)">
+                  <div class="kpi-label" style="font-size:14px;margin-bottom:4px">増加率</div>
+                  <div class="kpi-value" style="font-size:52px;color:#3B9FE3">+34.8<span style="font-size:22px;color:rgba(255,255,255,0.65)">%</span></div>
+                </div>
+              </div>
+            </div>
+            <!-- 札幌 -->
+            <div class="card" style="padding:20px 24px;border-color:rgba(255,255,255,0.2);display:flex;flex-direction:column;gap:12px">
+              <div style="font-size:26px;font-weight:900;color:#FFFFFF">札幌 — 相場連動の段階的値上げ</div>
+              <div style="font-size:18px;color:var(--white);line-height:1.5">
+                <span style="font-weight:700">賃上げの根拠:</span> 札幌賃料3年連続+3%超の上昇トレンド。入居入替のタイミングで市場相場に連動した値上げを順次実施
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="kpi-card" style="padding:12px;border-color:rgba(255,255,255,0.2)">
+                  <div class="kpi-label" style="font-size:14px;margin-bottom:4px">対象</div>
+                  <div class="kpi-value" style="font-size:52px;color:#FFFFFF">100<span style="font-size:25px;color:rgba(255,255,255,0.65)">室超</span></div>
+                </div>
+                <div class="kpi-card" style="padding:12px;border-color:rgba(255,255,255,0.2)">
+                  <div class="kpi-label" style="font-size:14px;margin-bottom:4px">想定上昇率</div>
+                  <div class="kpi-value" style="font-size:52px;color:#FFFFFF">+3<span style="font-size:25px;color:rgba(255,255,255,0.65)">%/年</span></div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="kpi-card" style="padding:12px;border-color:rgba(255,255,255,0.2)">
+                  <div class="kpi-label" style="font-size:14px;margin-bottom:4px">年間増収</div>
+                  <div class="kpi-value" style="font-size:52px;color:#FFFFFF">+518<span style="font-size:22px;color:rgba(255,255,255,0.65)">万</span></div>
+                </div>
+                <div class="kpi-card" style="padding:12px;border-color:rgba(255,255,255,0.2)">
+                  <div class="kpi-label" style="font-size:14px;margin-bottom:4px">増加率</div>
+                  <div class="kpi-value" style="font-size:52px;color:#FFFFFF">+3.0<span style="font-size:22px;color:rgba(255,255,255,0.65)">%</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 下段: 合計 -->
+          <div class="card" style="padding:16px 28px;border-color:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:space-between">
+            <div style="font-size:22px;font-weight:700;color:var(--white)">沖縄＋札幌 合計の年間増収効果</div>
+            <div style="display:flex;align-items:baseline;gap:20px">
+              <div style="font-size:52px;font-weight:900;color:var(--light-blue)">+4,514<span style="font-size:25px;color:rgba(255,255,255,0.65)">万円/年</span></div>
+              <div style="font-size:35px;font-weight:900;color:var(--light-blue)">+11.6<span style="font-size:16px">%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">15 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 19: 福岡ポートフォリオ整理 ==================== -->
+  <div class="slide" data-slide="19">
+    <div class="slide-inner">
+      <div class="s-pad" style="padding:28px 44px">
+        <div class="section-accent" style="background:linear-gradient(90deg,#ff4444,#FF9800)"></div>
+        <div class="s-title" style="font-size:36px">課題③ 福岡・太陽光事業のポートフォリオ整理</div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:16px;margin-top:12px">
+          <!-- 上段: 写真 + 現状 + リスク -->
+          <div style="display:grid;grid-template-columns:1fr 1.2fr 1.2fr;gap:16px">
+            <!-- 写真 -->
+            <div style="border-radius:10px;overflow:hidden;min-height:200px">
+              <img src="Picture/福岡＿太陽光.jpg" alt="福岡 太陽光パネル" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="card" style="padding:18px 20px;border-color:rgba(255,255,255,0.2)">
+              <div style="font-size:22px;font-weight:900;color:var(--green-light);margin-bottom:12px">現在の位置づけ</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <div class="kpi-card" style="padding:10px;border-color:rgba(255,255,255,0.2)">
+                  <div class="kpi-label" style="font-size:13px;margin-bottom:4px">年間売上</div>
+                  <div class="kpi-value" style="font-size:36px;color:#4CAF50">7,380<span style="font-size:16px;color:rgba(255,255,255,0.65)">万</span></div>
+                </div>
+                <div class="kpi-card" style="padding:10px;border-color:rgba(255,255,255,0.2)">
+                  <div class="kpi-label" style="font-size:13px;margin-bottom:4px">売上構成比</div>
+                  <div class="kpi-value" style="font-size:36px;color:#4CAF50">18.9<span style="font-size:16px;color:rgba(255,255,255,0.65)">%</span></div>
+                </div>
+              </div>
+              <div style="font-size:16px;color:var(--white);margin-top:10px;line-height:1.5">FIT制度による安定売電収入。管理負荷ゼロで全社売上の約2割を占める稼ぎ頭</div>
+            </div>
+            <div class="card" style="padding:18px 20px;border-color:rgba(255,255,255,0.2)">
+              <div style="font-size:22px;font-weight:900;color:#ff4444;margin-bottom:12px">顕在化しているリスク</div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="font-size:18px;color:var(--white);display:flex;align-items:flex-start;gap:10px;line-height:1.4"><span style="color:#ff4444;font-size:20px;flex-shrink:0">●</span>保険料の大幅な値上げに直面</div>
+                <div style="font-size:18px;color:var(--white);display:flex;align-items:flex-start;gap:10px;line-height:1.4"><span style="color:#ff4444;font-size:20px;flex-shrink:0">●</span>パネル経年劣化で修繕費増加</div>
+                <div style="font-size:18px;color:var(--white);display:flex;align-items:flex-start;gap:10px;line-height:1.4"><span style="color:#ff4444;font-size:20px;flex-shrink:0">●</span>FIT終了後の売電単価低下</div>
+              </div>
+            </div>
+          </div>
+          <!-- 下段: 方針 -->
+          <div class="card" style="padding:24px 28px;border-color:rgba(255,255,255,0.2);display:flex;align-items:center;gap:28px">
+            <div style="flex:1">
+              <div style="font-size:24px;font-weight:900;color:var(--white);margin-bottom:12px">今後の方針</div>
+              <div style="font-size:20px;color:var(--white);line-height:1.6">現時点では安定CFを生み出す重要資産だが、保険料の高騰と将来の修繕費増を踏まえると、<span style="font-weight:900;color:var(--brand-gold2)">コスト構造が収益を圧迫する前に売却を含めたポートフォリオ整理を検討</span>する。FIT残存期間・パネル劣化率・保険コスト推移を定量的に把握し、保有継続と売却のNPV比較で判断する。</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0">
+              <div style="background:rgba(255,68,68,0.1);border:1px solid rgba(255,68,68,0.4);border-radius:8px;padding:14px 20px;text-align:center">
+                <div style="font-size:16px;font-weight:700;color:#ff4444">判断時期</div>
+                <div style="font-size:32px;font-weight:900;color:var(--white)">2027年</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">16 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 20: 群馬ポートフォリオ整理 ==================== -->
+  <div class="slide" data-slide="20">
+    <div class="slide-inner">
+      <div class="s-pad" style="padding:28px 44px">
+        <div class="section-accent" style="background:linear-gradient(90deg,#ff4444,#FF9800)"></div>
+        <div class="s-title" style="font-size:36px">課題③ 群馬・広木マンションのポートフォリオ整理</div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:16px;margin-top:12px">
+          <!-- 上段: 写真 + 現状 + リスク -->
+          <div style="display:grid;grid-template-columns:1fr 1.2fr 1.2fr;gap:16px">
+            <!-- 写真 -->
+            <div style="border-radius:10px;overflow:hidden;min-height:200px">
+              <img src="Picture/広木マンション.jpg" alt="広木マンション" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="card" style="padding:18px 20px;border-color:rgba(255,255,255,0.2)">
+              <div style="font-size:22px;font-weight:900;color:var(--white);margin-bottom:10px">現在の位置づけ</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+                <div class="kpi-card" style="padding:10px;border-color:rgba(255,255,255,0.2)">
+                  <div class="kpi-label" style="font-size:12px;margin-bottom:3px">年間売上</div>
+                  <div class="kpi-value" style="font-size:32px;color:var(--white)">1,056<span style="font-size:14px;color:rgba(255,255,255,0.65)">万</span></div>
+                </div>
+                <div class="kpi-card" style="padding:10px;border-color:rgba(255,255,255,0.2)">
+                  <div class="kpi-label" style="font-size:12px;margin-bottom:3px">部屋数</div>
+                  <div class="kpi-value" style="font-size:32px;color:var(--white)">20<span style="font-size:14px;color:rgba(255,255,255,0.65)">室</span></div>
+                </div>
+                <div class="kpi-card" style="padding:10px;border-color:rgba(255,68,68,0.4)">
+                  <div class="kpi-label" style="font-size:12px;margin-bottom:3px">稼働率</div>
+                  <div class="kpi-value" style="font-size:32px;color:#ff4444">40<span style="font-size:14px;color:rgba(255,255,255,0.65)">%</span></div>
+                </div>
+              </div>
+              <div style="font-size:16px;color:var(--white);margin-top:10px;line-height:1.5">稼働率40%と極めて低く、修繕費が収益を大きく上回るリスクが顕在化</div>
+            </div>
+            <div class="card" style="padding:18px 20px;border-color:rgba(255,255,255,0.2)">
+              <div style="font-size:22px;font-weight:900;color:#ff4444;margin-bottom:12px">顕在化しているリスク</div>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <div style="font-size:18px;color:var(--white);display:flex;align-items:flex-start;gap:10px;line-height:1.4"><span style="color:#ff4444;font-size:20px;flex-shrink:0">●</span>大規模修繕費 約4,700万円</div>
+                <div style="font-size:18px;color:var(--white);display:flex;align-items:flex-start;gap:10px;line-height:1.4"><span style="color:#ff4444;font-size:20px;flex-shrink:0">●</span>売上の約4.5倍の修繕費</div>
+                <div style="font-size:18px;color:var(--white);display:flex;align-items:flex-start;gap:10px;line-height:1.4"><span style="color:#ff4444;font-size:20px;flex-shrink:0">●</span>追加修繕の可能性あり</div>
+              </div>
+            </div>
+          </div>
+          <!-- 中段: 2シナリオ -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="card" style="padding:18px 24px;border-color:rgba(255,255,255,0.2)">
+              <div style="font-size:22px;font-weight:900;color:var(--brand-gold2);margin-bottom:10px">シナリオA — 売却</div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="font-size:18px;color:var(--white);display:flex;align-items:flex-start;gap:10px;line-height:1.4"><span style="color:var(--brand-gold2);font-size:20px;flex-shrink:0">●</span>修繕費4,700万円を回避</div>
+                <div style="font-size:18px;color:var(--white);display:flex;align-items:flex-start;gap:10px;line-height:1.4"><span style="color:var(--brand-gold2);font-size:20px;flex-shrink:0">●</span>売却資金を主力エリアの修繕に再配分</div>
+                <div style="font-size:18px;color:var(--white);display:flex;align-items:flex-start;gap:10px;line-height:1.4"><span style="color:var(--brand-gold2);font-size:20px;flex-shrink:0">●</span>経営リソースを沖縄・札幌に集中</div>
+              </div>
+            </div>
+            <div class="card" style="padding:18px 24px;border-color:rgba(255,255,255,0.2)">
+              <div style="font-size:22px;font-weight:900;color:var(--blue-light);margin-bottom:10px">シナリオB — 保有継続</div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="font-size:18px;color:var(--white);display:flex;align-items:flex-start;gap:10px;line-height:1.4"><span style="color:var(--blue-light);font-size:20px;flex-shrink:0">●</span>修繕後の長期インカム収入を維持</div>
+                <div style="font-size:18px;color:var(--white);display:flex;align-items:flex-start;gap:10px;line-height:1.4"><span style="color:var(--blue-light);font-size:20px;flex-shrink:0">●</span>修繕費4,700万円の資金確保が必要</div>
+                <div style="font-size:18px;color:var(--white);display:flex;align-items:flex-start;gap:10px;line-height:1.4"><span style="color:var(--blue-light);font-size:20px;flex-shrink:0">●</span>投資回収に10年以上を要する見込み</div>
+              </div>
+            </div>
+          </div>
+          <!-- 下段: 方針 -->
+          <div class="card" style="padding:16px 28px;border-color:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:space-between">
+            <div style="font-size:20px;color:var(--white);line-height:1.5;flex:1"><span style="font-weight:900;color:var(--brand-gold2)">NPV比較に基づき売却/保有の最終判断を下す。</span>残債・修繕内訳・損害賠償の確認後に意思決定</div>
+            <div style="background:rgba(255,68,68,0.1);border:1px solid rgba(255,68,68,0.4);border-radius:8px;padding:14px 20px;text-align:center;flex-shrink:0;margin-left:20px">
+              <div style="font-size:16px;font-weight:700;color:#ff4444">判断時期</div>
+              <div style="font-size:32px;font-weight:900;color:var(--white)">2026年</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-num">17 / 21</div>
+    </div>
+  </div>
+
+  <!-- ==================== Slide 21: Closing ==================== -->
+  <div class="slide" data-slide="21">
+    <div class="slide-inner">
+      <div class="closing-bg"></div>
+      <div class="closing-content">
+        <div style="font-size:17px;letter-spacing:0.2em;color:var(--light-blue);margin-bottom:10px">SUMMARY</div>
+        <div style="font-size:49px;font-weight:900;color:var(--white);margin-bottom:40px">本日お伝えしたかったこと</div>
+        <div class="closing-summary">
+          <div class="closing-item">
+            <div class="closing-num">01</div>
+            <div class="closing-text">33億円の実物資産が安定収益を生み続けています</div>
+          </div>
+          <div class="closing-item">
+            <div class="closing-num">02</div>
+            <div class="closing-text">市場の追い風を賃料引き上げに転換します</div>
+          </div>
+          <div class="closing-item">
+            <div class="closing-num">03</div>
+            <div class="closing-text">計画経営への転換で資産価値を最大化します</div>
+          </div>
+        </div>
+        <div style="margin-top:48px;padding-top:24px;border-top:1px solid rgba(27,94,158,0.2)">
+          <div style="font-size:24px;font-weight:700;color:var(--white)">有限会社三海</div>
+          <div style="font-size:18px;color:rgba(255,255,255,0.65);margin-top:4px">代表取締役 小渡 貴文</div>
+        </div>
+      </div>
+      <div class="brand-line"></div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- Navigation Bar -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="goSlide(currentSlide-1)">&#9664;</button>
+  <div class="nav-dots" id="navDots"></div>
+  <button class="nav-btn" id="nextBtn" onclick="goSlide(currentSlide+1)">&#9654;</button>
+  <div class="nav-counter" id="navCounter">1 / 21</div>
+</div>
+
+<!-- Fullscreen Button -->
+<button class="fs-btn" id="fsBtn" onclick="toggleFullscreen()">&#x26F6;</button>
+
+<script>
+  // === Slide Engine ===
+  var totalSlides = 21;
+  var currentSlide = 0;
+  var slides = document.querySelectorAll('.slide');
+
+  // Build nav dots
+  (function(){
+    var dotsEl = document.getElementById('navDots');
+    for(var i = 0; i < totalSlides; i++){
+      var dot = document.createElement('div');
+      dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      dot.dataset.idx = i;
+      dot.addEventListener('click', function(){ goSlide(parseInt(this.dataset.idx)); });
+      dotsEl.appendChild(dot);
+    }
+  })();
+
+  function goSlide(n){
+    if(n < 0 || n >= totalSlides) return;
+    slides[currentSlide].classList.remove('active');
+    currentSlide = n;
+    slides[currentSlide].classList.add('active');
+    // update dots
+    var dots = document.querySelectorAll('.nav-dot');
+    dots.forEach(function(d,i){ d.classList.toggle('active', i === n); });
+    // update counter
+    document.getElementById('navCounter').textContent = (n+1) + ' / ' + totalSlides;
+    // hash
+    history.replaceState(null, '', '#slide-' + (n+1));
+  }
+
+  // Keyboard
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' '){
+      e.preventDefault(); goSlide(currentSlide + 1);
+    } else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+      e.preventDefault(); goSlide(currentSlide - 1);
+    } else if(e.key === 'Home'){
+      e.preventDefault(); goSlide(0);
+    } else if(e.key === 'End'){
+      e.preventDefault(); goSlide(totalSlides - 1);
+    }
+  });
+
+  // Touch / swipe
+  var touchStartX = 0, touchStartY = 0;
+  document.addEventListener('touchstart', function(e){
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    var dy = e.changedTouches[0].clientY - touchStartY;
+    if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50){
+      if(dx < 0) goSlide(currentSlide + 1);
+      else goSlide(currentSlide - 1);
+    }
+  }, {passive:true});
+
+  // Hash navigation
+  (function(){
+    var hash = window.location.hash;
+    if(hash && hash.match(/^#slide-(\d+)$/)){
+      var n = parseInt(hash.replace('#slide-','')) - 1;
+      if(n >= 0 && n < totalSlides) goSlide(n);
+    }
+  })();
+
+  // Fullscreen
+  function toggleFullscreen(){
+    if(!document.fullscreenElement){
+      document.documentElement.requestFullscreen().catch(function(){});
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  // Scale slides to fit viewport
+  function scaleSlides(){
+    var vw = window.innerWidth;
+    var vh = window.innerHeight - 56; // nav bar height
+    var sw = 1280;
+    var sh = 720;
+    var scale = Math.min(vw / sw, vh / sh);
+    document.querySelectorAll('.slide-inner').forEach(function(el){
+      el.style.transform = 'scale(' + scale + ')';
+    });
+  }
+  window.addEventListener('resize', scaleSlides);
+  scaleSlides();
+</script>
+</body>
+</html>

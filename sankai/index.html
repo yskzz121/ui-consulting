@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>有限会社三海 — 認証</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1A2540;--navy-dark:#0F1829;--gold:#B8912A;--gold-light:#D4A843;--paper:#F5F2EC;--text:#2C2C2C;--border:#E0DCD4;--negative:#8B2020;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--navy-dark);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 40%,rgba(184,145,42,0.06) 0%,transparent 60%),radial-gradient(ellipse at 70% 60%,rgba(184,145,42,0.04) 0%,transparent 60%);pointer-events:none}
+.login-container{position:relative;z-index:1;width:100%;max-width:440px;padding:20px}
+.login-card{background:rgba(26,37,64,0.95);border:1px solid rgba(184,145,42,0.15);border-radius:20px;padding:48px 36px;text-align:center;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+.login-logo{margin-bottom:24px;font-family:'Noto Serif JP',serif;font-size:2rem;font-weight:700;color:var(--gold-light);letter-spacing:2px}
+.login-title{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:1px}
+.login-subtitle{font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:32px}
+.confidential-badge{display:inline-block;font-size:0.65rem;font-weight:700;color:var(--gold);letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);padding:4px 14px;border-radius:4px;margin-bottom:24px}
+.input-group{margin-bottom:20px;text-align:left}
+.input-group label{display:block;font-size:0.75rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.5px}
+.input-group input{width:100%;padding:14px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#fff;font-size:0.95rem;font-family:'Inter',sans-serif;letter-spacing:2px;outline:none;transition:all 0.2s}
+.input-group input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,145,42,0.15)}
+.input-group input::placeholder{color:rgba(255,255,255,0.25);letter-spacing:1px}
+.login-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--navy-dark);border:none;border-radius:10px;font-size:0.9rem;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.2s;letter-spacing:1px}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(184,145,42,0.4)}
+.login-btn:active{transform:translateY(0)}
+.error-msg{color:var(--negative);font-size:0.78rem;margin-top:12px;min-height:20px;font-weight:500}
+.footer-text{font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:24px;line-height:1.6}
+.footer-text img{height:20px;opacity:0.4;vertical-align:middle;margin-right:4px}
+
+/* Portal */
+.portal{display:none;min-height:100vh;background:var(--paper)}
+.portal-header{background:linear-gradient(135deg,#1a2332 0%,#1A2540 50%,#0F1829 100%);color:#fff;padding:40px 24px 32px;text-align:center;position:relative;overflow:hidden}
+.portal-header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(184,145,42,0.08) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(184,145,42,0.06) 0%,transparent 60%)}
+.portal-header .inner{position:relative;z-index:1}
+.portal-header h1{font-family:'Noto Serif JP',serif;font-size:1.6rem;margin-bottom:4px}
+.portal-header .sub{color:rgba(255,255,255,0.6);font-size:0.85rem}
+.portal-grid{max-width:900px;margin:0 auto;padding:40px 24px 60px;display:grid;grid-template-columns:1fr;gap:20px}
+.report-card{background:#fff;border-radius:16px;padding:28px 24px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.06);transition:all 0.2s;text-decoration:none;color:var(--text);display:block}
+.report-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.1);border-color:var(--gold);cursor:pointer}
+.report-card .rc-icon{font-size:2rem;margin-bottom:12px}
+.report-card .rc-title{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:8px}
+.report-card .rc-desc{font-size:0.78rem;color:#6B6B6B;line-height:1.7}
+.report-card .rc-badge{display:inline-block;font-size:0.65rem;background:var(--gold);color:#fff;padding:2px 10px;border-radius:4px;margin-top:12px;font-weight:700;letter-spacing:0.5px}
+.portal-footer{text-align:center;padding:24px;background:var(--navy-dark);color:rgba(255,255,255,0.4);font-size:0.7rem}
+.portal-footer .conf{color:var(--gold);font-weight:700;letter-spacing:3px;font-size:0.68rem;border:1px solid rgba(184,145,42,0.3);display:inline-block;padding:3px 14px;border-radius:4px;margin-top:8px}
+.logout-btn{position:fixed;top:16px;right:16px;z-index:999;background:rgba(26,37,64,0.9);color:var(--gold-light);border:1px solid rgba(184,145,42,0.2);padding:8px 16px;border-radius:8px;font-size:0.75rem;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all 0.15s}
+.logout-btn:hover{background:var(--gold);color:var(--navy-dark)}
+@media(max-width:600px){.portal-grid{grid-template-columns:1fr}.login-card{padding:36px 24px}}
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div class="login-container" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">三海</div>
+    <div class="login-title">有限会社三海 事業計画レポート</div>
+    <div class="login-subtitle">閲覧にはパスワードが必要です</div>
+    <div class="confidential-badge">CONFIDENTIAL</div>
+    <div class="input-group">
+      <label>パスワード</label>
+      <input type="password" id="pwInput" placeholder="パスワードを入力" autocomplete="off">
+    </div>
+    <button class="login-btn" onclick="attemptLogin()">ログイン</button>
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="footer-text">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I">U&amp;Iコンサルティング<br>
+      本資料は社外秘です。許可なく第三者への開示・複製を禁じます。
+    </div>
+  </div>
+</div>
+
+<!-- Portal (shown after auth) -->
+<div class="portal" id="portalScreen">
+  <button class="logout-btn" onclick="logout()">ログアウト</button>
+  <div class="portal-header">
+    <div class="inner">
+      <div style="font-family:'Noto Serif JP',serif;font-size:2rem;color:var(--gold-light);margin-bottom:12px;letter-spacing:2px">三海</div>
+      <h1>有限会社三海 クライアントポータル</h1>
+      <div class="sub">事業計画・中期経営計画 プレゼンテーション</div>
+    </div>
+  </div>
+  <div class="portal-grid">
+    <a class="report-card" href="./presentation.html" target="_self">
+      <div class="rc-icon">🏢</div>
+      <div class="rc-title">外部向け事業計画プレゼンテーション</div>
+      <div class="rc-desc">会社概要、4エリアポートフォリオ（沖縄・札幌・福岡・群馬）、経営体制転換、代表プロフィール、財務分析、中期経営計画2026-2028、修繕計画、計量管理、賃上げ戦略。全21スライド。</div>
+      <div class="rc-badge">PRESENTATION — 21 SLIDES</div>
+    </a>
+  </div>
+  <div class="portal-footer">
+    <img src="../assets/ui_logo_white.png" alt="U&amp;I" style="height:24px;opacity:0.5;margin-bottom:6px"><br>
+    U&amp;Iコンサルティング ｜ 有限会社三海 事業計画レポート ｜ 2026年3月<br>
+    <div class="conf">最重要機密（CONFIDENTIAL）</div>
+  </div>
+</div>
+
+<script>
+var HASH='b5d3e9f2c7a1';
+function simpleHash(s){var h=0;for(var i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return Math.abs(h).toString(16);}
+var CORRECT=simpleHash('sankai');
+
+function attemptLogin(){
+  var pw=document.getElementById('pwInput').value;
+  if(simpleHash(pw)===CORRECT){
+    sessionStorage.setItem('sankai_auth','1');
+    showPortal();
+  } else {
+    document.getElementById('errorMsg').textContent='パスワードが正しくありません';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').style.borderColor='#8B2020';
+    setTimeout(function(){document.getElementById('pwInput').style.borderColor='';},1500);
+  }
+}
+function showPortal(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('portalScreen').style.display='block';
+  document.body.style.background='var(--paper)';
+  document.body.style.display='block';
+  document.body.style.overflow='auto';
+}
+function logout(){
+  sessionStorage.removeItem('sankai_auth');
+  location.reload();
+}
+document.getElementById('pwInput').addEventListener('keydown',function(e){
+  if(e.key==='Enter') attemptLogin();
+});
+if(sessionStorage.getItem('sankai_auth')==='1') showPortal();
+</script>
+
+<style>
+.portal-link{position:fixed;top:16px;left:16px;z-index:999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;background:#1A2540;border:1px solid rgba(184,145,42,0.2);color:#D4A843;text-decoration:none;font-size:.78rem;font-weight:500;font-family:"Noto Sans JP",sans-serif;transition:all .15s;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.portal-link:hover{background:#B8912A;color:#0F1829;border-color:#B8912A}
+.portal-link svg{flex-shrink:0}
+</style>
+<a class="portal-link" href="../index.html">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>クライアント一覧</a>
+
+</body>
+</html>
