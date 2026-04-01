@@ -37,7 +37,7 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 24px 60px; }
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 60px; }
 
 /* Header */
 .header {
@@ -58,7 +58,13 @@ body {
     radial-gradient(ellipse at 70% 50%, rgba(184,145,42,0.06) 0%, transparent 60%);
 }
 .header-content { position: relative; z-index: 1; }
-.header-logo-row { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px; }
+.header-ui-logo { display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px; }
+.header-ui-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.header-ui-logo span { color:#D4A843;font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px; }
+.header-client-row { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px; }
+.header-period { display:flex;align-items:center;justify-content:center;gap:16px;margin-top:4px; }
+.period-fiscal { background:rgba(184,145,42,0.2);border:1px solid rgba(184,145,42,0.4);border-radius:6px;padding:4px 14px;font-size:0.85rem;color:#D4A843;font-weight:700;letter-spacing:1px; }
+.period-month { font-size:1.1rem;color:rgba(255,255,255,0.9);font-weight:700;letter-spacing:1px; }
 .header h1 {
   font-family: 'Noto Serif JP', serif;
   font-size: 1.9rem;
@@ -186,17 +192,7 @@ body {
   position: relative;
   overflow: hidden;
 }
-.kpi-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--gold);
-}
-.kpi-card.green::before { background: var(--positive); }
-.kpi-card.red::before { background: var(--negative); }
-.kpi-card.gold::before { background: var(--gold); }
-.kpi-card.blue::before { background: #1565C0; }
+.kpi-card::before { display: none; }
 .kpi-label {
   font-size: 0.78em;
   color: var(--text-sub);
@@ -463,7 +459,7 @@ tr:hover { background: var(--gold-pale); }
   .container { padding: 0 12px 40px; }
   .header { padding: 28px 16px; }
   .header h1 { font-size: 1.35rem; }
-  .header-logo-row { flex-direction:column;gap:8px; }
+  .header-client-row { flex-direction:column;gap:8px; }
   .ticker-badge { font-size:12px;padding:4px 12px; }
   .kpi-grid { grid-template-columns: repeat(2, 1fr); }
   .kpi-card:last-child { grid-column: span 2; }
@@ -499,13 +495,16 @@ tr:hover { background: var(--gold-pale); }
 <!-- Header -->
 <div class="header">
   <div class="header-content">
-    <div class="header-logo-row">
+    <div class="header-ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I Consulting">
+      <span>Consulting</span>
+    </div>
+    <div class="header-client-row">
       <img src="character_transparent.png" alt="エフ琉球" style="height:56px;width:auto;border-radius:8px;">
       <div class="ticker-badge">株式会社エフ琉球</div>
     </div>
     <h1>直接原価計算 クロス分析レポート</h1>
     <div class="subtitle">変動費・固定費分解による3期間比較分析</div>
-    <div class="date">分析日: 2026年3月28日 ｜ 作成: U&Iコンサルティング</div>
   </div>
 </div>
 
@@ -1396,7 +1395,7 @@ tr:hover { background: var(--gold-pale); }
       <span>Consulting</span>
     </div>
     <div class="footer-info">
-      株式会社エフ琉球 直接原価計算 クロス分析レポート ｜ 分析日: 2026年3月28日
+      株式会社エフ琉球 直接原価計算 クロス分析レポート
     </div>
     <div class="footer-confidential">最重要機密（CONFIDENTIAL）</div>
   </div>

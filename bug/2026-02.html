@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社B.U.G 令和8年2月度 月次レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+  --navy: #1A2540;
+  --navy-light: #243352;
+  --navy-dark: #0F1829;
+  --gold: #B8912A;
+  --gold-light: #D4A843;
+  --gold-pale: rgba(184,145,42,0.08);
+  --paper: #F5F2EC;
+  --paper-dark: #EDE8DF;
+  --text: #2C2C2C;
+  --text-sub: #6B6B6B;
+  --text-light: #999;
+  --positive: #1B7A3D;
+  --positive-bg: #E8F5E9;
+  --negative: #8B2020;
+  --negative-bg: #FFEBEE;
+  --neutral: #E65100;
+  --neutral-bg: #FFF3E0;
+  --border: #E0DCD4;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--paper);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 60px; }
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #1a2332 0%, #1A2540 50%, #0F1829 100%);
+  color: #fff;
+  border-bottom: 1px solid rgba(184,145,42,0.15);
+  padding: 48px 24px 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(184,145,42,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 50%, rgba(184,145,42,0.06) 0%, transparent 60%);
+}
+.header-content { position: relative; z-index: 1; }
+.header-ui-logo { display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px; }
+.header-ui-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.header-ui-logo span { color:#D4A843;font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px; }
+.header-client-row { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px; }
+.header-period { display:flex;align-items:center;justify-content:center;gap:16px;margin-top:4px; }
+.period-fiscal { background:rgba(184,145,42,0.2);border:1px solid rgba(184,145,42,0.4);border-radius:6px;padding:4px 14px;font-size:0.85rem;color:#D4A843;font-weight:700;letter-spacing:1px; }
+.period-month { font-size:1.1rem;color:rgba(255,255,255,0.9);font-weight:700;letter-spacing:1px; }
+.ticker-badge {
+  display: inline-block;
+  background: rgba(184,145,42,0.15);
+  border: 1px solid rgba(184,145,42,0.3);
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 14px;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+}
+.header h1 { font-family:'Noto Serif JP',serif; font-size:1.9rem; font-weight:700; color:#fff; margin-bottom:8px; letter-spacing:2px; }
+.header .subtitle { color: rgba(255,255,255,0.7); font-size: 0.92rem; }
+
+/* Section */
+.section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+}
+.section-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Summary Box */
+.summary-box {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+}
+.summary-box h3 { color: var(--gold-light); font-family: 'Noto Serif JP', serif; margin-bottom: 12px; font-size: 1.1rem; }
+.summary-box p { line-height: 1.9; font-size: 0.92rem; }
+.summary-box .highlight { color: var(--gold-light); font-weight: 700; }
+
+/* Score Row */
+.score-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.score-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 16px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+.sc-label { font-size: 0.75rem; color: var(--text-sub); margin-bottom: 6px; font-weight: 500; }
+.sc-value { font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--navy); }
+.sc-value.up { color: var(--positive); }
+.sc-value.down { color: var(--negative); }
+.sc-change { font-family: 'Inter', sans-serif; font-size: 0.78rem; margin-top: 4px; }
+.sc-change.up { color: var(--positive); }
+.sc-change.down { color: var(--negative); }
+.sc-sub { font-size: 0.7rem; color: var(--text-light); margin-top: 2px; }
+
+/* Comp Table */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.comp-table thead th {
+  background: var(--navy);
+  color: #fff;
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+.comp-table thead th:first-child { border-radius: 8px 0 0 0; }
+.comp-table thead th:last-child { border-radius: 0 8px 0 0; }
+.comp-table tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Inter', 'Noto Sans JP', sans-serif;
+}
+.comp-table tbody tr:hover { background: var(--gold-pale); }
+.comp-table .highlight-row { background: rgba(184,145,42,0.06); font-weight: 700; }
+.comp-table .up { color: var(--positive); font-weight: 600; }
+.comp-table .down { color: var(--negative); font-weight: 600; }
+.comp-table .text-right { text-align: right; }
+.comp-table .text-center { text-align: center; }
+
+/* Gauge Row */
+.gauge-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.gauge-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px 16px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+.gc-label { font-size: 0.78rem; color: var(--text-sub); margin-bottom: 8px; }
+.gc-value { font-family: 'Inter', sans-serif; font-size: 1.8rem; font-weight: 700; }
+.gc-unit { font-size: 0.75rem; color: var(--text-sub); margin-top: 2px; }
+.gc-note { font-size: 0.7rem; color: var(--text-light); margin-top: 6px; }
+
+/* Proposal */
+.proposal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.proposal-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.pc-priority { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.proposal-card.critical .pc-priority { color: var(--negative); }
+.proposal-card.important .pc-priority { color: var(--neutral); }
+.proposal-card.suggest .pc-priority { color: var(--positive); }
+.proposal-card.info .pc-priority { color: #1976D2; }
+.pc-title { font-family: 'Noto Serif JP', serif; font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.pc-body { font-size: 0.85rem; color: var(--text-sub); line-height: 1.7; margin-bottom: 10px; }
+.pc-impact { font-size: 0.78rem; color: var(--gold); font-weight: 600; background: var(--gold-pale); padding: 6px 12px; border-radius: 6px; display: inline-block; }
+
+/* Chart */
+.chart-container { position: relative; width: 100%; }
+.chart-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Next Action */
+.next-action-list { list-style: none; padding: 0; }
+.next-action-list li {
+  padding: 14px 16px;
+  border-left: 3px solid var(--gold);
+  background: var(--gold-pale);
+  margin-bottom: 10px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.88rem;
+}
+.next-action-list li strong { color: var(--navy); }
+
+/* Alert Box */
+.alert-box {
+  padding: 16px 20px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+}
+.alert-box.warning { background: var(--neutral-bg); border: 1px solid #E0DCD4; }
+.alert-box.danger { background: var(--negative-bg); border: 1px solid #E0DCD4; }
+.alert-box.success { background: var(--positive-bg); border: 1px solid #E0DCD4; }
+
+/* Trainer Table */
+.trainer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.trainer-table thead th {
+  background: var(--navy);
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+.trainer-table thead th:first-child { border-radius: 8px 0 0 0; }
+.trainer-table thead th:last-child { border-radius: 0 8px 0 0; }
+.trainer-table tbody td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Inter', 'Noto Sans JP', sans-serif;
+}
+.trainer-table tbody tr:hover { background: var(--gold-pale); }
+.trainer-table .warn-row { background: var(--negative-bg); }
+.trainer-table .top-row { background: var(--positive-bg); }
+
+/* Badge */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.badge.good { background: var(--positive-bg); color: var(--positive); }
+.badge.bad { background: var(--negative-bg); color: var(--negative); }
+.badge.warn { background: var(--neutral-bg); color: var(--neutral); }
+
+/* Session Card */
+.session-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.session-card {
+  background: var(--paper-dark);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+.session-card .ss-label { font-size: 0.78rem; color: var(--text-sub); margin-bottom: 6px; }
+.session-card .ss-value { font-family: 'Inter', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--navy); }
+.session-card .ss-sub { font-size: 0.72rem; color: var(--text-light); margin-top: 4px; }
+
+/* Two Col */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Achievement Gauge */
+.achieve-gauge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--paper-dark);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.achieve-gauge .ag-label { font-size: 0.85rem; color: var(--text-sub); white-space: nowrap; }
+.achieve-gauge .ag-bar { flex: 1; height: 20px; background: var(--border); border-radius: 10px; overflow: hidden; }
+.achieve-gauge .ag-fill { height: 100%; border-radius: 10px; transition: width 0.5s; }
+.achieve-gauge .ag-value { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 700; white-space: nowrap; }
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.metric-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.mc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.mc-label { font-size: 0.78rem; color: var(--text-sub); }
+.mc-badge { font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+.mc-badge.good { background: var(--positive-bg); color: var(--positive); }
+.mc-badge.bad { background: var(--negative-bg); color: var(--negative); }
+.mc-badge.warn { background: var(--neutral-bg); color: var(--neutral); }
+.mc-values { margin-bottom: 8px; }
+.mc-current { font-family: 'Inter', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); }
+.mc-prev { font-size: 0.75rem; color: var(--text-light); }
+.mc-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.mc-bar-fill { height: 100%; border-radius: 3px; }
+.mc-bar-fill.good { background: var(--positive); }
+.mc-bar-fill.bad { background: var(--negative); }
+.mc-bar-fill.warn { background: var(--neutral); }
+.mc-bar-fill.gold { background: var(--gold); }
+
+/* Table overflow */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* Highlight List */
+.highlight-list { list-style: none; padding: 0; }
+.highlight-list li {
+  padding: 12px 16px;
+  border-left: 3px solid var(--gold);
+  background: var(--gold-pale);
+  margin-bottom: 8px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+.highlight-list li strong { color: var(--navy); }
+
+/* ToB Pipeline */
+.pipeline-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.pipeline-card {
+  background: var(--paper-dark);
+  border-radius: 12px;
+  padding: 20px;
+}
+.pipeline-card h4 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.92rem;
+  color: var(--navy);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.pipeline-card ul {
+  list-style: none;
+  padding: 0;
+}
+.pipeline-card ul li {
+  padding: 6px 0;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.pipeline-card ul li:last-child { border-bottom: none; }
+
+/* Footer */
+.footer { background:var(--navy-dark); color:rgba(255,255,255,0.5); padding:28px 20px; text-align:center; }
+.footer-logo { display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px; }
+.footer-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.footer-logo span { color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.85rem;line-height:1;letter-spacing:1.5px; }
+.footer-info { font-size:0.72rem; margin-bottom:10px; }
+.footer-confidential { font-size:0.7rem; font-weight:700; color:var(--gold); letter-spacing:3px; border:1px solid rgba(184,145,42,0.3); display:inline-block; padding:4px 16px; border-radius:4px; }
+
+/* Responsive */
+@media(max-width:768px){
+  .score-row { grid-template-columns: repeat(2, 1fr); }
+  .metrics-grid { grid-template-columns: 1fr; }
+  .chart-row { grid-template-columns: 1fr; }
+  .proposal-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .gauge-row { grid-template-columns: repeat(2, 1fr); }
+  .overview-grid { grid-template-columns: 1fr; }
+  .session-grid { grid-template-columns: 1fr; }
+  .pipeline-grid { grid-template-columns: 1fr; }
+  .header h1 { font-size: 1.4rem; }
+  .header-client-row { flex-direction:column;gap:8px; }
+  .ticker-badge { font-size:12px;padding:4px 12px; }
+  .section { padding: 20px 16px; }
+  .comp-table { font-size: 0.75rem; }
+  .comp-table thead th, .comp-table tbody td { padding: 8px 10px; }
+  .trainer-table { font-size: 0.72rem; }
+  .trainer-table thead th, .trainer-table tbody td { padding: 6px 8px; }
+  table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <div class="header-ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I Consulting">
+      <span>Consulting</span>
+    </div>
+    <div class="header-client-row">
+      <div class="ticker-badge">株式会社B.U.G</div>
+    </div>
+    <h1>月次損益レポート</h1>
+    <div class="subtitle">令和8年2月度 月次レポート（消化ベース + コンサルティング議事録反映）</div>
+    <div class="header-period">
+      <span class="period-fiscal">4期</span>
+      <span class="period-month">2026年2月度</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Executive Summary -->
+<div class="summary-box">
+  <h3>Executive Summary</h3>
+  <p>
+    2月度の売上予算<span class="highlight">15,606,500円</span>に対し実績<span class="highlight">9,824,250円（予算達成率62.9%）</span>と大幅な未達。
+    主因はToB法人売上の壊滅的未達（達成率25.2%）とトレーナー稼働人員不足（予算17.8名に対し14.0名）。
+    一方、消化ベースでの店舗営業利益は<span class="highlight">前年比UP</span>で黒字転換を維持し、<span class="highlight">浦添店が昨対169.8%</span>と全店トップの成長率を記録。
+    サプリメント販売は達成率120.0%と好調。セッション数は現状1,700回で目標2,500回には新人5名の戦力化が鍵。
+    営業利益率は4.5%で、経営陣は<span class="highlight">8% → 10% → 15%〜20%</span>への段階的改善を目指す方針。
+  </p>
+</div>
+
+<!-- Key Metrics -->
+<div class="score-row">
+  <div class="score-card negative">
+    <div class="sc-label">予算達成率</div>
+    <div class="sc-value down">62.9<span style="font-size:0.6em">%</span></div>
+    <div class="sc-change down">予算差異 ▲578万円</div>
+    <div class="sc-sub">予算: 1,560.7万 / 実績: 982.4万</div>
+  </div>
+  <div class="score-card positive">
+    <div class="sc-label">店舗売上（消化）</div>
+    <div class="sc-value">989.6<span style="font-size:0.6em">万円</span></div>
+    <div class="sc-change up">YoY +3.28%</div>
+    <div class="sc-sub">店舗営業利益: 前年UP</div>
+  </div>
+  <div class="score-card positive">
+    <div class="sc-label">営業利益</div>
+    <div class="sc-value up">44.7<span style="font-size:0.6em">万円</span></div>
+    <div class="sc-change up">前年赤字 → 黒字転換</div>
+    <div class="sc-sub">営業利益率: 4.5%</div>
+  </div>
+  <div class="score-card positive">
+    <div class="sc-label">会員数</div>
+    <div class="sc-value">394<span style="font-size:0.6em">組</span></div>
+    <div class="sc-change up">MoM +8.84%</div>
+    <div class="sc-sub">新規入会28組（達成率93.3%）</div>
+  </div>
+  <div class="score-card negative">
+    <div class="sc-label">ToB売上達成率</div>
+    <div class="sc-value down">25.2<span style="font-size:0.6em">%</span></div>
+    <div class="sc-change down">予算242万 / 実績61.1万</div>
+    <div class="sc-sub">出張15.9% / 店舗41.0%</div>
+  </div>
+</div>
+
+<!-- 予算 vs 実績分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📋</span> 予算 vs 実績分析（PQ管理）</div>
+
+  <div class="alert-box danger" style="margin-bottom:20px">
+    <strong>売上予算未達: </strong>予算¥15,606,500に対し実績¥9,824,250（達成率62.9%）。差異▲¥5,782,250。ToB法人売上の大幅未達とトレーナー人員不足が主因。
+  </div>
+
+  <h4 style="font-family:'Noto Serif JP',serif;color:var(--navy);margin-bottom:16px;font-size:0.95rem">ToC（個人向け）予算 vs 実績</h4>
+  <div class="table-wrap" style="margin-bottom:24px">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th class="text-right">予算</th>
+        <th class="text-right">実績</th>
+        <th class="text-right">差異</th>
+        <th class="text-right">達成率</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>トレーナー数</td>
+        <td class="text-right">17.8名</td>
+        <td class="text-right">14.0名</td>
+        <td class="text-right down">▲3.8名</td>
+        <td class="text-right down">75.8%</td>
+      </tr>
+      <tr>
+        <td>新規入会</td>
+        <td class="text-right">30名</td>
+        <td class="text-right">28名</td>
+        <td class="text-right down">▲2名</td>
+        <td class="text-right">93.3%</td>
+      </tr>
+      <tr>
+        <td>入会金</td>
+        <td class="text-right">600,000</td>
+        <td class="text-right">154,000</td>
+        <td class="text-right down">▲446,000</td>
+        <td class="text-right down">25.7%</td>
+      </tr>
+      <tr>
+        <td>客単価（P）</td>
+        <td class="text-right">5,250</td>
+        <td class="text-right">4,970</td>
+        <td class="text-right down">▲280</td>
+        <td class="text-right">94.7%</td>
+      </tr>
+      <tr>
+        <td>セッション数（Q）</td>
+        <td class="text-right">2,314回</td>
+        <td class="text-right">1,725回</td>
+        <td class="text-right down">▲589回</td>
+        <td class="text-right down">74.5%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>ToC売上合計</td>
+        <td class="text-right">12,148,500</td>
+        <td class="text-right">8,573,250</td>
+        <td class="text-right down">▲3,575,250</td>
+        <td class="text-right down">70.6%</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4 style="font-family:'Noto Serif JP',serif;color:var(--navy);margin-bottom:16px;font-size:0.95rem">ToB（法人向け）予算 vs 実績</h4>
+  <div class="table-wrap" style="margin-bottom:24px">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th class="text-right">予算</th>
+        <th class="text-right">実績</th>
+        <th class="text-right">差異</th>
+        <th class="text-right">達成率</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>出張トレーニング</td>
+        <td class="text-right">1,520,000</td>
+        <td class="text-right">242,000</td>
+        <td class="text-right down">▲1,278,000</td>
+        <td class="text-right down">15.9%</td>
+      </tr>
+      <tr>
+        <td>店舗トレーニング</td>
+        <td class="text-right">900,000</td>
+        <td class="text-right">369,000</td>
+        <td class="text-right down">▲531,000</td>
+        <td class="text-right down">41.0%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>ToB売上合計</td>
+        <td class="text-right">2,420,000</td>
+        <td class="text-right">611,000</td>
+        <td class="text-right down">▲1,809,000</td>
+        <td class="text-right down">25.2%</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4 style="font-family:'Noto Serif JP',serif;color:var(--navy);margin-bottom:16px;font-size:0.95rem">その他売上</h4>
+  <div class="table-wrap">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th class="text-right">予算</th>
+        <th class="text-right">実績</th>
+        <th class="text-right">達成率</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="highlight-row">
+        <td>サプリメント販売</td>
+        <td class="text-right">240,000</td>
+        <td class="text-right">288,000</td>
+        <td class="text-right up">120.0%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:24px">販売数</td>
+        <td class="text-right">—</td>
+        <td class="text-right">66個</td>
+        <td class="text-right">—</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- 財務分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📊</span> 財務分析（消化ベース）</div>
+
+  <h4 style="font-family:'Noto Serif JP',serif;color:var(--navy);margin-bottom:16px;font-size:0.95rem">損益計算書</h4>
+  <div class="table-wrap">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>科目</th>
+        <th class="text-right">当月</th>
+        <th class="text-right">構成比</th>
+        <th class="text-right">前年同月</th>
+        <th class="text-right">YoY</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>店舗売上合計</td>
+        <td class="text-right">9,895,706</td>
+        <td class="text-right">100.00%</td>
+        <td class="text-right">9,581,837</td>
+        <td class="text-right up">+3.28%</td>
+      </tr>
+      <tr>
+        <td style="padding-left:24px">toC消化売上</td>
+        <td class="text-right">8,573,379</td>
+        <td class="text-right">86.64%</td>
+        <td class="text-right">-</td>
+        <td class="text-right">-</td>
+      </tr>
+      <tr>
+        <td style="padding-left:24px">入会金</td>
+        <td class="text-right">176,000</td>
+        <td class="text-right">1.78%</td>
+        <td class="text-right">-</td>
+        <td class="text-right">-</td>
+      </tr>
+      <tr>
+        <td style="padding-left:24px">法人契約消化</td>
+        <td class="text-right">754,375</td>
+        <td class="text-right">7.62%</td>
+        <td class="text-right">-</td>
+        <td class="text-right">-</td>
+      </tr>
+      <tr>
+        <td style="padding-left:24px">サプリ売上</td>
+        <td class="text-right">211,200</td>
+        <td class="text-right">2.13%</td>
+        <td class="text-right">-</td>
+        <td class="text-right">-</td>
+      </tr>
+      <tr>
+        <td>売上原価</td>
+        <td class="text-right">68,992</td>
+        <td class="text-right">0.70%</td>
+        <td class="text-right">-</td>
+        <td class="text-right">-</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>売上総利益（粗利）</td>
+        <td class="text-right">9,826,714</td>
+        <td class="text-right">99.30%</td>
+        <td class="text-right">7,452,261</td>
+        <td class="text-right up">+31.86%</td>
+      </tr>
+      <tr>
+        <td>店舗固定費</td>
+        <td class="text-right">1,358,020</td>
+        <td class="text-right">13.72%</td>
+        <td class="text-right">-</td>
+        <td class="text-right">-</td>
+      </tr>
+      <tr>
+        <td>店舗人件費（トレーナー）</td>
+        <td class="text-right">4,826,694</td>
+        <td class="text-right">48.78%</td>
+        <td class="text-right">4,595,062</td>
+        <td class="text-right down">+5.05%</td>
+      </tr>
+      <tr>
+        <td>店舗営業利益</td>
+        <td class="text-right">3,659,248</td>
+        <td class="text-right">36.98%</td>
+        <td class="text-right">-</td>
+        <td class="text-right">-</td>
+      </tr>
+      <tr>
+        <td>FCロイヤリティ</td>
+        <td class="text-right">198,000</td>
+        <td class="text-right">2.00%</td>
+        <td class="text-right">-</td>
+        <td class="text-right">-</td>
+      </tr>
+      <tr>
+        <td>本部販管費（固定費）</td>
+        <td class="text-right">3,209,411</td>
+        <td class="text-right">32.43%</td>
+        <td class="text-right">3,142,584</td>
+        <td class="text-right down">+2.12%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>営業利益</td>
+        <td class="text-right">449,837</td>
+        <td class="text-right">4.55%</td>
+        <td class="text-right" style="color:var(--negative)">-367,584</td>
+        <td class="text-right up">黒字転換</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div style="margin-top:24px">
+    <h4 style="font-family:'Noto Serif JP',serif;color:var(--navy);margin-bottom:12px;font-size:0.95rem">固定費・主要経費（議事録データ）</h4>
+    <div class="table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>科目</th>
+          <th class="text-right">予算</th>
+          <th class="text-right">実績</th>
+          <th class="text-right">差異</th>
+          <th class="text-right">達成率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-row">
+          <td>固定費合計</td>
+          <td class="text-right">11,938,011</td>
+          <td class="text-right">9,296,669</td>
+          <td class="text-right up">▲2,641,342</td>
+          <td class="text-right">77.9%</td>
+        </tr>
+        <tr>
+          <td>人件費</td>
+          <td class="text-right">9,040,050</td>
+          <td class="text-right">6,991,878</td>
+          <td class="text-right up">▲2,048,172</td>
+          <td class="text-right">77.3%</td>
+        </tr>
+        <tr>
+          <td style="padding-left:24px">本部人件費</td>
+          <td class="text-right">2,000,000</td>
+          <td class="text-right">1,850,000</td>
+          <td class="text-right up">▲150,000</td>
+          <td class="text-right">92.5%</td>
+        </tr>
+        <tr>
+          <td>家賃</td>
+          <td class="text-right">1,141,867</td>
+          <td class="text-right">1,125,032</td>
+          <td class="text-right up">▲16,835</td>
+          <td class="text-right">98.5%</td>
+        </tr>
+        <tr>
+          <td>水道光熱費</td>
+          <td class="text-right">247,272</td>
+          <td class="text-right">86,326</td>
+          <td class="text-right up">▲160,946</td>
+          <td class="text-right">34.9%</td>
+        </tr>
+        <tr>
+          <td>広告費</td>
+          <td class="text-right">330,575</td>
+          <td class="text-right">208,266</td>
+          <td class="text-right up">▲122,309</td>
+          <td class="text-right">63.0%</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>営業利益実績</td>
+          <td class="text-right">—</td>
+          <td class="text-right">446,941</td>
+          <td class="text-right">—</td>
+          <td class="text-right">営業利益率 4.5%</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="alert-box warning" style="margin-top:16px">
+      <strong>注目: </strong>固定費は予算比で▲264万円と抑制されているが、これはトレーナー人件費の未消化が主因。トレーナーが予算通り揃えば固定費は増加するため、売上成長とのバランスが重要。
+    </div>
+  </div>
+
+  <div style="margin-top:24px">
+    <h4 style="font-family:'Noto Serif JP',serif;color:var(--navy);margin-bottom:12px;font-size:0.95rem">重点コスト内訳（本部販管費）</h4>
+    <div class="table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>科目</th>
+          <th class="text-right">金額</th>
+          <th class="text-right">構成比</th>
+          <th class="text-right">YoY</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>社員人件費</td>
+          <td class="text-right">1,600,000</td>
+          <td class="text-right">16.17%</td>
+          <td class="text-right down">+122.74%</td>
+        </tr>
+        <tr>
+          <td>源泉徴収</td>
+          <td class="text-right">160,297</td>
+          <td class="text-right">1.62%</td>
+          <td class="text-right">-</td>
+        </tr>
+        <tr>
+          <td>コンサルティング（U&amp;I）</td>
+          <td class="text-right">165,495</td>
+          <td class="text-right">1.67%</td>
+          <td class="text-right">-</td>
+        </tr>
+        <tr>
+          <td>研修費</td>
+          <td class="text-right">275,000</td>
+          <td class="text-right">2.78%</td>
+          <td class="text-right">-</td>
+        </tr>
+        <tr>
+          <td>新人研修費</td>
+          <td class="text-right">200,000</td>
+          <td class="text-right">2.02%</td>
+          <td class="text-right">-</td>
+        </tr>
+        <tr>
+          <td>広告費</td>
+          <td class="text-right">107,771</td>
+          <td class="text-right">1.09%</td>
+          <td class="text-right">-</td>
+        </tr>
+        <tr>
+          <td>Gyms</td>
+          <td class="text-right">162,800</td>
+          <td class="text-right">1.65%</td>
+          <td class="text-right">-</td>
+        </tr>
+        <tr>
+          <td>その他</td>
+          <td class="text-right">538,048</td>
+          <td class="text-right">5.44%</td>
+          <td class="text-right">-</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- 店舗別業績 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🏢</span> 店舗別業績（PQ管理 前年対比）</div>
+
+  <div class="table-wrap">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>店舗</th>
+        <th class="text-right">売上</th>
+        <th class="text-right">昨対比</th>
+        <th class="text-right">営業利益</th>
+        <th class="text-right">昨対比</th>
+        <th class="text-center">評価</th>
+        <th>特記事項</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="top-row">
+        <td>浦添店</td>
+        <td class="text-right">1,558,951</td>
+        <td class="text-right up">169.80%</td>
+        <td class="text-right">675,241</td>
+        <td class="text-right up">315.79%</td>
+        <td class="text-center"><span class="badge good">急成長</span></td>
+        <td style="font-size:0.78rem">全店トップの伸び率</td>
+      </tr>
+      <tr class="top-row">
+        <td>那覇店</td>
+        <td class="text-right">956,116</td>
+        <td class="text-right up">123.53%</td>
+        <td class="text-right">420,193</td>
+        <td class="text-right up">222.13%</td>
+        <td class="text-center"><span class="badge good">大幅増益</span></td>
+        <td style="font-size:0.78rem">ToB売上が牽引、利益2倍超</td>
+      </tr>
+      <tr class="top-row">
+        <td>名護店</td>
+        <td class="text-right">852,426</td>
+        <td class="text-right up">120.19%</td>
+        <td class="text-right">152,393</td>
+        <td class="text-right up">114.13%</td>
+        <td class="text-center"><span class="badge good">好調</span></td>
+        <td style="font-size:0.78rem">安定して前年超え</td>
+      </tr>
+      <tr>
+        <td>宜野湾店</td>
+        <td class="text-right">1,629,729</td>
+        <td class="text-right up">105.76%</td>
+        <td class="text-right">531,428</td>
+        <td class="text-right up">111.39%</td>
+        <td class="text-center"><span class="badge good">堅調</span></td>
+        <td style="font-size:0.78rem">着実に前年超え</td>
+      </tr>
+      <tr>
+        <td>あげな店</td>
+        <td class="text-right">989,727</td>
+        <td class="text-right">99.98%</td>
+        <td class="text-right">490,542</td>
+        <td class="text-right up">125.29%</td>
+        <td class="text-center"><span class="badge good">利益改善</span></td>
+        <td style="font-size:0.78rem">売上横ばいだが利益大幅向上</td>
+      </tr>
+      <tr>
+        <td>宮古島店</td>
+        <td class="text-right">699,343</td>
+        <td class="text-right down">92.87%</td>
+        <td class="text-right">285,393</td>
+        <td class="text-right">101.19%</td>
+        <td class="text-center"><span class="badge warn">維持</span></td>
+        <td style="font-size:0.78rem">売上微減だが利益キープ</td>
+      </tr>
+      <tr>
+        <td>南城市店</td>
+        <td class="text-right">919,123</td>
+        <td class="text-right down">97.94%</td>
+        <td class="text-right">234,753</td>
+        <td class="text-right down">60.58%</td>
+        <td class="text-center"><span class="badge warn">利益減</span></td>
+        <td style="font-size:0.78rem">経費増で利益が前年下回る</td>
+      </tr>
+      <tr>
+        <td>糸満店</td>
+        <td class="text-right">832,334</td>
+        <td class="text-right down">80.66%</td>
+        <td class="text-right">335,251</td>
+        <td class="text-right down">93.04%</td>
+        <td class="text-center"><span class="badge warn">やや苦戦</span></td>
+        <td style="font-size:0.78rem">売上・利益ともに前年割れ</td>
+      </tr>
+      <tr class="warn-row">
+        <td>北谷店</td>
+        <td class="text-right">459,338</td>
+        <td class="text-right down">67.28%</td>
+        <td class="text-right">79,006</td>
+        <td class="text-right down">61.11%</td>
+        <td class="text-center"><span class="badge bad">要改善</span></td>
+        <td style="font-size:0.78rem">全店最大の落ち込み</td>
+      </tr>
+      <tr>
+        <td>読谷店</td>
+        <td class="text-right">748,226</td>
+        <td class="text-right">—</td>
+        <td class="text-right">220,738</td>
+        <td class="text-right">—</td>
+        <td class="text-center"><span class="badge good">良好</span></td>
+        <td style="font-size:0.78rem">前年データなし</td>
+      </tr>
+      <tr style="background:var(--negative-bg)">
+        <td>諸見里店</td>
+        <td class="text-right">0</td>
+        <td class="text-right">—</td>
+        <td class="text-right" style="color:var(--negative)">-51,814</td>
+        <td class="text-right">—</td>
+        <td class="text-center"><span class="badge bad">赤字</span></td>
+        <td style="font-size:0.78rem">売上0円、固定費のみ</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div style="margin-top:24px">
+    <div class="chart-container" style="height:400px">
+      <canvas id="storeChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- トレーナー別実績 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🏋️</span> トレーナー別セッション数実績（議事録データ）</div>
+
+  <div class="achieve-gauge" style="margin-bottom:12px">
+    <div class="ag-label">セッション現状 → 目標</div>
+    <div class="ag-bar"><div class="ag-fill" style="width:68%;background:var(--gold)"></div></div>
+    <div class="ag-value" style="color:var(--neutral)">1,700 / 2,500回</div>
+  </div>
+  <p style="font-size:0.82rem;color:var(--text-sub);margin-bottom:24px">新人5名が140回達成で+700回 → 目標2,500回は十分に到達可能</p>
+
+  <div class="table-wrap">
+  <table class="trainer-table">
+    <thead>
+      <tr>
+        <th>店舗</th>
+        <th>トレーナー</th>
+        <th class="text-right">セッション数</th>
+        <th>備考</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="top-row">
+        <td>宜野湾店</td>
+        <td>島津 宗生</td>
+        <td class="text-right">171</td>
+        <td style="font-size:0.75rem">—</td>
+      </tr>
+      <tr>
+        <td>宜野湾店</td>
+        <td>新城 龍士郎</td>
+        <td class="text-right">130</td>
+        <td style="font-size:0.75rem">珍しく未達</td>
+      </tr>
+      <tr>
+        <td>読谷店</td>
+        <td>江本 海斗</td>
+        <td class="text-right">153</td>
+        <td style="font-size:0.75rem">—</td>
+      </tr>
+      <tr>
+        <td>糸満店</td>
+        <td>飯塚 心太</td>
+        <td class="text-right">149</td>
+        <td style="font-size:0.75rem">—</td>
+      </tr>
+      <tr>
+        <td>浦添店</td>
+        <td>芹井 大幸</td>
+        <td class="text-right">143</td>
+        <td style="font-size:0.75rem">久しぶりに復活</td>
+      </tr>
+      <tr>
+        <td>泡瀬店</td>
+        <td>金城 睦樹</td>
+        <td class="text-right">142</td>
+        <td style="font-size:0.75rem"><span class="badge good">新規出店</span></td>
+      </tr>
+      <tr>
+        <td>宮古島店</td>
+        <td>堀口 養成</td>
+        <td class="text-right">141</td>
+        <td style="font-size:0.75rem">江藤君からスムーズに引継ぎ</td>
+      </tr>
+      <tr>
+        <td>名護店</td>
+        <td>秋元 寛</td>
+        <td class="text-right">140</td>
+        <td style="font-size:0.75rem">—</td>
+      </tr>
+      <tr>
+        <td>南城市店</td>
+        <td>上地 達樹</td>
+        <td class="text-right">133</td>
+        <td style="font-size:0.75rem">—</td>
+      </tr>
+      <tr>
+        <td>泡瀬店</td>
+        <td>新垣 陸</td>
+        <td class="text-right">131</td>
+        <td style="font-size:0.75rem"><span class="badge good">新規出店</span></td>
+      </tr>
+      <tr>
+        <td>浦添店</td>
+        <td>金城 幸治</td>
+        <td class="text-right">120</td>
+        <td style="font-size:0.75rem">—</td>
+      </tr>
+      <tr>
+        <td>綾瀬店</td>
+        <td>具志堅 颯</td>
+        <td class="text-right">118</td>
+        <td style="font-size:0.75rem"><span class="badge good">新規出店</span></td>
+      </tr>
+      <tr>
+        <td>那覇店</td>
+        <td>與座 貴之</td>
+        <td class="text-right">118</td>
+        <td style="font-size:0.75rem">160回いけるポテンシャル、追加配置予定</td>
+      </tr>
+      <tr>
+        <td>あげな店</td>
+        <td>大浜 庸了</td>
+        <td class="text-right">111</td>
+        <td style="font-size:0.75rem">—</td>
+      </tr>
+      <tr class="warn-row">
+        <td>北谷店</td>
+        <td>長嶺 祐生</td>
+        <td class="text-right">88</td>
+        <td style="font-size:0.75rem;color:var(--negative)">新人と入替予定、退職</td>
+      </tr>
+      <tr>
+        <td>あげな店</td>
+        <td>神山 勇作</td>
+        <td class="text-right">59</td>
+        <td style="font-size:0.75rem">—</td>
+      </tr>
+      <tr>
+        <td>糸満店</td>
+        <td>大城</td>
+        <td class="text-right">27</td>
+        <td style="font-size:0.75rem">—</td>
+      </tr>
+      <tr>
+        <td>南城市店</td>
+        <td>仲里 侑真</td>
+        <td class="text-right">23</td>
+        <td style="font-size:0.75rem">1月デビュー、4月には140目指す</td>
+      </tr>
+      <tr>
+        <td>那覇店</td>
+        <td>比嘉 巧</td>
+        <td class="text-right">17</td>
+        <td style="font-size:0.75rem">—</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- 会員・セッション分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">👥</span> 会員・セッション分析</div>
+
+  <div class="session-grid">
+    <div class="session-card">
+      <div class="ss-label">全店舗会員数</div>
+      <div class="ss-value">394<span style="font-size:0.6em">組</span></div>
+      <div class="ss-sub">前月 362組（+8.84%）</div>
+    </div>
+    <div class="session-card">
+      <div class="ss-label">新規入会</div>
+      <div class="ss-value">28<span style="font-size:0.6em">組</span></div>
+      <div class="ss-sub">予算30名（達成率93.3%）</div>
+    </div>
+    <div class="session-card">
+      <div class="ss-label">新規平均クール数</div>
+      <div class="ss-value">3.59</div>
+      <div class="ss-sub">目標3.5クール以上（達成）</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:24px">
+    <div>
+      <h4 style="font-family:'Noto Serif JP',serif;color:var(--navy);margin-bottom:12px;font-size:0.95rem">セッション数内訳</h4>
+      <div class="table-wrap">
+      <table class="comp-table">
+        <tbody>
+          <tr>
+            <td>総セッション数（FC/バイト/新人含む）</td>
+            <td class="text-right"><strong>2,140</strong></td>
+          </tr>
+          <tr>
+            <td>直営のみ</td>
+            <td class="text-right">1,736</td>
+          </tr>
+          <tr>
+            <td>平均セッション数（バイト/新人除く）</td>
+            <td class="text-right">133.75</td>
+          </tr>
+          <tr>
+            <td>toC売上合計</td>
+            <td class="text-right">11,142,108</td>
+          </tr>
+          <tr>
+            <td>toB売上</td>
+            <td class="text-right">699,600（44セッション）</td>
+          </tr>
+          <tr>
+            <td>toB出張</td>
+            <td class="text-right">13セッション</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div>
+      <h4 style="font-family:'Noto Serif JP',serif;color:var(--navy);margin-bottom:12px;font-size:0.95rem">売上構成</h4>
+      <div class="chart-container" style="height:280px">
+        <canvas id="revenueBreakdown"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- マーケティング実績 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📣</span> マーケティング実績</div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">広告費</div>
+        <div class="mc-badge warn">予算63.0%</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">¥107,771</div>
+        <div class="mc-prev">予算: ¥208,266</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill warn" style="width:63%"></div></div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">ROAS</div>
+        <div class="mc-badge good">目標大幅超過</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current" style="color:var(--positive)">2,773%</div>
+        <div class="mc-prev">目標: 1,300%</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:100%"></div></div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">入金売上</div>
+        <div class="mc-badge good">好調</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">¥2,989,000</div>
+        <div class="mc-prev">広告費の約27.7倍</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:100%"></div></div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:24px">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>ファネル</th>
+        <th class="text-right">件数</th>
+        <th class="text-right">転換率</th>
+        <th>備考</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>広告CV</td>
+        <td class="text-right">12件</td>
+        <td class="text-right">—</td>
+        <td style="font-size:0.78rem">7件+確認中</td>
+      </tr>
+      <tr>
+        <td>問合せ</td>
+        <td class="text-right">28件</td>
+        <td class="text-right">—</td>
+        <td style="font-size:0.78rem">—</td>
+      </tr>
+      <tr>
+        <td>カウンセリング数</td>
+        <td class="text-right">23件</td>
+        <td class="text-right up">82.1%</td>
+        <td style="font-size:0.78rem">問合せ→面談率（目標90%）</td>
+      </tr>
+      <tr>
+        <td>入会数</td>
+        <td class="text-right">22件</td>
+        <td class="text-right up">95.7%</td>
+        <td style="font-size:0.78rem">カウンセリング→入会率</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>問合せ→入会率</td>
+        <td class="text-right">22/28件</td>
+        <td class="text-right up">78.6%</td>
+        <td style="font-size:0.78rem">—</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="two-col" style="margin-top:20px">
+    <div>
+      <h4 style="font-family:'Noto Serif JP',serif;color:var(--navy);margin-bottom:12px;font-size:0.95rem">コース構成</h4>
+      <div class="table-wrap">
+      <table class="comp-table">
+        <tbody>
+          <tr>
+            <td>8回コース</td>
+            <td class="text-right">14%</td>
+          </tr>
+          <tr>
+            <td>24回コース</td>
+            <td class="text-right"><strong>54%</strong></td>
+          </tr>
+          <tr>
+            <td>48回コース</td>
+            <td class="text-right">34%</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div>
+      <h4 style="font-family:'Noto Serif JP',serif;color:var(--navy);margin-bottom:12px;font-size:0.95rem">広告効率</h4>
+      <div class="table-wrap">
+      <table class="comp-table">
+        <tbody>
+          <tr>
+            <td>Google P-MAX CPA</td>
+            <td class="text-right up">¥2,822</td>
+          </tr>
+          <tr>
+            <td>新規平均クール数</td>
+            <td class="text-right up">3.59クール</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert-box warning" style="margin-top:16px">
+    <strong>課題: </strong>Google検索のCTRは10%超だがCVが0件。LP改善が必要。Meta広告のCV計上も要確認。HP/LPは緑間さんと打ち合わせ中、3月末ローンチ予定。
+  </div>
+</div>
+
+<!-- ToB事業進捗 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🤝</span> ToB事業進捗</div>
+
+  <div class="alert-box danger" style="margin-bottom:20px">
+    <strong>ToB売上 大幅未達: </strong>予算242万円に対し実績61.1万円（達成率25.2%）。テレアポより飛び込みが有効と判断し、医療美容クリニック20社への飛び込み方針に転換。
+  </div>
+
+  <div class="pipeline-grid">
+    <div class="pipeline-card">
+      <h4>トライアル開始法人</h4>
+      <ul>
+        <li>認定こども園ミライ園</li>
+        <li>ぎのわん健康支援センター</li>
+        <li>ライト建設</li>
+        <li>ブライトン</li>
+      </ul>
+    </div>
+    <div class="pipeline-card">
+      <h4>見込み法人</h4>
+      <ul>
+        <li>カナダ物産</li>
+        <li>琉薬</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:20px">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>ToB種別</th>
+        <th class="text-right">予算</th>
+        <th class="text-right">実績</th>
+        <th class="text-right">達成率</th>
+        <th>方針</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>出張トレーニング</td>
+        <td class="text-right">1,520,000</td>
+        <td class="text-right">242,000</td>
+        <td class="text-right down">15.9%</td>
+        <td style="font-size:0.78rem">飛び込み営業に方針転換</td>
+      </tr>
+      <tr>
+        <td>店舗トレーニング</td>
+        <td class="text-right">900,000</td>
+        <td class="text-right">369,000</td>
+        <td class="text-right down">41.0%</td>
+        <td style="font-size:0.78rem">医療美容クリニック20社に飛び込み</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- 採用・組織 -->
+<div class="section">
+  <div class="section-title"><span class="icon">👤</span> 採用・組織計画</div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">採用進捗</div>
+        <div class="mc-badge warn">3/5名</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">3名 <span style="font-size:0.7em">決定</span></div>
+        <div class="mc-prev">目標: 5名</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill warn" style="width:60%"></div></div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">トレーナー数（現在→目標）</div>
+        <div class="mc-badge warn">14.0 / 17.8名</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">14.0名</div>
+        <div class="mc-prev">6月までに17.5名予定</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill warn" style="width:78.7%"></div></div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">セッション目標</div>
+        <div class="mc-badge good">達成見込み</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">2,500<span style="font-size:0.7em">回</span></div>
+        <div class="mc-prev">現状: 1,700回</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill gold" style="width:68%"></div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px">
+    <h4 style="font-family:'Noto Serif JP',serif;color:var(--navy);margin-bottom:12px;font-size:0.95rem">採用・配置計画</h4>
+    <div class="table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>項目</th>
+          <th>詳細</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>先月の採用実績</td>
+          <td>3名採用、1名デビュー。今月内に追加で2名デビュー予定</td>
+        </tr>
+        <tr>
+          <td>配属予定</td>
+          <td>南城に1名、宜野湾に1名、あげなに1名（読谷に1人異動）</td>
+        </tr>
+        <tr>
+          <td>宜野湾店</td>
+          <td>1名内定済み</td>
+        </tr>
+        <tr>
+          <td>那覇店</td>
+          <td>3名候補のうち1名に内定を出す予定</td>
+        </tr>
+        <tr>
+          <td>追加採用希望</td>
+          <td>那覇・宜野湾に1名ずつ追加採用したい</td>
+        </tr>
+        <tr>
+          <td>6月トレーナー数見込み</td>
+          <td>17.5名</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div style="margin-top:24px">
+    <h4 style="font-family:'Noto Serif JP',serif;color:var(--navy);margin-bottom:12px;font-size:0.95rem">新規出店トレーナー配置</h4>
+    <div class="table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>店舗</th>
+          <th>トレーナー</th>
+          <th class="text-right">セッション数</th>
+          <th>備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge good">新規</span> 泡瀬店</td>
+          <td>新垣 陸</td>
+          <td class="text-right">131</td>
+          <td style="font-size:0.78rem">—</td>
+        </tr>
+        <tr>
+          <td><span class="badge good">新規</span> 泡瀬店</td>
+          <td>金城 睦樹</td>
+          <td class="text-right">142</td>
+          <td style="font-size:0.78rem">—</td>
+        </tr>
+        <tr>
+          <td><span class="badge good">新規</span> 綾瀬店</td>
+          <td>具志堅 颯</td>
+          <td class="text-right">118</td>
+          <td style="font-size:0.78rem">—</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- 労働分配率・生産性 -->
+<div class="section">
+  <div class="section-title"><span class="icon">⚙️</span> 労働分配率・生産性指標</div>
+
+  <div class="gauge-row">
+    <div class="gauge-card">
+      <div class="gc-label">労働分配率（全体）</div>
+      <div class="gc-value" style="color:var(--negative)">66.56%</div>
+      <div class="gc-unit">本部人件費込み</div>
+      <div class="gc-note">目標: 60%以下</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">労働分配率（トレーナー）</div>
+      <div class="gc-value" style="color:var(--neutral)">49.77%</div>
+      <div class="gc-unit">店舗人件費のみ</div>
+      <div class="gc-note">適正: 50%前後</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">労働生産性（全体）</div>
+      <div class="gc-value" style="color:var(--navy)">520,827</div>
+      <div class="gc-unit">円/人</div>
+      <div class="gc-note">本部6名+トレーナー13名</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">労働生産性（トレーナー）</div>
+      <div class="gc-value" style="color:var(--positive)">755,901</div>
+      <div class="gc-unit">円/人</div>
+      <div class="gc-note">トレーナー13名基準</div>
+    </div>
+  </div>
+
+  <div class="gauge-row" style="margin-top:16px">
+    <div class="gauge-card">
+      <div class="gc-label">1セッション単価</div>
+      <div class="gc-value" style="color:var(--navy)">5,285</div>
+      <div class="gc-unit">円/セッション</div>
+      <div class="gc-note">消化ベース</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">トレーナー数</div>
+      <div class="gc-value" style="color:var(--navy)">14.0</div>
+      <div class="gc-unit">名（予算17.8名）</div>
+      <div class="gc-note">達成率 75.8%</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">1店舗あたり売上</div>
+      <div class="gc-value" style="color:var(--navy)">989,571</div>
+      <div class="gc-unit">円/店（稼働10店）</div>
+      <div class="gc-note">諸見里除く</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">1店舗あたり会員数</div>
+      <div class="gc-value" style="color:var(--navy)">39.4</div>
+      <div class="gc-unit">組/店（稼働10店）</div>
+      <div class="gc-note">全394組 / 稼働10店舗</div>
+    </div>
+  </div>
+
+  <div class="alert-box warning" style="margin-top:20px">
+    <strong>注意: </strong>労働分配率66.56%は目標の60%を6.56pt超過。本部社員人件費がYoY +122.74%と大幅増加しており、営業利益を圧迫する主因。本部人員の増員効果（売上成長への寄与）を検証する必要あり。
+  </div>
+</div>
+
+<!-- 経営陣コメント・議事録ハイライト -->
+<div class="section">
+  <div class="section-title"><span class="icon">💬</span> 経営陣コメント・議事録ハイライト</div>
+
+  <ul class="highlight-list">
+    <li>
+      <strong>営業利益率目標: </strong>現在の4.5%から段階的に<strong>8% → 10% → 15%〜20%</strong>への改善を目指す方針を明言
+    </li>
+    <li>
+      <strong>M&amp;A方針: </strong>今期は見送り。まずは社内体制を整えることを優先
+    </li>
+    <li>
+      <strong>セッション数目標: </strong>現状1,700回から<strong>目標2,500回</strong>へ。新人5名が140回達成すれば+700回で到達可能
+    </li>
+    <li>
+      <strong>ToB営業方針転換: </strong>テレアポより飛び込みが有効と判断。医療美容クリニック20社への飛び込み方針に切替
+    </li>
+    <li>
+      <strong>入会金: </strong>割引入会の比率が高い状態が続いており、入会金達成率は25.7%に留まる。入会金の正規回収がキャッシュフロー改善の鍵
+    </li>
+    <li>
+      <strong>ブランディング: </strong>HP/LPは緑間さんと打ち合わせ中、3月末ローンチ予定。宜野湾の会員にヒアリング実施予定（項目未セット）
+    </li>
+    <li>
+      <strong>北谷店: </strong>長嶺トレーナーは退職予定。新人と入替で立て直しを図る
+    </li>
+    <li>
+      <strong>與座トレーナー（那覇店）: </strong>160回いけるポテンシャルがあり、追加配置で稼働引き上げを予定
+    </li>
+  </ul>
+</div>
+
+<!-- 課題と提言 -->
+<div class="section">
+  <div class="section-title"><span class="icon">💡</span> 課題と提言</div>
+
+  <div class="proposal-grid">
+    <div class="proposal-card critical">
+      <div class="pc-priority">最重要 - 即時対応</div>
+      <div class="pc-title">ToB法人売上の立て直し</div>
+      <div class="pc-body">
+        ToB売上は予算242万円に対し実績61.1万円（達成率25.2%）と壊滅的。テレアポから飛び込み営業への方針転換は適切だが、医療美容クリニック20社への飛び込み計画にKPI（訪問数・トライアル転換率・契約目標）を設定し、PDCAを回す。トライアル開始中の4法人の早期契約化も急務。
+      </div>
+      <div class="pc-impact">想定効果: ToB達成率50%で月+約60万円の売上増</div>
+    </div>
+    <div class="proposal-card critical">
+      <div class="pc-priority">最重要 - 即時対応</div>
+      <div class="pc-title">トレーナー人員の早期充足</div>
+      <div class="pc-body">
+        予算17.8名に対し実績14.0名（達成率75.8%）がセッション数不足の根本原因。6月17.5名達成に向けて採用パイプラインを確実に実行。特に那覇・宜野湾への追加配置を優先し、與座トレーナー（160回ポテンシャル）のフル稼働も並行して進める。
+      </div>
+      <div class="pc-impact">想定効果: 3.8名増でセッション+530回/月、売上+約280万円/月</div>
+    </div>
+    <div class="proposal-card important">
+      <div class="pc-priority">重要 - 中期対応</div>
+      <div class="pc-title">LP改善とGoogle検索CVの改善</div>
+      <div class="pc-body">
+        Google検索CTR10%超は良好だがCVが0件。LPのファーストビュー・CTA設計を見直し、3月末ローンチ予定の新HP/LPに集約。Meta広告のCV計上漏れも確認が必要。ROAS 2,773%の高効率を維持しつつ、広告予算を戦略的に投下する。
+      </div>
+      <div class="pc-impact">想定効果: CV獲得でCPA改善、入会数+月3〜5名</div>
+    </div>
+    <div class="proposal-card important">
+      <div class="pc-priority">重要 - 中期対応</div>
+      <div class="pc-title">北谷店のテコ入れ</div>
+      <div class="pc-body">
+        全店最大の落ち込み（昨対67.28%）で営業利益も昨対61.11%。長嶺トレーナーの退職に伴い新人を配置する計画だが、会員数自体の減少が根本課題。宜野湾・浦添の成功モデル（高稼働トレーナー配置 + 積極的な新規獲得）を横展開し、地域マーケティングを強化する。
+      </div>
+      <div class="pc-impact">想定効果: 昨対100%回復で月+約22万円の売上増</div>
+    </div>
+    <div class="proposal-card suggest">
+      <div class="pc-priority">推奨 - 中長期</div>
+      <div class="pc-title">入会金正規回収の仕組み化</div>
+      <div class="pc-body">
+        入会金達成率25.7%（予算60万円に対し実績15.4万円）は割引入会の常態化が原因。割引適用基準の明確化、期間限定キャンペーンへの切替、正規価格での入会インセンティブ設計が必要。
+      </div>
+      <div class="pc-impact">想定効果: 達成率50%で月+約15万円の追加収入</div>
+    </div>
+    <div class="proposal-card info">
+      <div class="pc-priority">参考 - 継続施策</div>
+      <div class="pc-title">営業利益率の段階的改善ロードマップ</div>
+      <div class="pc-body">
+        経営陣の目標（8%→10%→15%〜20%）を実現するためのマイルストーンを設定。売上1,200万円×営業利益率8%=96万円/月が第一目標。トレーナー充足による売上増+固定費コントロールの両輪で達成を目指す。M&amp;Aは今期見送りで内部体制優先は適切な判断。
+      </div>
+      <div class="pc-impact">想定効果: 営業利益率8%で月間営業利益約96万円（現状の2.1倍）</div>
+    </div>
+  </div>
+</div>
+
+<!-- Next Action -->
+<div class="section">
+  <div class="section-title"><span class="icon">🎯</span> Next Action</div>
+  <ul class="next-action-list">
+    <li>
+      <strong>【3月末まで】</strong> 新HP/LP（緑間さん案件）のローンチ — Google検索CVゼロ問題の解決。ローンチ後1ヶ月のCV・CPAを計測
+    </li>
+    <li>
+      <strong>【4月中】</strong> 医療美容クリニック飛び込み営業開始 — 20社リストアップ、KPI設定（週5社訪問、月2件トライアル開始目標）
+    </li>
+    <li>
+      <strong>【4月中】</strong> トライアル中4法人（ミライ園・ぎのわん健康支援・ライト建設・ブライトン）の契約化推進
+    </li>
+    <li>
+      <strong>【4月中】</strong> 仲里トレーナーの140セッション達成に向けた育成計画策定 &amp; 新人デビュー2名の進捗確認
+    </li>
+    <li>
+      <strong>【5月まで】</strong> 那覇・宜野湾の追加採用各1名の確定。6月17.5名体制の実現
+    </li>
+    <li>
+      <strong>【5月まで】</strong> 北谷店の新トレーナー配置 &amp; 地域マーケティング施策実行
+    </li>
+    <li>
+      <strong>【継続】</strong> 入会金割引ルールの見直し — 割引適用基準の明確化と正規入会比率の引き上げ
+    </li>
+  </ul>
+</div>
+
+</div><!-- /container -->
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I">
+      <span>Consulting</span>
+    </div>
+    <div class="footer-info">
+      株式会社B.U.G 令和8年2月度 月次レポート
+    </div>
+    <div class="footer-confidential">最重要機密（CONFIDENTIAL）</div>
+  </div>
+</div>
+
+<script>
+Chart.defaults.font.family = "'Inter', 'Noto Sans JP', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#6B6B6B';
+
+// Store Chart - Horizontal Bar (PQ管理データ)
+(function(){
+  var ctx = document.getElementById('storeChart').getContext('2d');
+  var stores = ['宜野湾店','浦添店','あげな店','那覇店','南城市店','名護店','糸満店','読谷店','宮古島店','北谷店','諸見里店'];
+  var revenue = [1629729,1558951,989727,956116,919123,852426,832334,748226,699343,459338,0];
+  var profit = [531428,675241,490542,420193,234753,152393,335251,220738,285393,79006,-51814];
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: stores,
+      datasets: [
+        {
+          label: '売上',
+          data: revenue,
+          backgroundColor: '#1A2540',
+          borderRadius: 4
+        },
+        {
+          label: '営業利益',
+          data: profit,
+          backgroundColor: function(context){
+            return context.raw < 0 ? '#8B2020' : '#B8912A';
+          },
+          borderRadius: 4
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: {
+          callbacks: {
+            label: function(context){
+              return context.dataset.label + ': ' + context.raw.toLocaleString() + '円';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            callback: function(v){ return (v/10000).toFixed(0) + '万'; }
+          },
+          grid: { color: 'rgba(0,0,0,0.05)' }
+        },
+        y: {
+          grid: { display: false }
+        }
+      }
+    }
+  });
+})();
+
+// Revenue Breakdown Doughnut
+(function(){
+  var ctx = document.getElementById('revenueBreakdown').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['toC消化売上','入会金','法人契約消化','サプリ売上'],
+      datasets: [{
+        data: [8573379, 176000, 754375, 211200],
+        backgroundColor: ['#1A2540','#B8912A','#243352','#D4A843'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 } } },
+        tooltip: {
+          callbacks: {
+            label: function(context){
+              var total = context.dataset.data.reduce(function(a,b){return a+b},0);
+              var pct = (context.raw/total*100).toFixed(1);
+              return context.label + ': ' + context.raw.toLocaleString() + '円 (' + pct + '%)';
+            }
+          }
+        }
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社ふ々屋 7期2月度 月次レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+  --navy: #1A2540;
+  --navy-light: #243352;
+  --navy-dark: #0F1829;
+  --gold: #B8912A;
+  --gold-light: #D4A843;
+  --gold-pale: rgba(184,145,42,0.08);
+  --paper: #F5F2EC;
+  --paper-dark: #EDE8DF;
+  --text: #2C2C2C;
+  --text-sub: #6B6B6B;
+  --text-light: #999;
+  --positive: #1B7A3D;
+  --positive-bg: #E8F5E9;
+  --negative: #8B2020;
+  --negative-bg: #FFEBEE;
+  --neutral: #E65100;
+  --neutral-bg: #FFF3E0;
+  --border: #E0DCD4;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--paper);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 60px; }
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #1a2332 0%, #1A2540 50%, #0F1829 100%);
+  color: #fff;
+  border-bottom: 1px solid rgba(184,145,42,0.15);
+  padding: 48px 24px 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(184,145,42,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 50%, rgba(184,145,42,0.06) 0%, transparent 60%);
+}
+.header-content { position: relative; z-index: 1; }
+.header-ui-logo { display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px; }
+.header-ui-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.header-ui-logo span { color:#D4A843;font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px; }
+.header-client-row { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px; }
+.ticker-badge {
+  display: inline-block;
+  background: rgba(184,145,42,0.15);
+  border: 1px solid rgba(184,145,42,0.3);
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 14px;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+}
+.header h1 { font-family:'Noto Serif JP',serif; font-size:1.9rem; font-weight:700; color:#fff; margin-bottom:4px; letter-spacing:2px; }
+.header .subtitle { color: rgba(255,255,255,0.7); font-size: 0.92rem; }
+.header-period { display:flex;align-items:center;justify-content:center;gap:16px;margin-top:4px; }
+.period-fiscal { background:rgba(184,145,42,0.2);border:1px solid rgba(184,145,42,0.4);border-radius:6px;padding:4px 14px;font-size:0.85rem;color:#D4A843;font-weight:700;letter-spacing:1px; }
+.period-month { font-size:1.1rem;color:rgba(255,255,255,0.9);font-weight:700;letter-spacing:1px; }
+
+/* Section */
+.section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+}
+.section-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Summary Box */
+.summary-box {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+}
+.summary-box h3 { color: var(--gold-light); font-family: 'Noto Serif JP', serif; margin-bottom: 12px; font-size: 1.1rem; }
+.summary-box p { line-height: 1.9; font-size: 0.92rem; }
+.summary-box .highlight { color: var(--gold-light); font-weight: 700; }
+
+/* Score Row */
+.score-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.score-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 16px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+.sc-label { font-size: 0.75rem; color: var(--text-sub); margin-bottom: 6px; font-weight: 500; }
+.sc-value { font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--navy); }
+.sc-value.up { color: var(--positive); }
+.sc-value.down { color: var(--negative); }
+.sc-change { font-family: 'Inter', sans-serif; font-size: 0.78rem; margin-top: 4px; }
+.sc-change.up { color: var(--positive); }
+.sc-change.down { color: var(--negative); }
+.sc-sub { font-size: 0.7rem; color: var(--text-light); margin-top: 2px; }
+
+/* Comp Table */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.comp-table thead th {
+  background: var(--navy);
+  color: #fff;
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+.comp-table thead th:first-child { border-radius: 8px 0 0 0; }
+.comp-table thead th:last-child { border-radius: 0 8px 0 0; }
+.comp-table tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Inter', 'Noto Sans JP', sans-serif;
+}
+.comp-table tbody tr:hover { background: var(--gold-pale); }
+.comp-table .highlight-row { background: rgba(184,145,42,0.06); font-weight: 700; }
+.comp-table .up { color: var(--positive); font-weight: 600; }
+.comp-table .down { color: var(--negative); font-weight: 600; }
+.comp-table .text-right { text-align: right; }
+.comp-table .text-center { text-align: center; }
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.metric-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.mc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.mc-label { font-size: 0.82rem; color: var(--text-sub); font-weight: 500; }
+.mc-badge { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+.mc-badge.good { background: var(--positive-bg); color: var(--positive); }
+.mc-badge.bad { background: var(--negative-bg); color: var(--negative); }
+.mc-badge.warn { background: var(--neutral-bg); color: var(--neutral); }
+.mc-values { margin-bottom: 10px; }
+.mc-current { font-family: 'Inter', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--navy); }
+.mc-prev { font-size: 0.75rem; color: var(--text-light); }
+.mc-bar { height: 6px; background: var(--paper-dark); border-radius: 3px; overflow: hidden; }
+.mc-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+.mc-bar-fill.good { background: var(--positive); }
+.mc-bar-fill.bad { background: var(--negative); }
+.mc-bar-fill.warn { background: var(--neutral); }
+.mc-bar-fill.gold { background: var(--gold); }
+
+/* Gauge Row */
+.gauge-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.gauge-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px 16px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+.gc-label { font-size: 0.78rem; color: var(--text-sub); margin-bottom: 8px; }
+.gc-value { font-family: 'Inter', sans-serif; font-size: 1.8rem; font-weight: 700; }
+.gc-unit { font-size: 0.75rem; color: var(--text-sub); margin-top: 2px; }
+.gc-note { font-size: 0.7rem; color: var(--text-light); margin-top: 6px; }
+
+/* Proposal */
+.proposal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.proposal-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.pc-priority { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.proposal-card.critical .pc-priority { color: var(--negative); }
+.proposal-card.important .pc-priority { color: var(--neutral); }
+.proposal-card.suggest .pc-priority { color: var(--positive); }
+.proposal-card.info .pc-priority { color: #1976D2; }
+.pc-title { font-family: 'Noto Serif JP', serif; font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.pc-body { font-size: 0.85rem; color: var(--text-sub); line-height: 1.7; margin-bottom: 10px; }
+.pc-impact { font-size: 0.78rem; color: var(--gold); font-weight: 600; background: var(--gold-pale); padding: 6px 12px; border-radius: 6px; display: inline-block; }
+
+/* Chart */
+.chart-container { position: relative; width: 100%; }
+.chart-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Next Action */
+.next-action-list { list-style: none; padding: 0; }
+.next-action-list li {
+  padding: 14px 16px;
+  border-left: 3px solid var(--gold);
+  background: var(--gold-pale);
+  margin-bottom: 10px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.88rem;
+}
+.next-action-list li strong { color: var(--navy); }
+
+/* Alert Box */
+.alert-box {
+  padding: 16px 20px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+}
+.alert-box.warning { background: var(--neutral-bg); border: 1px solid #E0DCD4; }
+.alert-box.danger { background: var(--negative-bg); border: 1px solid #E0DCD4; }
+.alert-box.success { background: var(--positive-bg); border: 1px solid #E0DCD4; }
+
+/* Two Col */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.badge.good { background: var(--positive-bg); color: var(--positive); }
+.badge.bad { background: var(--negative-bg); color: var(--negative); }
+.badge.warn { background: var(--neutral-bg); color: var(--neutral); }
+
+/* Progress List */
+.progress-list { list-style: none; padding: 0; }
+.progress-list li {
+  padding: 12px 16px;
+  background: var(--paper-dark);
+  margin-bottom: 8px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.progress-list li .prog-icon { flex-shrink: 0; font-size: 1.1rem; }
+
+/* Overview Grid */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Footer */
+.footer { background:var(--navy-dark); color:rgba(255,255,255,0.5); padding:28px 20px; text-align:center; }
+.footer-logo { display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px; }
+.footer-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.footer-logo span { color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.85rem;line-height:1;letter-spacing:1.5px; }
+.footer-info { font-size:0.72rem; margin-bottom:10px; }
+.footer-confidential { font-size:0.7rem; font-weight:700; color:var(--gold); letter-spacing:3px; border:1px solid rgba(184,145,42,0.3); display:inline-block; padding:4px 16px; border-radius:4px; }
+
+/* Responsive */
+@media(max-width:768px){
+  .score-row { grid-template-columns: repeat(2, 1fr); }
+  .metrics-grid { grid-template-columns: 1fr; }
+  .chart-row { grid-template-columns: 1fr; }
+  .proposal-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .gauge-row { grid-template-columns: repeat(2, 1fr); }
+  .overview-grid { grid-template-columns: 1fr; }
+  .header h1 { font-size: 1.4rem; }
+  .header-logo-row { flex-direction:column;gap:8px; }
+  .ticker-badge { font-size:12px;padding:4px 12px; }
+  .section { padding: 20px 16px; }
+  .comp-table { font-size: 0.75rem; }
+  .comp-table thead th, .comp-table tbody td { padding: 8px 10px; }
+  table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <div class="header-ui-logo"><img src="../assets/ui_logo_white.png" alt="U&amp;I Consulting"><span>Consulting</span></div>
+    <div class="header-client-row">
+      <div class="ticker-badge">株式会社ふ々屋</div>
+    </div>
+    <h1>月次レポート</h1>
+    <div class="header-period"><span class="period-fiscal">7期</span><span class="period-month">2026年2月度</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Executive Summary -->
+<div class="summary-box">
+  <h3>Executive Summary</h3>
+  <p>2月は売上<span class="highlight">&#165;2,250,594</span>（前年比57.1%）と7期で最も低い月となったが、経費削減により営業利益&#165;186,714（営業利益率7.8%）を確保。7期通期では<span class="highlight">当期純利益620万円（前年比+491%）</span>を達成し、販管費35.6%削減・営業利益率14.9%（+13.3pt）と「規模より収益性」への構造転換に成功。起業コンサル事業が売上の柱として定着（前年比265.7%）した一方、講座関連売上の予算未達（39.4%）が課題として残る。</p>
+</div>
+
+<!-- Key Metrics -->
+<div class="score-row">
+  <div class="score-card negative">
+    <div class="sc-label">2月 売上高</div>
+    <div class="sc-value down">&#165;2,250,594</div>
+    <div class="sc-change down">前年比 57.1%</div>
+    <div class="sc-sub">予算比 44.2%</div>
+  </div>
+  <div class="score-card neutral">
+    <div class="sc-label">2月 営業利益</div>
+    <div class="sc-value">&#165;186,714</div>
+    <div class="sc-change down">営業利益率 7.8%</div>
+    <div class="sc-sub">前年 19.6% → 7.8%</div>
+  </div>
+  <div class="score-card positive">
+    <div class="sc-label">7期 通期純利益</div>
+    <div class="sc-value up">&#165;6,202,257</div>
+    <div class="sc-change up">+491% YoY</div>
+    <div class="sc-sub">6期 &#165;1,050,000</div>
+  </div>
+  <div class="score-card positive">
+    <div class="sc-label">7期 営業利益率</div>
+    <div class="sc-value up">14.9%</div>
+    <div class="sc-change up">+13.3pt YoY</div>
+    <div class="sc-sub">6期 1.6%</div>
+  </div>
+  <div class="score-card neutral">
+    <div class="sc-label">2月 労働分配率</div>
+    <div class="sc-value">52.3%</div>
+    <div class="sc-change down">予算 40.0%</div>
+    <div class="sc-sub">前年 46.2%</div>
+  </div>
+</div>
+
+<!-- 2月度PL分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#128202;</span> 2月度 損益計算書（PL）分析</div>
+
+  <h4 style="color:var(--navy);margin-bottom:16px;font-family:'Noto Serif JP',serif;font-size:1rem;">売上内訳</h4>
+  <table class="comp-table" style="margin-bottom:28px;">
+    <thead>
+      <tr>
+        <th>科目</th>
+        <th class="text-right">前年</th>
+        <th class="text-right">予算</th>
+        <th class="text-right">実績</th>
+        <th class="text-right">前年比</th>
+        <th class="text-right">予算比</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="highlight-row">
+        <td><strong>売上総額</strong></td>
+        <td class="text-right">&#165;4,184,934</td>
+        <td class="text-right">&#165;5,411,000</td>
+        <td class="text-right">&#165;2,390,771</td>
+        <td class="text-right down">57.1%</td>
+        <td class="text-right down">44.2%</td>
+      </tr>
+      <tr>
+        <td>起業コンサル</td>
+        <td class="text-right">&#165;530,000</td>
+        <td class="text-right">&#165;1,250,000</td>
+        <td class="text-right">&#165;1,408,000</td>
+        <td class="text-right up">265.7%</td>
+        <td class="text-right up">112.6%</td>
+      </tr>
+      <tr>
+        <td>講座関連（ジョーキャリア）</td>
+        <td class="text-right">&#165;1,297,814</td>
+        <td class="text-right">&#165;1,700,000</td>
+        <td class="text-right">&#165;670,073</td>
+        <td class="text-right down">51.6%</td>
+        <td class="text-right down">39.4%</td>
+      </tr>
+      <tr>
+        <td>オンラインサロン</td>
+        <td class="text-right">&#165;204,940</td>
+        <td class="text-right">&#165;606,000</td>
+        <td class="text-right">&#165;312,178</td>
+        <td class="text-right up">152.3%</td>
+        <td class="text-right down">51.5%</td>
+      </tr>
+      <tr>
+        <td>&nbsp;&nbsp;キャリア売上</td>
+        <td class="text-right">&#165;200,000</td>
+        <td class="text-right">&#165;605,000</td>
+        <td class="text-right">&#165;310,000</td>
+        <td class="text-right up">155.0%</td>
+        <td class="text-right down">51.2%</td>
+      </tr>
+      <tr>
+        <td>&nbsp;&nbsp;ライフ売上</td>
+        <td class="text-right">&#165;4,940</td>
+        <td class="text-right">&#165;1,000</td>
+        <td class="text-right">&#165;2,178</td>
+        <td class="text-right down">44.1%</td>
+        <td class="text-right up">217.8%</td>
+      </tr>
+      <tr>
+        <td>こどもや</td>
+        <td class="text-right">&#8212;</td>
+        <td class="text-right">&#8212;</td>
+        <td class="text-right">&#165;79,200</td>
+        <td class="text-right">&#8212;</td>
+        <td class="text-right">&#8212;</td>
+      </tr>
+      <tr>
+        <td>イベント売上</td>
+        <td class="text-right">&#8212;</td>
+        <td class="text-right">&#8212;</td>
+        <td class="text-right">&#165;500</td>
+        <td class="text-right">&#8212;</td>
+        <td class="text-right">&#8212;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="color:var(--navy);margin-bottom:16px;font-family:'Noto Serif JP',serif;font-size:1rem;">経費内訳</h4>
+  <table class="comp-table" style="margin-bottom:28px;">
+    <thead>
+      <tr>
+        <th>科目</th>
+        <th class="text-right">前年</th>
+        <th class="text-right">予算</th>
+        <th class="text-right">実績</th>
+        <th class="text-right">前年比</th>
+        <th class="text-right">予算比</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="highlight-row">
+        <td><strong>一般管理費合計</strong></td>
+        <td class="text-right">&#165;3,365,604</td>
+        <td class="text-right">&#165;3,484,527</td>
+        <td class="text-right">&#165;2,204,057</td>
+        <td class="text-right up">65.5%</td>
+        <td class="text-right up">63.3%</td>
+      </tr>
+      <tr>
+        <td>人件費合計</td>
+        <td class="text-right">&#165;1,607,847</td>
+        <td class="text-right">&#165;1,800,800</td>
+        <td class="text-right">&#165;1,079,725</td>
+        <td class="text-right up">67.2%</td>
+        <td class="text-right up">60.0%</td>
+      </tr>
+      <tr>
+        <td>&nbsp;&nbsp;役員報酬</td>
+        <td class="text-right">&#165;700,000</td>
+        <td class="text-right">&#165;700,000</td>
+        <td class="text-right">&#165;700,000</td>
+        <td class="text-right">100.0%</td>
+        <td class="text-right">100.0%</td>
+      </tr>
+      <tr>
+        <td>&nbsp;&nbsp;社員人件費</td>
+        <td class="text-right">&#165;453,172</td>
+        <td class="text-right">&#165;455,000</td>
+        <td class="text-right">&#165;200,000</td>
+        <td class="text-right up">44.1%</td>
+        <td class="text-right up">44.0%</td>
+      </tr>
+      <tr>
+        <td>&nbsp;&nbsp;パート人件費</td>
+        <td class="text-right">&#165;454,675</td>
+        <td class="text-right">&#165;645,800</td>
+        <td class="text-right">&#165;179,725</td>
+        <td class="text-right up">39.5%</td>
+        <td class="text-right up">27.8%</td>
+      </tr>
+      <tr>
+        <td>法定福利費</td>
+        <td class="text-right">&#165;276,944</td>
+        <td class="text-right">&#165;319,600</td>
+        <td class="text-right">&#165;152,972</td>
+        <td class="text-right up">55.2%</td>
+        <td class="text-right up">47.9%</td>
+      </tr>
+      <tr>
+        <td>業務委託料</td>
+        <td class="text-right">&#165;444,541</td>
+        <td class="text-right">&#165;507,910</td>
+        <td class="text-right">&#165;307,912</td>
+        <td class="text-right up">69.3%</td>
+        <td class="text-right up">60.6%</td>
+      </tr>
+      <tr>
+        <td>広告宣伝費</td>
+        <td class="text-right">&#165;77,849</td>
+        <td class="text-right">&#165;358,437</td>
+        <td class="text-right">&#165;151,775</td>
+        <td class="text-right down">195.0%</td>
+        <td class="text-right up">42.3%</td>
+      </tr>
+      <tr>
+        <td>研修費</td>
+        <td class="text-right">&#165;196,341</td>
+        <td class="text-right">&#165;30,910</td>
+        <td class="text-right">&#165;72,163</td>
+        <td class="text-right up">36.8%</td>
+        <td class="text-right down">233.5%</td>
+      </tr>
+      <tr>
+        <td>通信費</td>
+        <td class="text-right">&#165;120,129</td>
+        <td class="text-right">&#165;86,280</td>
+        <td class="text-right">&#165;130,806</td>
+        <td class="text-right down">108.9%</td>
+        <td class="text-right down">151.6%</td>
+      </tr>
+      <tr>
+        <td>地代家賃</td>
+        <td class="text-right">&#165;348,691</td>
+        <td class="text-right">&#165;379,319</td>
+        <td class="text-right">&#165;0</td>
+        <td class="text-right up">0.0%</td>
+        <td class="text-right up">0.0%</td>
+      </tr>
+      <tr>
+        <td>支払手数料</td>
+        <td class="text-right">&#165;171,397</td>
+        <td class="text-right">&#165;216,440</td>
+        <td class="text-right">&#165;109,064</td>
+        <td class="text-right up">63.6%</td>
+        <td class="text-right">&#8212;</td>
+      </tr>
+      <tr>
+        <td>支払報酬</td>
+        <td class="text-right">&#165;29,500</td>
+        <td class="text-right">&#165;29,500</td>
+        <td class="text-right">&#165;99,500</td>
+        <td class="text-right down">337.3%</td>
+        <td class="text-right down">337.3%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="color:var(--navy);margin-bottom:16px;font-family:'Noto Serif JP',serif;font-size:1rem;">損益サマリー</h4>
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>科目</th>
+        <th class="text-right">前年</th>
+        <th class="text-right">予算</th>
+        <th class="text-right">実績</th>
+        <th class="text-right">前年比</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="highlight-row">
+        <td><strong>営業利益</strong></td>
+        <td class="text-right">&#165;819,330</td>
+        <td class="text-right">&#165;1,926,473</td>
+        <td class="text-right">&#165;186,714</td>
+        <td class="text-right down">22.8%</td>
+      </tr>
+      <tr>
+        <td>営業利益率</td>
+        <td class="text-right">19.6%</td>
+        <td class="text-right">35.6%</td>
+        <td class="text-right">7.8%</td>
+        <td class="text-right down">-11.8pt</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 売上推移チャート -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#128200;</span> 7期 月次売上・営業利益推移</div>
+  <div class="chart-container" style="height:400px;">
+    <canvas id="revenueChart"></canvas>
+  </div>
+</div>
+
+<!-- 売上構成分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#127856;</span> 2月 売上構成分析</div>
+  <div class="chart-row">
+    <div>
+      <div class="chart-container" style="height:320px;">
+        <canvas id="compositionChart"></canvas>
+      </div>
+    </div>
+    <div>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>区分</th>
+            <th class="text-right">金額</th>
+            <th class="text-right">構成比</th>
+            <th class="text-right">前年比</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>起業コンサル</td>
+            <td class="text-right">&#165;1,408,000</td>
+            <td class="text-right">58.9%</td>
+            <td class="text-right up">265.7%</td>
+          </tr>
+          <tr>
+            <td>講座関連</td>
+            <td class="text-right">&#165;670,073</td>
+            <td class="text-right">28.0%</td>
+            <td class="text-right down">51.6%</td>
+          </tr>
+          <tr>
+            <td>オンラインサロン</td>
+            <td class="text-right">&#165;312,178</td>
+            <td class="text-right">13.1%</td>
+            <td class="text-right up">152.3%</td>
+          </tr>
+          <tr>
+            <td>こどもや</td>
+            <td class="text-right">&#165;79,200</td>
+            <td class="text-right">3.3%</td>
+            <td class="text-right">&#8212;</td>
+          </tr>
+          <tr>
+            <td>その他</td>
+            <td class="text-right">&#165;500</td>
+            <td class="text-right">0.0%</td>
+            <td class="text-right">&#8212;</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="alert-box success" style="margin-top:16px;">
+        <strong>起業コンサルが売上の約6割を占め、事業の柱として確立。</strong>予算比でも112.6%と唯一の予算超過達成。
+      </div>
+      <div class="alert-box danger">
+        <strong>講座関連（ジョーキャリア）は予算比39.4%と大幅未達。</strong>2月は期末月で受講サイクルが影響した可能性。安定化が急務。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 経費分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#128176;</span> 経費分析（前年比較）</div>
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">人件費</div>
+        <div class="mc-badge good">削減</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">&#165;1,079,725</div>
+        <div class="mc-prev">前年 &#165;1,607,847（67.2%）</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:67%"></div></div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">業務委託料</div>
+        <div class="mc-badge good">削減</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">&#165;307,912</div>
+        <div class="mc-prev">前年 &#165;444,541（69.3%）</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:69%"></div></div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">地代家賃</div>
+        <div class="mc-badge good">退去完了</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">&#165;0</div>
+        <div class="mc-prev">前年 &#165;348,691（0.0%）</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:0%"></div></div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">広告宣伝費</div>
+        <div class="mc-badge warn">増加</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">&#165;151,775</div>
+        <div class="mc-prev">前年 &#165;77,849（195.0%）</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill warn" style="width:100%"></div></div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">支払報酬</div>
+        <div class="mc-badge bad">大幅増</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">&#165;99,500</div>
+        <div class="mc-prev">前年 &#165;29,500（337.3%）</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill bad" style="width:100%"></div></div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header">
+        <div class="mc-label">通信費</div>
+        <div class="mc-badge warn">微増</div>
+      </div>
+      <div class="mc-values">
+        <div class="mc-current">&#165;130,806</div>
+        <div class="mc-prev">前年 &#165;120,129（108.9%）</div>
+      </div>
+      <div class="mc-bar"><div class="mc-bar-fill warn" style="width:100%"></div></div>
+    </div>
+  </div>
+
+  <div class="alert-box success" style="margin-top:20px;">
+    <strong>一般管理費全体で前年比▲&#165;1,161,547（34.5%削減）。</strong>地代家賃ゼロ化（退去完了）と人件費最適化が大きく寄与。
+  </div>
+</div>
+
+<!-- 7期通期サマリー -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#128203;</span> 7期通期サマリー（6期 vs 7期）</div>
+  <table class="comp-table" style="margin-bottom:24px;">
+    <thead>
+      <tr>
+        <th>指標</th>
+        <th class="text-right">6期</th>
+        <th class="text-right">7期</th>
+        <th class="text-right">増減</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>売上高（純額）</td>
+        <td class="text-right">&#165;58,570,000</td>
+        <td class="text-right">&#165;43,400,000</td>
+        <td class="text-right down">&#9660;25.9%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td><strong>当期純利益</strong></td>
+        <td class="text-right">&#165;1,050,000</td>
+        <td class="text-right">&#165;6,200,000</td>
+        <td class="text-right up">&#9650;+491%</td>
+      </tr>
+      <tr>
+        <td>営業利益率</td>
+        <td class="text-right">1.6%</td>
+        <td class="text-right">14.9%</td>
+        <td class="text-right up">+13.3pt</td>
+      </tr>
+      <tr>
+        <td>販管費合計</td>
+        <td class="text-right">&#165;57,320,000</td>
+        <td class="text-right">&#165;36,920,000</td>
+        <td class="text-right up">&#9660;35.6%削減</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="chart-container" style="height:350px;margin-top:20px;">
+    <canvas id="monthlyTrendChart"></canvas>
+  </div>
+
+  <div class="alert-box success" style="margin-top:20px;">
+    <strong>売上は25.9%減少したものの、当期純利益は6倍に拡大。</strong>販管費の大幅削減（▲2,040万円）により、「売上を追う経営」から「利益を残す経営」への転換に成功。
+  </div>
+</div>
+
+<!-- BS分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#127974;</span> 貸借対照表（BS）分析 &#8212; 7期末</div>
+
+  <div class="gauge-row" style="margin-bottom:24px;">
+    <div class="gauge-card">
+      <div class="gc-label">現金及び預金</div>
+      <div class="gc-value" style="color:var(--positive)">&#165;33.3M</div>
+      <div class="gc-unit">百万円</div>
+      <div class="gc-note">6期末 &#165;7.3M → +&#165;26.0M</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">流動比率</div>
+      <div class="gc-value" style="color:var(--negative)">62.7%</div>
+      <div class="gc-unit">流動資産 / 流動負債</div>
+      <div class="gc-note">100%未満は要注意</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">自己資本比率</div>
+      <div class="gc-value" style="color:var(--negative)">-199.0%</div>
+      <div class="gc-unit">債務超過</div>
+      <div class="gc-note">純資産 &#165;-23.9M</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">純資産改善</div>
+      <div class="gc-value" style="color:var(--positive)">+&#165;6.2M</div>
+      <div class="gc-unit">前期比</div>
+      <div class="gc-note">繰越損失 &#165;-25.9M</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h4 style="color:var(--navy);margin-bottom:12px;font-family:'Noto Serif JP',serif;font-size:0.95rem;">資産の部</h4>
+      <table class="comp-table">
+        <tbody>
+          <tr>
+            <td>流動資産合計</td>
+            <td class="text-right">&#165;7,280,998</td>
+          </tr>
+          <tr>
+            <td>&nbsp;&nbsp;現金及び預金</td>
+            <td class="text-right">&#165;3,329,297</td>
+          </tr>
+          <tr>
+            <td>固定資産合計</td>
+            <td class="text-right">&#165;451,606</td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>資産合計</strong></td>
+            <td class="text-right"><strong>&#165;12,032,717</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h4 style="color:var(--navy);margin-bottom:12px;font-family:'Noto Serif JP',serif;font-size:0.95rem;">負債・純資産の部</h4>
+      <table class="comp-table">
+        <tbody>
+          <tr>
+            <td>流動負債合計</td>
+            <td class="text-right">&#165;11,614,797</td>
+          </tr>
+          <tr>
+            <td>長期借入金</td>
+            <td class="text-right">&#165;24,360,997</td>
+          </tr>
+          <tr>
+            <td>負債合計</td>
+            <td class="text-right">&#165;35,975,794</td>
+          </tr>
+          <tr>
+            <td>資本金</td>
+            <td class="text-right">&#165;2,000,000</td>
+          </tr>
+          <tr>
+            <td>繰越利益剰余金</td>
+            <td class="text-right down">&#165;-25,943,077</td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>純資産合計</strong></td>
+            <td class="text-right down"><strong>&#165;-23,943,077</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="alert-box danger" style="margin-top:20px;">
+    <strong>依然として債務超過（純資産▲&#165;23.9M）。</strong>ただし7期の利益改善により+&#165;6.2Mの改善を達成。現在のペース（年間純利益&#165;6.2M）を維持すれば約4年で債務超過解消の見通し。
+  </div>
+</div>
+
+<!-- 事業進捗 -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#128640;</span> 事業進捗・トピック</div>
+  <div class="two-col">
+    <div>
+      <h4 style="color:var(--navy);margin-bottom:12px;font-family:'Noto Serif JP',serif;font-size:0.95rem;">コンサル・WEBマーケ事業</h4>
+      <ul class="progress-list">
+        <li><span class="prog-icon">&#9989;</span>個人コンサル: 現在24社 → 3月から+4社確定、最大30社へ</li>
+        <li><span class="prog-icon">&#9989;</span>WEBマーケ支援: 4社（BUG、ハッピーファクトリー、OHANA、(株)上間）</li>
+        <li><span class="prog-icon">&#128260;</span>BUGからBtoBマーケ・LP作成の単発依頼を受託対応中</li>
+        <li><span class="prog-icon">&#10060;</span>宮スポーツ: 支援終了</li>
+        <li><span class="prog-icon">&#10060;</span>ファーストプレイス: 提案実施も見送り</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--navy);margin-bottom:12px;font-family:'Noto Serif JP',serif;font-size:0.95rem;">こどもや事業</h4>
+      <ul class="progress-list">
+        <li><span class="prog-icon">&#128176;</span>施設教材費返金: 約70%完了（約40万円）。11名未返答</li>
+        <li><span class="prog-icon">&#9989;</span>PTA講演会（愛児幼稚園 1/24）好評 → 姉妹園から来年度依頼の打診</li>
+        <li><span class="prog-icon">&#128260;</span>3〜4月: 週1回マンツーマンレッスン再開に向けHP・予約サイト整備中</li>
+        <li><span class="prog-icon">&#128214;</span>レッスン: 対象2歳〜小2、60分、税込&#165;8,800、事前決済</li>
+        <li><span class="prog-icon">&#128260;</span>本の執筆・YouTube動画編集を並行進行</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 課題と提言 -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#128161;</span> 課題と提言</div>
+  <div class="proposal-grid">
+    <div class="proposal-card critical">
+      <div class="pc-priority">CRITICAL &#8212; 即時対応</div>
+      <div class="pc-title">講座関連売上の安定化</div>
+      <div class="pc-body">2月は予算比39.4%と大幅未達。ジョーキャリア講座の集客サイクルが不安定であり、UTAGEファネルの最適化やMeta広告のROI管理を早急に実施すべき。月次コンサル売上150万円目標に加え、講座売上の底上げが必要。</div>
+      <div class="pc-impact">想定効果: 月次売上+50〜80万円安定化</div>
+    </div>
+    <div class="proposal-card important">
+      <div class="pc-priority">IMPORTANT &#8212; 中期対応</div>
+      <div class="pc-title">債務超過解消ロードマップ策定</div>
+      <div class="pc-body">繰越損失&#165;25.9M、純資産&#165;-23.9M。7期の+&#165;6.2M改善ペースを維持すれば約4年で解消可能だが、金融機関との関係維持のため明確な数値計画を書面化し共有すべき。</div>
+      <div class="pc-impact">想定効果: 金融機関との信頼維持・追加融資交渉力</div>
+    </div>
+    <div class="proposal-card suggest">
+      <div class="pc-priority">SUGGEST &#8212; 推奨</div>
+      <div class="pc-title">こどもやマンツーマンレッスンの収益化</div>
+      <div class="pc-body">3〜4月のレッスン再開に向け準備中。&#165;8,800/60分の価格設定は妥当。週3枠（11:00/13:00/15:00）×月4週で最大月&#165;105,600のストック売上。PTA講演からの導線構築も有効。</div>
+      <div class="pc-impact">想定効果: 月次+10万円のストック売上源確立</div>
+    </div>
+    <div class="proposal-card info">
+      <div class="pc-priority">INFO &#8212; 継続モニタリング</div>
+      <div class="pc-title">中期経営計画（月420万・営業利益200万）の策定</div>
+      <div class="pc-body">8期の目標として月売上420万円・営業利益200万円が議事録で言及。各部門の目標値（単価×件数）を設定し、ジョーさんの工数を可視化して持続可能な成長モデルを構築する。</div>
+      <div class="pc-impact">想定効果: 8期営業利益率30%+を目指す戦略基盤</div>
+    </div>
+  </div>
+</div>
+
+<!-- Next Action -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#9989;</span> Next Action</div>
+  <ul class="next-action-list">
+    <li><strong>中期経営計画の作成</strong> &#8212; 月売上420万円・営業利益200万円の部門別目標値を設定。ジョーさんの工数可視化を含む。<span style="color:var(--gold);font-weight:600;">期限: 4月中</span></li>
+    <li><strong>こどもやマンツーマンレッスン開始</strong> &#8212; HP・予約サイトの整備完了後、3〜4月中にサービスイン。<span style="color:var(--gold);font-weight:600;">期限: 4月</span></li>
+    <li><strong>各部門の売上目標値設定</strong> &#8212; 起業コンサル（単価×件数）、講座関連、オンラインサロン各事業の月次KPIを策定。<span style="color:var(--gold);font-weight:600;">期限: 4月中</span></li>
+    <li><strong>講座集客ファネルの見直し</strong> &#8212; Meta広告×UTAGEの CVR測定とファネル別最適化。講座関連売上の月次100万円安定化を目指す。<span style="color:var(--gold);font-weight:600;">期限: 継続</span></li>
+    <li><strong>施設教材費返金の完了</strong> &#8212; 未返答11名への再連絡・クロージング。<span style="color:var(--gold);font-weight:600;">期限: 3月中</span></li>
+  </ul>
+</div>
+
+</div><!-- /.container -->
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I">
+      <span>Consulting</span>
+    </div>
+    <div class="footer-info">
+      株式会社ふ々屋 7期2月度 月次レポート
+    </div>
+    <div class="footer-confidential">最重要機密（CONFIDENTIAL）</div>
+  </div>
+</div>
+
+<script>
+Chart.defaults.font.family = "'Inter', 'Noto Sans JP', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#6B6B6B';
+
+// 7期 月次売上・営業利益推移
+(function(){
+  var ctx = document.getElementById('revenueChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['3月','4月','5月','6月','7月','8月','9月','10月','11月','12月','1月','2月'],
+      datasets: [
+        {
+          label: '売上高',
+          data: [3607618, 3653889, 4155934, 3418976, 3837122, 4275061, 3637349, 3480484, 3326690, 4394421, 3357692, 2250594],
+          backgroundColor: '#1A2540',
+          borderRadius: 4,
+          order: 2
+        },
+        {
+          label: '営業利益',
+          data: [10088, 255059, 725814, -106645, 136651, 1160576, 391528, 347799, 260133, 2462881, 784615, 46537],
+          type: 'line',
+          borderColor: '#B8912A',
+          backgroundColor: 'rgba(184,145,42,0.1)',
+          pointBackgroundColor: '#B8912A',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          borderWidth: 2.5,
+          tension: 0.3,
+          fill: false,
+          order: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              return ctx.dataset.label + ': \u00a5' + ctx.parsed.y.toLocaleString();
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(v) { return '\u00a5' + (v/10000).toFixed(0) + '\u4e07'; }
+          },
+          grid: { color: 'rgba(0,0,0,0.05)' }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+})();
+
+// 売上構成ドーナツチャート
+(function(){
+  var ctx = document.getElementById('compositionChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['\u8d77\u696d\u30b3\u30f3\u30b5\u30eb', '\u8b1b\u5ea7\u95a2\u9023', '\u30aa\u30f3\u30e9\u30a4\u30f3\u30b5\u30ed\u30f3', '\u3053\u3069\u3082\u3084', '\u305d\u306e\u4ed6'],
+      datasets: [{
+        data: [1408000, 670073, 312178, 79200, 500],
+        backgroundColor: ['#1A2540', '#B8912A', '#243352', '#D4A843', '#8B7355'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '55%',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 16, font: { size: 12 } } },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              var total = ctx.dataset.data.reduce(function(a,b){return a+b;},0);
+              var pct = (ctx.parsed / total * 100).toFixed(1);
+              return ctx.label + ': \u00a5' + ctx.parsed.toLocaleString() + ' (' + pct + '%)';
+            }
+          }
+        }
+      }
+    }
+  });
+})();
+
+// 7期 月次推移（経常利益追加）
+(function(){
+  var ctx = document.getElementById('monthlyTrendChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['3月','4月','5月','6月','7月','8月','9月','10月','11月','12月','1月','2月'],
+      datasets: [
+        {
+          label: '営業利益',
+          data: [10088, 255059, 725814, -106645, 136651, 1160576, 391528, 347799, 260133, 2462881, 784615, 46537],
+          backgroundColor: function(ctx) {
+            return ctx.parsed.y >= 0 ? '#1B7A3D' : '#8B2020';
+          },
+          borderRadius: 4
+        },
+        {
+          label: '経常利益',
+          data: [-22109, 218613, 692964, -135713, 146215, 1131630, 224235, 320225, 279704, 2442824, 844627, 59042],
+          type: 'line',
+          borderColor: '#B8912A',
+          pointBackgroundColor: '#B8912A',
+          pointRadius: 4,
+          borderWidth: 2,
+          tension: 0.3,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              return ctx.dataset.label + ': \u00a5' + ctx.parsed.y.toLocaleString();
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          ticks: {
+            callback: function(v) { return '\u00a5' + (v/10000).toFixed(0) + '\u4e07'; }
+          },
+          grid: { color: 'rgba(0,0,0,0.05)' }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

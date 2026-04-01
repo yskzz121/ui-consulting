@@ -75,14 +75,18 @@ ui-consulting/
 ```html
 <div class="header">
   <div class="header-content">
-    <div class="header-logo-row">
-      <!-- ロゴがある場合のみ。PNGにはborder-radius:8pxを追加 -->
-      <img src="{client-logo}" alt="{client}" style="height:56px;width:auto;border-radius:8px;">
+    <div class="header-ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I Consulting">
+      <span>Consulting</span>
+    </div>
+    <div class="header-client-row">
       <div class="ticker-badge">{企業名}</div>
     </div>
     <h1>{レポートタイトル}</h1>
-    <div class="subtitle">{サブタイトル}</div>
-    <div class="date">分析日: {YYYY年M月D日} ｜ 作成: U&amp;Iコンサルティング</div>
+    <div class="header-period">
+      <span class="period-fiscal">{N}期</span>
+      <span class="period-month">{YYYY年M月度}</span>
+    </div>
   </div>
 </div>
 ```
@@ -92,7 +96,7 @@ ui-consulting/
   background: linear-gradient(135deg, #1a2332 0%, #1A2540 50%, #0F1829 100%);
   color: #fff;
   border-bottom: 1px solid rgba(184,145,42,0.15);
-  padding: 48px 24px 36px;
+  padding: 48px 24px 40px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -106,7 +110,10 @@ ui-consulting/
     radial-gradient(ellipse at 70% 50%, rgba(184,145,42,0.06) 0%, transparent 60%);
 }
 .header-content { position: relative; z-index: 1; }
-.header-logo-row { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px; }
+.header-ui-logo { display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px; }
+.header-ui-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.header-ui-logo span { color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px; }
+.header-client-row { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px; }
 .ticker-badge {
   display: inline-block;
   background: rgba(184,145,42,0.15);
@@ -117,15 +124,29 @@ ui-consulting/
   color: var(--gold-light);
   letter-spacing: 1px;
 }
-.header h1 { font-family:'Noto Serif JP',serif; font-size:1.9rem; font-weight:700; color:#fff; margin-bottom:4px; letter-spacing:2px; }
-.header .subtitle { color: rgba(255,255,255,0.7); font-size: 0.92rem; }
-.header .date { color: rgba(255,255,255,0.5); font-size: 0.78rem; margin-top: 8px; }
+.header h1 { font-family:'Noto Serif JP',serif; font-size:1.9rem; font-weight:700; color:#fff; margin-bottom:8px; letter-spacing:2px; }
+.header-period { display:flex;align-items:center;justify-content:center;gap:16px;margin-top:4px; }
+.period-fiscal { background:rgba(184,145,42,0.2);border:1px solid rgba(184,145,42,0.4);border-radius:6px;padding:4px 14px;font-size:0.85rem;color:var(--gold-light);font-weight:700;letter-spacing:1px; }
+.period-month { font-size:1.1rem;color:rgba(255,255,255,0.9);font-weight:700;letter-spacing:1px; }
 ```
 
 **ルール:**
+- ヘッダー最上部にU&Iロゴ + 「Consulting」を必ず表示（U&Iコンサルティングの成果物であることを明示）
+- U&Iロゴは `../assets/ui_logo_white.png` を参照
+- クライアントロゴがある場合は `header-client-row` 内に ticker-badge と並べて配置
+- 年度（N期）と月度（YYYY年M月度）を `header-period` で明確に分離表示
+- **分析日は表示しない**（不要）
 - グラデーション背景は全クライアント共通（変更しない）
-- ロゴがない場合は `ticker-badge` のみで構成
-- 「作成: U&Iコンサルティング」は必ず日付行に含める
+
+## ヘッダー直後の余白
+
+ヘッダーと最初のセクション（Executive Summary等）の間に十分な余白を確保する。
+
+```css
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 60px; }
+```
+
+`container` の `padding-top: 40px` により、ヘッダーとコンテンツの間に余白が生まれる。
 
 ---
 
@@ -137,11 +158,11 @@ ui-consulting/
 <div class="footer">
   <div class="footer-content">
     <div class="footer-logo">
-      <img src="{相対パス}/ui_logo_white.png" alt="U&amp;I">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I">
       <span>Consulting</span>
     </div>
     <div class="footer-info">
-      {企業名} {レポート名} ｜ 分析日: {YYYY年M月D日}
+      {企業名} {レポート名}
     </div>
     <div class="footer-confidential">最重要機密（CONFIDENTIAL）</div>
   </div>
@@ -181,8 +202,9 @@ ui-consulting/
 
 ### スコアカード（Key Metrics）
 - `.score-row` — grid: repeat(5, 1fr)
-- `.score-card {positive|negative|neutral}` — 上部4px色バー
+- `.score-card` — 白背景・角丸・シャドウのみ。**カラーアクセント（上部色バー等）は使用禁止**
 - 子要素: `.sc-label` `.sc-value {up|down}` `.sc-change {up|down}` `.sc-sub`
+- `{positive|negative|neutral}` クラスによるボーダー色変更は**廃止**
 
 ### 比較テーブル
 - `.comp-table` — navyヘッダー・ゴールドホバー
@@ -192,25 +214,35 @@ ui-consulting/
 ### メトリクスカード
 - `.metrics-grid` — grid: repeat(3, 1fr)
 - `.metric-card` → `.mc-header` `.mc-label` `.mc-badge {good|bad|warn}` `.mc-values` `.mc-bar` `.mc-bar-fill`
+- **カラーアクセント（ボーダー色変更）は使用禁止**。バッジのテキスト色のみで状態を表現
 
 ### ゲージカード
 - `.gauge-row` — grid: repeat(4, 1fr)
 - `.gauge-card` → `.gc-label` `.gc-value` `.gc-unit` `.gc-note`
+- **カラーアクセント（ボーダー色変更）は使用禁止**
 
 ### 提案カード
 - `.proposal-grid` — grid: 1fr 1fr
-- `.proposal-card {critical|important|suggest|info}`
+- `.proposal-card` — 白背景・角丸・シャドウのみ。**カラーアクセント（左ボーダー色等）は使用禁止**
 - 子要素: `.pc-priority` `.pc-title` `.pc-body` `.pc-impact`
-
-| クラス | 用途 | ボーダー色 |
-|--------|------|-----------|
-| `critical` | 最重要・即時対応 | `--negative` |
-| `important` | 重要・中期 | `--neutral` |
-| `suggest` | 推奨・中長期 | `--positive` |
-| `info` | 参考・継続 | `#1976D2` |
+- 優先度はテキストラベル（最重要/重要/推奨/参考）で表現。ボーダー色による区別は**廃止**
 
 ### アラートボックス
 - `.alert-box {warning|danger|success}`
+- **カラーアクセント（左ボーダー色等）は使用禁止**。アイコンとテキスト色のみで状態を表現
+
+---
+
+## カラーアクセント禁止ルール（全コンポーネント共通）
+
+**全てのカードパネル・ボックスコンポーネントにおいて、枠線へのカラーアクセント（色付きボーダー、上部色バー、左ボーダー色等）の使用を禁止する。**
+
+- スコアカード: `border-top` の色分け → 廃止。`border: 1px solid var(--border)` に統一
+- 提案カード: `border-left` の色分け → 廃止。`border: 1px solid var(--border)` に統一
+- メトリクスカード: ボーダー色変更 → 廃止
+- ゲージカード: ボーダー色変更 → 廃止
+- アラートボックス: `border-left` の色分け → 廃止
+- 状態の区別はテキスト色（`.up` / `.down`）、バッジテキスト、アイコンで表現する
 
 ---
 
@@ -325,3 +357,202 @@ Chart.defaults.color = '#6B6B6B';
 - `container` 内にフッターを配置しない（必ず外に出す）
 - インラインスタイルで `grid-template-columns` を指定しない（メディアクエリが効かなくなる）
 - HTMLの `&` をエスケープし忘れない（`&amp;` を使う）
+
+---
+
+## 運用ワークフロー
+
+### フォルダ構成（クライアントごと）
+
+```
+{client-id}/
+├── profile.yaml        ← クライアント定義（KPI・重点テーマ・レポートスタイル）
+├── inbox/              ← 素材置き場（PDF・メモ・スプシURL等、何でも放り込む）
+│   ├── {YYYY-MM}_試算表.pdf
+│   ├── {YYYY-MM}_面談メモ.md
+│   └── {YYYY-MM}_スプシURL.txt
+├── data/               ← 構造化データ蓄積（Claude Codeが自動生成）
+│   └── {YYYY-MM}.yaml
+├── index.html          ← クライアントポータル
+└── {report}.html       ← レポート本体
+```
+
+### レポート生成フロー
+
+```
+「○○社の{月}レポート作って」
+
+  Step 1: profile.yaml 読み込み
+          → KPI定義・重点テーマ・レポートスタイルを把握
+
+  Step 2: inbox/ の該当月の素材を全て読み込み
+          → PDF → 数値抽出
+          → メモ → 論点抽出
+          → URL → アクセスして内容取得
+
+  Step 3: data/{YYYY-MM}.yaml に構造化データを保存
+          → 過去データ（data/内の他YAML）と比較可能にする
+
+  Step 4: 分析（下記の分析フレームワークに従う）
+          → 第1層〜第4層を順に算出
+          → profile.yamlのtarget/alert_thresholdと照合
+          → focus_topicsの進捗判定
+
+  Step 5: レポート生成（HTML）
+          → 本CLAUDE.mdのデザインシステム・コンポーネントに準拠
+          → REPORT_SPEC.mdのセクション仕様に準拠
+          → profile.yamlのreport_styleに従う
+          → excluded_sectionsは出力しない
+
+  Step 6: {client-id}/ にレポートHTMLを保存
+```
+
+### 面談メモのフォーマット
+
+inbox/ に以下の3ブロック構成で記載する。厳密なフォーマットは不要、箇条書きで可。
+
+```markdown
+# {会社名} {YYYY-MM} 面談メモ
+
+## 数字（言ってたこと）
+- 売上○○万くらい
+- 原価率が○○%台
+
+## トピック
+- 新メニュー投入予定
+- 採用状況
+
+## 気になったこと
+- 社長の様子や温度感
+- 把握できていなさそうな問題
+```
+
+---
+
+## 分析フレームワーク
+
+### 第1層: 財務分析（全社必須）
+
+全クライアント共通で以下の項目をYoY（前年同月比）・MoM（前月比）で算出する。
+
+| 項目 | YoY | MoM | 備考 |
+|------|:---:|:---:|------|
+| 売上高 | o | o | 金額＋増減率 |
+| 売上総利益（粗利益） | o | o | 金額＋粗利率も併記 |
+| 固定費合計 | o | o | 金額＋増減率 |
+| 重点コスト項目（2〜3項目） | o | o | profile.yamlのfocus_costsに定義 |
+| 営業利益 | o | o | 金額＋営業利益率も併記 |
+
+重点コスト項目は業種によって金額が大きくなる項目（人件費・外注費・原材料費・家賃等）をprofile.yamlで指定する。
+
+### 第2層: 収益性・効率性指標
+
+profile.yamlのefficiencyに定義された指標のみ算出・表示する。全社一律ではない。
+
+| 指標 | 対象業種の例 |
+|------|------------|
+| 客数・客単価 | 飲食、フィットネス、学習塾 |
+| ロス率（廃棄率） | 飲食、製造 |
+| 労働分配率 | サービス業全般（不動産賃貸を除く） |
+| ROI | マーケティング、不動産 |
+| ROA | 全業種 |
+| ROE | 全業種 |
+
+業種固有KPI（profile.yamlのindustry_kpis）もこの層で出力する。
+
+### 第3層: 財務健全性（BS項目）
+
+profile.yamlの `balance_sheet.available: true` の場合のみ算出・表示する。
+
+| 指標 |
+|------|
+| 流動比率 |
+| 自己資本比率 |
+
+BS未提出（`available: false`）の場合:
+- 該当セクション自体を非表示
+- レポート末尾に「BS提出によりさらに深い財務健全性分析が可能です」と添える
+
+### 第4層: キャッシュフロー
+
+profile.yamlの `cashflow.available: true` の場合のみ算出・表示する。
+
+| 指標 | 算出方法 |
+|------|---------|
+| FCF（フリーキャッシュフロー） | 営業CF − 投資CF |
+
+method: simplified の場合は簡易法（当期純利益＋減価償却費−運転資本増減）で推定する。
+
+---
+
+## 月次レポート構成順序
+
+```
+ 1. ヘッダー（本CLAUDE.mdの統一仕様に準拠）
+ 2. Executive Summary（summary-box。3行以内で結論）
+ 3. Key Metrics（score-row / score-card）
+ 4. 財務分析
+    ├── 売上高（YoY・MoM・推移チャート）
+    ├── 売上総利益・粗利率（YoY・MoM）
+    ├── 重点コスト項目（profile.yamlのfocus_costs、YoY・MoM）
+    ├── 固定費合計（YoY・MoM）
+    └── 営業利益・営業利益率（YoY・MoM）
+ 5. 収益性・効率性指標（該当項目のみ。metrics-grid）
+ 6. 業種固有KPI（該当項目のみ）
+ 7. 財務健全性（BS提出ありの場合のみ。gauge-row）
+ 8. キャッシュフロー（データありの場合のみ）
+ 9. 重点テーマの進捗（profile.yamlのfocus_topics）
+10. 課題と提言（3項目以内。proposal-card）
+11. Next Action（具体的なアクション、期限付き）
+12. フッター（本CLAUDE.mdの統一仕様に準拠。CONFIDENTIAL必須）
+```
+
+---
+
+## data/ 構造化データ仕様
+
+Claude Codeがinbox/の素材を解釈し、以下の形式で data/{YYYY-MM}.yaml に蓄積する。
+
+```yaml
+period: "YYYY-MM"
+source_files:
+  - "{YYYY-MM}_試算表.pdf"
+  - "{YYYY-MM}_面談メモ.md"
+
+financial:
+  revenue: 0              # 売上高（万円）
+  cogs: 0                 # 売上原価
+  gross_profit: 0         # 売上総利益
+  gross_margin: 0.0       # 粗利率（%）
+  fixed_costs: 0          # 固定費合計
+  operating_profit: 0     # 営業利益
+  operating_margin: 0.0   # 営業利益率（%）
+  focus_costs:            # profile.yamlのfocus_costsに対応
+    項目名: 0
+
+efficiency:               # profile.yamlのefficiencyに対応
+  項目名: null            # 算出不可の場合はnull
+
+industry_kpis:            # profile.yamlのindustry_kpisに対応
+  項目名: null
+
+balance_sheet:            # available: trueの場合のみ
+  current_ratio: null     # 流動比率（%）
+  equity_ratio: null      # 自己資本比率（%）
+
+cashflow:
+  fcf: null               # FCF（万円）
+  method: simplified
+
+notes: |
+  面談メモから抽出した定性情報
+```
+
+---
+
+## デプロイ
+
+- Gitの操作（commit / push）は本人のみが行う。福原・園子はGitを操作しない
+- レポートHTML生成後、Google Drive経由で本人のPCに自動同期される
+- 本人がレビュー後に git add → commit → push でGitHub Pagesに公開
+- inbox/ と data/ は .gitignore で除外済み（クライアント機密データをGitHubに上げない）

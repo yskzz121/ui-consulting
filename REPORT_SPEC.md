@@ -87,10 +87,10 @@ body {
 ### 構造
 ```
 ┌─────────────────────────────────────────┐
-│            [企業ロゴ] [企業名バッジ]        │
-│              レポートタイトル（h1）          │
-│            サブタイトル（subtitle）          │
-│   分析日: YYYY年M月D日 ｜ 作成: U&Iコンサルティング  │
+│         [U&Iロゴ] Consulting              │
+│            [企業名バッジ]                   │
+│           レポートタイトル（h1）              │
+│          [N期]  [YYYY年M月度]               │
 └─────────────────────────────────────────┘
 ```
 
@@ -98,13 +98,18 @@ body {
 ```html
 <div class="header">
   <div class="header-content">
-    <div class="header-logo-row">
-      <img src="{client-logo}" alt="{client}" style="height:56px;width:auto;border-radius:8px;">
+    <div class="header-ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I Consulting">
+      <span>Consulting</span>
+    </div>
+    <div class="header-client-row">
       <div class="ticker-badge">{企業名}</div>
     </div>
     <h1>{レポートタイトル}</h1>
-    <div class="subtitle">{サブタイトル}</div>
-    <div class="date">分析日: {YYYY年M月D日} ｜ 作成: U&Iコンサルティング</div>
+    <div class="header-period">
+      <span class="period-fiscal">{N}期</span>
+      <span class="period-month">{YYYY年M月度}</span>
+    </div>
   </div>
 </div>
 ```
@@ -153,10 +158,10 @@ body {
 ```
 
 ### ルール
-- ヘッダーグラデーション背景は全クライアント共通（変更しない）
-- ロゴがPNGの場合は `border-radius:8px` を追加
-- ロゴがない場合は `ticker-badge` のみで構成
-- 「作成: U&Iコンサルティング」は必ず日付行に含める
+- ヘッダー最上部にU&Iロゴ + 「Consulting」を必ず表示
+- 年度（N期）と月度を `header-period` で明確に分離表示
+- **分析日は表示しない**
+- グラデーション背景は全クライアント共通（変更しない）
 
 ---
 
@@ -166,7 +171,7 @@ body {
 ```
 ┌─────────────────────────────────────────┐
 │          [U&Iロゴ] Consulting             │
-│   {企業名} {レポート名} ｜ 分析日: {日付}     │
+│          {企業名} {レポート名}               │
 │         最重要機密（CONFIDENTIAL）          │
 └─────────────────────────────────────────┘
 ```

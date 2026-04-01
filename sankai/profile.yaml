@@ -1,0 +1,73 @@
+# === 基本情報 ===
+company: 有限会社三海
+brand: ""
+reading: さんかい
+industry: 不動産賃貸オーナー業
+representative: ""
+area: 沖縄・札幌・福岡・群馬（4拠点）
+contract_start: ""
+reporting_cycle: monthly
+client_id: sankai
+
+# === データソースの特性 ===
+data_sources:
+  - type: pdf_trial_balance
+    description: 税理士から月次試算表PDF
+  - type: meeting_notes
+    description: 面談メモ（福原が記載）
+
+# === 分析フレーム ===
+analysis_framework:
+  # 第1層: 財務分析
+  financial:
+    always: [売上高, 売上総利益, 固定費合計, 営業利益]
+    comparison: [yoy, mom]
+    focus_costs: [修繕費, 管理委託費, 借入金利息]
+
+  # 第2層: 収益性・効率性
+  efficiency:
+    - ROI
+    - ROA
+    - ROE
+
+  # 第2層: 業種固有KPI
+  industry_kpis:
+    - name: 入居率
+      unit: "%"
+      alert_threshold: 90    # この値を下回ったらアラート
+    - name: 物件別NOI
+      unit: 万円
+    - name: エリア別収益
+      areas: [沖縄, 札幌, 福岡, 群馬]
+
+  # 第3層: 財務健全性
+  balance_sheet:
+    available: true       # BS請求により取得可能
+    metrics: [流動比率, 自己資本比率]
+
+  # 第4層: キャッシュフロー
+  cashflow:
+    available: true
+    method: simplified
+
+# === BS未提出の場合に非表示にするセクション ===
+excluded_sections: []
+
+# === 現在の重点テーマ ===
+focus_topics: []
+  # - topic: （福原と確認して記入）
+  #   since: 2026-01
+  #   status: ongoing
+  #   context: ""
+
+# === レポートのトーン ===
+report_style:
+  audience: ""            # ← 要確認
+  tone: 直接的、改善提案を必ず含める
+  length: standard
+  language: ja
+  notes: エリア別（沖縄/札幌/福岡/群馬）の比較を必ず含める
+
+# === パスワードロック ===
+password_hash: ""
+session_key: sankai_auth

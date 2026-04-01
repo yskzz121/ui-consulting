@@ -54,6 +54,13 @@ body {
     radial-gradient(ellipse at 70% 50%, rgba(184,145,42,0.06) 0%, transparent 60%);
 }
 .header-content { position: relative; z-index: 1; }
+.header-ui-logo { display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px; }
+.header-ui-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.header-ui-logo span { color:#D4A843;font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px; }
+.header-client-row { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px; }
+.header-period { display:flex;align-items:center;justify-content:center;gap:16px;margin-top:4px; }
+.period-fiscal { background:rgba(184,145,42,0.2);border:1px solid rgba(184,145,42,0.4);border-radius:6px;padding:4px 14px;font-size:0.85rem;color:#D4A843;font-weight:700;letter-spacing:1px; }
+.period-month { font-size:1.1rem;color:rgba(255,255,255,0.9);font-weight:700;letter-spacing:1px; }
 .header .label {
   display: inline-block;
   background: rgba(184,145,42,0.15);
@@ -86,7 +93,7 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 32px 20px 60px;
+  padding: 40px 20px 60px;
 }
 
 /* Section */
@@ -131,15 +138,7 @@ body {
   position: relative;
   overflow: hidden;
 }
-.score-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 4px;
-}
-.score-card.positive::before { background: var(--positive); }
-.score-card.negative::before { background: var(--negative); }
-.score-card.neutral::before { background: var(--neutral); }
+.score-card::before { display: none; }
 .score-card .sc-label {
   font-size: 0.72rem;
   color: var(--text-sub);
@@ -292,25 +291,9 @@ body {
 .proposal-card {
   border-radius: 12px;
   padding: 24px;
-  border-left: 4px solid;
+  border: 1px solid var(--border);
   background: #fff;
   box-shadow: var(--card-shadow);
-}
-.proposal-card.critical {
-  border-color: var(--negative);
-  background: linear-gradient(135deg, #fff 0%, #FFF5F5 100%);
-}
-.proposal-card.important {
-  border-color: var(--neutral);
-  background: linear-gradient(135deg, #fff 0%, #FFFAF0 100%);
-}
-.proposal-card.suggest {
-  border-color: var(--positive);
-  background: linear-gradient(135deg, #fff 0%, #F0FFF4 100%);
-}
-.proposal-card.info {
-  border-color: #1976D2;
-  background: linear-gradient(135deg, #fff 0%, #F0F8FF 100%);
 }
 .proposal-card .pc-priority {
   font-size: 0.65rem;
@@ -504,13 +487,19 @@ body {
 <!-- Header -->
 <div class="header">
   <div class="header-content">
-    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px">
+    <div class="header-ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I Consulting">
+      <span>Consulting</span>
+    </div>
+    <div class="header-client-row">
       <img src="character_transparent.png" alt="エフ琉球" style="height:52px;width:auto;border-radius:8px;">
       <div class="label" style="margin-bottom:0">株式会社エフ琉球</div>
     </div>
     <h1>財務分析レポート</h1>
     <div class="subtitle">総合推移財務諸表に基づく経営指標分析・改善提案</div>
-    <div class="period">対象期間: 令和7年8月〜令和8年2月（7ヶ月累計） ｜ 分析日: 2026年3月28日 ｜ 作成: U&Iコンサルティング</div>
+    <div class="header-period">
+      <span class="period-month">令和7年8月〜令和8年2月（7ヶ月累計）</span>
+    </div>
   </div>
 </div>
 
@@ -1281,7 +1270,7 @@ body {
     <span style="color:#D4A843;font-weight:700;font-size:0.85rem;line-height:1;font-family:Inter,sans-serif;letter-spacing:1.5px;font-weight:600">Consulting</span>
   </div>
   <div style="font-size:0.72rem;margin-bottom:10px">
-    株式会社エフ琉球 財務分析レポート ｜ 分析日: 2026年3月28日
+    株式会社エフ琉球 財務分析レポート
   </div>
   <div style="font-size:0.7rem;font-weight:700;color:#B8912A;letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);display:inline-block;padding:4px 16px;border-radius:4px">最重要機密（CONFIDENTIAL）</div>
 </div>

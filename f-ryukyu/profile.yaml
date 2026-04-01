@@ -1,0 +1,74 @@
+# === 基本情報 ===
+company: 株式会社エフ琉球
+brand: ""
+reading: えふりゅうきゅう
+industry: サプリメント製造販売
+representative: ""
+area: 沖縄県
+contract_start: ""
+reporting_cycle: monthly
+client_id: f-ryukyu
+
+# === データソースの特性 ===
+data_sources:
+  - type: pdf_trial_balance
+    description: 税理士から月次試算表PDF（BS含む）
+  - type: meeting_notes
+    description: 面談メモ（福原が記載）
+
+# === 分析フレーム ===
+analysis_framework:
+  # 第1層: 財務分析
+  financial:
+    always: [売上高, 売上総利益, 固定費合計, 営業利益]
+    comparison: [yoy, mom]
+    focus_costs: [原材料費, 製造外注費, 物流費]
+
+  # 第2層: 収益性・効率性
+  efficiency:
+    - ロス率
+    - 労働分配率
+    - ROI
+    - ROA
+    - ROE
+
+  # 第2層: 業種固有KPI
+  industry_kpis:
+    - name: 原価率
+      unit: "%"
+    - name: 在庫回転率
+    - name: 製造ロット
+
+  # 第3層: 財務健全性
+  balance_sheet:
+    available: true       # BS提出あり
+    metrics: [流動比率, 自己資本比率]
+
+  # 第4層: キャッシュフロー
+  cashflow:
+    available: true
+    method: simplified    # simplified（簡易法） / direct（CF計算書あり）
+
+# === BS未提出の場合に非表示にするセクション ===
+excluded_sections: []
+  # - balance_sheet
+  # - cashflow
+
+# === 現在の重点テーマ ===
+focus_topics: []
+  # - topic: （福原と確認して記入）
+  #   since: 2026-01
+  #   status: ongoing
+  #   context: ""
+
+# === レポートのトーン ===
+report_style:
+  audience: ""            # ← 要確認: 社長の特性
+  tone: 直接的、改善提案を必ず含める
+  length: standard        # compact / standard / detailed
+  language: ja
+  notes: ""
+
+# === パスワードロック ===
+password_hash: ""         # echo -n "{password}" | shasum -a 256
+session_key: fr_auth

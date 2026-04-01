@@ -1,0 +1,68 @@
+# === 基本情報 ===
+company: 株式会社ふ々屋
+brand: ""
+industry: ウェブマーケティング
+representative: 山中錠一
+area: ""
+contract_start: ""
+reporting_cycle: monthly
+client_id: fufuya
+
+# === データソースの特性 ===
+data_sources:
+  - type: spreadsheet
+    description: GoogleスプレッドシートでPL共有
+  - type: meeting_notes
+    description: 面談メモ（福原が記載）
+
+# === 分析フレーム ===
+analysis_framework:
+  # 第1層: 財務分析
+  financial:
+    always: [売上高, 売上総利益, 固定費合計, 営業利益]
+    comparison: [yoy, mom]
+    focus_costs: [人件費, 外注費, 広告費]
+
+  # 第2層: 収益性・効率性
+  efficiency:
+    - 労働分配率
+    - ROI
+    - ROA
+    - ROE
+
+  # 第2層: 業種固有KPI
+  industry_kpis:
+    - name: 案件単価
+      unit: 万円
+    - name: 顧客数
+      unit: 社
+    - name: LTV
+      unit: 万円
+
+  # 第3層: 財務健全性
+  balance_sheet:
+    available: true       # BS請求により取得可能
+    metrics: [流動比率, 自己資本比率]
+
+  # 第4層: キャッシュフロー
+  cashflow:
+    available: true
+    method: simplified
+
+# === 非表示セクション ===
+excluded_sections: []
+
+# === 現在の重点テーマ ===
+focus_topics: []
+
+# === レポートのトーン ===
+report_style:
+  audience: 代表取締役 山中錠一氏
+  tone: 直接的、改善提案を必ず含める
+  length: standard
+  language: ja
+  notes: ""
+
+# === パスワードロック ===
+password_hash: ""
+session_key: fufuya_auth

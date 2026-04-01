@@ -27,12 +27,19 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
 .header{background:linear-gradient(135deg,#1a2332 0%,var(--navy) 50%,var(--navy-d) 100%);color:#fff;padding:48px 24px 40px;text-align:center;position:relative;overflow:hidden}
 .header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(184,145,42,0.1) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(184,145,42,0.06) 0%,transparent 60%)}
 .header-content{position:relative;z-index:1}
+.header-ui-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px}
+.header-ui-logo img{height:28px;opacity:0.85;flex-shrink:0}
+.header-ui-logo span{color:#D4A843;font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px}
+.header-client-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px}
+.header-period{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:4px}
+.period-fiscal{background:rgba(184,145,42,0.2);border:1px solid rgba(184,145,42,0.4);border-radius:6px;padding:4px 14px;font-size:0.85rem;color:#D4A843;font-weight:700;letter-spacing:1px}
+.period-month{font-size:1.1rem;color:rgba(255,255,255,0.9);font-weight:700;letter-spacing:1px}
 .header .badge{display:inline-block;background:rgba(184,145,42,0.15);border:1px solid rgba(184,145,42,0.3);border-radius:6px;padding:4px 16px;font-size:12px;color:var(--gold-l);letter-spacing:2px;margin-bottom:16px}
 .header h1{font-family:'Noto Serif JP',serif;font-size:1.9rem;font-weight:700;margin-bottom:8px;letter-spacing:2px}
 .header .sub{color:rgba(255,255,255,0.7);font-size:0.92rem}
 .header .period{color:rgba(255,255,255,0.5);font-size:0.78rem;margin-top:8px}
 
-.container{max-width:1240px;margin:0 auto;padding:32px 20px 60px}
+.container{max-width:1240px;margin:0 auto;padding:40px 20px 60px}
 
 /* Section */
 .section{background:#fff;border-radius:16px;padding:32px;margin-bottom:28px;box-shadow:var(--shadow);border:1px solid var(--border)}
@@ -71,11 +78,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
 /* KPI Cards */
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
 .kpi-card{background:#fff;border-radius:14px;padding:22px 18px;text-align:center;box-shadow:var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden}
-.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
-.kpi-card.green::before{background:var(--pos)}
-.kpi-card.red::before{background:var(--neg)}
-.kpi-card.gold::before{background:var(--gold)}
-.kpi-card.blue::before{background:var(--blue)}
+.kpi-card::before{display:none}
 .kpi-card .kl{font-size:0.7rem;color:var(--txt-s);margin-bottom:6px;font-weight:500}
 .kpi-card .kv{font-family:'Inter',sans-serif;font-size:2rem;font-weight:900;line-height:1.2}
 .kpi-card .ks{font-size:0.7rem;margin-top:4px;font-weight:600}
@@ -144,9 +147,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
 
 /* Alert note cards */
 .alert-notes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
-.alert-note{display:flex;gap:10px;padding:14px 16px;border-radius:10px;border-left:4px solid;font-size:0.78rem;line-height:1.7}
-.alert-note.critical{background:var(--neg-bg);border-color:var(--neg)}
-.alert-note.warning{background:var(--warn-bg);border-color:var(--warn)}
+.alert-note{display:flex;gap:10px;padding:14px 16px;border-radius:10px;border:1px solid var(--border);font-size:0.78rem;line-height:1.7}
 .alert-note .an-icon{font-size:1.1rem;flex-shrink:0;margin-top:2px}
 .alert-note .an-body{flex:1}
 .alert-note .an-title{font-weight:700;color:var(--navy);margin-bottom:2px}
@@ -169,13 +170,19 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
 
 <div class="header">
   <div class="header-content">
-    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px">
+    <div class="header-ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I Consulting">
+      <span>Consulting</span>
+    </div>
+    <div class="header-client-row">
       <img src="character_transparent.png" alt="エフ琉球" style="height:52px;width:auto;border-radius:8px;">
       <div class="badge" style="margin-bottom:0">株式会社エフ琉球</div>
     </div>
     <h1>直接原価計算 損益計算書</h1>
     <div class="sub">変動費・固定費分解による粗利益分析</div>
-    <div class="period">対象期間: 令和7年8月〜令和8年2月（7ヶ月累計） ｜ 分析日: 2026年3月28日 ｜ 作成: U&Iコンサルティング</div>
+    <div class="header-period">
+      <span class="period-month">令和7年8月〜令和8年2月（7ヶ月累計）</span>
+    </div>
   </div>
 </div>
 
@@ -996,7 +1003,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
     <span style="color:#D4A843;font-weight:700;font-size:0.85rem;line-height:1;font-family:Inter,sans-serif;letter-spacing:1.5px;font-weight:600">Consulting</span>
   </div>
   <div style="font-size:0.72rem;margin-bottom:10px">
-    株式会社エフ琉球 直接原価計算P/L ｜ 分析日: 2026年3月28日
+    株式会社エフ琉球 直接原価計算P/L
   </div>
   <div style="font-size:0.7rem;font-weight:700;color:#B8912A;letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);display:inline-block;padding:4px 16px;border-radius:4px">最重要機密（CONFIDENTIAL）</div>
 </div>
