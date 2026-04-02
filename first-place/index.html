@@ -44,8 +44,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
 </head>
 <body>
 
-<a class="back-link" href="../index.html">
+<a class="back-link" id="staffBackLink" href="../index.html" style="display:none">
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>クライアント一覧</a>
+<script>if(sessionStorage.getItem('ui_staff')==='1'){document.getElementById('staffBackLink').style.display='flex';}</script>
 
 <div class="portal-header">
   <div class="inner">

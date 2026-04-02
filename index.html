@@ -6,10 +6,33 @@
 <title>U&amp;I Consulting — クライアントポータル</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#1A2540;--navy-dark:#0F1829;--gold:#B8912A;--gold-light:#D4A843;--paper:#F5F2EC;--text:#2C2C2C;--text-sub:#6B6B6B;--border:#E0DCD4}
+:root{--navy:#1A2540;--navy-dark:#0F1829;--gold:#B8912A;--gold-light:#D4A843;--paper:#F5F2EC;--text:#2C2C2C;--text-sub:#6B6B6B;--border:#E0DCD4;--negative:#8B2020}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--text);min-height:100vh}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--navy-dark);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 40%,rgba(184,145,42,0.06) 0%,transparent 60%),radial-gradient(ellipse at 70% 60%,rgba(184,145,42,0.04) 0%,transparent 60%);pointer-events:none}
 
+/* Login */
+.login-container{position:relative;z-index:1;width:100%;max-width:440px;padding:20px}
+.login-card{background:rgba(26,37,64,0.95);border:1px solid rgba(184,145,42,0.15);border-radius:20px;padding:48px 36px;text-align:center;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+.login-logo{margin-bottom:24px;display:flex;align-items:center;justify-content:center;gap:12px}
+.login-logo img{height:40px;opacity:0.9;flex-shrink:0}
+.login-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:1rem;letter-spacing:2px}
+.login-title{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:1px}
+.login-subtitle{font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:32px}
+.confidential-badge{display:inline-block;font-size:0.65rem;font-weight:700;color:var(--gold);letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);padding:4px 14px;border-radius:4px;margin-bottom:24px}
+.input-group{margin-bottom:20px;text-align:left}
+.input-group label{display:block;font-size:0.75rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.5px}
+.input-group input{width:100%;padding:14px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#fff;font-size:0.95rem;font-family:'Inter',sans-serif;letter-spacing:2px;outline:none;transition:all 0.2s}
+.input-group input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,145,42,0.15)}
+.input-group input::placeholder{color:rgba(255,255,255,0.25);letter-spacing:1px}
+.login-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--navy-dark);border:none;border-radius:10px;font-size:0.9rem;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.2s;letter-spacing:1px}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(184,145,42,0.4)}
+.login-btn:active{transform:translateY(0)}
+.error-msg{color:var(--negative);font-size:0.78rem;margin-top:12px;min-height:20px;font-weight:500}
+.login-footer{font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:24px;line-height:1.6}
+
+/* Portal */
+.portal{display:none;min-height:100vh;background:var(--paper)}
 .header{background:linear-gradient(135deg,#1a2332 0%,#1A2540 50%,#0F1829 100%);color:#fff;padding:48px 24px 36px;text-align:center;position:relative;overflow:hidden}
 .header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(184,145,42,0.08) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(184,145,42,0.06) 0%,transparent 60%)}
 .header .inner{position:relative;z-index:1}
@@ -37,90 +60,154 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
 .footer-info{font-size:0.72rem;margin-bottom:10px}
 .footer-conf{font-size:0.7rem;font-weight:700;color:var(--gold);letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);display:inline-block;padding:4px 16px;border-radius:4px}
 
+.logout-btn{position:fixed;top:16px;right:16px;z-index:999;background:rgba(26,37,64,0.9);color:var(--gold-light);border:1px solid rgba(184,145,42,0.2);padding:8px 16px;border-radius:8px;font-size:0.75rem;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all 0.15s}
+.logout-btn:hover{background:var(--gold);color:var(--navy-dark)}
+
 @media(max-width:900px){.client-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.client-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.client-grid{grid-template-columns:1fr}.login-card{padding:36px 24px}}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="inner">
-    <div class="header-logo">
-      <img src="assets/ui_logo_white.png" alt="U&amp;I"><span>Consulting</span>
+<!-- Login Screen -->
+<div class="login-container" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="assets/ui_logo_white.png" alt="U&amp;I">
+      <span>Consulting</span>
     </div>
-    <h1>クライアントポータル</h1>
-    <div class="sub">各クライアントの財務分析レポートはこちらからアクセスできます</div>
+    <div class="login-title">クライアントポータル</div>
+    <div class="login-subtitle">スタッフ専用 — 閲覧にはパスワードが必要です</div>
+    <div class="confidential-badge">STAFF ONLY</div>
+    <div class="input-group">
+      <label>パスワード</label>
+      <input type="password" id="pwInput" placeholder="パスワードを入力" autocomplete="off">
+    </div>
+    <button class="login-btn" onclick="attemptLogin()">ログイン</button>
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="login-footer">
+      U&amp;Iコンサルティング<br>
+      本ポータルはスタッフ専用です。クライアントの方は直接共有されたURLからアクセスしてください。
+    </div>
   </div>
 </div>
 
-<div class="container">
-  <div class="section-label">CLIENTS</div>
-  <div class="client-grid">
-    <a class="client-card" href="./bug/2026-02.html">
-      <div class="cc-name">株式会社B.U.G</div>
-      <div class="cc-sub">沖縄県・パーソナルジム（12店舗運営）<br>月次損益レポート・店舗別業績分析</div>
-      <div class="cc-badge">1 REPORT</div>
-      <div class="cc-count">最終更新: 2026年4月</div>
-    </a>
-    <a class="client-card" href="./fufuya/2026-02.html">
-      <div class="cc-name">株式会社ふ々屋</div>
-      <div class="cc-sub">沖縄県・ウェブマーケティング（代表: 山中錠一）<br>月次損益レポート・7期通期分析</div>
-      <div class="cc-badge">1 REPORT</div>
-      <div class="cc-count">最終更新: 2026年4月</div>
-    </a>
-    <a class="client-card" href="./f-ryukyu/index.html">
-      <div class="cc-name">株式会社エフ琉球</div>
-      <div class="cc-sub">沖縄県・サプリメント製造販売<br>財務分析・直接原価計算・クロス分析</div>
-      <div class="cc-badge">3 REPORTS</div>
-      <div class="cc-count">最終更新: 2026年3月</div>
-    </a>
-    <a class="client-card" href="./mco-japan/index.html">
-      <div class="cc-name">M&amp;Co. JAPAN PTY LTD</div>
-      <div class="cc-sub">オーストラリア・QLD州（Mr. Sushi Ashmore）<br>月次P/L分析・前年同月比較</div>
-      <div class="cc-badge">1 REPORT</div>
-      <div class="cc-count">最終更新: 2026年3月</div>
-    </a>
-    <a class="client-card" href="./sankai/index.html">
-      <div class="cc-name">有限会社三海</div>
-      <div class="cc-sub">沖縄県・不動産保有事業（4エリア展開）<br>事業計画・中期経営計画プレゼンテーション</div>
-      <div class="cc-badge">1 REPORT</div>
-      <div class="cc-count">最終更新: 2026年3月</div>
-    </a>
-    <a class="client-card" href="./uemasa/index.html">
-      <div class="cc-name">株式会社上雅装工</div>
-      <div class="cc-sub">沖縄県・防音工事<br>3期比較経営分析・資金調達余力分析</div>
-      <div class="cc-badge">2 REPORTS</div>
-      <div class="cc-count">最終更新: 2026年4月</div>
-    </a>
-    <a class="client-card" href="#">
-      <div class="cc-name">半嶺当徹土地家屋調査士事務所</div>
-      <div class="cc-sub">土地家屋調査士（士業）<br>準備中</div>
-      <div class="cc-badge">COMING SOON</div>
-      <div class="cc-count"></div>
-    </a>
-    <a class="client-card" href="#">
-      <div class="cc-name">株式会社パピーラブ</div>
-      <div class="cc-sub">ペット総合（生体販売・サロン・ホテル・犬繁殖）<br>準備中</div>
-      <div class="cc-badge">COMING SOON</div>
-      <div class="cc-count"></div>
-    </a>
-    <a class="client-card" href="./first-place/index.html">
-      <div class="cc-name">ファーストプレイス株式会社</div>
-      <div class="cc-sub">浦添市・学習塾文殊<br>月次P/L分析・単月PL判定シート</div>
-      <div class="cc-badge">2 REPORTS</div>
-      <div class="cc-count">最終更新: 2026年4月</div>
-    </a>
+<!-- Portal (shown after auth) -->
+<div class="portal" id="portalScreen">
+  <button class="logout-btn" onclick="logout()">ログアウト</button>
+
+  <div class="header">
+    <div class="inner">
+      <div class="header-logo">
+        <img src="assets/ui_logo_white.png" alt="U&amp;I"><span>Consulting</span>
+      </div>
+      <h1>クライアントポータル</h1>
+      <div class="sub">各クライアントの財務分析レポートはこちらからアクセスできます</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section-label">CLIENTS</div>
+    <div class="client-grid">
+      <a class="client-card" href="./bug/2026-02.html">
+        <div class="cc-name">株式会社B.U.G</div>
+        <div class="cc-sub">沖縄県・パーソナルジム（12店舗運営）<br>月次損益レポート・店舗別業績分析</div>
+        <div class="cc-badge">1 REPORT</div>
+        <div class="cc-count">最終更新: 2026年4月</div>
+      </a>
+      <a class="client-card" href="./fufuya/2026-02.html">
+        <div class="cc-name">株式会社ふ々屋</div>
+        <div class="cc-sub">沖縄県・ウェブマーケティング（代表: 山中錠一）<br>月次損益レポート・7期通期分析</div>
+        <div class="cc-badge">1 REPORT</div>
+        <div class="cc-count">最終更新: 2026年4月</div>
+      </a>
+      <a class="client-card" href="./f-ryukyu/index.html">
+        <div class="cc-name">株式会社エフ琉球</div>
+        <div class="cc-sub">沖縄県・サプリメント製造販売<br>財務分析・直接原価計算・クロス分析</div>
+        <div class="cc-badge">3 REPORTS</div>
+        <div class="cc-count">最終更新: 2026年3月</div>
+      </a>
+      <a class="client-card" href="./mco-japan/index.html">
+        <div class="cc-name">M&amp;Co. JAPAN PTY LTD</div>
+        <div class="cc-sub">オーストラリア・QLD州（Mr. Sushi Ashmore）<br>月次P/L分析・前年同月比較</div>
+        <div class="cc-badge">1 REPORT</div>
+        <div class="cc-count">最終更新: 2026年3月</div>
+      </a>
+      <a class="client-card" href="./sankai/index.html">
+        <div class="cc-name">有限会社三海</div>
+        <div class="cc-sub">沖縄県・不動産保有事業（4エリア展開）<br>事業計画・中期経営計画プレゼンテーション</div>
+        <div class="cc-badge">1 REPORT</div>
+        <div class="cc-count">最終更新: 2026年3月</div>
+      </a>
+      <a class="client-card" href="./uemasa/index.html">
+        <div class="cc-name">株式会社上雅装工</div>
+        <div class="cc-sub">沖縄県・防音工事<br>3期比較経営分析・資金調達余力分析</div>
+        <div class="cc-badge">2 REPORTS</div>
+        <div class="cc-count">最終更新: 2026年4月</div>
+      </a>
+      <a class="client-card" href="#">
+        <div class="cc-name">半嶺当徹土地家屋調査士事務所</div>
+        <div class="cc-sub">土地家屋調査士（士業）<br>準備中</div>
+        <div class="cc-badge">COMING SOON</div>
+        <div class="cc-count"></div>
+      </a>
+      <a class="client-card" href="#">
+        <div class="cc-name">株式会社パピーラブ</div>
+        <div class="cc-sub">ペット総合（生体販売・サロン・ホテル・犬繁殖）<br>準備中</div>
+        <div class="cc-badge">COMING SOON</div>
+        <div class="cc-count"></div>
+      </a>
+      <a class="client-card" href="./first-place/index.html">
+        <div class="cc-name">ファーストプレイス株式会社</div>
+        <div class="cc-sub">浦添市・学習塾文殊<br>月次P/L分析・単月PL判定シート</div>
+        <div class="cc-badge">2 REPORTS</div>
+        <div class="cc-count">最終更新: 2026年4月</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-logo">
+      <img src="assets/ui_logo_white.png" alt="U&amp;I">
+      <span>Consulting</span>
+    </div>
+    <div class="footer-info">U&amp;Iコンサルティング クライアントポータル</div>
+    <div class="footer-conf">CONFIDENTIAL</div>
   </div>
 </div>
 
-<div class="footer">
-  <div class="footer-logo">
-    <img src="assets/ui_logo_white.png" alt="U&amp;I">
-    <span>Consulting</span>
-  </div>
-  <div class="footer-info">U&amp;Iコンサルティング クライアントポータル</div>
-  <div class="footer-conf">CONFIDENTIAL</div>
-</div>
+<script>
+function simpleHash(s){var h=0;for(var i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return Math.abs(h).toString(16);}
+var CORRECT=simpleHash('UandI2017');
+
+function attemptLogin(){
+  var pw=document.getElementById('pwInput').value;
+  if(simpleHash(pw)===CORRECT){
+    sessionStorage.setItem('ui_staff','1');
+    showPortal();
+  } else {
+    document.getElementById('errorMsg').textContent='パスワードが正しくありません';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').style.borderColor='#8B2020';
+    setTimeout(function(){document.getElementById('pwInput').style.borderColor='';},1500);
+  }
+}
+function showPortal(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('portalScreen').style.display='block';
+  document.body.style.background='var(--paper)';
+  document.body.style.display='block';
+  document.body.style.overflow='auto';
+}
+function logout(){
+  sessionStorage.removeItem('ui_staff');
+  location.reload();
+}
+document.getElementById('pwInput').addEventListener('keydown',function(e){
+  if(e.key==='Enter') attemptLogin();
+});
+if(sessionStorage.getItem('ui_staff')==='1') showPortal();
+</script>
 
 </body>
 </html>
