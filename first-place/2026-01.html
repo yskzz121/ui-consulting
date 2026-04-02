@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学習塾文殊 2026年1月度 月次レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+  --navy: #1A2540;
+  --navy-light: #243352;
+  --navy-dark: #0F1829;
+  --gold: #B8912A;
+  --gold-light: #D4A843;
+  --gold-pale: rgba(184,145,42,0.08);
+  --paper: #F5F2EC;
+  --paper-dark: #EDE8DF;
+  --text: #2C2C2C;
+  --text-sub: #6B6B6B;
+  --text-light: #999;
+  --positive: #1B7A3D;
+  --positive-bg: #E8F5E9;
+  --negative: #8B2020;
+  --negative-bg: #FFEBEE;
+  --neutral: #E65100;
+  --neutral-bg: #FFF3E0;
+  --border: #E0DCD4;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans JP',sans-serif; background:var(--paper); color:var(--text); line-height:1.7; -webkit-font-smoothing:antialiased; }
+.container { max-width:1200px; margin:0 auto; padding:40px 24px 60px; }
+
+/* Header */
+.header { background:linear-gradient(135deg,#1a2332 0%,#1A2540 50%,#0F1829 100%); color:#fff; border-bottom:1px solid rgba(184,145,42,0.15); padding:48px 24px 36px; text-align:center; position:relative; overflow:hidden; }
+.header::before { content:''; position:absolute; top:0;left:0;right:0;bottom:0; background:radial-gradient(ellipse at 30% 50%,rgba(184,145,42,0.08) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(184,145,42,0.06) 0%,transparent 60%); }
+.header-content { position:relative; z-index:1; }
+.header-ui-logo { display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px; }
+.header-ui-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.header-ui-logo span { color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px; }
+.header-client-row { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px; }
+.header-period { display:flex;align-items:center;justify-content:center;gap:16px;margin-top:4px; }
+.period-fiscal { background:rgba(184,145,42,0.2);border:1px solid rgba(184,145,42,0.4);border-radius:6px;padding:4px 14px;font-size:0.85rem;color:var(--gold-light);font-weight:700;letter-spacing:1px; }
+.period-month { font-size:1.1rem;color:rgba(255,255,255,0.9);font-weight:700;letter-spacing:1px; }
+.ticker-badge { display:inline-block; background:rgba(184,145,42,0.15); border:1px solid rgba(184,145,42,0.3); border-radius:8px; padding:6px 16px; font-size:14px; color:var(--gold-light); letter-spacing:1px; }
+.header h1 { font-family:'Noto Serif JP',serif; font-size:1.9rem; font-weight:700; color:#fff; margin-bottom:4px; letter-spacing:2px; }
+.header .subtitle { color:rgba(255,255,255,0.7); font-size:0.92rem; }
+.header .date { color:rgba(255,255,255,0.5); font-size:0.78rem; margin-top:8px; }
+
+/* Section */
+.section { background:#fff; border-radius:16px; padding:32px; margin-bottom:28px; box-shadow:var(--card-shadow); border:1px solid var(--border); }
+.section-title { font-family:'Noto Serif JP',serif; font-size:1.25rem; font-weight:700; color:var(--navy); margin-bottom:24px; padding-bottom:12px; border-bottom:2px solid var(--gold); display:flex; align-items:center; gap:10px; }
+
+/* Summary */
+.summary-box { background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%); color:#fff; border-radius:16px; padding:32px; margin-bottom:28px; }
+.summary-box h3 { color:var(--gold-light); font-family:'Noto Serif JP',serif; font-size:1.1rem; margin-bottom:12px; }
+.summary-box p { font-size:0.97rem; line-height:1.9; color:rgba(255,255,255,0.88); }
+.summary-box .highlight { color:var(--gold-light); font-weight:700; }
+
+/* Score Cards */
+.score-row { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; margin-bottom:28px; }
+.score-card { background:#fff; border-radius:12px; padding:20px 16px; box-shadow:var(--card-shadow); border:1px solid var(--border); text-align:center; }
+.sc-label { font-size:0.78rem; color:var(--text-sub); margin-bottom:8px; font-weight:500; }
+.sc-value { font-family:'Inter',sans-serif; font-size:1.6rem; font-weight:700; color:var(--navy); line-height:1.2; }
+.sc-value.up { color:var(--positive); }
+.sc-value.down { color:var(--negative); }
+.sc-change { font-size:0.78rem; margin-top:4px; font-family:'Inter',sans-serif; font-weight:600; }
+.sc-change.up { color:var(--positive); }
+.sc-change.down { color:var(--negative); }
+.sc-sub { font-size:0.72rem; color:var(--text-light); margin-top:4px; }
+
+/* Comp Table */
+.comp-table { width:100%; border-collapse:collapse; font-size:0.87rem; }
+.comp-table thead th { background:var(--navy); color:#fff; padding:12px 14px; text-align:right; font-weight:600; font-family:'Inter',sans-serif; }
+.comp-table thead th:first-child { text-align:left; }
+.comp-table tbody td { padding:10px 14px; border-bottom:1px solid var(--border); text-align:right; }
+.comp-table tbody td:first-child { text-align:left; font-weight:500; }
+.comp-table tbody tr:hover { background:var(--gold-pale); }
+.comp-table .highlight-row td { background:rgba(26,37,64,0.04); font-weight:700; }
+.comp-table .up { color:var(--positive); font-weight:600; }
+.comp-table .down { color:var(--negative); font-weight:600; }
+.comp-table .sub-row td { color:var(--text-sub); font-size:0.82rem; padding-left:28px; }
+
+/* Metrics Grid */
+.metrics-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.metric-card { background:var(--paper-dark); border-radius:12px; padding:20px; border:1px solid var(--border); }
+.mc-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.mc-label { font-size:0.82rem; font-weight:700; color:var(--navy); }
+.mc-badge { font-size:0.7rem; font-weight:700; padding:3px 10px; border-radius:20px; }
+.mc-badge.good { background:var(--positive-bg); color:var(--positive); }
+.mc-badge.bad { background:var(--negative-bg); color:var(--negative); }
+.mc-badge.warn { background:var(--neutral-bg); color:var(--neutral); }
+.mc-values { display:flex; align-items:baseline; gap:12px; margin-bottom:10px; }
+.mc-current { font-family:'Inter',sans-serif; font-size:1.5rem; font-weight:700; color:var(--navy); }
+.mc-prev { font-size:0.78rem; color:var(--text-sub); }
+.mc-bar { background:var(--border); border-radius:4px; height:6px; }
+.mc-bar-fill { height:6px; border-radius:4px; }
+.mc-bar-fill.good { background:var(--positive); }
+.mc-bar-fill.bad { background:var(--negative); }
+.mc-bar-fill.warn { background:var(--neutral); }
+.mc-bar-fill.gold { background:var(--gold); }
+
+/* Gauge */
+.gauge-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.gauge-card { background:var(--paper-dark); border-radius:12px; padding:20px; text-align:center; border:1px solid var(--border); }
+.gc-label { font-size:0.78rem; color:var(--text-sub); margin-bottom:8px; }
+.gc-value { font-family:'Inter',sans-serif; font-size:1.8rem; font-weight:700; line-height:1.1; }
+.gc-unit { font-size:0.72rem; color:var(--text-light); margin-top:2px; }
+.gc-note { font-size:0.72rem; color:var(--text-sub); margin-top:6px; }
+
+/* Proposal */
+.proposal-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.proposal-card { border-radius:12px; padding:24px; border:1px solid var(--border); background:#fff; box-shadow:var(--card-shadow); }
+.pc-priority { font-size:0.72rem; font-weight:700; letter-spacing:1px; margin-bottom:8px; text-transform:uppercase; }
+.proposal-card.critical .pc-priority { color:var(--negative); }
+.proposal-card.important .pc-priority { color:var(--neutral); }
+.proposal-card.suggest .pc-priority { color:var(--positive); }
+.proposal-card.info .pc-priority { color:#1976D2; }
+.pc-title { font-family:'Noto Serif JP',serif; font-size:1rem; font-weight:700; color:var(--navy); margin-bottom:10px; }
+.pc-body { font-size:0.85rem; color:var(--text-sub); line-height:1.8; margin-bottom:12px; }
+.pc-impact { font-size:0.78rem; color:var(--text); background:var(--paper-dark); border-radius:6px; padding:8px 12px; }
+
+/* Alert */
+.alert-box { border-radius:10px; padding:14px 18px; margin-bottom:16px; font-size:0.87rem; }
+.alert-box.warning { background:var(--neutral-bg); }
+.alert-box.success { background:var(--positive-bg); }
+.alert-box.danger { background:var(--negative-bg); }
+
+/* Chart */
+.chart-row { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:20px; }
+.chart-container { position:relative; }
+
+/* Two col */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+
+/* Next action */
+.next-action-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.na-card { background:var(--paper-dark); border-radius:10px; padding:18px; border:1px solid var(--border); }
+.na-deadline { font-size:0.72rem; font-weight:700; color:var(--gold); margin-bottom:6px; }
+.na-title { font-size:0.9rem; font-weight:700; color:var(--navy); margin-bottom:6px; }
+.na-body { font-size:0.8rem; color:var(--text-sub); line-height:1.7; }
+
+/* Footer */
+.footer { background:var(--navy-dark); color:rgba(255,255,255,0.5); padding:28px 20px; text-align:center; }
+.footer-logo { display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:14px; }
+.footer-logo img { height:28px; opacity:0.85; flex-shrink:0; }
+.footer-logo span { color:var(--gold-light); font-family:'Inter',sans-serif; font-weight:600; font-size:0.85rem; line-height:1; letter-spacing:1.5px; }
+.footer-info { font-size:0.72rem; margin-bottom:10px; }
+.footer-confidential { font-size:0.7rem; font-weight:700; color:var(--gold); letter-spacing:3px; border:1px solid rgba(184,145,42,0.3); display:inline-block; padding:4px 16px; border-radius:4px; }
+
+/* Divider */
+.divider { border:none; border-top:1px solid var(--border); margin:20px 0; }
+
+/* Tag */
+.tag { display:inline-block; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:4px; }
+.tag.winter { background:#E3F2FD; color:#1565C0; }
+
+@media(max-width:768px){
+  .score-row { grid-template-columns:repeat(2,1fr); }
+  .metrics-grid { grid-template-columns:1fr; }
+  .chart-row { grid-template-columns:1fr; }
+  .proposal-grid { grid-template-columns:1fr; }
+  .two-col { grid-template-columns:1fr; }
+  .gauge-row { grid-template-columns:repeat(2,1fr); }
+  .next-action-grid { grid-template-columns:1fr; }
+  .header h1 { font-size:1.4rem; }
+  .header-logo-row { flex-direction:column; gap:8px; }
+  .ticker-badge { font-size:12px; padding:4px 12px; }
+  .section { padding:20px 16px; }
+  .comp-table { font-size:0.75rem; }
+  .comp-table thead th, .comp-table tbody td { padding:8px 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-content">
+    <div class="header-ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I Consulting">
+      <span>Consulting</span>
+    </div>
+    <div class="header-client-row">
+      <div class="ticker-badge">ファーストプレイス株式会社</div>
+    </div>
+    <h1>学習塾文殊 月次P/L分析レポート</h1>
+    <div class="header-period">
+      <span class="period-fiscal">第3期</span>
+      <span class="period-month">2026年1月度</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Executive Summary -->
+  <div class="summary-box">
+    <h3>📋 Executive Summary</h3>
+    <p>
+      2026年1月は<span class="highlight">冬期講習（133万円）</span>の計上により売上高<span class="highlight">717万円（前月比+29.5%）</span>を達成。営業利益は<span class="highlight">271万円・営業利益率37.8%</span>と過去最高水準を記録した。
+      一方、中3生が受験直前期の退塾・形態移行で<span class="highlight">73名→67名（-6名）</span>となり、2月以降の通常月売上への影響が見込まれる。
+      BS面では現預金<span class="highlight">4,384万円・自己資本比率64.7%</span>と財務健全性は極めて高く、1,000万円規模の資金運用や放課後等デイサービス新規事業への投資余力は十分。
+    </p>
+  </div>
+
+  <!-- Key Metrics -->
+  <div class="score-row">
+    <div class="score-card positive">
+      <div class="sc-label">売上高（1月）</div>
+      <div class="sc-value up">717万円</div>
+      <div class="sc-change up">▲ +29.5% 前月比</div>
+      <div class="sc-sub">冬期講習133万円含む</div>
+    </div>
+    <div class="score-card positive">
+      <div class="sc-label">営業利益</div>
+      <div class="sc-value up">271万円</div>
+      <div class="sc-change up">▲ +91.3% 前月比</div>
+      <div class="sc-sub">利益率 37.8%</div>
+    </div>
+    <div class="score-card neutral">
+      <div class="sc-label">在籍生徒数</div>
+      <div class="sc-value">174名</div>
+      <div class="sc-change down">▼ -5名 前月比</div>
+      <div class="sc-sub">中3受験期・季節変動</div>
+    </div>
+    <div class="score-card positive">
+      <div class="sc-label">労働分配率</div>
+      <div class="sc-value">33.1%</div>
+      <div class="sc-change up">▲ 適正水準</div>
+      <div class="sc-sub">人件費 238万円</div>
+    </div>
+    <div class="score-card positive">
+      <div class="sc-label">自己資本比率</div>
+      <div class="sc-value up">64.7%</div>
+      <div class="sc-change up">▲ 優良水準</div>
+      <div class="sc-sub">純資産 3,437万円</div>
+    </div>
+  </div>
+
+  <!-- 財務分析 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📊</span> 財務分析（前月比P/L）</div>
+
+    <div class="alert-box success">
+      <strong>冬期講習効果：</strong> 1月は冬期講習代金 1,332,969円が計上。通常月ベース売上（冬期講習除く）は約584万円で、12月（554万円）比+5.4%の堅調推移。
+    </div>
+
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">科目</th>
+          <th>前月（12月）</th>
+          <th>構成比</th>
+          <th>当月（1月）</th>
+          <th>構成比</th>
+          <th>増減額</th>
+          <th>MoM</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-row">
+          <td>売上高</td>
+          <td>5,543,245</td>
+          <td>100.0%</td>
+          <td>7,178,908</td>
+          <td>100.0%</td>
+          <td class="up">+1,635,663</td>
+          <td class="up">+29.5%</td>
+        </tr>
+        <tr class="sub-row">
+          <td>うち 冬期講習</td>
+          <td>—</td>
+          <td>—</td>
+          <td>1,332,969</td>
+          <td>18.6%</td>
+          <td>—</td>
+          <td><span class="tag winter">季節</span></td>
+        </tr>
+        <tr class="sub-row">
+          <td>うち 通常月売上</td>
+          <td>5,543,245</td>
+          <td>100.0%</td>
+          <td>5,845,939</td>
+          <td>81.4%</td>
+          <td class="up">+302,694</td>
+          <td class="up">+5.5%</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>売上原価</td>
+          <td>0</td>
+          <td>0.0%</td>
+          <td>0</td>
+          <td>0.0%</td>
+          <td>0</td>
+          <td>—</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>売上総利益（粗利）</td>
+          <td>5,543,245</td>
+          <td>100.0%</td>
+          <td>7,178,908</td>
+          <td>100.0%</td>
+          <td class="up">+1,635,663</td>
+          <td class="up">+29.5%</td>
+        </tr>
+        <tr>
+          <td>役員報酬</td>
+          <td>—</td>
+          <td>—</td>
+          <td>600,000</td>
+          <td>8.4%</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>給料賃金</td>
+          <td>—</td>
+          <td>—</td>
+          <td>1,645,094</td>
+          <td>22.9%</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>法定福利費</td>
+          <td>—</td>
+          <td>—</td>
+          <td>130,571</td>
+          <td>1.8%</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>地代家賃</td>
+          <td>—</td>
+          <td>—</td>
+          <td>331,040</td>
+          <td>4.6%</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>研修費</td>
+          <td>—</td>
+          <td>—</td>
+          <td>274,577</td>
+          <td>3.8%</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>教材費</td>
+          <td>—</td>
+          <td>—</td>
+          <td>363,066</td>
+          <td>5.1%</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>支払手数料</td>
+          <td>—</td>
+          <td>—</td>
+          <td>264,502</td>
+          <td>3.7%</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>接待交際費</td>
+          <td>—</td>
+          <td>—</td>
+          <td>210,182</td>
+          <td>2.9%</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>販売促進費（集客）</td>
+          <td>—</td>
+          <td>—</td>
+          <td>200,266</td>
+          <td>2.8%</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>その他販管費</td>
+          <td>—</td>
+          <td>—</td>
+          <td>446,765</td>
+          <td>6.2%</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>販管費合計</td>
+          <td>4,024,495</td>
+          <td>72.6%</td>
+          <td>4,466,063</td>
+          <td>62.2%</td>
+          <td class="down">+441,568</td>
+          <td>+11.0%</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>営業利益</td>
+          <td>1,418,300</td>
+          <td>25.6%</td>
+          <td>2,712,845</td>
+          <td>37.8%</td>
+          <td class="up">+1,294,545</td>
+          <td class="up">+91.3%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 月次推移チャート -->
+    <div class="chart-row" style="margin-top:28px;">
+      <div>
+        <div style="font-size:0.85rem;font-weight:700;color:var(--navy);margin-bottom:12px;">月次売上・営業利益推移（2025年7月〜2026年1月）</div>
+        <div class="chart-container" style="height:260px">
+          <canvas id="trendChart"></canvas>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:0.85rem;font-weight:700;color:var(--navy);margin-bottom:12px;">売上構成（1月）</div>
+        <div class="chart-container" style="height:260px">
+          <canvas id="compositionChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 重点コスト分析 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">💰</span> 重点コスト分析</div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="mc-header">
+          <div class="mc-label">人件費（役員報酬・給与・法定福利）</div>
+          <div class="mc-badge good">良好</div>
+        </div>
+        <div class="mc-values">
+          <div class="mc-current">2,375,665円</div>
+          <div class="mc-prev">売上比 33.1%</div>
+        </div>
+        <div class="mc-bar"><div class="mc-bar-fill good" style="width:33%"></div></div>
+        <div style="font-size:0.78rem;color:var(--text-sub);margin-top:8px;">学習塾業界の適正水準（30〜40%）内。高校生バイト5名含む多人数体制でも健全。</div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-header">
+          <div class="mc-label">地代家賃</div>
+          <div class="mc-badge good">良好</div>
+        </div>
+        <div class="mc-values">
+          <div class="mc-current">331,040円</div>
+          <div class="mc-prev">売上比 4.6%</div>
+        </div>
+        <div class="mc-bar"><div class="mc-bar-fill good" style="width:5%"></div></div>
+        <div style="font-size:0.78rem;color:var(--text-sub);margin-top:8px;">売上比5%以下で優良。ただし通常月（584万円）ベースでは5.7%となるため引き続き注視。</div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-header">
+          <div class="mc-label">広告宣伝費（販促+生徒集客）</div>
+          <div class="mc-badge good">適正</div>
+        </div>
+        <div class="mc-values">
+          <div class="mc-current">200,266円</div>
+          <div class="mc-prev">売上比 2.8%</div>
+        </div>
+        <div class="mc-bar"><div class="mc-bar-fill gold" style="width:3%"></div></div>
+        <div style="font-size:0.78rem;color:var(--text-sub);margin-top:8px;">SNSマーケティング・紹介キャンペーン強化中。3月入塾期に向けた投資増も検討余地あり。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 業種固有KPI -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🎓</span> 業種固有KPI（学習塾）</div>
+
+    <div class="gauge-row" style="margin-bottom:24px;">
+      <div class="gauge-card">
+        <div class="gc-label">在籍生徒数合計</div>
+        <div class="gc-value" style="color:var(--navy)">174名</div>
+        <div class="gc-unit">2026年1月末時点</div>
+        <div class="gc-note">前月179名 → -5名</div>
+      </div>
+      <div class="gauge-card">
+        <div class="gc-label">生徒単価（通常月）</div>
+        <div class="gc-value" style="color:var(--positive)">33,597円</div>
+        <div class="gc-unit">冬期講習除く</div>
+        <div class="gc-note">全体：41,258円</div>
+      </div>
+      <div class="gauge-card">
+        <div class="gc-label">推定退塾率</div>
+        <div class="gc-value" style="color:var(--neutral)">2.8%</div>
+        <div class="gc-unit">アラート閾値 5%</div>
+        <div class="gc-note">中3受験期季節変動</div>
+      </div>
+      <div class="gauge-card">
+        <div class="gc-label">新規入塾・形態変更</div>
+        <div class="gc-value" style="color:var(--positive)">+3名</div>
+        <div class="gc-unit">中学準備講座スタート</div>
+        <div class="gc-note">小6→中1移行受け皿</div>
+      </div>
+    </div>
+
+    <div style="font-size:0.85rem;font-weight:700;color:var(--navy);margin-bottom:12px;">コース別在籍数（1月末）</div>
+    <div class="chart-container" style="height:200px;">
+      <canvas id="studentsChart"></canvas>
+    </div>
+
+    <hr class="divider">
+
+    <div style="font-size:0.85rem;font-weight:700;color:var(--navy);margin-top:20px;margin-bottom:12px;">売上構成（コース別詳細 / 1月）</div>
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">コース</th>
+          <th>金額（円）</th>
+          <th>売上比</th>
+          <th>備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>中学集団授業（中1〜中3）</td>
+          <td>2,273,455</td>
+          <td>31.7%</td>
+          <td>中3 139万・中2 69万・中1 19万</td>
+        </tr>
+        <tr>
+          <td>冬期講習</td>
+          <td>1,332,969</td>
+          <td>18.6%</td>
+          <td><span class="tag winter">季節特需</span></td>
+        </tr>
+        <tr>
+          <td>中学個別指導（中1〜中3）</td>
+          <td>1,380,330</td>
+          <td>19.2%</td>
+          <td>中3 86万・中2 37万・中1 15万</td>
+        </tr>
+        <tr>
+          <td>管理型学習（中学部・高校大学部）</td>
+          <td>721,000</td>
+          <td>10.0%</td>
+          <td>高付加価値コース</td>
+        </tr>
+        <tr>
+          <td>高校個別指導（高1〜高3）</td>
+          <td>290,129</td>
+          <td>4.0%</td>
+          <td>継続強化検討中</td>
+        </tr>
+        <tr>
+          <td>プログラミング・理科特別等</td>
+          <td>269,300</td>
+          <td>3.8%</td>
+          <td>差別化コース</td>
+        </tr>
+        <tr>
+          <td>模試・教材・入塾金等</td>
+          <td>447,445</td>
+          <td>6.2%</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>自習室・施設利用・その他</td>
+          <td>464,280</td>
+          <td>6.5%</td>
+          <td></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>売上高合計</td>
+          <td>7,178,908</td>
+          <td>100.0%</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 収益性・効率性 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">⚡</span> 収益性・効率性指標</div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="mc-header">
+          <div class="mc-label">労働分配率</div>
+          <div class="mc-badge good">適正</div>
+        </div>
+        <div class="mc-values">
+          <div class="mc-current">33.1%</div>
+          <div class="mc-prev">業界目安 30〜45%</div>
+        </div>
+        <div class="mc-bar"><div class="mc-bar-fill good" style="width:33%"></div></div>
+        <div style="font-size:0.78rem;color:var(--text-sub);margin-top:8px;">人件費2,375,665円 / 売上7,178,908円。生徒増と単価向上で更に改善余地あり。</div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-header">
+          <div class="mc-label">FL比率（人件費+家賃）</div>
+          <div class="mc-badge good">優良</div>
+        </div>
+        <div class="mc-values">
+          <div class="mc-current">37.7%</div>
+          <div class="mc-prev">適正目安 50%以下</div>
+        </div>
+        <div class="mc-bar"><div class="mc-bar-fill good" style="width:38%"></div></div>
+        <div style="font-size:0.78rem;color:var(--text-sub);margin-top:8px;">人件費2,375,665円＋家賃331,040円 = 2,706,705円。冬期講習月の恩恵あり。通常月は約46%程度。</div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-header">
+          <div class="mc-label">営業利益率</div>
+          <div class="mc-badge good">高水準</div>
+        </div>
+        <div class="mc-values">
+          <div class="mc-current">37.8%</div>
+          <div class="mc-prev">前月 25.6%</div>
+        </div>
+        <div class="mc-bar"><div class="mc-bar-fill good" style="width:38%"></div></div>
+        <div style="font-size:0.78rem;color:var(--text-sub);margin-top:8px;">冬期講習月の特需。通常月ベース（通常月売上584万/販管費446万）でも約20%の利益率。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 財務健全性 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🏦</span> 財務健全性（BS分析 / 2026年1月31日時点）</div>
+
+    <div class="gauge-row">
+      <div class="gauge-card">
+        <div class="gc-label">流動比率</div>
+        <div class="gc-value" style="color:var(--positive)">611.7%</div>
+        <div class="gc-unit">適正目安 120%以上</div>
+        <div class="gc-note">流動資産 4,440万<br>流動負債 726万</div>
+      </div>
+      <div class="gauge-card">
+        <div class="gc-label">自己資本比率</div>
+        <div class="gc-value" style="color:var(--positive)">64.7%</div>
+        <div class="gc-unit">適正目安 40%以上</div>
+        <div class="gc-note">純資産 3,437万<br>総資産 5,312万</div>
+      </div>
+      <div class="gauge-card">
+        <div class="gc-label">現金及び預金</div>
+        <div class="gc-value" style="color:var(--navy)">4,384万円</div>
+        <div class="gc-unit">総資産比 82.5%</div>
+        <div class="gc-note">運用検討余地 大</div>
+      </div>
+      <div class="gauge-card">
+        <div class="gc-label">長期借入金残高</div>
+        <div class="gc-value" style="color:var(--neutral)">1,150万円</div>
+        <div class="gc-unit">D/Eレシオ 0.33</div>
+        <div class="gc-note">返済計画通り推移</div>
+      </div>
+    </div>
+
+    <div class="alert-box success" style="margin-top:20px;">
+      <strong>資金運用機会：</strong> 現預金4,384万円のうち約1,000万円の運用（目標年利5〜6%、投資信託50%・債券30%・金20%）を検討中。2026年中の実行に向け、銀行との協議を本格化させるタイミング。
+    </div>
+
+    <div class="two-col" style="margin-top:20px;">
+      <div>
+        <div style="font-size:0.85rem;font-weight:700;color:var(--navy);margin-bottom:12px;">貸借対照表サマリー（単位：万円）</div>
+        <table class="comp-table">
+          <thead><tr><th style="text-align:left">資産</th><th>金額</th><th style="text-align:left">負債・純資産</th><th>金額</th></tr></thead>
+          <tbody>
+            <tr><td>流動資産</td><td>4,440</td><td>流動負債</td><td>726</td></tr>
+            <tr class="sub-row"><td>現金及び預金</td><td>4,384</td><td>短期借入金</td><td>59</td></tr>
+            <tr><td>固定資産</td><td>873</td><td>固定負債</td><td>1,150</td></tr>
+            <tr class="sub-row"><td>有形固定資産</td><td>539</td><td>長期借入金</td><td>1,150</td></tr>
+            <tr class="sub-row"><td>無形固定資産</td><td>252</td><td>純資産</td><td>3,437</td></tr>
+            <tr class="highlight-row"><td>資産合計</td><td>5,312</td><td>負債・純資産合計</td><td>5,312</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div style="font-size:0.85rem;font-weight:700;color:var(--navy);margin-bottom:12px;">財務健全性チャート</div>
+        <div class="chart-container" style="height:200px;">
+          <canvas id="bsChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- キャッシュフロー -->
+  <div class="section">
+    <div class="section-title"><span class="icon">💵</span> キャッシュフロー（簡易推定）</div>
+    <div class="gauge-row">
+      <div class="gauge-card">
+        <div class="gc-label">営業CF（簡易）</div>
+        <div class="gc-value" style="color:var(--positive)">+283万円</div>
+        <div class="gc-unit">営業利益+減価償却</div>
+        <div class="gc-note">271万+12万</div>
+      </div>
+      <div class="gauge-card">
+        <div class="gc-label">累積当期純利益（今期）</div>
+        <div class="gc-value" style="color:var(--positive)">554万円</div>
+        <div class="gc-unit">今期（BS記載）</div>
+        <div class="gc-note">来月以降加算</div>
+      </div>
+      <div class="gauge-card">
+        <div class="gc-label">月商比 現預金</div>
+        <div class="gc-value" style="color:var(--navy)">6.1ヶ月分</div>
+        <div class="gc-unit">4,384万 ÷ 717万</div>
+        <div class="gc-note">非常に潤沢</div>
+      </div>
+      <div class="gauge-card">
+        <div class="gc-label">FCF（簡易）</div>
+        <div class="gc-value" style="color:var(--positive)">+283万円</div>
+        <div class="gc-unit">設備投資少のため</div>
+        <div class="gc-note">運用・投資余力大</div>
+      </div>
+    </div>
+    <div style="font-size:0.8rem;color:var(--text-light);margin-top:12px;">※CF計算は簡易法（営業利益＋減価償却費）による推定。正確な値はCF計算書作成が必要。</div>
+  </div>
+
+  <!-- 課題と提言 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🎯</span> 課題と提言</div>
+    <div class="proposal-grid">
+      <div class="proposal-card critical">
+        <div class="pc-priority">⚡ CRITICAL — 即時対応</div>
+        <div class="pc-title">中3→高校継続率30%達成に向けた個別面談の強化</div>
+        <div class="pc-body">
+          中3は67名（1月末）→受験終了後の2〜3月に大量退塾リスク。高継続コース（月単価25,000円×15〜20名＝月37.5〜50万円）の確保が2月・3月の収益を左右する。林さんが直接面談を実施中だが、進捗を数値で管理し、継続面談率・内定数を週次でトラッキングすべき。
+        </div>
+        <div class="pc-impact">想定効果: 継続15名達成で月+37.5万円の安定収益源確立</div>
+      </div>
+      <div class="proposal-card important">
+        <div class="pc-priority">🔴 IMPORTANT — 2月中に着手</div>
+        <div class="pc-title">3月入塾期に向けたマーケティング予算・施策の前倒し</div>
+        <div class="pc-body">
+          1月の冬期講習効果が剥落する2月・3月は売上低下が見込まれる（春の入塾期まで）。新規入塾の最需要期（3月末〜4月）に向けて、現行2.8%（20万円）の広告宣伝費を増額し、SNSマーケティング・紹介キャンペーン（神森中流入モデルの再現）を今すぐ仕掛けるべき。中2・中1の+10%増員（各40名・17名）を年度末目標に設定。
+        </div>
+        <div class="pc-impact">想定効果: 新規10名獲得で月+30〜40万円の売上増加</div>
+      </div>
+      <div class="proposal-card suggest">
+        <div class="pc-priority">✅ SUGGEST — 中期対応</div>
+        <div class="pc-title">現預金1,000万円の資金運用開始と財務戦略の具体化</div>
+        <div class="pc-body">
+          現預金4,384万円は月商の6.1ヶ月分と過剰水準。「投資信託50%・債券30%・金20%、年利5〜6%目標、1,000万円運用」の方針は決定済みだが、実行が遅れている。12月末決算報告書を基に既存取引銀行と500万円借入＋投資信託購入のシミュレーションを3月末までに実施。純利益の30%を未来投資へ充てる原則の明文化を推奨。
+        </div>
+        <div class="pc-impact">想定効果: 年利5%で50万円/年のパッシブ収益。財務規律の確立。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Action -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📌</span> Next Action</div>
+    <div class="next-action-grid">
+      <div class="na-card">
+        <div class="na-deadline">⚡ 2月中（最優先）</div>
+        <div class="na-title">中3高校継続面談の進捗数値化</div>
+        <div class="na-body">面談実施数・継続内定数・検討中数を週次で管理。2月末時点で10名内定を中間目標に設定。</div>
+      </div>
+      <div class="na-card">
+        <div class="na-deadline">🔴 2月末まで</div>
+        <div class="na-title">3月入塾期の広告予算・SNS施策確定</div>
+        <div class="na-body">広告予算を20万→30〜40万に増額検討。中2・中1ターゲットのSNS投稿スケジュール策定。紹介キャンペーン再設計。</div>
+      </div>
+      <div class="na-card">
+        <div class="na-deadline">✅ 3月末まで</div>
+        <div class="na-title">資金運用・銀行融資シミュレーション</div>
+        <div class="na-body">既存取引銀行に500万円借入＋投資信託購入のシミュレーション依頼。海邦銀行等新規取引先の比較検討も実施。</div>
+      </div>
+      <div class="na-card">
+        <div class="na-deadline">🔵 継続</div>
+        <div class="na-title">放課後等デイサービス事業判断</div>
+        <div class="na-body">消防設備点検結果・初期投資額の確定後に事業化判断。ゆいさん主導体制でのプログラミング担当パート採用も並行。</div>
+      </div>
+      <div class="na-card">
+        <div class="na-deadline">🔵 継続</div>
+        <div class="na-title">新規社員採用（3月までに）</div>
+        <div class="na-body">教育業界経験者・他業界営業経験者をターゲットに絞った求人リライト。現広告との比較テスト実施。</div>
+      </div>
+      <div class="na-card">
+        <div class="na-deadline">📋 来月確認</div>
+        <div class="na-title">2月実績の確認ポイント</div>
+        <div class="na-body">①中3退塾数・高校継続内定数 ②春期講習申込み状況 ③新規問合せ数・入塾数 ④通常月売上の前月比</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 総合評価 -->
+  <div class="summary-box">
+    <h3>🏆 総合評価</h3>
+    <p>
+      2026年1月は<span class="highlight">冬期講習特需により過去最高水準の営業利益率37.8%・271万円</span>を達成。財務体質は現預金4,384万円・自己資本比率64.7%と極めて優良で、中長期の成長投資（資金運用・放課後デイサービス・採用）に十分な余力がある。
+      <br><br>
+      目下の最重要課題は<span class="highlight">中3の高校継続率確保（目標30%＝約20名）</span>と<span class="highlight">3月入塾期に向けた集客の前倒し</span>の2点。冬期講習効果が剥落する2〜3月の売上を通常月ベース600万円以上に維持できるかが今期後半の収益を決定づける。林さん夫妻の現場リーダーシップと上間・福原の伴走によって、中長期目標（純利益1,000万円・純資産3,000万円）の達成確度は高い。
+    </p>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I">
+      <span>Consulting</span>
+    </div>
+    <div class="footer-info">
+      ファーストプレイス株式会社 学習塾文殊 2026年1月度 月次P/L分析レポート ｜ 分析日: 2026年4月1日
+    </div>
+    <div class="footer-confidential">最重要機密（CONFIDENTIAL）</div>
+  </div>
+</div>
+
+<script>
+Chart.defaults.font.family = "'Inter', 'Noto Sans JP', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#6B6B6B';
+
+// 月次売上推移
+const trendCtx = document.getElementById('trendChart').getContext('2d');
+new Chart(trendCtx, {
+  type: 'bar',
+  data: {
+    labels: ['7月','8月','9月','10月','11月','12月','1月'],
+    datasets: [
+      {
+        label: '売上高（万円）',
+        data: [500, 635, 493, 551, 551, 554, 718],
+        backgroundColor: '#1A2540',
+        borderRadius: 4,
+        yAxisID: 'y'
+      },
+      {
+        label: '営業利益（万円）',
+        data: [107, 168, 109, 88, null, 142, 271],
+        type: 'line',
+        borderColor: '#B8912A',
+        backgroundColor: 'rgba(184,145,42,0.1)',
+        pointBackgroundColor: '#B8912A',
+        pointRadius: 5,
+        tension: 0.3,
+        yAxisID: 'y'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + '万円' } } },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => v + '万' } }
+    }
+  }
+});
+
+// 売上構成ドーナツ
+const compCtx = document.getElementById('compositionChart').getContext('2d');
+new Chart(compCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['中学集団', '冬期講習', '中学個別', '管理型学習', '高校個別', '模試・教材等', 'その他'],
+    datasets: [{
+      data: [2273455, 1332969, 1380330, 721000, 290129, 447445, 733580],
+      backgroundColor: ['#1A2540','#1565C0','#B8912A','#1B7A3D','#243352','#8B7355','#D4A843'],
+      borderWidth: 2, borderColor: '#F5F2EC'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12 } },
+      tooltip: { callbacks: { label: ctx => ctx.label + ': ' + Math.round(ctx.raw/10000) + '万円 (' + Math.round(ctx.raw/71789*100)/100 + '%)' } }
+    }
+  }
+});
+
+// 生徒数コース別
+const studCtx = document.getElementById('studentsChart').getContext('2d');
+new Chart(studCtx, {
+  type: 'bar',
+  data: {
+    labels: ['中3','中2','中1','小学生','高校生'],
+    datasets: [{
+      label: '2026年1月',
+      data: [67, 39, 15, 28, 25],
+      backgroundColor: ['#8B2020','#1A2540','#243352','#1B7A3D','#B8912A'],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: { x: { beginAtZero: true, max: 80 } }
+  }
+});
+
+// BS構成
+const bsCtx = document.getElementById('bsChart').getContext('2d');
+new Chart(bsCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['流動資産（現預金等）','固定資産','流動負債','固定負債','純資産'],
+    datasets: [{
+      data: [44395883, 8725130, 7258196, 11497500, 34365317],
+      backgroundColor: ['#1B7A3D','#243352','#E65100','#8B2020','#B8912A'],
+      borderWidth: 2, borderColor: '#F5F2EC'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12 } },
+      tooltip: { callbacks: { label: ctx => ctx.label + ': ' + Math.round(ctx.raw/10000) + '万円' } }
+    }
+  }
+});
+</script>
+</body>
+</html>
