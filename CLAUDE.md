@@ -373,6 +373,11 @@ Chart.defaults.color = '#6B6B6B';
 │   └── {YYYY-MM}_スプシURL.txt
 ├── data/               ← 構造化データ蓄積（Claude Codeが自動生成）
 │   └── {YYYY-MM}.yaml
+├── db/                 ← 累積経営DB（Claude Codeが自動追記）
+│   ├── monthly_pl.csv  ← PL月次推移
+│   ├── monthly_kpi.csv ← 業種固有KPI月次推移
+│   ├── monthly_bs.csv  ← BS月次推移（BS提出ありの場合）
+│   └── monthly_store.csv ← 店舗別月次推移（多店舗の場合）
 ├── index.html          ← クライアントポータル
 └── {report}.html       ← レポート本体
 ```
@@ -550,9 +555,65 @@ notes: |
 
 ---
 
+## 累積経営DB（db/）
+
+### 目的
+クライアントごとの経営指標を月次で蓄積し、四半期・半期・通期まとめ、前年比較、3期比較など深い分析の基盤とする。
+
+### 運用ルール
+- **レポート生成時に自動追記**: 月次レポートを生成するたびに、当月のデータをdb/の各CSVに1行追記する
+- **既存行は上書きしない**: 同一periodの行が既に存在する場合のみ更新。それ以外は追記のみ
+- **CSVはクライアントごとに独立**: 業種ごとにKPI項目が異なるため、全社統合はしない
+- **db/フォルダは .gitignore で除外**: クライアント機密データをGitHubに上げない
+
+### ファイル構成
+
+| ファイル | 内容 | 対象 |
+|--------|------|------|
+| `monthly_pl.csv` | 損益計算書の月次推移（売上・粗利・営業利益・重点コスト等） | 全社 |
+| `monthly_kpi.csv` | 業種固有KPIの月次推移（会員数・セッション数・案件数等） | 全社 |
+| `monthly_bs.csv` | 貸借対照表の月次推移（流動比率・自己資本比率等） | BS提出ありの場合 |
+| `monthly_store.csv` | 店舗別の月次推移（売上・営業利益・YoY等） | 多店舗ビジネスの場合 |
+
+### monthly_pl.csv 共通列（全社）
+
+```csv
+period,revenue,cogs,gross_profit,gross_margin_pct,sg_and_a,labor_cost,labor_share_pct,operating_profit,operating_margin_pct,ordinary_profit,net_income,fcf,focus_cost_1_name,focus_cost_1,focus_cost_2_name,focus_cost_2,focus_cost_3_name,focus_cost_3
+```
+
+- `period`: YYYY-MM形式
+- `focus_cost_1〜3`: profile.yamlのfocus_costsに対応する重点コスト項目
+- 業種によって追加列あり（executive_comp, store_labor等）
+
+### monthly_kpi.csv の列はクライアントごとに定義
+
+profile.yamlの `industry_kpis` に対応する列を設定する。例:
+
+**パーソナルジム（B.U.G）:**
+```csv
+period,members,new_members,total_sessions,avg_sessions,trainers,session_unit_price,labor_share_all_pct,toc_revenue,tob_revenue
+```
+
+**ウェブマーケ（ふ々屋）:**
+```csv
+period,online_salon,career_design,consulting,course_revenue,kodomoya,total_clients,backend_orders
+```
+
+### 活用方法
+
+レポート生成時にdb/のCSVを読み込み、以下の分析に活用する:
+- **前月比（MoM）**: 直近2行の比較
+- **前年同月比（YoY）**: 12ヶ月前の行との比較
+- **四半期まとめ**: 3ヶ月分の集計・平均
+- **半期・通期まとめ**: 6ヶ月 or 12ヶ月分の集計
+- **3期比較**: 過去3年分のデータを横並び比較
+- **トレンド分析**: 推移チャートの描画
+
+---
+
 ## デプロイ
 
 - Gitの操作（commit / push）は本人のみが行う。福原・園子はGitを操作しない
 - レポートHTML生成後、Google Drive経由で本人のPCに自動同期される
 - 本人がレビュー後に git add → commit → push でGitHub Pagesに公開
-- inbox/ と data/ は .gitignore で除外済み（クライアント機密データをGitHubに上げない）
+- inbox/、data/、db/ は .gitignore で除外済み（クライアント機密データをGitHubに上げない）

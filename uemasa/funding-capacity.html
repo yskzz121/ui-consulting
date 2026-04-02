@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>資金調達余力分析 | 株式会社上雅装工</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+  --navy: #1A2540;
+  --navy-light: #243352;
+  --navy-dark: #0F1829;
+  --gold: #B8912A;
+  --gold-light: #D4A843;
+  --gold-pale: rgba(184,145,42,0.08);
+  --paper: #F5F2EC;
+  --paper-dark: #EDE8DF;
+  --text: #2C2C2C;
+  --text-sub: #6B6B6B;
+  --text-light: #999;
+  --positive: #1B7A3D;
+  --positive-bg: #E8F5E9;
+  --negative: #8B2020;
+  --negative-bg: #FFEBEE;
+  --neutral: #E65100;
+  --neutral-bg: #FFF3E0;
+  --border: #E0DCD4;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--paper);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 60px; }
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #1a2332 0%, #1A2540 50%, #0F1829 100%);
+  color: #fff;
+  border-bottom: 1px solid rgba(184,145,42,0.15);
+  padding: 48px 24px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(184,145,42,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 50%, rgba(184,145,42,0.06) 0%, transparent 60%);
+}
+.header-content { position: relative; z-index: 1; }
+.header-ui-logo { display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px; }
+.header-ui-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.header-ui-logo span { color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px; }
+.header-client-row { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px; }
+.ticker-badge {
+  display: inline-block;
+  background: rgba(184,145,42,0.15);
+  border: 1px solid rgba(184,145,42,0.3);
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 14px;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+}
+.header h1 { font-family:'Noto Serif JP',serif; font-size:1.9rem; font-weight:700; color:#fff; margin-bottom:8px; letter-spacing:2px; }
+.header-period { display:flex;align-items:center;justify-content:center;gap:16px;margin-top:4px; }
+.period-fiscal { background:rgba(184,145,42,0.2);border:1px solid rgba(184,145,42,0.4);border-radius:6px;padding:4px 14px;font-size:0.85rem;color:var(--gold-light);font-weight:700;letter-spacing:1px; }
+.period-month { font-size:1.1rem;color:rgba(255,255,255,0.9);font-weight:700;letter-spacing:1px; }
+
+/* Section */
+.section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Summary Box */
+.summary-box {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+}
+.summary-box h3 { color: var(--gold-light); font-family: 'Noto Serif JP', serif; margin-bottom: 12px; font-size: 1.1rem; }
+.summary-box p { line-height: 1.9; font-size: 0.95rem; }
+.summary-box .highlight { color: var(--gold-light); font-weight: 700; }
+
+/* Score Cards */
+.score-row { display:grid; grid-template-columns:repeat(5, 1fr); gap:16px; margin-bottom:28px; }
+.score-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.sc-label { font-size:0.75rem; color:var(--text-sub); margin-bottom:6px; font-weight:500; }
+.sc-value { font-family:'Inter',sans-serif; font-size:1.6rem; font-weight:700; color:var(--navy); margin-bottom:4px; }
+.sc-value.up { color:var(--positive); }
+.sc-value.down { color:var(--negative); }
+.sc-change { font-family:'Inter',sans-serif; font-size:0.78rem; margin-bottom:2px; }
+.sc-change.up { color:var(--positive); }
+.sc-change.down { color:var(--negative); }
+.sc-sub { font-size:0.7rem; color:var(--text-light); }
+
+/* Comp Table */
+.comp-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+.comp-table thead th {
+  background:var(--navy); color:#fff; padding:12px 14px; text-align:left;
+  font-weight:600; font-size:0.78rem; letter-spacing:0.5px;
+}
+.comp-table thead th:first-child { border-radius:8px 0 0 0; }
+.comp-table thead th:last-child { border-radius:0 8px 0 0; }
+.comp-table tbody td { padding:12px 14px; border-bottom:1px solid var(--border); }
+.comp-table tbody tr:hover { background:var(--gold-pale); }
+.comp-table .highlight-row { background:var(--gold-pale); font-weight:700; }
+.comp-table .up { color:var(--positive); font-weight:600; }
+.comp-table .down { color:var(--negative); font-weight:600; }
+.comp-table .num { font-family:'Inter',sans-serif; text-align:right; }
+.comp-table .label { font-weight:500; }
+
+/* Metrics Grid */
+.metrics-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
+.metric-card {
+  background:#fff; border-radius:12px; padding:20px;
+  box-shadow:var(--card-shadow); border:1px solid var(--border);
+}
+.mc-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.mc-label { font-size:0.82rem; font-weight:600; color:var(--navy); }
+.mc-badge { font-size:0.68rem; padding:2px 8px; border-radius:4px; font-weight:700; }
+.mc-badge.good { background:var(--positive-bg); color:var(--positive); }
+.mc-badge.warn { background:var(--neutral-bg); color:var(--neutral); }
+.mc-badge.bad { background:var(--negative-bg); color:var(--negative); }
+.mc-values { margin-bottom:8px; }
+.mc-current { font-family:'Inter',sans-serif; font-size:1.4rem; font-weight:700; color:var(--navy); }
+.mc-prev { font-size:0.75rem; color:var(--text-sub); }
+.mc-bar { height:6px; background:var(--paper-dark); border-radius:3px; overflow:hidden; }
+.mc-bar-fill { height:100%; border-radius:3px; transition:width 0.6s ease; }
+.mc-bar-fill.good { background:var(--positive); }
+.mc-bar-fill.warn { background:var(--neutral); }
+.mc-bar-fill.bad { background:var(--negative); }
+.mc-bar-fill.gold { background:var(--gold); }
+
+/* Gauge Row */
+.gauge-row { display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-bottom:20px; }
+.gauge-card {
+  background:#fff; border-radius:12px; padding:20px; text-align:center;
+  box-shadow:var(--card-shadow); border:1px solid var(--border);
+}
+.gc-label { font-size:0.75rem; color:var(--text-sub); margin-bottom:6px; font-weight:500; }
+.gc-value { font-family:'Inter',sans-serif; font-size:1.5rem; font-weight:700; }
+.gc-unit { font-size:0.72rem; color:var(--text-sub); margin-top:2px; }
+.gc-note { font-size:0.68rem; color:var(--text-light); margin-top:6px; }
+
+/* Scenario Cards */
+.scenario-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; }
+.scenario-card {
+  background:#fff; border-radius:12px; padding:24px;
+  box-shadow:var(--card-shadow); border:1px solid var(--border);
+  text-align:center;
+}
+.scenario-label { font-size:0.78rem; font-weight:700; letter-spacing:1px; margin-bottom:8px; padding:4px 12px; border-radius:4px; display:inline-block; }
+.scenario-label.conservative { background:var(--positive-bg); color:var(--positive); }
+.scenario-label.standard { background:rgba(26,37,64,0.08); color:var(--navy); }
+.scenario-label.aggressive { background:var(--neutral-bg); color:var(--neutral); }
+.scenario-main { font-family:'Inter',sans-serif; font-size:1.8rem; font-weight:700; color:var(--navy); margin:12px 0 4px; }
+.scenario-sub { font-size:0.82rem; color:var(--text-sub); margin-bottom:12px; }
+.scenario-detail { font-size:0.75rem; color:var(--text-sub); line-height:1.8; text-align:left; }
+.scenario-detail dt { font-weight:600; color:var(--text); }
+.scenario-detail dd { margin-bottom:6px; }
+
+/* Chart */
+.chart-container { position:relative; margin:20px 0; }
+.chart-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+
+/* Alert Box */
+.alert-box {
+  border-radius:12px; padding:20px 24px; margin-top:20px;
+  font-size:0.85rem; line-height:1.8;
+  border: 1px solid var(--border);
+}
+.alert-box.warning { background:var(--neutral-bg); }
+.alert-box.success { background:var(--positive-bg); }
+.alert-box strong { display:block; margin-bottom:4px; }
+
+/* Two Col */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+
+/* Notes */
+.notes-list { list-style:none; padding:0; }
+.notes-list li { padding:10px 0; border-bottom:1px solid var(--border); font-size:0.85rem; line-height:1.8; display:flex; gap:8px; }
+.notes-list li:last-child { border-bottom:none; }
+.notes-list .note-icon { flex-shrink:0; }
+
+/* Footer */
+.footer { background:var(--navy-dark); color:rgba(255,255,255,0.5); padding:28px 20px; text-align:center; }
+.footer-logo { display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px; }
+.footer-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.footer-logo span { color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.85rem;line-height:1;letter-spacing:1.5px; }
+.footer-info { font-size:0.72rem; margin-bottom:10px; }
+.footer-confidential { font-size:0.7rem; font-weight:700; color:var(--gold); letter-spacing:3px; border:1px solid rgba(184,145,42,0.3); display:inline-block; padding:4px 16px; border-radius:4px; }
+
+/* Responsive */
+@media(max-width:768px){
+  .score-row { grid-template-columns: repeat(2, 1fr); }
+  .metrics-grid { grid-template-columns: 1fr; }
+  .chart-row { grid-template-columns: 1fr; }
+  .scenario-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .gauge-row { grid-template-columns: repeat(2, 1fr); }
+  .overview-grid { grid-template-columns: 1fr; }
+  .header h1 { font-size: 1.4rem; }
+  .header-logo-row { flex-direction:column;gap:8px; }
+  .ticker-badge { font-size:12px;padding:4px 12px; }
+  .section { padding: 20px 16px; }
+  .comp-table { font-size: 0.75rem; }
+  .comp-table thead th, .comp-table tbody td { padding: 8px 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <div class="header-ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I Consulting">
+      <span>Consulting</span>
+    </div>
+    <div class="header-client-row">
+      <div class="ticker-badge">株式会社上雅装工</div>
+    </div>
+    <h1>資金調達余力分析</h1>
+    <div class="header-period">
+      <span class="period-fiscal">第13期</span>
+      <span class="period-month">付録資料</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Executive Summary -->
+<div class="summary-box">
+  <h3>Executive Summary</h3>
+  <p>株式会社上雅装工の債務償還年数は<span class="highlight">1.7年</span>と極めて健全な水準にあり、銀行融資における返済能力は非常に高い。現在の有利子負債2億3,108万円に対し、年間簡易キャッシュフローは1億3,493万円を確保。保守的に見積もっても<span class="highlight">追加1億2,000万円</span>、標準シナリオでは<span class="highlight">追加2億500万円</span>の借入余力がある。自己資本比率29.0%、借入金月商倍率4.0倍と、いずれも中小建設業として良好な財務体質を維持しており、成長投資や設備投資のための追加借入は十分に可能な状況である。</p>
+</div>
+
+<!-- Key Metrics -->
+<div class="score-row">
+  <div class="score-card">
+    <div class="sc-label">有利子負債</div>
+    <div class="sc-value">2億3,108万円</div>
+    <div class="sc-sub">長期借入金 + 代表者借入金</div>
+  </div>
+  <div class="score-card">
+    <div class="sc-label">簡易CF（年換算）</div>
+    <div class="sc-value up">1億3,493万円</div>
+    <div class="sc-sub">当期純利益 + 減価償却費</div>
+  </div>
+  <div class="score-card">
+    <div class="sc-label">債務償還年数</div>
+    <div class="sc-value up">1.7年</div>
+    <div class="sc-change up">目安10年以内</div>
+    <div class="sc-sub">非常に余裕あり</div>
+  </div>
+  <div class="score-card">
+    <div class="sc-label">借入金月商倍率</div>
+    <div class="sc-value">4.0倍</div>
+    <div class="sc-change">適正: 3〜6倍</div>
+    <div class="sc-sub">建設業は8倍まで可</div>
+  </div>
+  <div class="score-card">
+    <div class="sc-label">自己資本比率</div>
+    <div class="sc-value up">29.0%</div>
+    <div class="sc-change up">中小企業として良好</div>
+    <div class="sc-sub">純資産 2億1,829万円</div>
+  </div>
+</div>
+
+<!-- 現在の財務ポジション -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#x1F4CA;</span> 現在の財務ポジション</div>
+  <div class="two-col">
+    <div>
+      <h4 style="font-size:0.9rem;color:var(--navy);margin-bottom:12px;font-weight:700;">損益計算書（PL）</h4>
+      <table class="comp-table">
+        <thead><tr><th>科目</th><th>10ヶ月実績</th><th>年換算</th></tr></thead>
+        <tbody>
+          <tr class="highlight-row"><td class="label">売上高</td><td class="num">5億8,408万円</td><td class="num">7億89万円</td></tr>
+          <tr><td class="label">売上総利益</td><td class="num">3億2,633万円</td><td class="num">3億9,159万円</td></tr>
+          <tr><td class="label">営業利益</td><td class="num">1億5,279万円</td><td class="num">1億8,335万円</td></tr>
+          <tr><td class="label">経常利益</td><td class="num">1億5,109万円</td><td class="num">1億8,131万円</td></tr>
+          <tr><td class="label">当期純利益</td><td class="num">8,765万円</td><td class="num">1億519万円</td></tr>
+          <tr><td class="label">減価償却費</td><td class="num">2,478万円</td><td class="num">2,974万円</td></tr>
+          <tr><td class="label">支払利息</td><td class="num">504万円</td><td class="num">605万円</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h4 style="font-size:0.9rem;color:var(--navy);margin-bottom:12px;font-weight:700;">貸借対照表（BS）</h4>
+      <table class="comp-table">
+        <thead><tr><th>科目</th><th>第13期末</th></tr></thead>
+        <tbody>
+          <tr class="highlight-row"><td class="label">総資産</td><td class="num">7億5,316万円</td></tr>
+          <tr><td class="label">　流動資産</td><td class="num">3億7,793万円</td></tr>
+          <tr><td class="label">　　現金預金</td><td class="num">1億4,013万円</td></tr>
+          <tr><td class="label">　　完成工事未収入金</td><td class="num">2億1,735万円</td></tr>
+          <tr><td class="label">　固定資産</td><td class="num">3億7,522万円</td></tr>
+          <tr><td class="label">　　土地</td><td class="num">1億8,775万円</td></tr>
+          <tr class="highlight-row"><td class="label">負債合計</td><td class="num">5億3,486万円</td></tr>
+          <tr><td class="label">　流動負債</td><td class="num">2億3,050万円</td></tr>
+          <tr><td class="label">　長期借入金</td><td class="num">2億3,033万円</td></tr>
+          <tr><td class="label">　長期未払金</td><td class="num">6,713万円</td></tr>
+          <tr class="highlight-row"><td class="label">純資産</td><td class="num">2億1,829万円</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 借入限度額の算出 -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#x1F4D0;</span> 借入限度額の算出（5つの基準）</div>
+
+  <!-- CF基準 -->
+  <h4 style="font-size:0.95rem;color:var(--navy);margin-bottom:12px;font-weight:700;">1. キャッシュフロー基準（債務償還年数）</h4>
+  <table class="comp-table" style="margin-bottom:24px;">
+    <thead><tr><th>項目</th><th>計算式</th><th>金額</th></tr></thead>
+    <tbody>
+      <tr><td class="label">当期純利益（年換算）</td><td>8,765万円 x 1.2</td><td class="num">1億519万円</td></tr>
+      <tr><td class="label">減価償却費（年換算）</td><td>2,478万円 x 1.2</td><td class="num">2,974万円</td></tr>
+      <tr class="highlight-row"><td class="label">簡易CF（年間）</td><td>純利益 + 減価償却費</td><td class="num">1億3,493万円</td></tr>
+      <tr><td class="label">現在の有利子負債</td><td>長期借入金 + 代表者借入金</td><td class="num">2億3,108万円</td></tr>
+      <tr><td class="label">現在の債務償還年数</td><td>2億3,108万 / 1億3,493万</td><td class="num">1.71年</td></tr>
+      <tr><td class="label">最大借入総額（7年基準）</td><td>1億3,493万 x 7年</td><td class="num">9億4,449万円</td></tr>
+      <tr class="highlight-row"><td class="label">最大借入総額（10年基準）</td><td>1億3,493万 x 10年</td><td class="num">13億4,927万円</td></tr>
+      <tr class="highlight-row"><td class="label">追加借入余力（10年基準）</td><td>13億4,927万 - 2億3,108万</td><td class="num up">11億1,819万円</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 月商倍率基準 -->
+  <h4 style="font-size:0.95rem;color:var(--navy);margin-bottom:12px;font-weight:700;">2. 借入金月商倍率基準</h4>
+  <table class="comp-table" style="margin-bottom:24px;">
+    <thead><tr><th>項目</th><th>計算式</th><th>金額</th></tr></thead>
+    <tbody>
+      <tr><td class="label">年換算月商</td><td>7億89万 / 12ヶ月</td><td class="num">5,841万円</td></tr>
+      <tr><td class="label">現在の倍率</td><td>2億3,108万 / 5,841万</td><td class="num">3.96倍</td></tr>
+      <tr><td class="label">月商3倍の限度額</td><td>5,841万 x 3</td><td class="num">1億7,522万円</td></tr>
+      <tr><td class="label">月商6倍の限度額</td><td>5,841万 x 6</td><td class="num">3億5,045万円</td></tr>
+      <tr class="highlight-row"><td class="label">月商8倍の限度額</td><td>5,841万 x 8（建設業上限）</td><td class="num">4億6,726万円</td></tr>
+      <tr><td class="label">追加余力（6倍基準）</td><td>3億5,045万 - 2億3,108万</td><td class="num up">1億1,936万円</td></tr>
+      <tr class="highlight-row"><td class="label">追加余力（8倍基準）</td><td>4億6,726万 - 2億3,108万</td><td class="num up">2億3,618万円</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 担保評価基準 -->
+  <h4 style="font-size:0.95rem;color:var(--navy);margin-bottom:12px;font-weight:700;">3. 担保評価基準</h4>
+  <table class="comp-table" style="margin-bottom:24px;">
+    <thead><tr><th>資産</th><th>簿価</th><th>掛目</th><th>担保評価額</th></tr></thead>
+    <tbody>
+      <tr><td class="label">土地</td><td class="num">1億8,775万円</td><td class="num">70%</td><td class="num">1億3,142万円</td></tr>
+      <tr><td class="label">建物</td><td class="num">4,936万円</td><td class="num">50%</td><td class="num">2,468万円</td></tr>
+      <tr class="highlight-row"><td class="label">担保評価額合計</td><td></td><td></td><td class="num">1億5,610万円</td></tr>
+    </tbody>
+  </table>
+  <div class="alert-box warning">
+    <strong>担保に関する注意</strong>
+    既存の長期借入金2億3,033万円の一部が担保付融資と推定されます。実際の担保余力は、既存の担保設定額（根抵当権設定額等）を確認する必要があります。担保余力がある場合、プロパー融資での金利優遇が期待できます。
+  </div>
+
+  <!-- 純資産倍率基準 -->
+  <h4 style="font-size:0.95rem;color:var(--navy);margin-bottom:12px;font-weight:700;margin-top:24px;">4. 純資産倍率基準</h4>
+  <table class="comp-table" style="margin-bottom:24px;">
+    <thead><tr><th>項目</th><th>計算式</th><th>金額</th></tr></thead>
+    <tbody>
+      <tr><td class="label">純資産</td><td></td><td class="num">2億1,829万円</td></tr>
+      <tr><td class="label">自己資本比率</td><td>2億1,829万 / 7億5,316万</td><td class="num">29.0%</td></tr>
+      <tr><td class="label">借入限度（純資産2倍）</td><td>2億1,829万 x 2</td><td class="num">4億3,659万円</td></tr>
+      <tr class="highlight-row"><td class="label">借入限度（純資産3倍）</td><td>2億1,829万 x 3</td><td class="num">6億5,488万円</td></tr>
+      <tr><td class="label">追加余力（2倍基準）</td><td>4億3,659万 - 2億3,108万</td><td class="num up">2億550万円</td></tr>
+      <tr class="highlight-row"><td class="label">追加余力（3倍基準）</td><td>6億5,488万 - 2億3,108万</td><td class="num up">4億2,380万円</td></tr>
+    </tbody>
+  </table>
+
+  <!-- DSCR基準 -->
+  <h4 style="font-size:0.95rem;color:var(--navy);margin-bottom:12px;font-weight:700;">5. DSCR基準（Debt Service Coverage Ratio）</h4>
+  <table class="comp-table" style="margin-bottom:16px;">
+    <thead><tr><th>項目</th><th>計算式</th><th>金額</th></tr></thead>
+    <tbody>
+      <tr><td class="label">年間簡易CF</td><td></td><td class="num">1億3,493万円</td></tr>
+      <tr><td class="label">現在の年間元利返済額（推定）</td><td>10年返済ベース</td><td class="num">約2,600万円</td></tr>
+      <tr class="highlight-row"><td class="label">現在のDSCR</td><td>1億3,493万 / 2,600万</td><td class="num up">約5.2倍</td></tr>
+      <tr><td class="label">DSCR下限目安</td><td>銀行融資基準</td><td class="num">1.2倍以上</td></tr>
+      <tr><td class="label">最大年間返済可能額（DSCR 1.2倍）</td><td>1億3,493万 / 1.2</td><td class="num">1億1,244万円</td></tr>
+      <tr class="highlight-row"><td class="label">最大追加借入額（10年返済）</td><td>（1億1,244万 - 2,600万）x 8.98</td><td class="num up">約7億7,600万円</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.78rem;color:var(--text-sub);margin-top:8px;">DSCR = 年間CF / 年間元利返済額。1.2倍以上が融資審査の一般的な基準。現在5.2倍と非常に余裕がある。</p>
+</div>
+
+<!-- 総合判定（3シナリオ） -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#x1F3AF;</span> 総合判定（3シナリオ）</div>
+  <div class="scenario-grid">
+    <div class="scenario-card">
+      <div class="scenario-label conservative">保守的</div>
+      <div style="font-size:0.78rem;color:var(--text-sub);margin-bottom:4px;">最大借入総額</div>
+      <div class="scenario-main">3億5,000万円</div>
+      <div class="scenario-sub">追加借入余力: 約1億2,000万円</div>
+      <dl class="scenario-detail">
+        <dt>採用基準</dt>
+        <dd>月商6倍 + CF7年の低い方</dd>
+        <dt>想定用途</dt>
+        <dd>運転資金・小規模設備投資</dd>
+        <dt>審査難易度</dt>
+        <dd>信用保証協会付きで高確率</dd>
+      </dl>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-label standard">標準</div>
+      <div style="font-size:0.78rem;color:var(--text-sub);margin-bottom:4px;">最大借入総額</div>
+      <div class="scenario-main">4億3,600万円</div>
+      <div class="scenario-sub">追加借入余力: 約2億500万円</div>
+      <dl class="scenario-detail">
+        <dt>採用基準</dt>
+        <dd>CF10年 + 純資産2倍の低い方</dd>
+        <dt>想定用途</dt>
+        <dd>設備投資・事業拡大・M&amp;A</dd>
+        <dt>審査難易度</dt>
+        <dd>担保・保証協会付きで可能</dd>
+      </dl>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-label aggressive">積極的</div>
+      <div style="font-size:0.78rem;color:var(--text-sub);margin-bottom:4px;">最大借入総額</div>
+      <div class="scenario-main">13億4,900万円</div>
+      <div class="scenario-sub">追加借入余力: 約11億1,800万円</div>
+      <dl class="scenario-detail">
+        <dt>採用基準</dt>
+        <dd>CF10年ベース（理論最大値）</dd>
+        <dt>想定用途</dt>
+        <dd>大規模投資・複数案件同時</dd>
+        <dt>審査難易度</dt>
+        <dd>段階的な借入が現実的</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="alert-box success" style="margin-top:20px;">
+    <strong>総合評価</strong>
+    上雅装工は全5基準において借入余力を確認。特に債務償還年数1.7年は銀行評価で最も重視される指標であり、正常先の目安10年を大幅に下回る優良水準。現実的には<strong>保守的シナリオ（追加1.2億円）から標準シナリオ（追加2億円）</strong>の範囲が、無理のない追加借入枠となる。
+  </div>
+</div>
+
+<!-- 金利環境 -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#x1F4B0;</span> 金利環境（2026年4月時点）</div>
+  <table class="comp-table" style="margin-bottom:20px;">
+    <thead><tr><th>金融機関・商品</th><th>金利帯</th><th>備考</th></tr></thead>
+    <tbody>
+      <tr><td class="label">日銀政策金利</td><td class="num">0.50%</td><td>2025年段階的利上げ後</td></tr>
+      <tr><td class="label">長期プライムレート</td><td class="num">1.5% 〜 1.8%</td><td>中小企業向け</td></tr>
+      <tr><td class="label">県内地銀（信用保証協会付き）</td><td class="num">1.5% 〜 2.0%</td><td>沖縄銀行・琉球銀行等</td></tr>
+      <tr><td class="label">県内地銀（プロパー融資）</td><td class="num">2.0% 〜 3.0%</td><td>信用力による</td></tr>
+      <tr><td class="label">県内地銀（不動産担保付き）</td><td class="num">1.5% 〜 2.5%</td><td>担保評価次第</td></tr>
+      <tr><td class="label">日本政策金融公庫</td><td class="num">1.5% 〜 2.5%</td><td>制度融資の優遇あり</td></tr>
+      <tr class="highlight-row"><td class="label">上雅装工 現在の加重平均金利</td><td class="num">2.19%</td><td>支払利息504万 / 借入金2億3,033万</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.82rem;color:var(--text-sub);">日銀の段階的利上げにより中小企業向け融資金利はやや上昇傾向。ただし信用保証協会付きや担保付き融資であれば、引き続き2%前後での調達が可能な環境。上雅装工の現在の調達金利2.19%は市場水準に対して概ね適正。</p>
+</div>
+
+<!-- 返済シミュレーション -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#x1F4C8;</span> 返済シミュレーション</div>
+  <p style="font-size:0.85rem;color:var(--text-sub);margin-bottom:20px;">追加借入した場合の返済負担を3パターンでシミュレーション。金利2.0%、返済期間10年（元利均等返済）で試算。</p>
+
+  <table class="comp-table" style="margin-bottom:24px;">
+    <thead>
+      <tr><th>項目</th><th>追加1億円</th><th>追加2億円</th><th>追加3億円</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="label">年間元利返済額</td><td class="num">1,113万円</td><td class="num">2,227万円</td><td class="num">3,340万円</td></tr>
+      <tr><td class="label">月額返済額</td><td class="num">93万円</td><td class="num">186万円</td><td class="num">278万円</td></tr>
+      <tr class="highlight-row"><td class="label">返済負担率</td><td class="num up">8.3%</td><td class="num">16.5%</td><td class="num down">24.8%</td></tr>
+      <tr><td class="label">総支払利息（10年）</td><td class="num">1,133万円</td><td class="num">2,266万円</td><td class="num">3,398万円</td></tr>
+      <tr><td class="label">借入後の有利子負債総額</td><td class="num">3億3,108万円</td><td class="num">4億3,108万円</td><td class="num">5億3,108万円</td></tr>
+      <tr><td class="label">借入後の債務償還年数</td><td class="num">2.45年</td><td class="num">3.19年</td><td class="num">3.94年</td></tr>
+      <tr><td class="label">判定</td><td class="up">十分に返済可能</td><td>返済可能</td><td class="down">負担増（要検討）</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.78rem;color:var(--text-sub);margin-bottom:20px;">返済負担率 = 年間元利返済額 / 簡易CF（1億3,493万円）。一般に20%以下が安全水準、30%超で注意。</p>
+
+  <div class="chart-container" style="height:350px;">
+    <canvas id="repaymentChart"></canvas>
+  </div>
+</div>
+
+<!-- 注意事項・免責 -->
+<div class="section">
+  <div class="section-title"><span class="icon">&#x26A0;&#xFE0F;</span> 注意事項・免責</div>
+  <ul class="notes-list">
+    <li><span class="note-icon">1.</span>本資料は第13期（令和7年3月〜12月、10ヶ月決算）の財務データに基づく概算分析であり、実際の融資可否・融資条件は各金融機関の個別審査によります。</li>
+    <li><span class="note-icon">2.</span>年換算は10ヶ月実績を1.2倍して算出しています。季節変動や受注の偏りは考慮していません。</li>
+    <li><span class="note-icon">3.</span>担保評価額は簿価ベースの概算です。実際の担保評価は金融機関の不動産鑑定に基づきます。</li>
+    <li><span class="note-icon">4.</span>長期未払金（6,713万円）は本分析では有利子負債に含めていません。割賦購入等の場合は有利子負債に算入されることがあります。</li>
+    <li><span class="note-icon">5.</span>金利は2026年4月時点の市場環境に基づく想定値です。今後の金融政策変更により変動する可能性があります。</li>
+    <li><span class="note-icon">6.</span>返済シミュレーションは元利均等返済を前提としています。元金均等返済の場合は月額返済額のプロファイルが異なります。</li>
+    <li><span class="note-icon">7.</span>本資料はU&amp;Iコンサルティングが作成した参考資料であり、融資の保証・約束をするものではありません。</li>
+  </ul>
+</div>
+
+</div><!-- /container -->
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I">
+      <span>Consulting</span>
+    </div>
+    <div class="footer-info">
+      株式会社上雅装工 資金調達余力分析
+    </div>
+    <div class="footer-confidential">最重要機密（CONFIDENTIAL）</div>
+  </div>
+</div>
+
+<script>
+Chart.defaults.font.family = "'Inter', 'Noto Sans JP', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#6B6B6B';
+
+// 返済負担率チャート
+var ctx = document.getElementById('repaymentChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['追加1億円', '追加2億円', '追加3億円'],
+    datasets: [
+      {
+        label: '返済負担率（%）',
+        data: [8.3, 16.5, 24.8],
+        backgroundColor: ['#1B7A3D', '#B8912A', '#8B2020'],
+        borderRadius: 6,
+        barThickness: 60
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: '追加借入額別 返済負担率',
+        font: { size: 14, weight: '700', family: "'Noto Sans JP', sans-serif" },
+        color: '#1A2540',
+        padding: { bottom: 20 }
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            return '返済負担率: ' + context.parsed.y + '%';
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 35,
+        ticks: {
+          callback: function(value) { return value + '%'; }
+        },
+        grid: { color: 'rgba(0,0,0,0.06)' }
+      },
+      x: {
+        grid: { display: false }
+      }
+    }
+  },
+  plugins: [{
+    id: 'thresholdLine',
+    afterDraw: function(chart) {
+      var yScale = chart.scales.y;
+      var ctx = chart.ctx;
+      var y20 = yScale.getPixelForValue(20);
+      ctx.save();
+      ctx.beginPath();
+      ctx.setLineDash([6, 4]);
+      ctx.strokeStyle = '#8B2020';
+      ctx.lineWidth = 1.5;
+      ctx.moveTo(chart.chartArea.left, y20);
+      ctx.lineTo(chart.chartArea.right, y20);
+      ctx.stroke();
+      ctx.fillStyle = '#8B2020';
+      ctx.font = '11px Inter, Noto Sans JP, sans-serif';
+      ctx.fillText('安全水準上限 20%', chart.chartArea.right - 120, y20 - 6);
+      ctx.restore();
+    }
+  }]
+});
+</script>
+
+</body>
+</html>

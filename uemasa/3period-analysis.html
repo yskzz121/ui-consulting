@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社上雅装工 3期比較 経営分析レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+  --navy: #1A2540;
+  --navy-light: #243352;
+  --navy-dark: #0F1829;
+  --gold: #B8912A;
+  --gold-light: #D4A843;
+  --gold-pale: rgba(184,145,42,0.08);
+  --paper: #F5F2EC;
+  --paper-dark: #EDE8DF;
+  --text: #2C2C2C;
+  --text-sub: #6B6B6B;
+  --text-light: #999;
+  --positive: #1B7A3D;
+  --positive-bg: #E8F5E9;
+  --negative: #8B2020;
+  --negative-bg: #FFEBEE;
+  --neutral: #E65100;
+  --neutral-bg: #FFF3E0;
+  --border: #E0DCD4;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--paper);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 60px; }
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #1a2332 0%, #1A2540 50%, #0F1829 100%);
+  color: #fff;
+  border-bottom: 1px solid rgba(184,145,42,0.15);
+  padding: 48px 24px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(184,145,42,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 50%, rgba(184,145,42,0.06) 0%, transparent 60%);
+}
+.header-content { position: relative; z-index: 1; }
+.header-ui-logo { display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px; }
+.header-ui-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.header-ui-logo span { color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px; }
+.header-client-row { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px; }
+.ticker-badge {
+  display: inline-block;
+  background: rgba(184,145,42,0.15);
+  border: 1px solid rgba(184,145,42,0.3);
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 14px;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+}
+.header h1 { font-family:'Noto Serif JP',serif; font-size:1.9rem; font-weight:700; color:#fff; margin-bottom:8px; letter-spacing:2px; }
+.header-period { display:flex;align-items:center;justify-content:center;gap:16px;margin-top:4px; }
+.period-fiscal { background:rgba(184,145,42,0.2);border:1px solid rgba(184,145,42,0.4);border-radius:6px;padding:4px 14px;font-size:0.85rem;color:var(--gold-light);font-weight:700;letter-spacing:1px; }
+.period-month { font-size:1.1rem;color:rgba(255,255,255,0.9);font-weight:700;letter-spacing:1px; }
+
+/* Section */
+.section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Summary Box */
+.summary-box {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 28px;
+}
+.summary-box h3 { color: var(--gold-light); font-family: 'Noto Serif JP', serif; margin-bottom: 16px; font-size: 1.1rem; }
+.summary-box p { font-size: 0.95rem; line-height: 1.9; color: rgba(255,255,255,0.9); }
+.summary-box .highlight { color: var(--gold-light); font-weight: 700; }
+
+/* Score Cards */
+.score-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 28px; }
+.score-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.sc-label { font-size: 0.78rem; color: var(--text-sub); margin-bottom: 8px; font-weight: 500; }
+.sc-value { font-family: 'Inter', sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.sc-value.up { color: var(--positive); }
+.sc-value.down { color: var(--negative); }
+.sc-change { font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600; }
+.sc-change.up { color: var(--positive); }
+.sc-change.down { color: var(--negative); }
+.sc-sub { font-size: 0.72rem; color: var(--text-light); margin-top: 4px; }
+
+/* Comp Table */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.comp-table thead th {
+  background: var(--navy);
+  color: #fff;
+  padding: 12px 14px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.comp-table thead th:first-child { text-align: left; border-radius: 8px 0 0 0; }
+.comp-table thead th:last-child { border-radius: 0 8px 0 0; }
+.comp-table tbody td {
+  padding: 10px 14px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+.comp-table tbody td:first-child {
+  text-align: left;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 500;
+  color: var(--text);
+}
+.comp-table tbody tr:hover { background: var(--gold-pale); }
+.comp-table .highlight-row { background: rgba(26,37,64,0.04); font-weight: 700; }
+.comp-table .highlight-row td { font-weight: 700; }
+.comp-table .sub-row td:first-child { padding-left: 28px; font-weight: 400; color: var(--text-sub); }
+.up { color: var(--positive); }
+.down { color: var(--negative); }
+
+/* Gauge Row */
+.gauge-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.gauge-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px 16px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.gc-label { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 8px; font-weight: 500; }
+.gc-value { font-family: 'Inter', sans-serif; font-size: 1.8rem; font-weight: 700; }
+.gc-unit { font-size: 0.75rem; color: var(--text-sub); margin-top: 2px; }
+.gc-note { font-size: 0.72rem; color: var(--text-light); margin-top: 6px; }
+
+/* Proposal Cards */
+.proposal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.proposal-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.pc-priority { font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+.pc-title { font-family: 'Noto Serif JP', serif; font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+.pc-body { font-size: 0.85rem; color: var(--text-sub); line-height: 1.7; margin-bottom: 12px; }
+.pc-impact { font-size: 0.78rem; color: var(--gold); font-weight: 600; border-top: 1px solid var(--border); padding-top: 10px; }
+
+/* Chart */
+.chart-container { position: relative; width: 100%; }
+.chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+/* Alert Box */
+.alert-box {
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  border: 1px solid var(--border);
+}
+.alert-box strong { display: block; margin-bottom: 4px; }
+
+/* Note Box */
+.note-box {
+  background: var(--paper-dark);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 16px;
+  font-size: 0.82rem;
+  color: var(--text-sub);
+  line-height: 1.8;
+  border: 1px solid var(--border);
+}
+.note-box strong { color: var(--navy); }
+
+/* Footer */
+.footer { background:var(--navy-dark); color:rgba(255,255,255,0.5); padding:28px 20px; text-align:center; }
+.footer-logo { display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px; }
+.footer-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.footer-logo span { color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.85rem;line-height:1;letter-spacing:1.5px; }
+.footer-info { font-size:0.72rem; margin-bottom:10px; }
+.footer-confidential { font-size:0.7rem; font-weight:700; color:var(--gold); letter-spacing:3px; border:1px solid rgba(184,145,42,0.3); display:inline-block; padding:4px 16px; border-radius:4px; }
+
+/* Responsive */
+@media(max-width:768px){
+  .score-row { grid-template-columns: repeat(2, 1fr); }
+  .metrics-grid { grid-template-columns: 1fr; }
+  .chart-row { grid-template-columns: 1fr; }
+  .proposal-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .gauge-row { grid-template-columns: repeat(2, 1fr); }
+  .overview-grid { grid-template-columns: 1fr; }
+  .header h1 { font-size: 1.4rem; }
+  .header-client-row { flex-direction:column;gap:8px; }
+  .ticker-badge { font-size:12px;padding:4px 12px; }
+  .section { padding: 20px 16px; }
+  .comp-table { font-size: 0.75rem; }
+  .comp-table thead th, .comp-table tbody td { padding: 8px 10px; }
+  .header-period { flex-direction: column; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <div class="header-ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I Consulting">
+      <span>Consulting</span>
+    </div>
+    <div class="header-client-row">
+      <div class="ticker-badge">株式会社上雅装工</div>
+    </div>
+    <h1>3期比較 経営分析レポート</h1>
+    <div class="header-period">
+      <span class="period-fiscal">第11期〜第13期</span>
+      <span class="period-month">2023年5月〜2025年12月</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Executive Summary -->
+<div class="summary-box">
+  <h3>Executive Summary</h3>
+  <p>
+    株式会社上雅装工は第11期から第13期にかけて<span class="highlight">収益構造の劇的な転換</span>を遂げた。粗利率は第11期の30.2%から第13期には<span class="highlight">55.9%（+25.7pt）</span>へ急上昇し、営業利益率は2.5%から<span class="highlight">26.2%へ約10倍</span>に改善。主因は外注費比率の大幅低下であり、売上原価に占める外注費が第11期67.0%から第13期42.3%へ縮小した。これは内製化の推進または工事構成の変化を示唆する。純資産は1億1,100万円から2億1,800万円へほぼ倍増し、自己資本比率も20.3%から29.0%へ改善。一方、完成工事未収入金2億1,700万円、車両投資6,800万円、投資損失の再発（第11期6,400万円・第13期1,200万円）は注視すべきリスク要因である。
+  </p>
+</div>
+
+<!-- Key Metrics -->
+<div class="score-row">
+  <div class="score-card">
+    <div class="sc-label">第13期 売上高</div>
+    <div class="sc-value">5.84億円</div>
+    <div class="sc-sub">年換算 7.01億円（10ヶ月実績）</div>
+  </div>
+  <div class="score-card">
+    <div class="sc-label">営業利益率</div>
+    <div class="sc-value up">26.2%</div>
+    <div class="sc-change up">第11期 2.5% → 約10倍</div>
+  </div>
+  <div class="score-card">
+    <div class="sc-label">粗利率</div>
+    <div class="sc-value up">55.9%</div>
+    <div class="sc-change up">+25.7pt（第11期比）</div>
+  </div>
+  <div class="score-card">
+    <div class="sc-label">自己資本比率</div>
+    <div class="sc-value up">29.0%</div>
+    <div class="sc-change up">+8.7pt（第11期比）</div>
+  </div>
+  <div class="score-card">
+    <div class="sc-label">純資産</div>
+    <div class="sc-value up">2.18億円</div>
+    <div class="sc-change up">第11期 1.11億円 → 約2倍</div>
+  </div>
+</div>
+
+<!-- 3期PL比較テーブル -->
+<div class="section">
+  <div class="section-title"><span class="icon">📊</span> 3期 損益計算書（P/L）比較</div>
+
+  <div class="note-box" style="margin-bottom:20px;">
+    <strong>決算期変更に関する注意</strong><br>
+    第11期は12ヶ月（R5.5〜R6.4）、第12期・第13期は10ヶ月（決算期変更）。単純比較のため年換算（12ヶ月ベース = 実績 &times; 12/10）列を併記しています。
+  </div>
+
+  <div class="table-wrap">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th style="text-align:left">科目</th>
+        <th>第11期<br><span style="font-weight:400;font-size:0.7rem">12ヶ月</span></th>
+        <th>第12期<br><span style="font-weight:400;font-size:0.7rem">10ヶ月</span></th>
+        <th>第12期<br><span style="font-weight:400;font-size:0.7rem">年換算</span></th>
+        <th>第13期<br><span style="font-weight:400;font-size:0.7rem">10ヶ月</span></th>
+        <th>第13期<br><span style="font-weight:400;font-size:0.7rem">年換算</span></th>
+        <th>年換算増減<br><span style="font-weight:400;font-size:0.7rem">11期→13期</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="highlight-row">
+        <td>売上高</td>
+        <td>730,981</td>
+        <td>548,774</td>
+        <td>658,529</td>
+        <td>584,077</td>
+        <td>700,893</td>
+        <td class="down">-4.1%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>売上原価</td>
+        <td>510,454</td>
+        <td>366,448</td>
+        <td>439,738</td>
+        <td>257,752</td>
+        <td>309,302</td>
+        <td class="up">-29.5%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>仕入高</td>
+        <td>20,822</td>
+        <td>13,780</td>
+        <td>16,536</td>
+        <td>18,493</td>
+        <td>22,192</td>
+        <td>+6.6%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>外注費</td>
+        <td>489,632</td>
+        <td>352,668</td>
+        <td>423,201</td>
+        <td>247,238</td>
+        <td>296,686</td>
+        <td class="up">-39.4%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>売上総利益</td>
+        <td>220,527</td>
+        <td>182,327</td>
+        <td>218,792</td>
+        <td>326,325</td>
+        <td>391,590</td>
+        <td class="up">+77.6%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>粗利率</td>
+        <td>30.2%</td>
+        <td>33.2%</td>
+        <td>33.2%</td>
+        <td>55.9%</td>
+        <td>55.9%</td>
+        <td class="up">+25.7pt</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>販管費合計</td>
+        <td>201,965</td>
+        <td>171,416</td>
+        <td>205,699</td>
+        <td>173,534</td>
+        <td>208,241</td>
+        <td>+3.1%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>役員報酬</td>
+        <td>12,000</td>
+        <td>27,000</td>
+        <td>32,400</td>
+        <td>7,000</td>
+        <td>8,400</td>
+        <td class="up">-30.0%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>給与手当</td>
+        <td>44,020</td>
+        <td>36,377</td>
+        <td>43,652</td>
+        <td>38,851</td>
+        <td>46,621</td>
+        <td>+5.9%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>賞与</td>
+        <td>10,580</td>
+        <td>5,720</td>
+        <td>6,864</td>
+        <td>12,800</td>
+        <td>15,360</td>
+        <td class="down">+45.2%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>法定福利費</td>
+        <td>4,009</td>
+        <td>4,255</td>
+        <td>5,106</td>
+        <td>6,256</td>
+        <td>7,507</td>
+        <td class="down">+87.2%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>減価償却費</td>
+        <td>13,336</td>
+        <td>7,980</td>
+        <td>9,576</td>
+        <td>24,785</td>
+        <td>29,742</td>
+        <td class="down">+123.1%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>地代家賃</td>
+        <td>3,376</td>
+        <td>2,644</td>
+        <td>3,173</td>
+        <td>12,513</td>
+        <td>15,016</td>
+        <td class="down">+344.9%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>保険料</td>
+        <td>18,602</td>
+        <td>25,284</td>
+        <td>30,340</td>
+        <td>2,460</td>
+        <td>2,952</td>
+        <td class="up">-84.1%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>租税公課</td>
+        <td>46,276</td>
+        <td>25,080</td>
+        <td>30,096</td>
+        <td>28,607</td>
+        <td>34,328</td>
+        <td class="up">-25.8%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>旅費交通費</td>
+        <td>5,417</td>
+        <td>1,580</td>
+        <td>1,896</td>
+        <td>10,799</td>
+        <td>12,959</td>
+        <td class="down">+139.3%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>交際費</td>
+        <td>9,230</td>
+        <td>4,063</td>
+        <td>4,875</td>
+        <td>5,905</td>
+        <td>7,086</td>
+        <td class="up">-23.2%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>支払手数料</td>
+        <td>2,274</td>
+        <td>2,259</td>
+        <td>2,711</td>
+        <td>6,465</td>
+        <td>7,758</td>
+        <td class="down">+241.2%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>車両費</td>
+        <td>2,357</td>
+        <td>4,989</td>
+        <td>5,987</td>
+        <td>2,471</td>
+        <td>2,965</td>
+        <td>+25.8%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>研修費</td>
+        <td>&#8212;</td>
+        <td>&#8212;</td>
+        <td>&#8212;</td>
+        <td>4,518</td>
+        <td>5,421</td>
+        <td>新規</td>
+      </tr>
+      <tr class="sub-row">
+        <td>リース料</td>
+        <td>1,195</td>
+        <td>4,595</td>
+        <td>5,514</td>
+        <td>949</td>
+        <td>1,139</td>
+        <td class="up">-4.7%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>現場材料費</td>
+        <td>4,368</td>
+        <td>6,963</td>
+        <td>8,355</td>
+        <td>&#8212;</td>
+        <td>&#8212;</td>
+        <td>&#8212;</td>
+      </tr>
+      <tr class="sub-row">
+        <td>その他販管費</td>
+        <td>24,325</td>
+        <td>14,907</td>
+        <td>17,889</td>
+        <td>11,155</td>
+        <td>13,386</td>
+        <td class="up">-45.0%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>営業利益</td>
+        <td>18,562</td>
+        <td>10,911</td>
+        <td>13,093</td>
+        <td>152,791</td>
+        <td>183,350</td>
+        <td class="up">+887.8%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>営業利益率</td>
+        <td>2.5%</td>
+        <td>2.0%</td>
+        <td>2.0%</td>
+        <td>26.2%</td>
+        <td>26.2%</td>
+        <td class="up">+23.7pt</td>
+      </tr>
+      <tr>
+        <td>営業外収益</td>
+        <td>75,341</td>
+        <td>13,189</td>
+        <td>15,826</td>
+        <td>3,346</td>
+        <td>4,015</td>
+        <td class="down">-94.7%</td>
+      </tr>
+      <tr>
+        <td>営業外費用</td>
+        <td>66,832</td>
+        <td>4,063</td>
+        <td>4,875</td>
+        <td>5,045</td>
+        <td>6,054</td>
+        <td class="up">-90.9%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>経常利益</td>
+        <td>27,071</td>
+        <td>20,036</td>
+        <td>24,044</td>
+        <td>151,093</td>
+        <td>181,312</td>
+        <td class="up">+569.6%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>経常利益率</td>
+        <td>3.7%</td>
+        <td>3.7%</td>
+        <td>3.7%</td>
+        <td>25.9%</td>
+        <td>25.9%</td>
+        <td class="up">+22.2pt</td>
+      </tr>
+      <tr>
+        <td>特別損失</td>
+        <td>&#8212;</td>
+        <td>&#8212;</td>
+        <td>&#8212;</td>
+        <td>11,611</td>
+        <td>13,933</td>
+        <td>&#8212;</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>税引前当期純利益</td>
+        <td>27,071</td>
+        <td>20,036</td>
+        <td>24,044</td>
+        <td>139,482</td>
+        <td>167,379</td>
+        <td class="up">+518.3%</td>
+      </tr>
+      <tr>
+        <td>法人税等</td>
+        <td>15,021</td>
+        <td>344</td>
+        <td>412</td>
+        <td>51,828</td>
+        <td>62,193</td>
+        <td>+314.1%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>当期純利益</td>
+        <td>12,050</td>
+        <td>19,693</td>
+        <td>23,631</td>
+        <td>87,654</td>
+        <td>105,185</td>
+        <td class="up">+773.0%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>当期純利益率</td>
+        <td>1.6%</td>
+        <td>3.6%</td>
+        <td>3.6%</td>
+        <td>15.0%</td>
+        <td>15.0%</td>
+        <td class="up">+13.4pt</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note-box">
+    <strong>単位:</strong> 千円（千円未満切捨て表示）。年換算は10ヶ月実績 &times; 12/10 で算出。構成比・利益率は年換算にかかわらず同一。
+  </div>
+</div>
+
+<!-- 12ヶ月換算（年換算）比較 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📊</span> 12ヶ月換算（年換算）比較</div>
+
+  <div class="alert-box" style="background:var(--paper-dark);margin-bottom:20px;">
+    <strong>年換算についての注意</strong>
+    第12期・第13期は10ヶ月決算のため、12/10（&times;1.2）で年換算した数値です。実績値との乖離にご注意ください。
+  </div>
+
+  <div class="table-wrap">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th style="text-align:left">科目</th>
+        <th>第11期<br><span style="font-weight:400;font-size:0.7rem">実績=年換算</span></th>
+        <th>第12期<br><span style="font-weight:400;font-size:0.7rem">年換算</span></th>
+        <th>第13期<br><span style="font-weight:400;font-size:0.7rem">年換算</span></th>
+        <th>11期&rarr;13期<br><span style="font-weight:400;font-size:0.7rem">増減率</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="highlight-row">
+        <td>売上高</td>
+        <td>730,981,220</td>
+        <td>658,529,392</td>
+        <td>700,892,645</td>
+        <td class="down">-4.1%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>売上原価</td>
+        <td>510,453,728</td>
+        <td>439,737,572</td>
+        <td>309,302,200</td>
+        <td class="up">-39.4%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>売上総利益</td>
+        <td>220,527,492</td>
+        <td>218,791,819</td>
+        <td>391,590,445</td>
+        <td class="up">+77.6%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>粗利率</td>
+        <td>30.2%</td>
+        <td>33.2%</td>
+        <td>55.9%</td>
+        <td class="up">+25.7pt</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>販管費合計</td>
+        <td>201,965,213</td>
+        <td>205,699,180</td>
+        <td>208,240,721</td>
+        <td>+3.1%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>営業利益</td>
+        <td>18,562,279</td>
+        <td>13,092,640</td>
+        <td>183,349,724</td>
+        <td class="up">+887.8%</td>
+      </tr>
+      <tr class="sub-row">
+        <td>営業利益率</td>
+        <td>2.5%</td>
+        <td>2.0%</td>
+        <td>26.2%</td>
+        <td class="up">+23.7pt</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>経常利益</td>
+        <td>27,071,098</td>
+        <td>24,043,702</td>
+        <td>181,311,602</td>
+        <td class="up">+569.6%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>当期純利益</td>
+        <td>12,050,098</td>
+        <td>23,631,502</td>
+        <td>105,185,082</td>
+        <td class="up">+772.9%</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div style="margin-top:28px;">
+    <h4 style="font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:16px;">年換算 主要経費</h4>
+    <div class="table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">科目</th>
+          <th>第11期<br><span style="font-weight:400;font-size:0.7rem">実績=年換算</span></th>
+          <th>第12期<br><span style="font-weight:400;font-size:0.7rem">年換算</span></th>
+          <th>第13期<br><span style="font-weight:400;font-size:0.7rem">年換算</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>外注費</td>
+          <td>489,632,025</td>
+          <td>423,201,061</td>
+          <td>296,685,546</td>
+        </tr>
+        <tr class="sub-row">
+          <td>外注費率（対売上）</td>
+          <td>67.0%</td>
+          <td>64.3%</td>
+          <td>42.3%</td>
+        </tr>
+        <tr>
+          <td>人件費（役員+給与+賞与）</td>
+          <td>66,599,894</td>
+          <td>82,916,237</td>
+          <td>70,380,961</td>
+        </tr>
+        <tr class="sub-row">
+          <td>人件費率</td>
+          <td>9.1%</td>
+          <td>12.6%</td>
+          <td>10.0%</td>
+        </tr>
+        <tr>
+          <td>地代家賃</td>
+          <td>3,376,120</td>
+          <td>3,172,428</td>
+          <td>15,015,600</td>
+        </tr>
+        <tr>
+          <td>車両費</td>
+          <td>2,356,855</td>
+          <td>5,987,290</td>
+          <td>2,965,068</td>
+        </tr>
+        <tr>
+          <td>減価償却費</td>
+          <td>13,336,126</td>
+          <td>9,576,583</td>
+          <td>29,741,899</td>
+        </tr>
+        <tr>
+          <td>保険料</td>
+          <td>18,602,241</td>
+          <td>30,340,210</td>
+          <td>2,951,668</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="chart-container" style="height:400px;margin-top:28px">
+    <canvas id="annualizedChart"></canvas>
+  </div>
+
+  <div class="note-box" style="margin-top:16px;">
+    <strong>単位:</strong> 円。第11期は12ヶ月実績（=年換算）。第12期・第13期は10ヶ月実績 &times; 1.2 で年換算。構成比・利益率は期間にかかわらず同一値。
+  </div>
+</div>
+
+<!-- 売上・利益推移チャート -->
+<div class="section">
+  <div class="section-title"><span class="icon">📈</span> 売上高・営業利益率 推移</div>
+  <div class="chart-row">
+    <div class="chart-container" style="height:360px">
+      <canvas id="revChart"></canvas>
+    </div>
+    <div class="chart-container" style="height:360px">
+      <canvas id="profitChart"></canvas>
+    </div>
+  </div>
+  <div class="note-box">
+    年換算ベースでの比較。第12期・第13期は10ヶ月実績を12ヶ月換算。
+  </div>
+</div>
+
+<!-- 収益構造分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🔍</span> 収益構造分析 &#8212; 外注費率の変化</div>
+
+  <p style="margin-bottom:20px;font-size:0.9rem;color:var(--text-sub);">
+    3期を通じて最も大きな変化は<strong>外注費率の急落</strong>である。売上高に対する外注費率は第11期67.0%→第12期64.3%→第13期42.3%と推移し、第13期で約25pt低下した。
+    これにより粗利率が55.9%へ急上昇し、販管費を吸収しても営業利益率26.2%を確保できる収益構造に転換した。
+  </p>
+
+  <div class="chart-row">
+    <div class="chart-container" style="height:320px">
+      <canvas id="costChart11"></canvas>
+    </div>
+    <div class="chart-container" style="height:320px">
+      <canvas id="costChart13"></canvas>
+    </div>
+  </div>
+
+  <div class="note-box" style="margin-top:20px;">
+    <strong>考えられる要因:</strong><br>
+    (1) 内製化の推進（自社施工比率の向上）、(2) 工事種別の変化（利益率の高い工事の比率増加）、(3) 外注単価の交渉力向上。第13期では「家賃売上高」1,990万円が新たに計上されており、不動産収益の内製化も一因と考えられる。また、保険料の急減（2,530万円→250万円）は、従来外注に付随していた保険コストが削減された可能性を示唆する。
+  </div>
+</div>
+
+<!-- 主要経費分析 -->
+<div class="section">
+  <div class="section-title"><span class="icon">💰</span> 主要経費 3期比較分析</div>
+
+  <div class="table-wrap">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th style="text-align:left">注目科目</th>
+        <th>第11期<br><span style="font-weight:400;font-size:0.7rem">12ヶ月</span></th>
+        <th>第12期<br><span style="font-weight:400;font-size:0.7rem">10ヶ月</span></th>
+        <th>第13期<br><span style="font-weight:400;font-size:0.7rem">10ヶ月</span></th>
+        <th>変動ポイント</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>外注費</td>
+        <td>489,632</td>
+        <td>352,668</td>
+        <td>247,238</td>
+        <td class="up" style="font-size:0.8rem;text-align:left">売上比 67.0%→42.3%。内製化効果大</td>
+      </tr>
+      <tr>
+        <td>役員報酬</td>
+        <td>12,000</td>
+        <td>27,000</td>
+        <td>7,000</td>
+        <td style="font-size:0.8rem;text-align:left">第12期で増額後、第13期で大幅減額</td>
+      </tr>
+      <tr>
+        <td>地代家賃</td>
+        <td>3,376</td>
+        <td>2,644</td>
+        <td>12,513</td>
+        <td class="down" style="font-size:0.8rem;text-align:left">第13期で急増（年換算1,500万円）。新拠点か</td>
+      </tr>
+      <tr>
+        <td>保険料</td>
+        <td>18,602</td>
+        <td>25,284</td>
+        <td>2,460</td>
+        <td class="up" style="font-size:0.8rem;text-align:left">第13期で激減。外注構造変化と連動か</td>
+      </tr>
+      <tr>
+        <td>減価償却費</td>
+        <td>13,336</td>
+        <td>7,980</td>
+        <td>24,785</td>
+        <td class="down" style="font-size:0.8rem;text-align:left">車両投資増に伴い年換算3,000万円</td>
+      </tr>
+      <tr>
+        <td>旅費交通費</td>
+        <td>5,417</td>
+        <td>1,580</td>
+        <td>10,799</td>
+        <td class="down" style="font-size:0.8rem;text-align:left">第13期で急増。県外案件の拡大か</td>
+      </tr>
+      <tr>
+        <td>研修費</td>
+        <td>&#8212;</td>
+        <td>&#8212;</td>
+        <td>4,518</td>
+        <td style="font-size:0.8rem;text-align:left">第13期で新規計上。人材育成への投資開始</td>
+      </tr>
+      <tr>
+        <td>支払手数料</td>
+        <td>2,274</td>
+        <td>2,259</td>
+        <td>6,465</td>
+        <td class="down" style="font-size:0.8rem;text-align:left">第13期で約3倍。コンサル費用等か</td>
+      </tr>
+      <tr>
+        <td>賞与</td>
+        <td>10,580</td>
+        <td>5,720</td>
+        <td>12,800</td>
+        <td style="font-size:0.8rem;text-align:left">好業績による従業員還元の強化</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note-box">
+    <strong>単位:</strong> 千円。第12期・第13期は10ヶ月実績のため、12ヶ月の第11期との単純比較には注意が必要。
+  </div>
+</div>
+
+<!-- 3期BS比較 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🏦</span> 3期 貸借対照表（B/S）比較</div>
+
+  <div class="table-wrap">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th style="text-align:left">科目</th>
+        <th>第11期末<br><span style="font-weight:400;font-size:0.7rem">R6.4.30</span></th>
+        <th>第12期末<br><span style="font-weight:400;font-size:0.7rem">R7.2.28</span></th>
+        <th>第13期末<br><span style="font-weight:400;font-size:0.7rem">R7.12.31</span></th>
+        <th>増減<br><span style="font-weight:400;font-size:0.7rem">11期→13期</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="highlight-row">
+        <td>流動資産</td>
+        <td>236,271</td>
+        <td>310,251</td>
+        <td>377,931</td>
+        <td class="up">+141,660</td>
+      </tr>
+      <tr class="sub-row">
+        <td>現金預金</td>
+        <td>236,271</td>
+        <td>299,050</td>
+        <td>140,130</td>
+        <td class="down">-96,140</td>
+      </tr>
+      <tr class="sub-row">
+        <td>完成工事未収入金</td>
+        <td>&#8212;</td>
+        <td>&#8212;</td>
+        <td>217,350</td>
+        <td>+217,350</td>
+      </tr>
+      <tr class="sub-row">
+        <td>商品</td>
+        <td>&#8212;</td>
+        <td>&#8212;</td>
+        <td>7,979</td>
+        <td>+7,979</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>固定資産</td>
+        <td>310,988</td>
+        <td>303,323</td>
+        <td>375,224</td>
+        <td class="down">+64,236</td>
+      </tr>
+      <tr class="sub-row">
+        <td>有形固定資産</td>
+        <td>249,601</td>
+        <td>242,012</td>
+        <td>306,071</td>
+        <td>+56,470</td>
+      </tr>
+      <tr class="sub-row">
+        <td>建物</td>
+        <td>53,292</td>
+        <td>51,327</td>
+        <td>49,361</td>
+        <td>-3,931</td>
+      </tr>
+      <tr class="sub-row">
+        <td>土地</td>
+        <td>187,745</td>
+        <td>187,745</td>
+        <td>187,745</td>
+        <td>&#177;0</td>
+      </tr>
+      <tr class="sub-row">
+        <td>車両運搬具</td>
+        <td>5,605</td>
+        <td>2,097</td>
+        <td>68,229</td>
+        <td class="down">+62,624</td>
+      </tr>
+      <tr class="sub-row">
+        <td>投資その他の資産</td>
+        <td>61,311</td>
+        <td>61,311</td>
+        <td>69,153</td>
+        <td>+7,842</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>資産合計</td>
+        <td>547,259</td>
+        <td>613,574</td>
+        <td>753,155</td>
+        <td class="up">+205,897</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>流動負債</td>
+        <td>162,370</td>
+        <td>177,972</td>
+        <td>230,497</td>
+        <td>+68,127</td>
+      </tr>
+      <tr class="sub-row">
+        <td>未払金</td>
+        <td>135,006</td>
+        <td>164,759</td>
+        <td>198,647</td>
+        <td>+63,641</td>
+      </tr>
+      <tr class="sub-row">
+        <td>未払法人税等</td>
+        <td>15,187</td>
+        <td>509</td>
+        <td>47,115</td>
+        <td>+31,928</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>固定負債</td>
+        <td>273,942</td>
+        <td>304,961</td>
+        <td>304,365</td>
+        <td>+30,423</td>
+      </tr>
+      <tr class="sub-row">
+        <td>長期借入金</td>
+        <td>273,942</td>
+        <td>298,061</td>
+        <td>230,332</td>
+        <td class="up">-43,610</td>
+      </tr>
+      <tr class="sub-row">
+        <td>長期未払金</td>
+        <td>&#8212;</td>
+        <td>&#8212;</td>
+        <td>67,132</td>
+        <td>+67,132</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>負債合計</td>
+        <td>436,312</td>
+        <td>482,934</td>
+        <td>534,861</td>
+        <td class="down">+98,549</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>資本金</td>
+        <td>3,000</td>
+        <td>3,000</td>
+        <td>20,000</td>
+        <td>+17,000</td>
+      </tr>
+      <tr>
+        <td>繰越利益剰余金</td>
+        <td>107,947</td>
+        <td>127,640</td>
+        <td>198,294</td>
+        <td class="up">+90,347</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>純資産合計</td>
+        <td>110,947</td>
+        <td>130,640</td>
+        <td>218,294</td>
+        <td class="up">+107,347</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note-box">
+    <strong>単位:</strong> 千円。第13期末で完成工事未収入金2億1,700万円が新規計上。現金預金は2億3,600万円→1億4,000万円へ減少しているが、売掛金含めた流動資産全体では増加。
+  </div>
+</div>
+
+<!-- 財務健全性 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🛡️</span> 財務健全性指標</div>
+
+  <div class="gauge-row">
+    <div class="gauge-card">
+      <div class="gc-label">流動比率</div>
+      <div class="gc-value" style="color:var(--positive)">163.9%</div>
+      <div class="gc-unit">第11期 145.5% → 第12期 174.3%</div>
+      <div class="gc-note">短期安全性は良好</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">自己資本比率</div>
+      <div class="gc-value" style="color:var(--positive)">29.0%</div>
+      <div class="gc-unit">第11期 20.3% → 第12期 21.3%</div>
+      <div class="gc-note">着実に改善中</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">負債比率</div>
+      <div class="gc-value" style="color:var(--neutral)">245.0%</div>
+      <div class="gc-unit">第11期 393.3% → 第12期 369.7%</div>
+      <div class="gc-note">改善傾向だが依然高水準</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">現金預金</div>
+      <div class="gc-value" style="color:var(--navy)">1.40億円</div>
+      <div class="gc-unit">第11期 2.36億円 → 第12期 2.99億円</div>
+      <div class="gc-note">売掛金増加により減少</div>
+    </div>
+  </div>
+
+  <div class="chart-container" style="height:340px;margin-top:28px">
+    <canvas id="bsChart"></canvas>
+  </div>
+</div>
+
+<!-- 特記事項 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📌</span> 特記事項</div>
+
+  <div class="alert-box" style="margin-bottom:16px;background:var(--paper-dark);">
+    <strong>1. 決算期変更</strong>
+    第12期より決算期を変更（4月末→2月末→12月末）。第11期は12ヶ月、第12期・第13期はいずれも10ヶ月決算。今後は12月末決算（1月〜12月）に統一される見通し。期間比較の際は年換算での確認が必須。
+  </div>
+
+  <div class="alert-box" style="margin-bottom:16px;background:var(--paper-dark);">
+    <strong>2. 資本金の増額（利益剰余金の資本組入）</strong>
+    第13期中に資本金を300万円→2,000万円へ増額（1,700万円の利益剰余金を資本組入）。外部からの新規出資ではなく、社内留保の振替。法人として取引先や金融機関からの信用力向上を意図したものと推測される。
+  </div>
+
+  <div class="alert-box" style="margin-bottom:16px;background:var(--paper-dark);">
+    <strong>3. 投資損失の発生</strong>
+    第11期に営業外費用として投資損失6,370万円、第13期に特別損失として投資損失1,160万円を計上。出資金6,030万円（出資先の評価減の可能性）に関連すると推測されるが、詳細は不明。累積で7,500万円の損失は経営に大きな影響を与えている。
+  </div>
+
+  <div class="alert-box" style="margin-bottom:16px;background:var(--paper-dark);">
+    <strong>4. 車両投資の急増</strong>
+    BS上の車両運搬具が第12期末210万円→第13期末6,820万円（+6,610万円）へ急増。防音工事の内製化に伴う施工車両・機材運搬車の大量導入と推測される。減価償却費の増加（年換算3,000万円）の主因。
+  </div>
+
+  <div class="alert-box" style="background:var(--paper-dark);">
+    <strong>5. 完成工事未収入金の急増</strong>
+    第13期末で2億1,700万円の完成工事未収入金が新規計上。売上高の37.2%に相当する大口債権であり、回収管理が極めて重要。貸倒引当金130万円が計上されているが、債権額に対する引当率は0.6%と低い。
+  </div>
+</div>
+
+<!-- 課題と提言 -->
+<div class="section">
+  <div class="section-title"><span class="icon">💡</span> 課題と提言</div>
+
+  <div class="proposal-grid">
+    <div class="proposal-card">
+      <div class="pc-priority" style="color:var(--negative);">最重要</div>
+      <div class="pc-title">完成工事未収入金2億1,700万円の回収管理強化</div>
+      <div class="pc-body">
+        売上高の37.2%に相当する大口売掛金が第13期末に発生。発注元の支払条件・信用調査を確認し、回収サイト（日数）を明確に管理する必要がある。防衛施設庁関連であれば回収リスクは低いが、民間発注の場合は要注意。
+      </div>
+      <div class="pc-impact">想定効果: キャッシュフローの安定化、貸倒リスクの最小化</div>
+    </div>
+    <div class="proposal-card">
+      <div class="pc-priority" style="color:var(--negative);">最重要</div>
+      <div class="pc-title">外注費構造変化の持続性検証</div>
+      <div class="pc-body">
+        粗利率55.9%の急上昇が一時的な工事構成の変化か、構造的な内製化によるものかの検証が必要。内製化であれば人件費・設備費の増加（固定費化）が中長期的なリスク。受注量の変動時に固定費が重荷にならないかシミュレーションすべき。
+      </div>
+      <div class="pc-impact">想定効果: 収益構造の安定性確認、リスクシナリオの事前把握</div>
+    </div>
+    <div class="proposal-card">
+      <div class="pc-priority" style="color:var(--neutral);">重要</div>
+      <div class="pc-title">車両投資6,800万円の投資回収計画策定</div>
+      <div class="pc-body">
+        第13期で車両運搬具が6,600万円増加。年間減価償却費3,000万円規模の負担が継続する。投資回収期間を明確にし、稼働率・外注削減効果との対比で投資効率を検証すべき。
+      </div>
+      <div class="pc-impact">想定効果: 設備投資のROI明確化、今後の投資判断基準の確立</div>
+    </div>
+    <div class="proposal-card">
+      <div class="pc-priority" style="color:var(--neutral);">重要</div>
+      <div class="pc-title">投資損失の再発防止と出資先の見直し</div>
+      <div class="pc-body">
+        過去3期で累計7,500万円の投資損失が発生。出資金6,030万円の出資先の経営状況を精査し、追加損失のリスクを評価する必要がある。本業に直結しない投資は縮小し、本業の成長資金に充当することを推奨。
+      </div>
+      <div class="pc-impact">想定効果: 営業外損失の削減、本業への資金集中</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I">
+      <span>Consulting</span>
+    </div>
+    <div class="footer-info">
+      株式会社上雅装工 3期比較 経営分析レポート
+    </div>
+    <div class="footer-confidential">最重要機密（CONFIDENTIAL）</div>
+  </div>
+</div>
+
+<script>
+Chart.defaults.font.family = "'Inter', 'Noto Sans JP', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#6B6B6B';
+
+// 年換算比較チャート（売上高・売上総利益・営業利益）
+new Chart(document.getElementById('annualizedChart'), {
+  type: 'bar',
+  data: {
+    labels: ['第11期\n(実績=年換算)', '第12期\n(年換算)', '第13期\n(年換算)'],
+    datasets: [
+      {
+        label: '売上高',
+        data: [731.0, 658.5, 700.9],
+        backgroundColor: '#1A2540',
+        borderRadius: 6,
+        barPercentage: 0.7,
+        categoryPercentage: 0.8
+      },
+      {
+        label: '売上総利益',
+        data: [220.5, 218.8, 391.6],
+        backgroundColor: '#B8912A',
+        borderRadius: 6,
+        barPercentage: 0.7,
+        categoryPercentage: 0.8
+      },
+      {
+        label: '営業利益',
+        data: [18.6, 13.1, 183.3],
+        backgroundColor: '#1B7A3D',
+        borderRadius: 6,
+        barPercentage: 0.7,
+        categoryPercentage: 0.8
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: { display: true, text: '12ヶ月換算 売上高・売上総利益・営業利益', font: { size: 14, weight: '700' }, color: '#1A2540', padding: { bottom: 16 } },
+      legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } },
+      tooltip: { callbacks: { label: function(c){ var v = c.parsed.y; if(v >= 100){ return c.dataset.label + ': ' + (v/100).toFixed(2) + '億円'; } return c.dataset.label + ': ' + Math.round(v*100).toLocaleString() + '万円'; } } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 800,
+        grid: { color: 'rgba(0,0,0,0.06)' },
+        ticks: { callback: function(v){ if(v >= 100){ return (v/100).toFixed(0) + '億円'; } return (v*100) + '万円'; } }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 売上高推移（年換算）
+new Chart(document.getElementById('revChart'), {
+  type: 'bar',
+  data: {
+    labels: ['第11期\n(12ヶ月)', '第12期\n(年換算)', '第13期\n(年換算)'],
+    datasets: [{
+      label: '売上高',
+      data: [731, 659, 701],
+      backgroundColor: '#1A2540',
+      borderRadius: 6,
+      barPercentage: 0.6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: '売上高推移（年換算）', font: { size: 14, weight: '700' }, color: '#1A2540', padding: { bottom: 16 } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 800,
+        grid: { color: 'rgba(0,0,0,0.06)' },
+        ticks: { callback: function(v){ if(v >= 100){ return (v/100).toFixed(0) + '億円'; } return (v*100) + '万円'; } }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 営業利益率推移
+new Chart(document.getElementById('profitChart'), {
+  type: 'bar',
+  data: {
+    labels: ['第11期', '第12期', '第13期'],
+    datasets: [
+      {
+        label: '営業利益',
+        data: [19, 13, 183],
+        backgroundColor: '#B8912A',
+        borderRadius: 6,
+        barPercentage: 0.5,
+        yAxisID: 'y'
+      },
+      {
+        label: '営業利益率',
+        data: [2.5, 2.0, 26.2],
+        type: 'line',
+        borderColor: '#8B2020',
+        backgroundColor: 'rgba(139,32,32,0.1)',
+        pointBackgroundColor: '#8B2020',
+        pointRadius: 5,
+        borderWidth: 2,
+        tension: 0.3,
+        yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: { display: true, text: '営業利益・営業利益率 推移（年換算）', font: { size: 14, weight: '700' }, color: '#1A2540', padding: { bottom: 16 } },
+      legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 200,
+        grid: { color: 'rgba(0,0,0,0.06)' },
+        ticks: { callback: function(v){ if(v >= 100){ return (v/100).toFixed(0) + '億円'; } return (v*100) + '万円'; } }
+      },
+      y1: {
+        position: 'right',
+        beginAtZero: true,
+        max: 30,
+        grid: { display: false },
+        ticks: { callback: function(v){ return v + '%'; } }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 収益構造ドーナツ 第11期
+new Chart(document.getElementById('costChart11'), {
+  type: 'doughnut',
+  data: {
+    labels: ['外注費', '仕入高', '売上総利益'],
+    datasets: [{
+      data: [67.0, 2.8, 30.2],
+      backgroundColor: ['#1A2540', '#243352', '#B8912A'],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: { display: true, text: '第11期 売上構成', font: { size: 14, weight: '700' }, color: '#1A2540' },
+      legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } },
+      tooltip: { callbacks: { label: function(c){ return c.label + ': ' + c.parsed + '%'; } } }
+    }
+  }
+});
+
+// 収益構造ドーナツ 第13期
+new Chart(document.getElementById('costChart13'), {
+  type: 'doughnut',
+  data: {
+    labels: ['外注費', '仕入高', '棚卸資産調整', '売上総利益'],
+    datasets: [{
+      data: [42.3, 3.2, -1.4, 55.9],
+      backgroundColor: ['#1A2540', '#243352', '#8B7355', '#B8912A'],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: { display: true, text: '第13期 売上構成', font: { size: 14, weight: '700' }, color: '#1A2540' },
+      legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } },
+      tooltip: { callbacks: { label: function(c){ return c.label + ': ' + c.parsed + '%'; } } }
+    }
+  }
+});
+
+// BS推移チャート
+new Chart(document.getElementById('bsChart'), {
+  type: 'bar',
+  data: {
+    labels: ['第11期末', '第12期末', '第13期末'],
+    datasets: [
+      {
+        label: '流動資産',
+        data: [236, 310, 378],
+        backgroundColor: '#1A2540',
+        stack: 'assets'
+      },
+      {
+        label: '固定資産',
+        data: [311, 303, 375],
+        backgroundColor: '#243352',
+        stack: 'assets'
+      },
+      {
+        label: '流動負債',
+        data: [-162, -178, -230],
+        backgroundColor: '#8B2020',
+        stack: 'liabilities'
+      },
+      {
+        label: '固定負債',
+        data: [-274, -305, -304],
+        backgroundColor: '#D4A843',
+        stack: 'liabilities'
+      },
+      {
+        label: '純資産',
+        data: [111, 131, 218],
+        backgroundColor: '#1B7A3D',
+        stack: 'equity'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: { display: true, text: '資産・負債・純資産 推移', font: { size: 14, weight: '700' }, color: '#1A2540', padding: { bottom: 16 } },
+      legend: { position: 'bottom', labels: { usePointStyle: true, padding: 12 } },
+      tooltip: { callbacks: { label: function(c){ var v = Math.abs(c.parsed.y); if(v >= 100){ return c.dataset.label + ': ' + (v/100).toFixed(2) + '億円'; } return c.dataset.label + ': ' + Math.round(v*100).toLocaleString() + '万円'; } } }
+    },
+    scales: {
+      y: {
+        grid: { color: 'rgba(0,0,0,0.06)' },
+        ticks: { callback: function(v){ var a = Math.abs(v); var s = v < 0 ? '-' : ''; if(a >= 100){ return s + (a/100).toFixed(0) + '億円'; } return s + (a*100) + '万円'; } }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

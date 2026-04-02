@@ -1,6 +1,7 @@
 # クライアント機密データ（GitHubに上げない）
 */inbox/
 */data/
+*/db/
 
 # OS
 .DS_Store
