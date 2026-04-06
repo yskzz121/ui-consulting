@@ -41,7 +41,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .portal-header .ui-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px}
 .portal-header h1{font-family:'Noto Serif JP',serif;font-size:1.6rem;margin-bottom:4px}
 .portal-header .sub{color:rgba(255,255,255,0.6);font-size:0.85rem}
-.portal-grid{max-width:900px;margin:0 auto;padding:40px 24px 60px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.portal-grid{max-width:900px;margin:0 auto;padding:40px 24px 60px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .report-card{background:#fff;border-radius:16px;padding:28px 24px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.06);transition:all 0.2s;text-decoration:none;color:var(--text);display:block}
 .report-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.1);border-color:var(--gold);cursor:pointer}
 .report-card .rc-icon{font-size:2rem;margin-bottom:12px}
@@ -52,6 +52,7 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
 .portal-footer .conf{color:var(--gold);font-weight:700;letter-spacing:3px;font-size:0.68rem;border:1px solid rgba(184,145,42,0.3);display:inline-block;padding:3px 14px;border-radius:4px;margin-top:8px}
 .logout-btn{position:fixed;top:16px;right:16px;z-index:999;background:rgba(26,37,64,0.9);color:var(--gold-light);border:1px solid rgba(184,145,42,0.2);padding:8px 16px;border-radius:8px;font-size:0.75rem;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all 0.15s}
 .logout-btn:hover{background:var(--gold);color:var(--navy-dark)}
+@media(max-width:900px){.portal-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.portal-grid{grid-template-columns:1fr}.login-card{padding:36px 24px}}
 </style>
 </head>
@@ -104,6 +105,12 @@ body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:
       <div class="rc-title">資金調達余力分析</div>
       <div class="rc-desc">銀行借入の観点から最大借入可能額を5つの基準で算出。金利環境・返済シミュレーション付き。</div>
       <div class="rc-badge">FUNDING CAPACITY</div>
+    </a>
+    <a class="report-card" href="./business-overview.html" target="_self">
+      <div class="rc-icon">🔭</div>
+      <div class="rc-title">事業全体俯瞰</div>
+      <div class="rc-desc">融資12.8億の不動産投資計画、全物件ポートフォリオ、返済シミュレーション、HD化構想、5年後の姿まで網羅した戦略マップ。</div>
+      <div class="rc-badge">BUSINESS OVERVIEW</div>
     </a>
   </div>
   <div class="portal-footer">
