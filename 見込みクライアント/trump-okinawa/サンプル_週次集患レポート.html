@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>さくら歯科クリニック - 週次集患レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#0d1117;--card:#161b22;--border:#21262d;
+  --text:#e6edf3;--sub:#8b949e;--muted:#484f58;
+  --gold:#B8912A;--gold-l:#D4A843;--gold-dim:rgba(184,145,42,0.12);
+  --green:#2ea043;--green-bg:rgba(46,160,67,0.1);
+  --blue:#58a6ff;--blue-bg:rgba(88,166,255,0.1);
+  --red:#f85149;--red-bg:rgba(248,81,73,0.1);
+  --purple:#8957e5;--purple-bg:rgba(137,87,229,0.1);
+  --orange:#f0883e;--orange-bg:rgba(240,136,62,0.1);
+  --teal:#3fb9a0;--teal-bg:rgba(63,185,160,0.1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+
+/* Header */
+.header{background:linear-gradient(135deg,#0d2137 0%,#142a45 50%,#0a1628 100%);padding:40px 20px 32px;text-align:center;border-bottom:1px solid rgba(88,166,255,0.1);position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 25% 50%,rgba(88,166,255,0.06) 0%,transparent 60%),radial-gradient(ellipse at 75% 50%,rgba(46,160,67,0.04) 0%,transparent 60%)}
+.header-inner{position:relative;z-index:1}
+.header-brand{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;font-size:0.75em;color:var(--sub);letter-spacing:2px;font-weight:500}
+.header-brand span{color:var(--gold-l)}
+.clinic-name{font-family:'Shippori Mincho B1',serif;font-size:2em;font-weight:700;margin-bottom:4px}
+.header-sub{color:var(--sub);font-size:0.95em}
+.header-period{margin-top:10px;display:inline-flex;align-items:center;gap:12px}
+.period-badge{background:rgba(88,166,255,0.15);border:1px solid rgba(88,166,255,0.25);color:var(--blue);padding:5px 16px;border-radius:8px;font-size:0.82em;font-weight:600;letter-spacing:0.5px}
+
+.container{max-width:1200px;margin:0 auto;padding:24px 20px 60px}
+
+/* Score strip */
+.score-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px}
+.score-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 14px;text-align:center;position:relative;overflow:hidden}
+.score-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.score-item.up::before{background:var(--green)}.score-item.down::before{background:var(--red)}.score-item.neutral::before{background:var(--muted)}.score-item.accent::before{background:var(--blue)}
+.si-label{font-size:0.7em;color:var(--sub);margin-bottom:4px;font-weight:500}
+.si-value{font-family:'Inter',sans-serif;font-size:1.9em;font-weight:800;line-height:1.2}
+.si-value.green{color:var(--green)}.si-value.red{color:var(--red)}.si-value.blue{color:var(--blue)}.si-value.gold{color:var(--gold-l)}
+.si-change{font-family:'Inter',sans-serif;font-size:0.7em;font-weight:600;margin-top:3px}
+.si-change.up{color:var(--green)}.si-change.down{color:var(--red)}.si-change.flat{color:var(--sub)}
+.si-sub{font-size:0.65em;color:var(--muted);margin-top:2px}
+
+/* Section */
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
+.sec-title{font-family:'Shippori Mincho B1',serif;font-size:1.15em;font-weight:700;color:var(--gold-l);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+
+/* Grid layouts */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+
+/* Mini cards */
+.mc{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.mc-label{font-size:0.7em;color:var(--sub);margin-bottom:3px}
+.mc-val{font-family:'Inter',sans-serif;font-size:1.5em;font-weight:700}
+.mc-note{font-size:0.65em;color:var(--muted);margin-top:2px}
+
+/* Table */
+.tbl{width:100%;border-collapse:collapse;font-size:0.82em}
+.tbl th{background:var(--bg);color:var(--gold-l);padding:9px 12px;text-align:right;font-weight:600;border-bottom:2px solid var(--gold-dim);font-size:0.9em}
+.tbl th:first-child{text-align:left}
+.tbl td{padding:8px 12px;text-align:right;border-bottom:1px solid var(--border);font-family:'Inter',sans-serif}
+.tbl td:first-child{text-align:left;font-family:'Noto Sans JP',sans-serif;color:var(--sub)}
+.tbl .total td{font-weight:700;color:var(--gold-l);border-top:2px solid var(--gold-dim)}
+.tbl .highlight td{background:rgba(46,160,67,0.05)}
+
+/* Channel bar */
+.ch-bar{display:flex;height:32px;border-radius:8px;overflow:hidden;margin:10px 0 14px}
+.ch-bar div{display:flex;align-items:center;justify-content:center;font-size:0.68em;font-weight:600;color:#fff;white-space:nowrap}
+.ch-legend{display:flex;flex-wrap:wrap;gap:12px}
+.ch-legend-item{display:flex;align-items:center;gap:5px;font-size:0.75em;color:var(--sub)}
+.ch-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+
+/* Chart */
+.chart-wrap{position:relative;height:260px}
+
+/* Insight cards */
+.insight{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;border-left:3px solid var(--green)}
+.insight.warn{border-left-color:var(--orange)}
+.insight.action{border-left-color:var(--blue)}
+.insight.risk{border-left-color:var(--red)}
+.insight h4{font-size:0.88em;margin-bottom:6px}
+.insight h4.green{color:var(--green)}.insight h4.orange{color:var(--orange)}.insight h4.blue{color:var(--blue)}.insight h4.red{color:var(--red)}
+.insight p{font-size:0.8em;color:var(--sub);line-height:1.6}
+
+/* Tag */
+.tag{display:inline-block;padding:2px 8px;border-radius:5px;font-size:0.68em;font-weight:600}
+.tag-g{background:var(--green-bg);color:var(--green)}
+.tag-r{background:var(--red-bg);color:var(--red)}
+.tag-b{background:var(--blue-bg);color:var(--blue)}
+.tag-o{background:var(--orange-bg);color:var(--orange)}
+.tag-p{background:var(--purple-bg);color:var(--purple)}
+
+/* Progress bar */
+.prog{margin:8px 0}
+.prog-label{display:flex;justify-content:space-between;font-size:0.75em;margin-bottom:3px}
+.prog-label span:first-child{color:var(--sub)}
+.prog-track{background:var(--bg);border-radius:6px;height:18px;overflow:hidden}
+.prog-fill{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-size:0.65em;font-weight:600;color:#fff}
+
+/* Action list */
+.action-list{list-style:none;padding:0}
+.action-list li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:0.85em}
+.action-list li:last-child{border-bottom:none}
+.action-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.75em;flex-shrink:0;margin-top:2px}
+.action-icon.priority{background:var(--red-bg);color:var(--red)}
+.action-icon.normal{background:var(--blue-bg);color:var(--blue)}
+.action-icon.done{background:var(--green-bg);color:var(--green)}
+.action-text{flex:1;color:var(--sub)}
+.action-text strong{color:var(--text)}
+
+/* Review card */
+.review{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px}
+.review-stars{color:#f0c040;font-size:0.9em;margin-bottom:4px}
+.review-text{font-size:0.8em;color:var(--sub);font-style:italic;line-height:1.6}
+.review-meta{font-size:0.68em;color:var(--muted);margin-top:6px}
+
+/* Footer */
+.footer{text-align:center;padding:28px 20px;color:var(--muted);font-size:0.72em;border-top:1px solid var(--border);margin-top:20px}
+
+/* Responsive */
+@media(max-width:768px){
+  .score-strip{grid-template-columns:repeat(3,1fr)}
+  .g2,.g3{grid-template-columns:1fr}
+  .g4{grid-template-columns:1fr 1fr}
+  .tbl{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .clinic-name{font-size:1.4em}
+}
+@media(max-width:480px){
+  .score-strip{grid-template-columns:1fr 1fr}
+  .g4{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-brand">OKINAWA TRUMP <span>|</span> 集患レポート</div>
+    <div class="clinic-name">さくら歯科クリニック</div>
+    <div class="header-sub">週次 集患 &amp; 売上データ分析レポート</div>
+    <div class="header-period">
+      <span class="period-badge">2026年4月 第1週（3/31〜4/6）</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Score Strip -->
+  <div class="score-strip">
+    <div class="score-item up">
+      <div class="si-label">今週の新規患者</div>
+      <div class="si-value green">9<span style="font-size:0.4em;color:var(--sub)">人</span></div>
+      <div class="si-change up">+3 vs 先週</div>
+      <div class="si-sub">月間累計: 9 / 目標30人</div>
+    </div>
+    <div class="score-item accent">
+      <div class="si-label">HP経由の新患</div>
+      <div class="si-value blue">5<span style="font-size:0.4em;color:var(--sub)">人</span></div>
+      <div class="si-change up">+2 vs 先週</div>
+      <div class="si-sub">全新患の55.6%</div>
+    </div>
+    <div class="score-item up">
+      <div class="si-label">今週の売上（税込推定）</div>
+      <div class="si-value gold">187<span style="font-size:0.4em;color:var(--sub)">万円</span></div>
+      <div class="si-change up">+12% vs 先週</div>
+      <div class="si-sub">うち自費: 68万円</div>
+    </div>
+    <div class="score-item up">
+      <div class="si-label">広告ROI</div>
+      <div class="si-value green">380<span style="font-size:0.4em;color:var(--sub)">%</span></div>
+      <div class="si-change up">+45pt vs 先週</div>
+      <div class="si-sub">広告費3.2万 → 売上貢献12.2万</div>
+    </div>
+    <div class="score-item up">
+      <div class="si-label">Google口コミ</div>
+      <div class="si-value" style="color:var(--teal)">4.7</div>
+      <div class="si-change up">+2件（今週）</div>
+      <div class="si-sub">累計 142件</div>
+    </div>
+  </div>
+
+  <!-- 新規患者の来院経路 -->
+  <div class="section">
+    <div class="sec-title">📊 新規患者の来院経路（今週 9人）</div>
+
+    <div class="ch-bar">
+      <div style="width:55.6%;background:#58a6ff">HP 5人</div>
+      <div style="width:22.2%;background:#2ea043">Gマップ 2人</div>
+      <div style="width:11.1%;background:#f0883e">紹介 1人</div>
+      <div style="width:11.1%;background:#8b949e">通りがかり 1人</div>
+    </div>
+    <div class="ch-legend">
+      <div class="ch-legend-item"><div class="ch-dot" style="background:#58a6ff"></div>ホームページ 5人（55.6%）</div>
+      <div class="ch-legend-item"><div class="ch-dot" style="background:#2ea043"></div>Googleマップ 2人（22.2%）</div>
+      <div class="ch-legend-item"><div class="ch-dot" style="background:#f0883e"></div>紹介 1人（11.1%）</div>
+      <div class="ch-legend-item"><div class="ch-dot" style="background:#8b949e"></div>通りがかり 1人（11.1%）</div>
+    </div>
+
+    <div class="g2" style="margin-top:20px">
+      <div>
+        <div class="chart-wrap" style="height:220px">
+          <canvas id="weeklyPatientChart"></canvas>
+        </div>
+      </div>
+      <div>
+        <table class="tbl">
+          <thead><tr><th>経路</th><th>今週</th><th>先週</th><th>増減</th><th>4月累計</th></tr></thead>
+          <tbody>
+            <tr><td>ホームページ</td><td>5</td><td>3</td><td style="color:var(--green)">+2</td><td>5</td></tr>
+            <tr><td>Googleマップ</td><td>2</td><td>1</td><td style="color:var(--green)">+1</td><td>2</td></tr>
+            <tr><td>紹介</td><td>1</td><td>1</td><td style="color:var(--sub)">±0</td><td>1</td></tr>
+            <tr><td>看板・通りがかり</td><td>1</td><td>1</td><td style="color:var(--sub)">±0</td><td>1</td></tr>
+            <tr class="total"><td>合計</td><td>9</td><td>6</td><td style="color:var(--green)">+3</td><td>9</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 売上分析 -->
+  <div class="section">
+    <div class="sec-title">💰 売上データ分析</div>
+
+    <div class="g2">
+      <div>
+        <h4 style="color:var(--gold-l);font-size:0.9em;margin-bottom:12px">診療区分別 売上</h4>
+        <table class="tbl">
+          <thead><tr><th>区分</th><th>今週</th><th>構成比</th><th>先週</th><th>増減</th></tr></thead>
+          <tbody>
+            <tr class="highlight"><td>保険診療</td><td>1,190,000</td><td>63.6%</td><td>1,080,000</td><td style="color:var(--green)">+10.2%</td></tr>
+            <tr><td>自費（インプラント）</td><td>350,000</td><td>18.7%</td><td>0</td><td style="color:var(--green)">新規</td></tr>
+            <tr><td>自費（矯正相談）</td><td>80,000</td><td>4.3%</td><td>150,000</td><td style="color:var(--red)">-46.7%</td></tr>
+            <tr><td>自費（ホワイトニング）</td><td>120,000</td><td>6.4%</td><td>90,000</td><td style="color:var(--green)">+33.3%</td></tr>
+            <tr><td>自費（その他）</td><td>130,000</td><td>7.0%</td><td>110,000</td><td style="color:var(--green)">+18.2%</td></tr>
+            <tr class="total"><td>合計</td><td>1,870,000</td><td>100%</td><td>1,430,000</td><td style="color:var(--green)">+30.8%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h4 style="color:var(--gold-l);font-size:0.9em;margin-bottom:12px">月間売上 進捗</h4>
+        <div class="prog">
+          <div class="prog-label"><span>月間売上 目標: 750万円</span><span style="color:var(--green)">187万 / 750万</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:24.9%;background:linear-gradient(90deg,var(--gold),var(--gold-l))">24.9%</div></div>
+        </div>
+        <div class="prog">
+          <div class="prog-label"><span>自費率 目標: 40%</span><span style="color:var(--blue)">36.4%</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:91%;background:linear-gradient(90deg,var(--blue),#79c0ff)">91%達成</div></div>
+        </div>
+        <div class="prog">
+          <div class="prog-label"><span>新患数 目標: 30人/月</span><span>9人 / 30人</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:30%;background:linear-gradient(90deg,var(--green),#3fb950)">30%</div></div>
+        </div>
+
+        <div style="margin-top:20px">
+          <div class="chart-wrap" style="height:180px">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g4" style="margin-top:16px">
+      <div class="mc">
+        <div class="mc-label">初診平均単価</div>
+        <div class="mc-val" style="color:var(--gold-l)">¥12,800</div>
+        <div class="mc-note">先週 ¥11,200（+14.3%）</div>
+      </div>
+      <div class="mc">
+        <div class="mc-label">日販（1日平均）</div>
+        <div class="mc-val" style="color:var(--blue)">¥374,000</div>
+        <div class="mc-note">稼働5日 / 先週 ¥286,000</div>
+      </div>
+      <div class="mc">
+        <div class="mc-label">自費率</div>
+        <div class="mc-val" style="color:var(--green)">36.4%</div>
+        <div class="mc-note">先週 24.5%（+11.9pt）</div>
+      </div>
+      <div class="mc">
+        <div class="mc-label">患者1人あたり売上</div>
+        <div class="mc-val">¥8,950</div>
+        <div class="mc-note">延べ患者209人で算出</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Web集患パフォーマンス -->
+  <div class="section">
+    <div class="sec-title">🌐 Web集患パフォーマンス</div>
+
+    <div class="g2">
+      <div>
+        <h4 style="color:var(--gold-l);font-size:0.9em;margin-bottom:12px">ホームページ</h4>
+        <div class="g3" style="margin-bottom:16px">
+          <div class="mc">
+            <div class="mc-label">セッション</div>
+            <div class="mc-val" style="color:var(--blue);font-size:1.3em">1,842</div>
+            <div class="mc-note">先週 1,650（+11.6%）</div>
+          </div>
+          <div class="mc">
+            <div class="mc-label">フォーム送信</div>
+            <div class="mc-val" style="color:var(--green);font-size:1.3em">14</div>
+            <div class="mc-note">CVR 0.76%</div>
+          </div>
+          <div class="mc">
+            <div class="mc-label">電話タップ</div>
+            <div class="mc-val" style="color:var(--orange);font-size:1.3em">23</div>
+            <div class="mc-note">先週 18（+27.8%）</div>
+          </div>
+        </div>
+        <h4 style="color:var(--sub);font-size:0.82em;margin-bottom:8px">流入元の内訳</h4>
+        <table class="tbl" style="font-size:0.78em">
+          <thead><tr><th>流入元</th><th>セッション</th><th>構成比</th><th>CV</th></tr></thead>
+          <tbody>
+            <tr><td>Google自然検索</td><td>1,105</td><td>60.0%</td><td>8</td></tr>
+            <tr><td>Google広告</td><td>387</td><td>21.0%</td><td>4</td></tr>
+            <tr><td>Googleマップ</td><td>203</td><td>11.0%</td><td>-</td></tr>
+            <tr><td>SNS（Instagram）</td><td>92</td><td>5.0%</td><td>1</td></tr>
+            <tr><td>直接アクセス</td><td>55</td><td>3.0%</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h4 style="color:var(--gold-l);font-size:0.9em;margin-bottom:12px">検索順位トラッキング</h4>
+        <table class="tbl" style="font-size:0.78em">
+          <thead><tr><th>キーワード</th><th>順位</th><th>先週</th><th>変動</th><th>検索Vol</th></tr></thead>
+          <tbody>
+            <tr><td>那覇 歯医者</td><td style="color:var(--green);font-weight:700">3位</td><td>4位</td><td style="color:var(--green)">+1</td><td>2,400</td></tr>
+            <tr><td>那覇 歯科 おすすめ</td><td style="font-weight:700">5位</td><td>5位</td><td style="color:var(--sub)">→</td><td>1,300</td></tr>
+            <tr><td>那覇 インプラント</td><td style="color:var(--green);font-weight:700">2位</td><td>3位</td><td style="color:var(--green)">+1</td><td>880</td></tr>
+            <tr><td>那覇 矯正歯科</td><td style="font-weight:700">8位</td><td>7位</td><td style="color:var(--red)">-1</td><td>720</td></tr>
+            <tr><td>那覇 ホワイトニング</td><td style="font-weight:700">4位</td><td>4位</td><td style="color:var(--sub)">→</td><td>590</td></tr>
+            <tr><td>那覇 歯科 土曜</td><td style="color:var(--green);font-weight:700">1位</td><td>1位</td><td style="color:var(--sub)">→</td><td>320</td></tr>
+          </tbody>
+        </table>
+
+        <h4 style="color:var(--gold-l);font-size:0.9em;margin:20px 0 12px">人気ページ TOP5</h4>
+        <table class="tbl" style="font-size:0.78em">
+          <thead><tr><th>ページ</th><th>PV</th><th>滞在</th></tr></thead>
+          <tbody>
+            <tr><td>インプラント</td><td>412</td><td>3:42</td></tr>
+            <tr><td>トップページ</td><td>385</td><td>1:15</td></tr>
+            <tr><td>矯正歯科</td><td>287</td><td>4:08</td></tr>
+            <tr><td>料金表</td><td>234</td><td>2:21</td></tr>
+            <tr><td>アクセス</td><td>198</td><td>0:52</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Google広告 -->
+  <div class="section">
+    <div class="sec-title">📣 Google広告パフォーマンス</div>
+
+    <div class="g2">
+      <div>
+        <div class="g4" style="margin-bottom:16px">
+          <div class="mc">
+            <div class="mc-label">広告費</div>
+            <div class="mc-val" style="font-size:1.2em;color:var(--orange)">¥32,100</div>
+            <div class="mc-note">月予算12万の26.8%</div>
+          </div>
+          <div class="mc">
+            <div class="mc-label">クリック数</div>
+            <div class="mc-val" style="font-size:1.2em">387</div>
+            <div class="mc-note">CTR 4.2%</div>
+          </div>
+          <div class="mc">
+            <div class="mc-label">CV数</div>
+            <div class="mc-val" style="font-size:1.2em;color:var(--green)">4</div>
+            <div class="mc-note">CVR 1.03%</div>
+          </div>
+          <div class="mc">
+            <div class="mc-label">CPA</div>
+            <div class="mc-val" style="font-size:1.2em;color:var(--blue)">¥8,025</div>
+            <div class="mc-note">先週 ¥9,800</div>
+          </div>
+        </div>
+
+        <h4 style="color:var(--sub);font-size:0.82em;margin-bottom:8px">キャンペーン別</h4>
+        <table class="tbl" style="font-size:0.78em">
+          <thead><tr><th>キャンペーン</th><th>費用</th><th>Click</th><th>CV</th><th>CPA</th></tr></thead>
+          <tbody>
+            <tr class="highlight"><td>インプラント</td><td>¥15,200</td><td>168</td><td>2</td><td style="color:var(--green)">¥7,600</td></tr>
+            <tr><td>一般歯科</td><td>¥9,800</td><td>142</td><td>1</td><td>¥9,800</td></tr>
+            <tr><td>ホワイトニング</td><td>¥7,100</td><td>77</td><td>1</td><td style="color:var(--green)">¥7,100</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h4 style="color:var(--gold-l);font-size:0.9em;margin-bottom:12px">広告 ROI 分析</h4>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px">
+          <div style="text-align:center;margin-bottom:12px">
+            <div style="font-size:0.75em;color:var(--sub)">今週の広告 → 売上貢献</div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:8px">
+              <div>
+                <div style="font-family:'Inter',sans-serif;font-size:1.4em;font-weight:700;color:var(--orange)">¥32,100</div>
+                <div style="font-size:0.65em;color:var(--sub)">広告投資</div>
+              </div>
+              <div style="font-size:1.5em;color:var(--sub)">→</div>
+              <div>
+                <div style="font-family:'Inter',sans-serif;font-size:1.4em;font-weight:700;color:var(--green)">¥122,000</div>
+                <div style="font-size:0.65em;color:var(--sub)">推定売上貢献</div>
+              </div>
+            </div>
+            <div style="margin-top:10px;font-family:'Inter',sans-serif;font-size:2em;font-weight:800;color:var(--green)">ROI 380%</div>
+          </div>
+          <div style="font-size:0.72em;color:var(--muted);text-align:center">
+            広告経由CV 4件 × 初診平均 ¥12,800 + インプラント相談1件（推定LTV ¥350,000の20%）
+          </div>
+        </div>
+
+        <div class="chart-wrap" style="height:160px">
+          <canvas id="adChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Googleビジネスプロフィール(MEO) -->
+  <div class="section">
+    <div class="sec-title">📍 Googleビジネスプロフィール（MEO）</div>
+    <div class="g2">
+      <div>
+        <div class="g3" style="margin-bottom:16px">
+          <div class="mc">
+            <div class="mc-label">表示回数</div>
+            <div class="mc-val" style="font-size:1.2em;color:var(--green)">3,240</div>
+            <div class="mc-note">先週 2,890（+12.1%）</div>
+          </div>
+          <div class="mc">
+            <div class="mc-label">電話タップ</div>
+            <div class="mc-val" style="font-size:1.2em;color:var(--blue)">18</div>
+            <div class="mc-note">先週 14（+28.6%）</div>
+          </div>
+          <div class="mc">
+            <div class="mc-label">経路検索</div>
+            <div class="mc-val" style="font-size:1.2em;color:var(--orange)">12</div>
+            <div class="mc-note">先週 9（+33.3%）</div>
+          </div>
+        </div>
+
+        <h4 style="color:var(--sub);font-size:0.82em;margin-bottom:8px">検索キーワード TOP5（マップ表示）</h4>
+        <table class="tbl" style="font-size:0.78em">
+          <thead><tr><th>キーワード</th><th>表示回数</th></tr></thead>
+          <tbody>
+            <tr><td>歯医者 近く</td><td>680</td></tr>
+            <tr><td>那覇 歯科</td><td>520</td></tr>
+            <tr><td>さくら歯科</td><td>410</td></tr>
+            <tr><td>歯医者 日曜</td><td>340</td></tr>
+            <tr><td>インプラント 那覇</td><td>290</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h4 style="color:var(--gold-l);font-size:0.9em;margin-bottom:12px">今週の口コミ（+2件）</h4>
+        <div class="review" style="margin-bottom:10px">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">「初めてのインプラント相談で不安でしたが、先生がとても丁寧に説明してくださり安心しました。スタッフの方も親切で、また通いたいと思えるクリニックです。」</div>
+          <div class="review-meta">T.K. さん — 4月3日</div>
+        </div>
+        <div class="review">
+          <div class="review-stars">★★★★☆</div>
+          <div class="review-text">「予約がWeb からできるのが便利。待ち時間も少なく、治療も丁寧でした。駐車場がもう少し広いと嬉しいです。」</div>
+          <div class="review-meta">M.S. さん — 4月5日</div>
+        </div>
+        <div style="margin-top:12px;padding:10px;background:var(--green-bg);border-radius:8px;font-size:0.78em;color:var(--green)">
+          口コミ返信は翌営業日までに実施済み。院長名で個別にお礼を返信しています。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- インサイトと提案 -->
+  <div class="section">
+    <div class="sec-title">💡 今週のインサイト &amp; 提案</div>
+    <div class="g2">
+      <div class="insight">
+        <h4 class="green">インプラント需要が急伸</h4>
+        <p>「那覇 インプラント」の検索順位が3位→2位に上昇。ページPVも412と全ページ最多。
+        広告CPAも¥7,600と効率的。<strong>来週はインプラント広告の予算を+30%増額</strong>し、需要を取りこぼさない施策を推奨します。</p>
+      </div>
+      <div class="insight warn">
+        <h4 class="orange">矯正ページの順位低下</h4>
+        <p>「那覇 矯正歯科」が7位→8位に後退。競合の「A矯正歯科」が症例ページを大幅追加しています。
+        <strong>矯正の症例写真ページの追加（3症例分）</strong>をご検討ください。素材のご準備について次回訪問時にご相談します。</p>
+      </div>
+      <div class="insight action">
+        <h4 class="blue">自費率36.4%で目標に迫る</h4>
+        <p>インプラント相談1件の影響が大きいですが、ホワイトニングも+33%と好調。
+        <strong>「初回ホワイトニング割引」のLP</strong>を制作し、Instagram広告と連動させると自費率40%超が視野に入ります。</p>
+      </div>
+      <div class="insight risk">
+        <h4 class="red">Webフォームの離脱率に注意</h4>
+        <p>フォーム到達28件に対し完了14件（完了率50%）。入力項目が多い可能性があります。
+        <strong>フォームを「名前・電話・希望日」の3項目に簡素化</strong>することで完了率70%（+6件/週）が見込めます。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 来週のアクション -->
+  <div class="section">
+    <div class="sec-title">📋 来週のアクション</div>
+    <ul class="action-list">
+      <li>
+        <div class="action-icon priority">!</div>
+        <div class="action-text"><strong>インプラント広告の予算増額</strong>（¥15,200 → ¥20,000/週）— 需要急伸に対応。CPA ¥7,600を維持しながらCV数を増やす<span class="tag tag-r" style="margin-left:6px">優先</span></div>
+      </li>
+      <li>
+        <div class="action-icon priority">!</div>
+        <div class="action-text"><strong>予約フォームの簡素化</strong> — 入力項目を7→3に削減。完了率50%→70%を目指す。来週月曜に修正反映予定<span class="tag tag-r" style="margin-left:6px">優先</span></div>
+      </li>
+      <li>
+        <div class="action-icon normal">→</div>
+        <div class="action-text"><strong>矯正ページの症例追加</strong> — 先生に素材（ビフォーアフター写真3症例）の準備をお願い。4/15の訪問時に回収<span class="tag tag-b" style="margin-left:6px">依頼</span></div>
+      </li>
+      <li>
+        <div class="action-icon normal">→</div>
+        <div class="action-text"><strong>ホワイトニングLP制作の企画書作成</strong> — Instagram広告連動のランディングページ。次回訪問時に提案<span class="tag tag-b" style="margin-left:6px">準備</span></div>
+      </li>
+      <li>
+        <div class="action-icon done">✓</div>
+        <div class="action-text"><strong>Google口コミ2件への返信完了</strong><span class="tag tag-g" style="margin-left:6px">完了</span></div>
+      </li>
+      <li>
+        <div class="action-icon done">✓</div>
+        <div class="action-text"><strong>4月ブログ記事「インプラントの費用と医療費控除」公開完了</strong><span class="tag tag-g" style="margin-left:6px">完了</span></div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 月間トレンド（参考） -->
+  <div class="section">
+    <div class="sec-title">📈 月間トレンド（過去8週）</div>
+    <div class="g2">
+      <div class="chart-wrap">
+        <canvas id="trendChart"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="revenueTrendChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    沖縄トランプ株式会社 ｜ さくら歯科クリニック 週次集患レポート ｜ 2026年4月7日自動生成<br>
+    本レポートはクリニック様専用です。第三者への共有はご遠慮ください。
+  </div>
+
+</div>
+
+<script>
+Chart.defaults.color='#8b949e';Chart.defaults.borderColor='rgba(48,54,61,0.5)';Chart.defaults.font.family="'Inter','Noto Sans JP',sans-serif";Chart.defaults.font.size=11;
+
+// Weekly patient by channel
+new Chart(document.getElementById('weeklyPatientChart'),{
+  type:'bar',
+  data:{
+    labels:['2/W3','2/W4','3/W1','3/W2','3/W3','3/W4','4/W1'],
+    datasets:[
+      {label:'HP',data:[3,4,3,5,4,3,5],backgroundColor:'rgba(88,166,255,0.7)',borderRadius:3},
+      {label:'Gマップ',data:[1,2,1,1,2,1,2],backgroundColor:'rgba(46,160,67,0.7)',borderRadius:3},
+      {label:'紹介',data:[1,0,2,1,0,1,1],backgroundColor:'rgba(240,136,62,0.7)',borderRadius:3},
+      {label:'他',data:[1,1,0,1,1,1,1],backgroundColor:'rgba(139,148,158,0.5)',borderRadius:3}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{title:{display:true,text:'週別 新規患者数（経路別）',color:'#e6edf3',font:{size:12}},legend:{position:'bottom',labels:{boxWidth:10,padding:8,font:{size:10}}}},
+    scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true,ticks:{stepSize:2}}}
+  }
+});
+
+// Revenue weekly
+new Chart(document.getElementById('revenueChart'),{
+  type:'bar',
+  data:{
+    labels:['保険','自費'],
+    datasets:[{data:[119,68],backgroundColor:['rgba(88,166,255,0.6)','rgba(184,145,42,0.6)'],borderRadius:4}]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},title:{display:true,text:'今週 売上構成（万円）',color:'#e6edf3',font:{size:11}}},
+    scales:{x:{beginAtZero:true,ticks:{callback:v=>v+'万'}}}
+  }
+});
+
+// Ad performance trend
+new Chart(document.getElementById('adChart'),{
+  type:'line',
+  data:{
+    labels:['3/W1','3/W2','3/W3','3/W4','4/W1'],
+    datasets:[
+      {label:'CPA',data:[11200,10500,9800,9800,8025],borderColor:'#58a6ff',backgroundColor:'transparent',pointRadius:4,pointBackgroundColor:'#58a6ff',tension:0.3},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},title:{display:true,text:'CPA推移（円）',color:'#e6edf3',font:{size:11}}},
+    scales:{y:{ticks:{callback:v=>'¥'+v.toLocaleString()}}}
+  }
+});
+
+// 8-week new patient trend
+new Chart(document.getElementById('trendChart'),{
+  type:'line',
+  data:{
+    labels:['2/W2','2/W3','2/W4','3/W1','3/W2','3/W3','3/W4','4/W1'],
+    datasets:[
+      {label:'新規患者',data:[5,6,7,6,8,7,6,9],borderColor:'#2ea043',backgroundColor:'rgba(46,160,67,0.1)',fill:true,pointRadius:4,pointBackgroundColor:'#2ea043',tension:0.3},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{title:{display:true,text:'新規患者数 推移（8週）',color:'#e6edf3',font:{size:12}},legend:{display:false}},
+    scales:{y:{beginAtZero:true,ticks:{stepSize:2}}}
+  }
+});
+
+// 8-week revenue trend
+new Chart(document.getElementById('revenueTrendChart'),{
+  type:'line',
+  data:{
+    labels:['2/W2','2/W3','2/W4','3/W1','3/W2','3/W3','3/W4','4/W1'],
+    datasets:[
+      {label:'売上（万円）',data:[142,155,148,160,175,158,143,187],borderColor:'#B8912A',backgroundColor:'rgba(184,145,42,0.1)',fill:true,pointRadius:4,pointBackgroundColor:'#D4A843',tension:0.3},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{title:{display:true,text:'売上推移（8週・万円）',color:'#e6edf3',font:{size:12}},legend:{display:false}},
+    scales:{y:{beginAtZero:false,ticks:{callback:v=>v+'万'}}}
+  }
+});
+</script>
+</body>
+</html>
