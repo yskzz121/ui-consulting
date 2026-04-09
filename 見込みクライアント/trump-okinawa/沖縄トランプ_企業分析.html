@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>沖縄トランプ株式会社 - 企業分析レポート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;600;700&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --navy: #1A2540;
+  --navy-light: #243050;
+  --navy-dark: #0F1829;
+  --gold: #B8912A;
+  --gold-light: #D4A843;
+  --gold-dim: rgba(184,145,42,0.15);
+  --paper: #F5F2EC;
+  --text: #e6edf3;
+  --text-sub: #8b949e;
+  --card-bg: #161b22;
+  --card-border: #21262d;
+  --alert: #8B2020;
+  --green: #2ea043;
+  --blue: #58a6ff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--navy-dark);
+  color: var(--text);
+  line-height: 1.7;
+  padding: 0;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px 60px; }
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #1a2332 0%, #1A2540 50%, #0F1829 100%);
+  border-bottom: 1px solid rgba(184,145,42,0.15);
+  padding: 50px 20px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(184,145,42,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 50%, rgba(184,145,42,0.06) 0%, transparent 60%);
+}
+.header-content { position: relative; z-index: 1; }
+.header h1 {
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 2.4em;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.header .subtitle { color: var(--text-sub); font-size: 1.1em; margin-bottom: 4px; }
+.header .date { color: var(--text-sub); font-size: 0.85em; margin-top: 8px; }
+.badge {
+  display: inline-block;
+  background: var(--gold-dim);
+  border: 1px solid rgba(184,145,42,0.3);
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 14px;
+  color: var(--gold);
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+.badge-prospect {
+  background: rgba(46,160,67,0.15);
+  border-color: rgba(46,160,67,0.3);
+  color: var(--green);
+}
+
+/* Section */
+.section {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 28px 28px;
+  margin-top: 24px;
+}
+.section-title {
+  font-family: 'Shippori Mincho B1', serif;
+  font-size: 1.3em;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--card-border);
+}
+.section-icon { margin-right: 8px; }
+
+/* Cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+.card {
+  background: var(--navy);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 18px;
+  text-align: center;
+}
+.card-label {
+  font-size: 0.8em;
+  color: var(--text-sub);
+  margin-bottom: 6px;
+}
+.card-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8em;
+  font-weight: 700;
+  color: var(--text);
+}
+.card-value.gold { color: var(--gold-light); }
+.card-value.green { color: var(--green); }
+.card-value.alert { color: #f85149; }
+.card-sub {
+  font-size: 0.75em;
+  color: var(--text-sub);
+  margin-top: 4px;
+}
+.card-unit {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.5em;
+  font-weight: 400;
+  color: var(--text-sub);
+}
+
+/* Overview grid */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.overview-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.overview-table th,
+.overview-table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--card-border);
+  font-size: 0.9em;
+}
+.overview-table th {
+  color: var(--text-sub);
+  font-weight: 500;
+  width: 35%;
+  white-space: nowrap;
+}
+.overview-table td { color: var(--text); }
+
+/* Financial table */
+.fin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88em;
+}
+.fin-table thead th {
+  background: var(--navy);
+  color: var(--gold-light);
+  padding: 12px 14px;
+  text-align: right;
+  font-weight: 600;
+  border-bottom: 2px solid var(--gold-dim);
+  position: sticky;
+  top: 0;
+}
+.fin-table thead th:first-child { text-align: left; }
+.fin-table tbody td {
+  padding: 10px 14px;
+  text-align: right;
+  border-bottom: 1px solid var(--card-border);
+  font-family: 'Inter', sans-serif;
+}
+.fin-table tbody td:first-child {
+  text-align: left;
+  font-family: 'Noto Sans JP', sans-serif;
+  color: var(--text-sub);
+}
+.fin-table tbody tr.total-row td {
+  font-weight: 700;
+  color: var(--gold-light);
+  border-top: 2px solid var(--gold-dim);
+}
+.fin-table tbody tr.sub-total td {
+  font-weight: 600;
+  color: var(--text);
+}
+.fin-table .yoy-up { color: var(--green); }
+.fin-table .yoy-down { color: #f85149; }
+.fin-table .indent { padding-left: 28px; }
+
+/* Chart */
+.chart-container {
+  position: relative;
+  height: 320px;
+  margin: 16px 0;
+}
+.chart-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Revenue structure bar */
+.rev-bar {
+  display: flex;
+  height: 36px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 12px 0 16px;
+}
+.rev-bar div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72em;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8em;
+  color: var(--text-sub);
+}
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Risk/Insight cards */
+.insight-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.insight-card {
+  background: var(--navy);
+  border-radius: 10px;
+  padding: 18px;
+  border-left: 4px solid var(--gold);
+}
+.insight-card.risk { border-left-color: #f85149; }
+.insight-card.opportunity { border-left-color: var(--green); }
+.insight-card h4 {
+  font-size: 0.9em;
+  color: var(--gold-light);
+  margin-bottom: 8px;
+}
+.insight-card.risk h4 { color: #f85149; }
+.insight-card.opportunity h4 { color: var(--green); }
+.insight-card p {
+  font-size: 0.85em;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+/* Budget vs actual */
+.bva-bar-wrapper { margin: 10px 0; }
+.bva-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82em;
+  margin-bottom: 4px;
+}
+.bva-label span:first-child { color: var(--text-sub); }
+.bva-label span:last-child { font-family: 'Inter', sans-serif; }
+.bva-track {
+  background: var(--navy);
+  border-radius: 6px;
+  height: 22px;
+  position: relative;
+  overflow: hidden;
+}
+.bva-fill {
+  height: 100%;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  font-size: 0.7em;
+  font-weight: 600;
+  color: #fff;
+  transition: width 0.6s ease;
+}
+
+/* Tags */
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.75em;
+  font-weight: 600;
+}
+.tag-gold { background: var(--gold-dim); color: var(--gold); }
+.tag-green { background: rgba(46,160,67,0.15); color: var(--green); }
+.tag-red { background: rgba(248,81,73,0.15); color: #f85149; }
+.tag-blue { background: rgba(88,166,255,0.15); color: var(--blue); }
+
+/* Note box */
+.note-box {
+  background: rgba(184,145,42,0.08);
+  border: 1px solid rgba(184,145,42,0.2);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-top: 16px;
+  font-size: 0.85em;
+  color: var(--text-sub);
+}
+.note-box strong { color: var(--gold-light); }
+
+.warning-box {
+  background: rgba(248,81,73,0.08);
+  border: 1px solid rgba(248,81,73,0.2);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-top: 16px;
+  font-size: 0.85em;
+  color: var(--text-sub);
+}
+.warning-box strong { color: #f85149; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--text-sub);
+  font-size: 0.78em;
+  border-top: 1px solid var(--card-border);
+  margin-top: 40px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body { padding: 0 !important; }
+  .container { padding: 0 12px 40px; }
+  .header { padding: 30px 16px; }
+  .header h1 { font-size: 1.5rem; }
+  .section { padding: 18px 16px; }
+  .overview-grid, .insight-grid, .chart-row { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr 1fr; }
+  .fin-table { font-size: 0.78em; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+@media (max-width: 480px) {
+  .card-grid { grid-template-columns: 1fr !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <div style="margin-bottom:12px">
+      <span class="badge">見込みクライアント</span>
+    </div>
+    <h1>沖縄トランプ株式会社</h1>
+    <div class="subtitle">企業分析レポート</div>
+    <div class="date">分析対象: 第3期〜第5期（途中） ｜ レポート作成: 2026年4月9日</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Key Metrics -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">📊</span>Key Metrics（第4期 確定 / 第5期 進行中）</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-label">売上高（4期 通期）</div>
+        <div class="card-value gold">31.7<span class="card-unit">百万円</span></div>
+        <div class="card-sub">YoY +0.02%（横ばい）</div>
+      </div>
+      <div class="card">
+        <div class="card-label">売上高（5期 6ヶ月途中）</div>
+        <div class="card-value">17.6<span class="card-unit">百万円</span></div>
+        <div class="card-sub">年換算 約35.2百万円（+11%ペース）</div>
+      </div>
+      <div class="card">
+        <div class="card-label">粗利益率（4期）</div>
+        <div class="card-value green">62.9<span class="card-unit">%</span></div>
+        <div class="card-sub">3期 58.2% → 4期 62.9%</div>
+      </div>
+      <div class="card">
+        <div class="card-label">営業利益率（4期）</div>
+        <div class="card-value">7.2<span class="card-unit">%</span></div>
+        <div class="card-sub">3期 9.1% → 5期途中 11.7%</div>
+      </div>
+      <div class="card">
+        <div class="card-label">純資産（5期末時点）</div>
+        <div class="card-value gold">9.5<span class="card-unit">百万円</span></div>
+        <div class="card-sub">3期連続純利益計上で蓄積</div>
+      </div>
+      <div class="card">
+        <div class="card-label">自己資本比率（5期）</div>
+        <div class="card-value">34.5<span class="card-unit">%</span></div>
+        <div class="card-sub">4期 26.6% → 改善傾向</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Company Overview -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🏢</span>企業概要</div>
+    <div class="overview-grid">
+      <div>
+        <table class="overview-table">
+          <tr><th>会社名</th><td>沖縄トランプ株式会社</td></tr>
+          <tr><th>設立</th><td>2017年6月</td></tr>
+          <tr><th>資本金</th><td>100万円（100株）</td></tr>
+          <tr><th>所在地</th><td>那覇市久茂地3-13-12 宮里ビル202</td></tr>
+          <tr><th>電話</th><td>098-953-3260</td></tr>
+          <tr><th>決算期</th><td>9月（10月〜翌9月）</td></tr>
+        </table>
+      </div>
+      <div>
+        <table class="overview-table">
+          <tr><th>業種</th><td>WEBマーケティング（医療特化）</td></tr>
+          <tr><th>専門領域</th><td>歯科・医科クリニック向けデジタルマーケ</td></tr>
+          <tr><th>実績</th><td>累計600件以上のクリニック支援</td></tr>
+          <tr><th>継続率</th><td>98.5%</td></tr>
+          <tr><th>会計基準</th><td>中小企業の会計に関する基本要領</td></tr>
+          <tr><th>消費税</th><td>税抜経理方式（3期より変更）</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Business Model -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">💼</span>ビジネスモデル・収益構造</div>
+
+    <h4 style="color:var(--gold-light);margin-bottom:12px;font-size:0.95em">サービスポートフォリオ（5期 実績ベース）</h4>
+
+    <div class="rev-bar">
+      <div style="width:40.7%;background:#B8912A" title="WEBコンサル">コンサル 40.7%</div>
+      <div style="width:30.4%;background:#58a6ff" title="広告">広告 30.4%</div>
+      <div style="width:15.9%;background:#2ea043" title="HP制作">HP 15.9%</div>
+      <div style="width:5.2%;background:#8957e5" title="HP修正">修正</div>
+      <div style="width:3.1%;background:#f0883e" title="サーバー">SV</div>
+      <div style="width:4.7%;background:#6e7681" title="他">他</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#B8912A"></div>WEBコンサル 7,176K (40.7%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div>広告代行 5,352K (30.4%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2ea043"></div>HP制作 2,800K (15.9%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#8957e5"></div>HP修正 918K (5.2%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f0883e"></div>サーバー・ドメイン 539K (3.1%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#da3633"></div>MEO 417K (2.4%)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#6e7681"></div>ライティング+他 411K (2.3%)</div>
+    </div>
+
+    <div class="note-box" style="margin-top:20px">
+      <strong>収益構造の特徴:</strong><br>
+      ストック型（WEBコンサル月額 + MEO + サーバー管理）とフロー型（HP制作・修正）の二本柱。
+      第5期で広告代行（Google等）が売上の30%を占めるまで成長したが、<strong>広告の原価率は82.8%</strong>と非常に高く、
+      粗利貢献は限定的。WEBコンサルティングは原価がほぼゼロの高収益サービスであり、全体の利益を支えている。
+    </div>
+
+    <h4 style="color:var(--gold-light);margin:24px 0 12px;font-size:0.95em">サービス別 原価率（5期）</h4>
+    <table class="fin-table">
+      <thead>
+        <tr><th style="text-align:left">サービス</th><th>売上</th><th>原価</th><th>原価率</th><th>粗利</th><th>判定</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>WEBコンサルティング</td><td>7,176K</td><td>-</td><td>0%</td><td>7,176K</td>
+          <td><span class="tag tag-green">高収益</span></td>
+        </tr>
+        <tr>
+          <td>HP制作</td><td>2,800K</td><td>1,130K</td><td>40.4%</td><td>1,670K</td>
+          <td><span class="tag tag-gold">標準</span></td>
+        </tr>
+        <tr>
+          <td>広告代行（Google等）</td><td>5,352K</td><td>4,431K</td><td>82.8%</td><td>921K</td>
+          <td><span class="tag tag-red">要注意</span></td>
+        </tr>
+        <tr>
+          <td>MEO</td><td>417K</td><td>176K</td><td>42.1%</td><td>241K</td>
+          <td><span class="tag tag-gold">標準</span></td>
+        </tr>
+        <tr>
+          <td>HP修正</td><td>918K</td><td>232K</td><td>25.2%</td><td>687K</td>
+          <td><span class="tag tag-green">良好</span></td>
+        </tr>
+        <tr class="total-row">
+          <td>合計</td><td>17,613K</td><td>6,056K</td><td>34.4%</td><td>11,556K</td><td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warning-box">
+      <strong>広告代行の構造的課題:</strong> Google広告等の代行は売上3,000万円規模（年換算）だが、
+      媒体費がそのまま原価に計上され粗利率は約17%。手数料モデルとして妥当だが、
+      売上全体の粗利率を引き下げている。広告を除くと粗利率は約86%。
+    </div>
+  </div>
+
+  <!-- P/L 3期比較 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">📈</span>損益計算書 3期比較</div>
+
+    <table class="fin-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">科目</th>
+          <th>第3期<br><span style="font-weight:400;font-size:0.8em">R5.10-R6.9</span></th>
+          <th>第4期<br><span style="font-weight:400;font-size:0.8em">R6.10-R7.9</span></th>
+          <th>第5期(途中)<br><span style="font-weight:400;font-size:0.8em">R7.10-R8.9</span></th>
+          <th>4期 YoY</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="sub-total">
+          <td>売上高</td><td>31,650,329</td><td>31,656,059</td><td>17,612,798</td>
+          <td><span class="yoy-up">+0.02%</span></td>
+        </tr>
+        <tr>
+          <td class="indent">外注委託費（原価）</td><td>13,238,414</td><td>11,747,261</td><td>6,056,467</td>
+          <td><span class="yoy-up">-11.3%</span></td>
+        </tr>
+        <tr class="sub-total">
+          <td>売上総利益</td><td>18,411,915</td><td>19,908,798</td><td>11,556,331</td>
+          <td><span class="yoy-up">+8.1%</span></td>
+        </tr>
+        <tr>
+          <td class="indent">粗利益率</td><td>58.2%</td><td>62.9%</td><td>65.6%</td>
+          <td><span class="yoy-up">+4.7pt</span></td>
+        </tr>
+        <tr>
+          <td class="indent">販管費</td><td>15,528,718</td><td>17,634,983</td><td>9,499,639</td>
+          <td><span class="yoy-down">+13.6%</span></td>
+        </tr>
+        <tr class="sub-total">
+          <td>営業利益</td><td>2,883,197</td><td>2,273,815</td><td>2,056,692</td>
+          <td><span class="yoy-down">-21.1%</span></td>
+        </tr>
+        <tr>
+          <td class="indent">営業利益率</td><td>9.1%</td><td>7.2%</td><td>11.7%</td>
+          <td><span class="yoy-down">-1.9pt</span></td>
+        </tr>
+        <tr class="sub-total">
+          <td>経常利益</td><td>2,888,197</td><td>2,228,654</td><td>1,961,030</td>
+          <td><span class="yoy-down">-22.8%</span></td>
+        </tr>
+        <tr class="total-row">
+          <td>当期純利益</td><td>2,231,336</td><td>2,037,180</td><td>1,961,030</td>
+          <td><span class="yoy-down">-8.7%</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <strong>5期は進行中（約6ヶ月分）:</strong> 5期の売上17.6百万円は6ヶ月分。
+      月平均約293万円で推移しており、年換算では約35.2百万円（4期比+11%）ペース。
+      営業利益率は5期途中で11.7%と、4期通期の7.2%から大幅改善。販管費の削減（役員報酬半減・リース料半減）が寄与。
+    </div>
+
+    <div class="chart-row" style="margin-top:24px">
+      <div>
+        <div class="chart-container">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+      <div>
+        <div class="chart-container">
+          <canvas id="profitChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 販管費分析 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">💰</span>販管費構造分析</div>
+
+    <table class="fin-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">科目</th>
+          <th>第3期</th>
+          <th>第4期</th>
+          <th>第5期(途中)</th>
+          <th>売上比(4期)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>役員報酬</td><td>1,200,000</td><td>1,200,000</td><td>600,000</td><td>3.8%</td></tr>
+        <tr><td>役員賞与</td><td>4,800,000</td><td>5,800,000</td><td>2,826,000</td><td>18.3%</td></tr>
+        <tr><td>給料賃金</td><td>720,000</td><td>944,650</td><td>806,755</td><td>3.0%</td></tr>
+        <tr class="sub-total"><td>人件費小計</td><td>6,720,000</td><td>7,944,650</td><td>4,232,755</td><td>25.1%</td></tr>
+        <tr><td>研修採用費</td><td>1,744,286</td><td>1,256,244</td><td>782,540</td><td>4.0%</td></tr>
+        <tr><td>接待交際費</td><td>2,091,925</td><td>2,341,374</td><td>1,168,558</td><td>7.4%</td></tr>
+        <tr><td>旅費交通費</td><td>1,265,626</td><td>1,631,603</td><td>779,692</td><td>5.2%</td></tr>
+        <tr><td>支払報酬</td><td>590,400</td><td>742,800</td><td>514,410</td><td>2.3%</td></tr>
+        <tr><td>リース料</td><td>642,000</td><td>642,000</td><td>321,000</td><td>2.0%</td></tr>
+        <tr><td>地代家賃</td><td>622,200</td><td>612,000</td><td>306,000</td><td>1.9%</td></tr>
+        <tr><td>通信費</td><td>353,116</td><td>482,104</td><td>259,274</td><td>1.5%</td></tr>
+        <tr><td>その他</td><td>1,499,165</td><td>1,982,208</td><td>1,134,410</td><td>6.3%</td></tr>
+        <tr class="total-row"><td>販管費合計</td><td>15,528,718</td><td>17,634,983</td><td>9,499,639</td><td>55.7%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="chart-container" style="height:300px;margin-top:20px">
+      <canvas id="sgaChart"></canvas>
+    </div>
+
+    <div class="warning-box">
+      <strong>販管費の特徴:</strong><br>
+      ・<strong>役員賞与が突出</strong>: 4期で580万円（売上比18.3%）。役員報酬（月10万円）を低く抑え、賞与で大きく引き出す構造<br>
+      ・<strong>接待交際費が高め</strong>: 4期234万円（売上比7.4%）。全国のクリニックへの営業活動に伴うものと推測<br>
+      ・<strong>旅費交通費</strong>: 4期163万円。全国対応のビジネスモデルのため構造的に発生<br>
+      ・5期は役員報酬を半減（月10万→月5万）し、コスト構造の改善に取り組んでいる
+    </div>
+  </div>
+
+  <!-- BS分析 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">📋</span>貸借対照表分析</div>
+
+    <table class="fin-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">科目</th>
+          <th>第3期末<br><span style="font-weight:400;font-size:0.8em">R6.9.30</span></th>
+          <th>第4期末<br><span style="font-weight:400;font-size:0.8em">R7.9.30</span></th>
+          <th>第5期途中<br><span style="font-weight:400;font-size:0.8em">R8.9.30</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="sub-total"><td>流動資産</td><td>15,487K</td><td>26,341K</td><td>15,850K</td></tr>
+        <tr><td class="indent">現金預金</td><td>11,430K</td><td>21,872K</td><td>11,159K</td></tr>
+        <tr><td class="indent">売掛金</td><td>3,294K</td><td>3,410K</td><td>3,208K</td></tr>
+        <tr class="sub-total"><td>固定資産</td><td>486K</td><td>1,885K</td><td>11,563K</td></tr>
+        <tr><td class="indent">役員貸付金</td><td>-</td><td>-</td><td>7,293K</td></tr>
+        <tr><td class="indent">長期前払費用</td><td>300K</td><td>1,800K</td><td>3,800K</td></tr>
+        <tr class="total-row"><td>資産合計</td><td>15,973K</td><td>28,227K</td><td>27,413K</td></tr>
+
+        <tr><td colspan="4" style="padding:8px"></td></tr>
+
+        <tr class="sub-total"><td>流動負債</td><td>3,794K</td><td>2,457K</td><td>2,030K</td></tr>
+        <tr class="sub-total"><td>固定負債</td><td>6,721K</td><td>18,274K</td><td>15,927K</td></tr>
+        <tr><td class="indent">長期借入金</td><td>6,661K</td><td>16,149K</td><td>15,893K</td></tr>
+        <tr><td class="indent">役員借入金</td><td>60K</td><td>2,125K</td><td>34K</td></tr>
+        <tr class="total-row"><td>負債合計</td><td>10,515K</td><td>20,731K</td><td>17,957K</td></tr>
+
+        <tr><td colspan="4" style="padding:8px"></td></tr>
+
+        <tr class="total-row"><td>純資産</td><td>5,458K</td><td>7,496K</td><td>9,457K</td></tr>
+      </tbody>
+    </table>
+
+    <h4 style="color:var(--gold-light);margin:24px 0 12px;font-size:0.95em">主要財務指標</h4>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-label">流動比率</div>
+        <div class="card-value green">781<span class="card-unit">%</span></div>
+        <div class="card-sub">5期 / 4期 1,072% / 3期 408%</div>
+      </div>
+      <div class="card">
+        <div class="card-label">自己資本比率</div>
+        <div class="card-value">34.5<span class="card-unit">%</span></div>
+        <div class="card-sub">3期 34.2% → 4期 26.6% → 5期 34.5%</div>
+      </div>
+      <div class="card">
+        <div class="card-label">有利子負債</div>
+        <div class="card-value">15.9<span class="card-unit">百万円</span></div>
+        <div class="card-sub">D/Eレシオ 1.68倍</div>
+      </div>
+      <div class="card">
+        <div class="card-label">1株当たり純資産</div>
+        <div class="card-value gold">94,566<span class="card-unit">円</span></div>
+        <div class="card-sub">3期 54,584 → 4期 74,956 → 5期 94,566</div>
+      </div>
+    </div>
+
+    <div class="warning-box" style="margin-top:20px">
+      <strong>要注意項目:</strong><br>
+      ・<strong>役員貸付金 729万円（5期新規発生）</strong>: 会社から役員への貸付は税務調査で厳しく指摘される項目。
+      認定賞与リスクあり。早期解消を推奨。<br>
+      ・<strong>長期前払費用 380万円</strong>: 3期30万→5期380万と急増。内容の確認が必要。<br>
+      ・<strong>長期借入金 約1,590万円</strong>: 4期に約950万円増加（16,149K-6,661K）。資金使途の確認が必要。<br>
+      ・<strong>現金が4期→5期で約1,070万円減少</strong>: 役員貸付金の発生が主因と推測。
+    </div>
+  </div>
+
+  <!-- 予実管理（5期） -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🎯</span>予実管理（第5期 進行中）</div>
+
+    <div class="note-box" style="margin-top:0;margin-bottom:20px">
+      <strong>対象期間:</strong> 令和7年10月〜令和8年3月（6ヶ月分実績）。4月以降は未入力。年間予算22,962Kに対する進捗。
+    </div>
+
+    <h4 style="color:var(--gold-light);margin-bottom:16px;font-size:0.95em">売上 予算vs実績（6ヶ月累計）</h4>
+
+    <div class="bva-bar-wrapper">
+      <div class="bva-label"><span>売上高</span><span>17,613K / 22,962K</span></div>
+      <div class="bva-track">
+        <div class="bva-fill" style="width:76.7%;background:linear-gradient(90deg,var(--gold),var(--gold-light))">76.7%</div>
+      </div>
+    </div>
+    <div class="bva-bar-wrapper">
+      <div class="bva-label"><span>粗利益</span><span>11,556K / 20,514K</span></div>
+      <div class="bva-track">
+        <div class="bva-fill" style="width:56.3%;background:linear-gradient(90deg,#2ea043,#3fb950)">56.3%</div>
+      </div>
+    </div>
+    <div class="bva-bar-wrapper">
+      <div class="bva-label"><span>営業利益</span><span>2,057K / 2,382K</span></div>
+      <div class="bva-track">
+        <div class="bva-fill" style="width:86.3%;background:linear-gradient(90deg,#58a6ff,#79c0ff)">86.3%</div>
+      </div>
+    </div>
+
+    <h4 style="color:var(--gold-light);margin:24px 0 12px;font-size:0.95em">月次売上推移（5期）</h4>
+    <div class="chart-container" style="height:280px">
+      <canvas id="monthlyChart"></canvas>
+    </div>
+
+    <div class="note-box">
+      <strong>予実の傾向:</strong><br>
+      ・売上は6ヶ月で年間予算の76.7%を達成。ペースは好調。<br>
+      ・12月に440万円のスパイクあり（HP制作の大型案件と推測）。<br>
+      ・営業利益は6ヶ月で年間予算の86.3%を既に達成。販管費削減効果が顕著。<br>
+      ・広告代行売上が予算ゼロに対し実績5,352K → 予算にない新規事業として急成長（ただし原価率82.8%）。
+    </div>
+  </div>
+
+  <!-- 定性分析 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🔍</span>定性分析・SWOT</div>
+
+    <div class="insight-grid">
+      <div class="insight-card opportunity">
+        <h4>Strengths（強み）</h4>
+        <p>
+          ・医療（歯科・医科）特化で累計600件の実績<br>
+          ・継続支援率98.5%の高いリテンション<br>
+          ・医療広告ガイドライン準拠の専門知識<br>
+          ・歯科衛生士・看護師によるライティング体制<br>
+          ・WEBコンサルの原価率ほぼゼロの高収益モデル
+        </p>
+      </div>
+      <div class="insight-card risk">
+        <h4>Weaknesses（弱み）</h4>
+        <p>
+          ・売上が3期→4期で横ばい（成長鈍化）<br>
+          ・役員報酬+賞与で売上の22%を占める高い人件費<br>
+          ・役員貸付金729万円の発生（税務リスク）<br>
+          ・広告代行の低収益性（原価率82.8%）<br>
+          ・有利子負債1,590万円と借入依存の増大
+        </p>
+      </div>
+      <div class="insight-card opportunity">
+        <h4>Opportunities（機会）</h4>
+        <p>
+          ・医療DXの加速（オンライン予約・遠隔診療の普及）<br>
+          ・クリニック開業数の増加トレンド（新規開業割引で獲得）<br>
+          ・MEO・Google広告の市場拡大<br>
+          ・全国対応（沖縄発のコスト競争力）<br>
+          ・AI活用によるコンテンツ制作の効率化余地
+        </p>
+      </div>
+      <div class="insight-card risk">
+        <h4>Threats（脅威）</h4>
+        <p>
+          ・医療広告規制の厳格化リスク<br>
+          ・WEBマーケ業界の競争激化（低価格化）<br>
+          ・Google検索アルゴリズム変更による影響<br>
+          ・AI自動化による差別化の困難化<br>
+          ・クリニック経営の悪化（患者減少トレンド）
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- リスク・注目ポイント -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">⚠️</span>リスク・注目ポイント</div>
+
+    <div class="insight-grid">
+      <div class="insight-card risk">
+        <h4>🔴 役員貸付金（税務リスク）</h4>
+        <p>5期で729万円の役員貸付金が新規計上。税務調査で「認定賞与」として否認されるリスクが高い。源泉徴収漏れの追徴課税の可能性。早期に返済計画の策定が必要。</p>
+      </div>
+      <div class="insight-card risk">
+        <h4>🔴 長期借入金の急増</h4>
+        <p>3期666万→4期1,615万と約950万円増加。資金使途（設備投資?運転資金?）の確認が必要。月次返済額と返済計画の把握が重要。</p>
+      </div>
+      <div class="insight-card risk">
+        <h4>🟡 広告代行の収益性</h4>
+        <p>売上の30%を占める広告代行は原価率82.8%。手数料ビジネスとしては妥当だが、売上規模のわりに利益貢献が小さい。広告運用フィーの引き上げまたはパッケージ化の検討余地。</p>
+      </div>
+      <div class="insight-card">
+        <h4>🟡 売上成長の停滞</h4>
+        <p>3期→4期でほぼ横ばい（+0.02%）。5期は年換算で+11%ペースだが、広告代行の売上嵩上げ（低利益）による部分が大きい。コンサル単価の引き上げや新規獲得戦略の強化が必要。</p>
+      </div>
+    </div>
+
+    <div class="insight-grid" style="margin-top:16px">
+      <div class="insight-card opportunity">
+        <h4>🟢 コスト構造の改善</h4>
+        <p>5期は役員報酬を半減（月10万→月5万）、リース・家賃も半減。営業利益率が4期7.2%→5期途中11.7%に改善。コスト意識の高い経営姿勢。</p>
+      </div>
+      <div class="insight-card opportunity">
+        <h4>🟢 安定したストック収入</h4>
+        <p>WEBコンサル月額（継続率98.5%）が売上の40%を占め、安定した基盤。月額コンサル+サーバー+MEOで約8百万円/年のリカーリング収入。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- コンサルティング提案 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">💡</span>コンサルティング着眼点</div>
+
+    <div class="card-grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+      <div class="card" style="text-align:left;border-left:3px solid var(--gold)">
+        <div class="card-label" style="color:var(--gold);font-weight:600;font-size:0.85em">1. 役員貸付金の解消プラン</div>
+        <p style="font-size:0.82em;color:var(--text-sub);margin-top:8px">
+          729万円の役員貸付金は最優先課題。返済スケジュールの策定、または役員報酬の増額→返済の仕組み化。税理士と連携し、認定賞与リスクの回避策を講じる。
+        </p>
+      </div>
+      <div class="card" style="text-align:left;border-left:3px solid var(--green)">
+        <div class="card-label" style="color:var(--green);font-weight:600;font-size:0.85em">2. 広告代行の収益化改善</div>
+        <p style="font-size:0.82em;color:var(--text-sub);margin-top:8px">
+          運用手数料率の見直し（媒体費の20%→25%等）、またはコンサルフィーとの一体化パッケージで粗利率を改善。広告レポートの自動化で工数を削減。
+        </p>
+      </div>
+      <div class="card" style="text-align:left;border-left:3px solid var(--blue)">
+        <div class="card-label" style="color:var(--blue);font-weight:600;font-size:0.85em">3. 予実管理の精度向上</div>
+        <p style="font-size:0.82em;color:var(--text-sub);margin-top:8px">
+          広告代行が予算ゼロ→実績535万円と、予算精度に課題。月次予実レビューの仕組み化と、サービス別の収益管理の導入で経営判断の質を向上。
+        </p>
+      </div>
+      <div class="card" style="text-align:left;border-left:3px solid #8957e5">
+        <div class="card-label" style="color:#8957e5;font-weight:600;font-size:0.85em">4. 借入金の使途分析・返済計画</div>
+        <p style="font-size:0.82em;color:var(--text-sub);margin-top:8px">
+          4期に約950万円の借入増加。長期前払費用の増加（180万→380万）も含め、資金繰り表の整備と返済シミュレーションの実施。キャッシュフロー管理の強化。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    U&I Consulting ｜ 沖縄トランプ株式会社 企業分析レポート ｜ 2026年4月9日作成<br>
+    本レポートは提供された決算書・予実管理表に基づく分析であり、投資助言ではありません。
+  </div>
+
+</div>
+
+<script>
+// Color palette
+const gold = '#B8912A';
+const goldLight = '#D4A843';
+const blue = '#58a6ff';
+const green = '#2ea043';
+const red = '#f85149';
+const textSub = '#8b949e';
+
+Chart.defaults.color = '#8b949e';
+Chart.defaults.borderColor = 'rgba(48,54,61,0.5)';
+Chart.defaults.font.family = "'Inter','Noto Sans JP',sans-serif";
+
+// Revenue & Profit Chart
+new Chart(document.getElementById('revenueChart'), {
+  type: 'bar',
+  data: {
+    labels: ['第3期\n(R5.10-R6.9)', '第4期\n(R6.10-R7.9)', '第5期(途中)\n(R7.10-R8.3)'],
+    datasets: [{
+      label: '売上高',
+      data: [31650, 31656, 17613],
+      backgroundColor: [gold, gold, 'rgba(184,145,42,0.4)'],
+      borderColor: [goldLight, goldLight, gold],
+      borderWidth: 1,
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: { display: true, text: '売上高推移（千円）', color: '#e6edf3', font: { size: 14 } },
+      legend: { display: false }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { callback: v => v.toLocaleString() + 'K' }
+      }
+    }
+  }
+});
+
+new Chart(document.getElementById('profitChart'), {
+  type: 'bar',
+  data: {
+    labels: ['第3期', '第4期', '第5期(途中)'],
+    datasets: [
+      {
+        label: '粗利益',
+        data: [18412, 19909, 11556],
+        backgroundColor: 'rgba(46,160,67,0.6)',
+        borderColor: green,
+        borderWidth: 1,
+        borderRadius: 4
+      },
+      {
+        label: '営業利益',
+        data: [2883, 2274, 2057],
+        backgroundColor: 'rgba(88,166,255,0.6)',
+        borderColor: blue,
+        borderWidth: 1,
+        borderRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: { display: true, text: '利益推移（千円）', color: '#e6edf3', font: { size: 14 } },
+      legend: { position: 'top', labels: { boxWidth: 12, padding: 12 } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { callback: v => v.toLocaleString() + 'K' }
+      }
+    }
+  }
+});
+
+// SGA breakdown chart
+new Chart(document.getElementById('sgaChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['役員報酬+賞与', '給料賃金', '接待交際費', '旅費交通費', '研修採用費', '支払報酬', 'リース+家賃', '通信費', 'その他'],
+    datasets: [{
+      data: [7000, 945, 2341, 1632, 1256, 743, 1254, 482, 1982],
+      backgroundColor: [gold, green, '#f85149', blue, '#8957e5', '#f0883e', '#da3633', '#3fb950', '#6e7681'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: { display: true, text: '販管費構成（第4期 千円）', color: '#e6edf3', font: { size: 14 } },
+      legend: {
+        position: 'right',
+        labels: { boxWidth: 12, padding: 10, font: { size: 11 } }
+      }
+    }
+  }
+});
+
+// Monthly revenue chart (5期)
+new Chart(document.getElementById('monthlyChart'), {
+  type: 'bar',
+  data: {
+    labels: ['10月', '11月', '12月', '1月', '2月', '3月'],
+    datasets: [
+      {
+        label: '実績',
+        data: [3128, 2241, 4406, 2662, 2659, 2537],
+        backgroundColor: 'rgba(184,145,42,0.7)',
+        borderColor: gold,
+        borderWidth: 1,
+        borderRadius: 4
+      },
+      {
+        label: '予算',
+        data: [1886, 1886, 1886, 1886, 1886, 1886],
+        type: 'line',
+        borderColor: textSub,
+        borderDash: [5, 5],
+        pointRadius: 0,
+        borderWidth: 2,
+        fill: false
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { boxWidth: 12, padding: 12 } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { callback: v => v.toLocaleString() + 'K' }
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

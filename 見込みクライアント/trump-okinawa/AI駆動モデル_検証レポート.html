@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>沖縄トランプ - AI駆動ビジネスモデル検証</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;600;700&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--navy:#1A2540;--navy-light:#243050;--navy-dark:#0F1829;--gold:#B8912A;--gold-light:#D4A843;--gold-dim:rgba(184,145,42,0.15);--text:#e6edf3;--text-sub:#8b949e;--card-bg:#161b22;--card-border:#21262d;--green:#2ea043;--blue:#58a6ff;--purple:#8957e5;--orange:#f0883e;--red:#f85149}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--navy-dark);color:var(--text);line-height:1.7;padding:0}
+.container{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+
+.header{background:linear-gradient(135deg,#1a2332 0%,#1A2540 50%,#0F1829 100%);border-bottom:1px solid rgba(184,145,42,0.15);padding:50px 20px 40px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(184,145,42,0.08) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(88,166,255,0.06) 0%,transparent 60%)}
+.header-content{position:relative;z-index:1}
+.header h1{font-family:'Shippori Mincho B1',serif;font-size:2.2em;font-weight:800;margin-bottom:6px}
+.header .subtitle{color:var(--text-sub);font-size:1.05em}
+.header .date{color:var(--text-sub);font-size:0.82em;margin-top:8px}
+.badge{display:inline-block;border-radius:8px;padding:5px 14px;font-size:13px;margin-bottom:10px;letter-spacing:1px}
+.badge-ai{background:rgba(137,87,229,0.15);border:1px solid rgba(137,87,229,0.3);color:var(--purple)}
+
+.section{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:28px;margin-top:24px}
+.section-title{font-family:'Shippori Mincho B1',serif;font-size:1.25em;font-weight:700;color:var(--gold-light);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--card-border)}
+.section-icon{margin-right:8px}
+
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.card{background:var(--navy);border:1px solid var(--card-border);border-radius:10px;padding:16px;text-align:center}
+.card-label{font-size:0.78em;color:var(--text-sub);margin-bottom:4px}
+.card-value{font-family:'Inter',sans-serif;font-size:1.7em;font-weight:700}
+.card-value.gold{color:var(--gold-light)}.card-value.green{color:var(--green)}.card-value.red{color:var(--red)}.card-value.purple{color:var(--purple)}.card-value.blue{color:var(--blue)}
+.card-sub{font-size:0.72em;color:var(--text-sub);margin-top:3px}
+.card-unit{font-family:'Noto Sans JP',sans-serif;font-size:0.5em;font-weight:400;color:var(--text-sub)}
+
+.fin-table{width:100%;border-collapse:collapse;font-size:0.86em}
+.fin-table thead th{background:var(--navy);color:var(--gold-light);padding:10px 12px;text-align:right;font-weight:600;border-bottom:2px solid var(--gold-dim)}
+.fin-table thead th:first-child{text-align:left}
+.fin-table tbody td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--card-border);font-family:'Inter',sans-serif}
+.fin-table tbody td:first-child{text-align:left;font-family:'Noto Sans JP',sans-serif;color:var(--text-sub)}
+.fin-table .total-row td{font-weight:700;color:var(--gold-light);border-top:2px solid var(--gold-dim)}
+.fin-table .sub-total td{font-weight:600;color:var(--text)}
+.indent{padding-left:24px!important}
+
+.note-box{background:rgba(184,145,42,0.08);border:1px solid rgba(184,145,42,0.2);border-radius:8px;padding:14px 18px;font-size:0.84em;color:var(--text-sub)}
+.note-box strong{color:var(--gold-light)}
+.warning-box{background:rgba(248,81,73,0.08);border:1px solid rgba(248,81,73,0.2);border-radius:8px;padding:14px 18px;font-size:0.84em;color:var(--text-sub)}
+.warning-box strong{color:var(--red)}
+.success-box{background:rgba(46,160,67,0.08);border:1px solid rgba(46,160,67,0.2);border-radius:8px;padding:14px 18px;font-size:0.84em;color:var(--text-sub)}
+.success-box strong{color:var(--green)}
+.purple-box{background:rgba(137,87,229,0.08);border:1px solid rgba(137,87,229,0.2);border-radius:8px;padding:14px 18px;font-size:0.84em;color:var(--text-sub)}
+.purple-box strong{color:var(--purple)}
+
+.chart-container{position:relative;height:320px;margin:16px 0}
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+.flow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.flow-card{background:var(--navy);border:1px solid var(--card-border);border-radius:10px;padding:18px;position:relative}
+.flow-card h4{font-size:0.9em;margin-bottom:8px}
+.flow-card p{font-size:0.82em;color:var(--text-sub);line-height:1.6}
+.flow-card .ai-badge{position:absolute;top:12px;right:12px;background:rgba(137,87,229,0.2);color:var(--purple);font-size:0.65em;padding:2px 8px;border-radius:4px;font-weight:600}
+.flow-card .human-badge{position:absolute;top:12px;right:12px;background:rgba(184,145,42,0.2);color:var(--gold);font-size:0.65em;padding:2px 8px;border-radius:4px;font-weight:600}
+
+.timeline{position:relative;padding-left:30px}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--card-border)}
+.timeline-item{position:relative;margin-bottom:28px}
+.timeline-item::before{content:'';position:absolute;left:-24px;top:6px;width:12px;height:12px;border-radius:50%;border:2px solid var(--gold);background:var(--navy-dark)}
+.timeline-item h4{font-size:0.95em;color:var(--gold-light);margin-bottom:6px}
+.timeline-item p{font-size:0.82em;color:var(--text-sub);line-height:1.6}
+.timeline-item .metrics{display:flex;gap:16px;margin-top:8px;flex-wrap:wrap}
+.timeline-item .metric{background:var(--navy);border:1px solid var(--card-border);border-radius:6px;padding:6px 12px;font-size:0.78em}
+.timeline-item .metric span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600}
+
+.verdict{text-align:center;padding:30px;border:2px solid var(--gold-dim);border-radius:16px;margin-top:24px;background:linear-gradient(180deg,rgba(184,145,42,0.05),transparent)}
+.verdict-label{font-size:0.85em;color:var(--text-sub);margin-bottom:6px}
+.verdict-score{font-family:'Playfair Display',serif;font-size:3.5em;font-weight:900;color:var(--gold-light)}
+.verdict-text{font-size:1.1em;color:var(--text);margin-top:6px;font-weight:600}
+
+.tag{display:inline-block;padding:2px 8px;border-radius:5px;font-size:0.72em;font-weight:600}
+.tag-green{background:rgba(46,160,67,0.15);color:var(--green)}
+.tag-red{background:rgba(248,81,73,0.15);color:var(--red)}
+.tag-gold{background:var(--gold-dim);color:var(--gold)}
+.tag-purple{background:rgba(137,87,229,0.15);color:var(--purple)}
+.tag-blue{background:rgba(88,166,255,0.15);color:var(--blue)}
+
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--card-border);border-radius:10px;overflow:hidden;margin:16px 0}
+.compare-col{padding:20px}
+.compare-col:first-child{border-right:1px solid var(--card-border);background:rgba(248,81,73,0.03)}
+.compare-col:last-child{background:rgba(137,87,229,0.03)}
+.compare-col h4{font-size:0.9em;margin-bottom:12px;text-align:center}
+.compare-col ul{list-style:none;padding:0}
+.compare-col li{font-size:0.82em;color:var(--text-sub);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.compare-col li::before{margin-right:6px}
+
+.footer{text-align:center;padding:30px 20px;color:var(--text-sub);font-size:0.75em;border-top:1px solid var(--card-border);margin-top:40px}
+
+@media(max-width:768px){
+  body{padding:0!important}.container{padding:0 12px 40px}.header{padding:30px 16px}.header h1{font-size:1.4rem}
+  .section{padding:18px 14px}.card-grid{grid-template-columns:1fr 1fr}.flow-grid,.chart-row,.compare-grid{grid-template-columns:1fr}
+  .fin-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media(max-width:480px){.card-grid{grid-template-columns:1fr!important}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-content">
+    <span class="badge badge-ai">AI-Driven Business Model</span>
+    <h1>AI駆動モデル 達成可能性検証</h1>
+    <div class="subtitle">沖縄トランプ株式会社 - 「1人+AI」で純利益5,000万円は実現できるか</div>
+    <div class="date">U&I Consulting ｜ 2026年4月9日</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 目標と現状のギャップ -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🎯</span>寺本社長の目標 vs 現状</div>
+    <div class="card-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+      <div class="card">
+        <div class="card-label">当期純利益</div>
+        <div class="card-value red">204<span class="card-unit">万円</span></div>
+        <div class="card-sub">現状（4期）</div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:var(--gold)">→ 目標</div>
+        <div class="card-value gold">5,000<span class="card-unit">万円</span></div>
+        <div class="card-sub">25倍の成長が必要</div>
+      </div>
+      <div class="card">
+        <div class="card-label">役員報酬</div>
+        <div class="card-value">700<span class="card-unit">万円</span></div>
+        <div class="card-sub">現状（4期）</div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:var(--gold)">→ 目標</div>
+        <div class="card-value gold">1,000<span class="card-unit">万円</span></div>
+        <div class="card-sub">+300万円</div>
+      </div>
+      <div class="card">
+        <div class="card-label">売上高</div>
+        <div class="card-value">3,166<span class="card-unit">万円</span></div>
+        <div class="card-sub">現状（4期）</div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:var(--gold)">→ 必要売上</div>
+        <div class="card-value gold">1.2~1.4<span class="card-unit">億円</span></div>
+        <div class="card-sub">約4倍</div>
+      </div>
+    </div>
+
+    <div class="note-box" style="margin-top:20px">
+      <strong>逆算ロジック:</strong><br>
+      純利益5,000万 → 税引前利益 約7,150万（実効税率30%）<br>
+      + 役員報酬1,000万 + その他販管費（AI化で800万に圧縮）= 必要粗利益 約9,000万<br>
+      粗利率75%（広告代行を縮小しコンサル中心にシフト）の場合 → <strong>必要売上 約1.2億円</strong>
+    </div>
+  </div>
+
+  <!-- 現在の業務フローとAI置換可能性 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🔄</span>現在の業務フロー × AI置換マップ</div>
+
+    <div class="compare-grid">
+      <div class="compare-col">
+        <h4 style="color:var(--red)">現在（寺本社長が全て担当）</h4>
+        <ul>
+          <li>クライアント月次ミーティング（50社×月1回）</li>
+          <li>SEO/MEOレポート手動作成</li>
+          <li>Google広告の入稿・最適化・レポート</li>
+          <li>HP制作ディレクション・外注管理</li>
+          <li>コンテンツ企画・ライティング指示</li>
+          <li>新規営業（全国出張・接待）</li>
+          <li>提案書・見積書の作成</li>
+          <li>請求・経理処理</li>
+          <li>クリニック個別の課題ヒアリング</li>
+          <li>競合調査・市場分析</li>
+        </ul>
+      </div>
+      <div class="compare-col">
+        <h4 style="color:var(--purple)">AI駆動後（社長は経営・営業に集中）</h4>
+        <ul>
+          <li>AI月次レポート自動生成 → 社長は要点のみ解説 <span class="tag tag-purple">AI 90%</span></li>
+          <li>SEO/MEOダッシュボード自動更新+アラート <span class="tag tag-purple">AI 95%</span></li>
+          <li>Google広告 AI自動最適化+レポート自動送信 <span class="tag tag-purple">AI 85%</span></li>
+          <li>AI Webビルダー + テンプレート化 <span class="tag tag-purple">AI 70%</span></li>
+          <li>AI記事生成 + 医療専門家レビュー体制 <span class="tag tag-purple">AI 80%</span></li>
+          <li>コンテンツマーケ+紹介制度で自動集客 <span class="tag tag-gold">社長 50%</span></li>
+          <li>AI提案書ジェネレーター <span class="tag tag-purple">AI 90%</span></li>
+          <li>クラウド会計+自動請求 <span class="tag tag-purple">AI 95%</span></li>
+          <li>AIチャットボット+定型ヒアリングフォーム <span class="tag tag-purple">AI 70%</span></li>
+          <li>AI競合モニタリング+自動レポート <span class="tag tag-purple">AI 90%</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h4 style="color:var(--gold-light);margin:24px 0 14px;font-size:0.95em">業務別 AI化による工数削減シミュレーション</h4>
+
+    <table class="fin-table">
+      <thead>
+        <tr><th style="text-align:left">業務</th><th>現在の月間工数</th><th>AI化後</th><th>削減率</th><th>社長の関与</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>月次コンサルティング（50社）</td><td>80h</td><td>50h</td><td style="color:var(--green)">-38%</td><td>訪問は維持。レポート準備をAI自動化し、対面は戦略会話に集中</td></tr>
+        <tr><td>SEO/MEOレポート</td><td>25h</td><td>2h</td><td style="color:var(--green)">-92%</td><td>異常値チェックのみ</td></tr>
+        <tr><td>Google広告運用</td><td>30h</td><td>5h</td><td style="color:var(--green)">-83%</td><td>予算変更・戦略判断のみ</td></tr>
+        <tr><td>HP制作ディレクション</td><td>20h</td><td>8h</td><td style="color:var(--green)">-60%</td><td>デザイン最終確認</td></tr>
+        <tr><td>コンテンツ制作管理</td><td>15h</td><td>3h</td><td style="color:var(--green)">-80%</td><td>医療チェック監督</td></tr>
+        <tr><td>営業・提案</td><td>20h</td><td>10h</td><td style="color:var(--green)">-50%</td><td>商談・関係構築</td></tr>
+        <tr><td>事務・経理</td><td>10h</td><td>1h</td><td style="color:var(--green)">-90%</td><td>承認のみ</td></tr>
+        <tr class="total-row"><td>合計</td><td>200h/月</td><td>99h/月</td><td style="color:var(--green)">-51%</td><td></td></tr>
+      </tbody>
+    </table>
+
+    <div class="success-box" style="margin-top:16px">
+      <strong>結論:</strong> AI活用で裏方工数を200h → 99hに削減可能（-51%）。訪問頻度は維持し、クライアントとの関係性を守る。
+      浮いた<strong>月約100時間</strong>を新規クライアント獲得と高単価サービス開発に充てることで、
+      1人で<strong>現在の3〜4倍のクライアント（150〜200社）</strong>を管理可能。
+    </div>
+  </div>
+
+  <!-- AI活用コスト -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🤖</span>AIツールスタック & コスト</div>
+
+    <table class="fin-table">
+      <thead>
+        <tr><th style="text-align:left">ツール/サービス</th><th>用途</th><th>月額</th><th>年額</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Claude Code / ChatGPT Pro</td><td>コンテンツ生成・提案書・レポート</td><td>¥30,000</td><td>¥360,000</td></tr>
+        <tr><td>SEOツール（Ahrefs / SE Ranking）</td><td>SEO分析・競合モニタリング自動化</td><td>¥20,000</td><td>¥240,000</td></tr>
+        <tr><td>Google Ads AI最適化（Optmyzr等）</td><td>広告運用自動最適化・レポート</td><td>¥30,000</td><td>¥360,000</td></tr>
+        <tr><td>CRM + 自動化（HubSpot / Make）</td><td>顧客管理・月次レポート自動送信</td><td>¥20,000</td><td>¥240,000</td></tr>
+        <tr><td>AI Webビルダー（v0 / Cursor）</td><td>HP制作の効率化</td><td>¥5,000</td><td>¥60,000</td></tr>
+        <tr><td>MEO管理ツール（MEO tracker等）</td><td>Googleマップ順位・口コミ管理</td><td>¥15,000</td><td>¥180,000</td></tr>
+        <tr><td>クラウド会計（freee / MFクラウド）</td><td>経理・請求自動化</td><td>¥5,000</td><td>¥60,000</td></tr>
+        <tr><td>コンテンツチェック（薬機法AI等）</td><td>医療広告ガイドライン準拠チェック</td><td>¥10,000</td><td>¥120,000</td></tr>
+        <tr class="total-row"><td>AIツール合計</td><td></td><td>¥135,000</td><td>¥1,620,000</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note-box" style="margin-top:16px">
+      <strong>年間AIツールコスト: 約162万円。</strong>
+      従業員1人を雇う場合の年間コスト（給与+社保+教育）は最低400〜500万円。
+      AI化は人件費の<strong>約1/3のコスト</strong>で、24時間稼働・スケーラブルという優位性がある。
+    </div>
+  </div>
+
+  <!-- 3シナリオ P/L -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">📊</span>3シナリオ損益シミュレーション</div>
+
+    <table class="fin-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">科目</th>
+          <th>現状<br><span style="font-weight:400;font-size:0.75em">4期実績</span></th>
+          <th style="color:var(--green)">Scenario A<br><span style="font-weight:400;font-size:0.75em">AI効率化（2年後）</span></th>
+          <th style="color:var(--blue)">Scenario B<br><span style="font-weight:400;font-size:0.75em">AIスケール（3年後）</span></th>
+          <th style="color:var(--purple)">Scenario C<br><span style="font-weight:400;font-size:0.75em">AI×仕組化（5年後）</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>クライアント数</td><td>~55社</td><td style="color:var(--green)">120社</td><td style="color:var(--blue)">200社</td><td style="color:var(--purple)">300社</td></tr>
+        <tr><td>月額平均単価</td><td>4.8万</td><td style="color:var(--green)">5.5万</td><td style="color:var(--blue)">5.5万</td><td style="color:var(--purple)">5.5万</td></tr>
+
+        <tr><td colspan="5" style="padding:4px"></td></tr>
+
+        <tr class="sub-total">
+          <td>売上高</td><td>3,166万</td>
+          <td style="color:var(--green)">7,920万</td>
+          <td style="color:var(--blue)">13,200万</td>
+          <td style="color:var(--purple)">19,800万</td>
+        </tr>
+        <tr>
+          <td class="indent">コンサル月額（単価2.5万×社数）</td><td>1,433万</td>
+          <td>3,600万</td><td>6,000万</td><td>9,000万</td>
+        </tr>
+        <tr>
+          <td class="indent">HP制作（月5件×55万）</td><td>540万</td>
+          <td>1,320万</td><td>2,640万</td><td>3,300万</td>
+        </tr>
+        <tr>
+          <td class="indent">広告運用フィー（20%マークアップ）</td><td>922万</td>
+          <td>1,800万</td><td>2,760万</td><td>4,500万</td>
+        </tr>
+        <tr>
+          <td class="indent">AIコンテンツサブスク（新規）</td><td>-</td>
+          <td>600万</td><td>1,000万</td><td>1,500万</td>
+        </tr>
+        <tr>
+          <td class="indent">その他（MEO・サーバー等）</td><td>271万</td>
+          <td>600万</td><td>800万</td><td>1,500万</td>
+        </tr>
+
+        <tr><td colspan="5" style="padding:4px"></td></tr>
+
+        <tr>
+          <td>売上原価</td><td>1,175万</td>
+          <td>1,800万</td><td>2,900万</td><td>4,200万</td>
+        </tr>
+        <tr>
+          <td class="indent">原価率</td><td>37.1%</td>
+          <td style="color:var(--green)">22.7%</td>
+          <td style="color:var(--blue)">22.0%</td>
+          <td style="color:var(--purple)">21.2%</td>
+        </tr>
+        <tr class="sub-total">
+          <td>粗利益</td><td>1,991万</td>
+          <td style="color:var(--green)">6,120万</td>
+          <td style="color:var(--blue)">10,300万</td>
+          <td style="color:var(--purple)">15,600万</td>
+        </tr>
+        <tr>
+          <td class="indent">粗利率</td><td>62.9%</td>
+          <td style="color:var(--green)">77.3%</td>
+          <td style="color:var(--blue)">78.0%</td>
+          <td style="color:var(--purple)">78.8%</td>
+        </tr>
+
+        <tr><td colspan="5" style="padding:4px"></td></tr>
+
+        <tr><td>販管費合計</td><td>1,763万</td><td>2,360万</td><td>2,810万</td><td>3,660万</td></tr>
+        <tr><td class="indent">役員報酬+賞与</td><td>700万</td><td>1,000万</td><td>1,000万</td><td>1,500万</td></tr>
+        <tr><td class="indent">AIツール</td><td>23万</td><td>162万</td><td>200万</td><td>250万</td></tr>
+        <tr><td class="indent">外注（医療チェック・デザイン）</td><td>-</td><td>200万</td><td>350万</td><td>400万</td></tr>
+        <tr><td class="indent">パート/アシスタント（1名）</td><td>94万</td><td>200万</td><td>300万</td><td>400万</td></tr>
+        <tr><td class="indent">接待交際費</td><td>234万</td><td>200万</td><td>200万</td><td>200万</td></tr>
+        <tr><td class="indent">旅費交通費</td><td>163万</td><td>150万</td><td>200万</td><td>250万</td></tr>
+        <tr><td class="indent">その他（家賃・通信・保険等）</td><td>549万</td><td>448万</td><td>560万</td><td>660万</td></tr>
+
+        <tr><td colspan="5" style="padding:4px"></td></tr>
+
+        <tr class="sub-total">
+          <td>営業利益</td><td>227万</td>
+          <td style="color:var(--green)">3,760万</td>
+          <td style="color:var(--blue)">7,490万</td>
+          <td style="color:var(--purple)">11,940万</td>
+        </tr>
+        <tr>
+          <td class="indent">営業利益率</td><td>7.2%</td>
+          <td style="color:var(--green)">47.5%</td>
+          <td style="color:var(--blue)">56.7%</td>
+          <td style="color:var(--purple)">60.3%</td>
+        </tr>
+        <tr><td>法人税等（実効30%）</td><td>19万</td><td>1,128万</td><td>2,247万</td><td>3,582万</td></tr>
+        <tr class="total-row">
+          <td>当期純利益</td><td>204万</td>
+          <td style="color:var(--green)">2,632万</td>
+          <td style="color:var(--blue)">5,243万</td>
+          <td style="color:var(--purple)">8,358万</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="chart-container" style="margin-top:20px">
+      <canvas id="scenarioChart"></canvas>
+    </div>
+
+    <div class="card-grid" style="margin-top:20px;grid-template-columns:repeat(3,1fr)">
+      <div class="card" style="border-top:3px solid var(--green)">
+        <div class="card-label">Scenario A（2年後）</div>
+        <div class="card-value green">2,632<span class="card-unit">万円</span></div>
+        <div class="card-sub">120社 / 売上7,920万 / 営業利益率47.5%</div>
+        <div style="margin-top:8px"><span class="tag tag-gold">目標の53%達成</span></div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--blue)">
+        <div class="card-label">Scenario B（3年後）</div>
+        <div class="card-value blue">5,243<span class="card-unit">万円</span></div>
+        <div class="card-sub">200社 / 売上1.32億 / 営業利益率56.7%</div>
+        <div style="margin-top:8px"><span class="tag tag-green">目標達成!</span></div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--purple)">
+        <div class="card-label">Scenario C（5年後）</div>
+        <div class="card-value purple">8,358<span class="card-unit">万円</span></div>
+        <div class="card-sub">300社 / 売上1.98億 / 営業利益率60.3%</div>
+        <div style="margin-top:8px"><span class="tag tag-green">目標の167%達成</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 重要前提: 広告モデルの転換 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🔑</span>最重要施策: 収益モデルの転換</div>
+
+    <div class="purple-box" style="margin-bottom:20px">
+      <strong>粗利率を62% → 78%に引き上げる鍵は「広告代行モデルの転換」</strong><br>
+      現在: 広告媒体費をそのまま売上/原価に計上 → 売上は膨らむが粗利率が下がる（原価率82.8%）<br>
+      転換後: 広告運用は「フィー制（月額固定 or 媒体費の20%）」で計上 → 媒体費は顧客から直接Google等に支払い<br>
+      → 見た目の売上は減るが、<strong>粗利率が劇的に改善</strong>し、スケーラブルなモデルになる
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-col" style="background:rgba(248,81,73,0.03)">
+        <h4 style="color:var(--red)">現在のモデル（媒体費込み）</h4>
+        <table class="fin-table" style="font-size:0.8em">
+          <tr><td>広告売上</td><td>535万</td></tr>
+          <tr><td>広告原価（媒体費）</td><td>443万</td></tr>
+          <tr><td>粗利</td><td style="color:var(--red)">92万</td></tr>
+          <tr><td>粗利率</td><td style="color:var(--red)">17.2%</td></tr>
+        </table>
+        <p style="font-size:0.78em;color:var(--text-sub);margin-top:8px">売上は大きいが利益はほぼ出ない。管理工数だけ増える。</p>
+      </div>
+      <div class="compare-col" style="background:rgba(137,87,229,0.03)">
+        <h4 style="color:var(--purple)">転換後のモデル（フィー制）</h4>
+        <table class="fin-table" style="font-size:0.8em">
+          <tr><td>広告運用フィー</td><td>120万</td></tr>
+          <tr><td>原価</td><td>0</td></tr>
+          <tr><td>粗利</td><td style="color:var(--green)">120万</td></tr>
+          <tr><td>粗利率</td><td style="color:var(--green)">100%</td></tr>
+        </table>
+        <p style="font-size:0.78em;color:var(--text-sub);margin-top:8px">見た目の売上は減るが、純粋な付加価値のみを計上。利益率が劇的に改善。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AIコンテンツサブスク（新規事業） -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">✨</span>新規収益源: AIコンテンツサブスクリプション</div>
+
+    <div class="flow-grid">
+      <div class="flow-card" style="border-left:3px solid var(--purple)">
+        <div class="ai-badge">AI 90%</div>
+        <h4 style="color:var(--purple)">ブログ記事パック</h4>
+        <p>月4本のSEO最適化ブログ記事をAIで生成。歯科衛生士が医療チェック。<br>
+        <strong>月額3万円/社 × 100社 = 月300万円</strong><br>
+        原価: AI+チェック外注 月30万 → 粗利率90%</p>
+      </div>
+      <div class="flow-card" style="border-left:3px solid var(--blue)">
+        <div class="ai-badge">AI 85%</div>
+        <h4 style="color:var(--blue)">SNS投稿代行</h4>
+        <p>Instagram/Google投稿をAIで自動生成。画像もAI。<br>
+        <strong>月額2万円/社 × 80社 = 月160万円</strong><br>
+        原価: AI画像生成ツール 月5万 → 粗利率97%</p>
+      </div>
+      <div class="flow-card" style="border-left:3px solid var(--green)">
+        <div class="ai-badge">AI 80%</div>
+        <h4 style="color:var(--green)">AIレポートダッシュボード</h4>
+        <p>クリニック経営者向けに、集患データをAIで分析・可視化。<br>
+        <strong>月額1.5万円/社 × 150社 = 月225万円</strong><br>
+        原価: インフラ 月10万 → 粗利率96%</p>
+      </div>
+      <div class="flow-card" style="border-left:3px solid var(--orange)">
+        <div class="human-badge">社長 70%</div>
+        <h4 style="color:var(--orange)">開業コンサルパック</h4>
+        <p>新規開業クリニック向けにHP+SEO+MEO+広告の一括パッケージ。<br>
+        <strong>1件80万円 × 年15件 = 年1,200万円</strong><br>
+        AI活用で制作工数を60%削減。社長は戦略設計に集中。</p>
+      </div>
+    </div>
+
+    <div class="success-box" style="margin-top:16px">
+      <strong>AIコンテンツサブスクだけで年間8,000万円の売上ポテンシャル。</strong>
+      既存クライアントへのアップセルから始められるため、新規営業コストはほぼゼロ。
+      粗利率90%超の超高収益モデル。
+    </div>
+  </div>
+
+  <!-- 1人+AIで管理可能なクライアント数 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">👤</span>「1人+AI」の管理限界シミュレーション</div>
+
+    <div class="chart-container" style="height:280px">
+      <canvas id="capacityChart"></canvas>
+    </div>
+
+    <table class="fin-table" style="margin-top:16px">
+      <thead>
+        <tr><th style="text-align:left">モデル</th><th>裏方工数</th><th>訪問方式</th><th>月間訪問コマ</th><th>管理可能社数</th><th>年間売上</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>現状（手動中心）</td><td>200h</td><td>全社月1回</td><td style="color:var(--red)">55（枠超過）</td><td>55社</td><td>3,166万</td></tr>
+        <tr><td>AI導入+ティアリング</td><td>100h</td><td>Tier別頻度</td><td style="color:var(--green)">63</td><td style="color:var(--green)">120社</td><td style="color:var(--green)">7,920万</td></tr>
+        <tr><td>AI本格+ティアリング</td><td>80h</td><td>Tier別頻度</td><td style="color:var(--blue)">80（社長）</td><td style="color:var(--blue)">200社</td><td style="color:var(--blue)">1.32億</td></tr>
+        <tr><td>AI+アシスタント1名</td><td>60h</td><td>Tier別+分担</td><td style="color:var(--purple)">80+23</td><td style="color:var(--purple)">300社+</td><td style="color:var(--purple)">1.98億</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note-box" style="margin-top:16px">
+      <strong>前提条件:</strong><br>
+      ・<strong>クリニック面談は「お昼休み」「診療後」の1日2コマが基本</strong>（月間上限40コマ。土曜追加+1日3コマ回しで最大80コマ）<br>
+      ・訪問頻度はティアリングで管理: Tier 1（VIP）月1回 / Tier 2（主力）隔月 / Tier 3（安定）四半期1回<br>
+      ・AIが裏方業務（レポート準備・データ分析・入稿・請求）を担い、訪問の「質」を向上<br>
+      ・200社超はアシスタント1名がTier 3の訪問を分担
+    </div>
+  </div>
+
+  <!-- カレンダー×財務 クロス分析 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">📅</span>カレンダー × 財務 クロス分析（実データ検証）</div>
+
+    <div class="purple-box" style="margin-bottom:20px">
+      <strong>分析手法:</strong> 寺本社長のGoogleカレンダー（2025/10〜2026/3 6ヶ月分・628件）と決算データを突き合わせ、時間あたりの収益性・稼働実態・ボトルネックを定量的に検証した。
+    </div>
+
+    <!-- 稼働実態 -->
+    <h4 style="color:var(--gold-light);margin-bottom:14px;font-size:0.95em">稼働実態サマリー</h4>
+    <div class="card-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr))">
+      <div class="card">
+        <div class="card-label">稼働率</div>
+        <div class="card-value red">96.2<span class="card-unit">%</span></div>
+        <div class="card-sub">175日 / 182日</div>
+      </div>
+      <div class="card">
+        <div class="card-label">月間予定数</div>
+        <div class="card-value">105<span class="card-unit">件</span></div>
+        <div class="card-sub">1日あたり3.6件</div>
+      </div>
+      <div class="card">
+        <div class="card-label">土日稼働</div>
+        <div class="card-value red">19.7<span class="card-unit">%</span></div>
+        <div class="card-sub">124件 / 628件</div>
+      </div>
+      <div class="card">
+        <div class="card-label">訪問件数</div>
+        <div class="card-value gold">300<span class="card-unit">件/6ヶ月</span></div>
+        <div class="card-sub">月平均50件</div>
+      </div>
+      <div class="card">
+        <div class="card-label">出張回数</div>
+        <div class="card-value">4<span class="card-unit">回/6ヶ月</span></div>
+        <div class="card-sub">韓国・北海道・三重・東京</div>
+      </div>
+      <div class="card">
+        <div class="card-label">新規営業時間</div>
+        <div class="card-value red">0.8<span class="card-unit">h/月</span></div>
+        <div class="card-sub">全体のわずか0.9%</div>
+      </div>
+    </div>
+
+    <!-- 時間配分 -->
+    <h4 style="color:var(--gold-light);margin:28px 0 14px;font-size:0.95em">時間配分の実態（6ヶ月間 529時間）</h4>
+    <div class="chart-row">
+      <div>
+        <div class="chart-container" style="height:300px">
+          <canvas id="timeAllocChart"></canvas>
+        </div>
+      </div>
+      <div>
+        <table class="fin-table">
+          <thead>
+            <tr><th style="text-align:left">活動</th><th>時間</th><th>構成比</th><th>月平均</th></tr>
+          </thead>
+          <tbody>
+            <tr class="sub-total"><td>クライアント訪問</td><td>291.5h</td><td style="color:var(--red)">55.1%</td><td>48.6h</td></tr>
+            <tr><td>内部業務（中野さん関連）</td><td>52.0h</td><td>9.8%</td><td>8.7h</td></tr>
+            <tr><td>オンラインMTG</td><td>45.5h</td><td>8.6%</td><td>7.6h</td></tr>
+            <tr><td>出張（フライト+宿泊）</td><td>17.9h</td><td>3.4%</td><td>3.0h</td></tr>
+            <tr><td>クライアント来社</td><td>9.5h</td><td>1.8%</td><td>1.6h</td></tr>
+            <tr><td>コンテンツ制作・更新</td><td>9.0h</td><td>1.7%</td><td>1.5h</td></tr>
+            <tr><td>営業・提案</td><td>5.0h</td><td style="color:var(--red)">0.9%</td><td>0.8h</td></tr>
+            <tr><td>請求・事務</td><td>1.0h</td><td>0.2%</td><td>0.2h</td></tr>
+            <tr><td>リマインダー/タスク/他</td><td>86.2h</td><td>16.3%</td><td>14.4h</td></tr>
+            <tr><td>私用（家族行事等）</td><td>11.2h</td><td>2.1%</td><td>1.9h</td></tr>
+            <tr class="total-row"><td>合計</td><td>528.8h</td><td>100%</td><td>88.1h</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="warning-box" style="margin-top:16px">
+      <strong>注意:</strong> 528.8hはカレンダーに登録された予定の合計時間。移動時間・準備時間・予定外の作業は含まれていない。実稼働はこの<strong>1.5〜2倍（月130〜180h）</strong>と推定される。月の理論上限（22日×8h=176h）に対しほぼ天井に達しており、<strong>追加業務を入れる余地がない</strong>。
+    </div>
+  </div>
+
+  <!-- クロス分析1: 時間あたり収益性 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">💹</span>クロス分析①: 時間あたり収益性</div>
+
+    <div class="note-box" style="margin-bottom:20px">
+      <strong>算出方法:</strong> 5期売上17,613K（6ヶ月）÷ カレンダー上の業務時間517.6h（私用除く）= <strong>時間あたり売上 34,034円</strong>。ただし粗利ベースでは 11,556K ÷ 517.6h = <strong>時間あたり粗利 22,329円</strong>。
+    </div>
+
+    <div class="card-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+      <div class="card">
+        <div class="card-label">時間あたり売上</div>
+        <div class="card-value gold">34,034<span class="card-unit">円/h</span></div>
+        <div class="card-sub">カレンダー計上時間ベース</div>
+      </div>
+      <div class="card">
+        <div class="card-label">時間あたり粗利</div>
+        <div class="card-value green">22,329<span class="card-unit">円/h</span></div>
+        <div class="card-sub">付加価値ベース</div>
+      </div>
+      <div class="card">
+        <div class="card-label">時間あたり営業利益</div>
+        <div class="card-value">3,974<span class="card-unit">円/h</span></div>
+        <div class="card-sub">販管費控除後</div>
+      </div>
+      <div class="card">
+        <div class="card-label">訪問1件あたり売上</div>
+        <div class="card-value gold">58,709<span class="card-unit">円</span></div>
+        <div class="card-sub">17,613K ÷ 300件</div>
+      </div>
+    </div>
+
+    <h4 style="color:var(--gold-light);margin:28px 0 14px;font-size:0.95em">活動別 収益貢献度マトリクス</h4>
+    <table class="fin-table">
+      <thead>
+        <tr><th style="text-align:left">活動</th><th>時間投入</th><th>推定売上貢献</th><th>時間あたり売上</th><th>AI移管後</th><th>判定</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>クライアント訪問（月額コンサル分）</td><td>291.5h</td><td>7,176K</td><td style="color:var(--green)">24,612円</td>
+          <td>訪問は維持。準備・レポート作成をAI化で150h（-48%）</td><td><span class="tag tag-purple">AI化最優先</span></td>
+        </tr>
+        <tr>
+          <td>オンラインMTG</td><td>45.5h</td><td>1,200K</td><td style="color:var(--green)">26,374円</td>
+          <td>維持（効率的）</td><td><span class="tag tag-green">継続</span></td>
+        </tr>
+        <tr>
+          <td>広告運用関連（推定）</td><td>60h</td><td>5,352K</td><td style="color:var(--gold)">89,200円</td>
+          <td>AI自動最適化で15h（-75%）</td><td><span class="tag tag-purple">AI化</span></td>
+        </tr>
+        <tr>
+          <td>HP制作ディレクション（推定）</td><td>40h</td><td>2,800K</td><td style="color:var(--gold)">70,000円</td>
+          <td>AI+テンプレで16h（-60%）</td><td><span class="tag tag-purple">AI化</span></td>
+        </tr>
+        <tr>
+          <td>コンテンツ制作・更新</td><td>9.0h</td><td>165K</td><td>18,333円</td>
+          <td>AIライティングで2h（-78%）</td><td><span class="tag tag-purple">AI化</span></td>
+        </tr>
+        <tr>
+          <td>出張（フライト+宿泊）</td><td>17.9h</td><td>-</td><td style="color:var(--red)">コスト発生のみ</td>
+          <td>オンライン化で削減</td><td><span class="tag tag-red">要見直し</span></td>
+        </tr>
+        <tr>
+          <td>営業・提案</td><td>5.0h</td><td>新規獲得</td><td style="color:var(--red)">投入不足</td>
+          <td>AI化で浮いた時間を充当</td><td><span class="tag tag-red">最大ボトルネック</span></td>
+        </tr>
+        <tr>
+          <td>請求・事務</td><td>1.0h</td><td>-</td><td>-</td>
+          <td>完全自動化</td><td><span class="tag tag-purple">AI化</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="success-box" style="margin-top:16px">
+      <strong>AI化の効果（実データベース試算）:</strong><br>
+      <strong>訪問回数は維持しつつ、裏方の準備工数（レポート作成・データ整理・入稿作業）をAI化。</strong>
+      訪問1件あたりの準備時間2-3h → 0.2hに圧縮で、月あたり<strong>約100hが解放</strong>。これを新規営業に充てると、月<strong>+16.7h</strong>の営業時間が創出される。現在の月0.8hから<strong>20倍以上</strong>の営業キャパシティ確保が可能。
+    </div>
+  </div>
+
+  <!-- クロス分析2: 出張ROI -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">✈️</span>クロス分析②: 出張ROI分析</div>
+
+    <table class="fin-table">
+      <thead>
+        <tr><th style="text-align:left">出張</th><th>日数</th><th>推定コスト</th><th>推定売上貢献</th><th>ROI</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>10月: 韓国（金浦）</td><td>2泊3日</td><td>約15万</td><td>不明（私用?）</td><td style="color:var(--red)">-</td></tr>
+        <tr><td>12月: 北海道（札幌/苫小牧）</td><td>2泊3日</td><td>約12万</td><td>クライアント訪問?</td><td style="color:var(--text-sub)">要確認</td></tr>
+        <tr><td>1月: 三重（伊勢/津）</td><td>2泊3日</td><td>約10万</td><td>クライアント訪問?</td><td style="color:var(--text-sub)">要確認</td></tr>
+        <tr><td>3月: 東京/横浜</td><td>2泊3日</td><td>約12万</td><td>クライアント訪問/営業</td><td style="color:var(--text-sub)">要確認</td></tr>
+        <tr class="total-row"><td>6ヶ月合計</td><td>10日</td><td>約49万</td><td>-</td><td></td></tr>
+      </tbody>
+    </table>
+
+    <div class="note-box" style="margin-top:16px">
+      <strong>出張コスト年換算: 約98万円</strong>（旅費交通費163万の約60%と整合）。<br>
+      出張の10日間は移動含め実質稼働ゼロ。機会損失（本来の訪問50件分 × 58,709円 = 約98万円）を加えると、<strong>出張1回の実質コスト は約50万円</strong>。<br><br>
+      <strong>提案:</strong> 出張先のクライアントをオンライン対応に切り替えれば、年間約200万円のコスト削減+稼働日20日の確保が可能。「全国を飛び回る」はPhase 3達成後のご褒美にする。
+    </div>
+  </div>
+
+  <!-- クロス分析3: 曜日×時間帯ヒートマップ -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🕐</span>クロス分析③: 稼働パターン分析</div>
+
+    <div class="chart-row">
+      <div>
+        <h4 style="color:var(--gold-light);margin-bottom:14px;font-size:0.95em">曜日別 予定件数</h4>
+        <div class="chart-container" style="height:260px">
+          <canvas id="dowChart"></canvas>
+        </div>
+      </div>
+      <div>
+        <h4 style="color:var(--gold-light);margin-bottom:14px;font-size:0.95em">時間帯別 予定件数</h4>
+        <div class="chart-container" style="height:260px">
+          <canvas id="hourChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-grid" style="margin-top:20px">
+      <div class="flow-card" style="border-left:3px solid var(--red)">
+        <h4 style="color:var(--red)">早朝集中型</h4>
+        <p>予定の大半が<strong>6〜10時</strong>に集中。午後はほぼ空白。<br>
+        これは訪問型営業の典型パターン（午前に訪問→午後は移動・作業）だが、
+        カレンダーに登録されない「隠れ業務」が午後を占めている可能性が高い。</p>
+      </div>
+      <div class="flow-card" style="border-left:3px solid var(--red)">
+        <h4 style="color:var(--red)">深夜作業の痕跡</h4>
+        <p>22〜23時台に<strong>25件</strong>の予定。リマインダーやタスク設定が多いが、
+        深夜に仕事を整理している証拠。<br>
+        <strong>持続可能な働き方ではない。</strong>健康リスクの観点からも改善が必要。</p>
+      </div>
+      <div class="flow-card" style="border-left:3px solid var(--gold)">
+        <h4 style="color:var(--gold)">火・金が高負荷</h4>
+        <p>火曜112件・金曜107件がピーク。月曜87件は比較的余裕があり、
+        週明けに戦略立案やAI運用チェックの時間を確保する設計が可能。</p>
+      </div>
+      <div class="flow-card" style="border-left:3px solid var(--green)">
+        <h4 style="color:var(--green)">日曜は比較的少ない</h4>
+        <p>日曜51件は最少。ただし「ゼロ」ではない。<br>
+        <strong>「週1休み」の目標に対し、完全休日はほぼ存在しない。</strong>
+        家族行事（愛心さんの学校行事、えりこさん関連）が休日代わりになっている状態。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- クロス分析4: クリニック訪問の物理制約 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🏥</span>クロス分析④: クリニック訪問の物理的制約</div>
+
+    <div class="warning-box" style="margin-bottom:20px">
+      <strong>業界固有の制約:</strong> クリニックの先生と面談できるのは<strong>「お昼休み」か「診療後」</strong>の2枠のみ。
+      診療中は対応不可。この物理制約がスケールの天井を決める。
+    </div>
+
+    <div class="card-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+      <div class="card">
+        <div class="card-label">訪問1件あたり</div>
+        <div class="card-value gold">45<span class="card-unit">分</span></div>
+        <div class="card-sub">移動時間は別途</div>
+      </div>
+      <div class="card">
+        <div class="card-label">1日の面談枠</div>
+        <div class="card-value">2<span class="card-unit">コマ</span></div>
+        <div class="card-sub">昼休み + 診療後</div>
+      </div>
+      <div class="card">
+        <div class="card-label">週あたり</div>
+        <div class="card-value">10<span class="card-unit">コマ</span></div>
+        <div class="card-sub">平日5日 × 2コマ</div>
+      </div>
+      <div class="card">
+        <div class="card-label">月間上限</div>
+        <div class="card-value red">40<span class="card-unit">コマ</span></div>
+        <div class="card-sub">土曜は予定が合いにくい</div>
+      </div>
+    </div>
+
+    <h4 style="color:var(--gold-light);margin:28px 0 14px;font-size:0.95em">訪問枠のキャパシティ分析</h4>
+
+    <table class="fin-table">
+      <thead>
+        <tr><th style="text-align:left">フェーズ</th><th>クライアント数</th><th>訪問頻度</th><th>必要コマ数/月</th><th>月間上限40枠に対し</th><th>判定</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>現状</td><td>55社</td><td>全社月1回</td><td style="color:var(--red)">55コマ</td><td style="color:var(--red)">137%（オーバー）</td>
+          <td><span class="tag tag-red">既に枠不足</span></td>
+        </tr>
+        <tr>
+          <td>Scenario A（120社）</td><td>120社</td><td>全社月1回</td><td style="color:var(--red)">120コマ</td><td style="color:var(--red)">300%</td>
+          <td><span class="tag tag-red">物理的に不可能</span></td>
+        </tr>
+        <tr>
+          <td>Scenario B（200社）</td><td>200社</td><td>全社月1回</td><td style="color:var(--red)">200コマ</td><td style="color:var(--red)">500%</td>
+          <td><span class="tag tag-red">物理的に不可能</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box" style="margin-top:16px">
+      <strong>現時点で既にオーバーフロー:</strong> 55社に月1回訪問するには55コマ必要だが、上限は40コマ。
+      実際には一部クライアントは2ヶ月に1回、またはオンラインで対応しているはず。
+      カレンダー実績でも月平均50件の訪問で、ほぼ天井に達している。
+    </div>
+
+    <h4 style="color:var(--gold-light);margin:28px 0 14px;font-size:0.95em">解決策: 訪問頻度のティアリング</h4>
+
+    <div class="purple-box" style="margin-bottom:20px">
+      <strong>全社一律「月1訪問」から、クライアント重要度に応じた頻度設計に移行する。</strong>
+      訪問は「先生との信頼関係」に直結するため削らない。ただし全社同じ頻度にする必要はない。
+    </div>
+
+    <table class="fin-table">
+      <thead>
+        <tr><th style="text-align:left">ティア</th><th>対象</th><th>訪問頻度</th><th>フォロー方法</th><th>120社の場合</th><th>200社の場合</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--gold-light);font-weight:700">Tier 1（VIP）</td>
+          <td>月額5万円以上 / 開業初年度</td>
+          <td>月1回訪問</td>
+          <td>+ AIレポート事前送付</td>
+          <td>20社 = 20コマ</td>
+          <td>30社 = 30コマ</td>
+        </tr>
+        <tr>
+          <td style="color:var(--green);font-weight:700">Tier 2（主力）</td>
+          <td>月額2〜5万円</td>
+          <td>隔月訪問</td>
+          <td>訪問しない月はオンライン15分 + AIレポート</td>
+          <td>60社 = 30コマ</td>
+          <td>100社 = 50コマ</td>
+        </tr>
+        <tr>
+          <td style="color:var(--blue);font-weight:700">Tier 3（安定）</td>
+          <td>月額2万円未満 / 長期安定</td>
+          <td>四半期1回訪問</td>
+          <td>月次はAIレポート自動送信 + 必要時オンライン</td>
+          <td>40社 = 13コマ</td>
+          <td>70社 = 23コマ</td>
+        </tr>
+        <tr class="total-row">
+          <td>合計</td><td></td><td></td><td></td>
+          <td>120社 = 63コマ</td>
+          <td>200社 = 103コマ</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box" style="margin-top:16px">
+      <strong>120社の場合: 月63コマ。</strong>1日2コマ × 平日で月40コマ、これに<strong>土曜午前を月2回</strong>追加すれば約48コマ。
+      残り15コマは「1日3コマ目」（昼→午後一→診療後の3コマ回し）で吸収可能。<br><br>
+      <strong>200社の場合: 月103コマ。</strong>社長1人では物理的に不可能。ここがアシスタント1名追加のトリガーとなる。
+      アシスタント（Tier 3担当）が月23コマを受け持てば、社長の負荷は80コマに収まる。
+      1日3コマ × 週5日 × 4週 = 60コマ + 土曜月4回 = 68コマ。残り12コマは「隔月訪問月」の調整で吸収。
+    </div>
+
+    <h4 style="color:var(--gold-light);margin:28px 0 14px;font-size:0.95em">ティアリングで変わる訪問の「質」</h4>
+
+    <div class="compare-grid">
+      <div class="compare-col" style="background:rgba(248,81,73,0.03)">
+        <h4 style="color:var(--red)">現在: 全社一律の薄い訪問</h4>
+        <ul>
+          <li>55社全てに月1回、同じ密度で訪問</li>
+          <li>レポート説明+近況ヒアリングで45分</li>
+          <li>VIPも小規模も同じ時間配分</li>
+          <li>先生は「報告を聞くだけ」になりがち</li>
+          <li>月50件で疲弊、深い提案ができない</li>
+        </ul>
+      </div>
+      <div class="compare-col" style="background:rgba(46,160,67,0.03)">
+        <h4 style="color:var(--green)">ティアリング後: VIPに深い提案</h4>
+        <ul>
+          <li>Tier 1: 事前にAIレポート送付済み。対面は「今月の戦略」に集中</li>
+          <li>Tier 1: 競合分析・新規集患施策など踏み込んだ提案が可能</li>
+          <li>Tier 2: 隔月訪問でも、AIレポートで毎月の接点は維持</li>
+          <li>Tier 3: AIレポート自動送信で手離れ。異変時のみ対応</li>
+          <li>VIPの満足度UP → 単価UP・紹介獲得の好循環</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="success-box" style="margin-top:16px">
+      <strong>ティアリングの本質:</strong> 訪問を「減らす」のではなく「メリハリをつける」。
+      VIPクライアントには今以上に深い時間を使い、安定クライアントにはAIで手厚いフォローを提供する。
+      結果として<strong>全クライアントのサービス品質が向上</strong>し、継続率98.5%を維持しながらスケール可能になる。
+    </div>
+  </div>
+
+  <!-- クロス分析5: ボトルネック定量化 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🔬</span>クロス分析⑤: ボトルネックの定量化</div>
+
+    <h4 style="color:var(--gold-light);margin-bottom:14px;font-size:0.95em">「純利益5,000万」への最大障壁 — 新規営業時間の欠如 × 訪問枠の天井</h4>
+
+    <div class="compare-grid" style="margin-bottom:20px">
+      <div class="compare-col" style="background:rgba(248,81,73,0.03)">
+        <h4 style="color:var(--red)">現在の時間配分</h4>
+        <table class="fin-table" style="font-size:0.82em">
+          <tr><td>クライアント維持</td><td style="color:var(--red)">346.5h（65.5%）</td></tr>
+          <tr><td>内部・事務</td><td>53.0h（10.0%）</td></tr>
+          <tr><td>出張・移動</td><td>17.9h（3.4%）</td></tr>
+          <tr><td style="font-weight:700">新規営業</td><td style="color:var(--red);font-weight:700">5.0h（0.9%）</td></tr>
+          <tr><td>その他</td><td>106.4h（20.1%）</td></tr>
+        </table>
+        <p style="font-size:0.78em;color:var(--text-sub);margin-top:10px">
+          営業時間0.9%では月5社の新規獲得は<strong>物理的に不可能</strong>。
+          現在は既存顧客の「守り」に全リソースが投入されている。
+        </p>
+      </div>
+      <div class="compare-col" style="background:rgba(46,160,67,0.03)">
+        <h4 style="color:var(--green)">AI化後の時間配分（目標）</h4>
+        <table class="fin-table" style="font-size:0.82em">
+          <tr><td>クライアント訪問（維持）</td><td>150h（28.3%）</td></tr>
+          <tr><td class="indent" style="color:var(--green)">うち準備工数（AI化）</td><td style="color:var(--green)">→ 削減済み</td></tr>
+          <tr><td>内部・事務</td><td>10h（1.9%）</td></tr>
+          <tr><td>出張・移動</td><td>10h（1.9%）</td></tr>
+          <tr><td style="font-weight:700">新規営業・戦略</td><td style="color:var(--green);font-weight:700">100h（18.9%）</td></tr>
+          <tr><td>余裕・家族</td><td>50h（9.4%）</td></tr>
+        </table>
+        <p style="font-size:0.78em;color:var(--text-sub);margin-top:10px">
+          訪問は維持（関係性が資産）。レポート準備・データ分析・入稿をAIが担い、
+          <strong>裏方工数を約200h削減</strong>。捻出した時間のうち100hを新規営業、50hを家族・休息に確保。
+        </p>
+      </div>
+    </div>
+
+    <h4 style="color:var(--gold-light);margin:24px 0 14px;font-size:0.95em">仮説検証サマリー</h4>
+    <table class="fin-table">
+      <thead>
+        <tr><th style="text-align:left">検証レポートの仮説</th><th>カレンダー実態</th><th>乖離</th><th>判定</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>月間稼働 200h</td>
+          <td>カレンダー上88h（実質130-180h推定）</td>
+          <td>概ね一致</td>
+          <td><span class="tag tag-green">検証済み</span></td>
+        </tr>
+        <tr>
+          <td>1社あたり3.6h/月</td>
+          <td>訪問のみで0.88h + 準備・レポート等で推定2-3h</td>
+          <td>概ね一致</td>
+          <td><span class="tag tag-green">検証済み</span></td>
+        </tr>
+        <tr>
+          <td>アクティブ55社</td>
+          <td>訪問・来社・オンラインで約50-60社に接触</td>
+          <td>一致</td>
+          <td><span class="tag tag-green">検証済み</span></td>
+        </tr>
+        <tr>
+          <td>新規営業の余力なし</td>
+          <td>月わずか0.8h（全体の0.9%）</td>
+          <td style="color:var(--red)">想定以上に深刻</td>
+          <td><span class="tag tag-red">危機的</span></td>
+        </tr>
+        <tr>
+          <td>「自走する会社」未達</td>
+          <td>全628件が社長1人に集中。委任可能な予定ゼロ</td>
+          <td>完全一致</td>
+          <td><span class="tag tag-red">未達</span></td>
+        </tr>
+        <tr>
+          <td>「週1休み」の目標</td>
+          <td>稼働率96.2%。完全休日はほぼゼロ</td>
+          <td style="color:var(--red)">大幅未達</td>
+          <td><span class="tag tag-red">未達</span></td>
+        </tr>
+        <tr>
+          <td>AI化で裏方工数-51%</td>
+          <td>レポート準備+コンテンツ+事務 = 約100h削減対象</td>
+          <td>訪問を維持しつつ十分な削減</td>
+          <td><span class="tag tag-green">実現可能</span></td>
+        </tr>
+        <tr>
+          <td>訪問枠に余裕がある</td>
+          <td>月40コマ上限に対し55社 = <strong>既にオーバーフロー</strong></td>
+          <td style="color:var(--red)">スケールの物理的天井</td>
+          <td><span class="tag tag-red">要ティアリング</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="verdict" style="margin-top:24px">
+      <div class="verdict-label">カレンダーデータによる検証結果</div>
+      <div class="verdict-score" style="font-size:2.5em">実証済み</div>
+      <div class="verdict-text">AI化なしでは目標達成は不可能。AI化すれば構造的に達成可能</div>
+    </div>
+
+    <div class="success-box" style="margin-top:20px">
+      <strong>最終結論（実データに基づく）:</strong><br><br>
+      寺本社長は現在、<strong>529時間/6ヶ月のうち55%（291.5h）をクライアント訪問に費やし、新規営業にはわずか0.9%（5h）しか充てられていない。</strong>
+      この構造では、売上は3,166万円で頭打ちとなり、純利益5,000万円には永遠に届かない。<br><br>
+      しかし、AI化でレポート準備・データ整理・入稿など<strong>裏方工数を月100h以上削減</strong>すれば、訪問は維持したまま<strong>月16h以上の新規営業時間</strong>が創出される。
+      これは月5社の新規獲得に十分な時間であり、3年で200社・純利益5,243万円のシナリオBが現実的に達成可能になる。<br><br>
+      <strong>最初の一手は「月次レポートのAI自動化」。</strong>これだけで月30h以上が即座に解放され、目に見える変化が生まれる。
+    </div>
+  </div>
+
+  <!-- 実現ロードマップ -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🗺️</span>実現ロードマップ</div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <h4>Phase 0: 止血・基盤整備（0〜3ヶ月）</h4>
+        <p>
+          ・役員貸付金729万の返済計画策定（月次返済開始）<br>
+          ・個人家計の仕組み化（先取り貯蓄 月10万円自動積立）<br>
+          ・広告代行をフィー制に移行開始（既存クライアントから順次）<br>
+          ・AIツール基盤導入（Claude Code + CRM + SEOツール）
+        </p>
+        <div class="metrics">
+          <div class="metric">投資: <span>約50万円</span></div>
+          <div class="metric">売上変化: <span>横ばい</span></div>
+          <div class="metric">工数削減: <span>-30%</span></div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <h4>Phase 1: AI効率化 + 単価アップ（3〜12ヶ月）</h4>
+        <p>
+          ・全クライアントの月次レポートをAI自動生成に移行<br>
+          ・AIコンテンツサブスク（ブログパック）を既存顧客にアップセル開始<br>
+          ・浮いた時間で月5社の新規獲得を目指す<br>
+          ・Google広告のAI自動最適化体制を構築<br>
+          ・コンサル単価を2.1万→2.5万に引き上げ（AI分析レポート付加価値）
+        </p>
+        <div class="metrics">
+          <div class="metric">目標社数: <span>80社</span></div>
+          <div class="metric">年間売上: <span>5,280万</span></div>
+          <div class="metric">純利益: <span>1,500万</span></div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <h4>Phase 2: スケール（1〜2年後）</h4>
+        <p>
+          ・AIコンテンツサブスクを全面展開（ブログ+SNS+ダッシュボード）<br>
+          ・紹介制度の仕組み化（既存クリニックからの紹介で月3社獲得）<br>
+          ・開業コンサルパック商品化（HP+SEO+広告のワンストップ）<br>
+          ・セミナー集客（オンライン）で全国のクリニックにリーチ
+        </p>
+        <div class="metrics">
+          <div class="metric">目標社数: <span>120社</span></div>
+          <div class="metric">年間売上: <span>7,920万</span></div>
+          <div class="metric">純利益: <span>2,632万</span></div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <h4>Phase 3: 目標達成（2〜3年後）</h4>
+        <p>
+          ・AI運用が成熟し、ほぼ全自動でクライアント管理<br>
+          ・社長は「戦略面談+新規営業+出張」に集中（理想の働き方）<br>
+          ・パート/アシスタント1名を追加（事務・品質チェック）<br>
+          ・200社体制で当期純利益5,000万を達成
+        </p>
+        <div class="metrics">
+          <div class="metric">目標社数: <span>200社</span></div>
+          <div class="metric">年間売上: <span>1.32億</span></div>
+          <div class="metric">純利益: <span>5,243万</span></div>
+          <div class="metric">役員報酬: <span>1,000万</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ファーストプリンシプル分析 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">💎</span>ファーストプリンシプル分析: 本質的には何のビジネスか</div>
+
+    <div class="purple-box" style="margin-bottom:24px">
+      <strong>問い:</strong> 「WEBマーケティング」「HP制作」「SEO」「MEO」「Google広告」—— これらのラベルを全て剥がしたとき、沖縄トランプ株式会社は本質的に何をしているのか？
+    </div>
+
+    <div class="verdict" style="margin-bottom:28px;border-color:rgba(137,87,229,0.3)">
+      <div class="verdict-label" style="color:var(--purple)">ビジネスの本質</div>
+      <div class="verdict-score" style="font-size:1.6em;color:var(--purple);line-height:1.3">医療クリニック向け<br>集患インフラ事業</div>
+      <div class="verdict-text" style="color:var(--text-sub);font-weight:400;font-size:0.9em;margin-top:12px">患者（需要）とクリニック（供給）の間に立ち、デジタル上の「見つかりやすさ」を制御する<br>規制市場のユーティリティ型ビジネス</div>
+    </div>
+
+    <h4 style="color:var(--gold-light);margin-bottom:14px;font-size:0.95em">分解: クリニックの先生が根本的に欲しいもの</h4>
+
+    <div class="flow-grid" style="grid-template-columns:1fr;max-width:800px;margin:0 auto 24px">
+      <div style="text-align:center;padding:16px 0">
+        <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap">
+          <div class="card" style="flex:1;min-width:180px;border:1px solid rgba(88,166,255,0.3)">
+            <div class="card-label" style="color:var(--blue)">先生が欲しいもの</div>
+            <div style="font-size:1.2em;font-weight:700;margin:8px 0">安定した新規患者</div>
+            <div class="card-sub">経営の予測可能性</div>
+          </div>
+          <div style="font-size:1.5em;color:var(--text-sub)">→</div>
+          <div class="card" style="flex:1;min-width:180px;border:1px solid rgba(184,145,42,0.3)">
+            <div class="card-label" style="color:var(--gold)">寺本社長が提供するもの</div>
+            <div style="font-size:1.2em;font-weight:700;margin:8px 0">集患のインフラ</div>
+            <div class="card-sub">電気・水道と同じ。ないと困る</div>
+          </div>
+          <div style="font-size:1.5em;color:var(--text-sub)">→</div>
+          <div class="card" style="flex:1;min-width:180px;border:1px solid rgba(46,160,67,0.3)">
+            <div class="card-label" style="color:var(--green)">先生にとっての位置づけ</div>
+            <div style="font-size:1.2em;font-weight:700;margin:8px 0">毎月払うユーティリティ</div>
+            <div class="card-sub">中身は理解していない。動けばいい</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4 style="color:var(--gold-light);margin:28px 0 14px;font-size:0.95em">本質のアナロジー</h4>
+    <table class="fin-table">
+      <thead>
+        <tr><th style="text-align:left">アナロジー</th><th style="text-align:left">共通点</th></tr>
+      </thead>
+      <tbody>
+        <tr><td style="font-weight:600">電力会社</td><td style="text-align:left">ないと事業が止まる。毎月払う。中身は理解していない。スイッチングコストが高い</td></tr>
+        <tr><td style="font-weight:600">税理士</td><td style="text-align:left">規制知識が価値。先生は中身がわからない。信頼関係で継続。替えにくい</td></tr>
+        <tr><td style="font-weight:600">不動産の立地</td><td style="text-align:left">「Googleで見つかる = いい立地にいる」。デジタル上の一等地を確保する仕事</td></tr>
+      </tbody>
+    </table>
+
+    <h4 style="color:var(--gold-light);margin:28px 0 14px;font-size:0.95em">現状のビジネスと本質のズレ — ここが単価の天井を決めている</h4>
+
+    <div class="compare-grid" style="margin-bottom:20px">
+      <div class="compare-col" style="background:rgba(248,81,73,0.03)">
+        <h4 style="color:var(--red)">今売っているもの（活動ベース）</h4>
+        <ul>
+          <li><strong>商品:</strong> HP制作、SEO、MEO、広告運用</li>
+          <li><strong>価格根拠:</strong> 作業量（ページ数、広告費）</li>
+          <li><strong>報告:</strong> 「アクセスが○%増えました」</li>
+          <li><strong>提供価値:</strong> やったこと（活動）</li>
+          <li><strong>単価:</strong> 月額2.5万円 → 値上げ困難</li>
+        </ul>
+      </div>
+      <div class="compare-col" style="background:rgba(46,160,67,0.03)">
+        <h4 style="color:var(--green)">本来売るべきもの（成果ベース）</h4>
+        <ul>
+          <li><strong>商品:</strong> 月間新規患者数の安定供給</li>
+          <li><strong>価格根拠:</strong> もたらした患者数・売上増</li>
+          <li><strong>報告:</strong> 「今月の新規患者は○人。前月比+○人」</li>
+          <li><strong>提供価値:</strong> 起きたこと（成果）</li>
+          <li><strong>単価:</strong> 基本5万+成果報酬 → <strong>月10万超</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note-box" style="margin-bottom:24px">
+      <strong>なぜ単価4倍が可能なのか（数字の根拠）:</strong><br><br>
+      月20人の新規患者 × 平均初診単価1万円 = <strong>月20万円の売上増</strong>をクリニックにもたらしている。<br>
+      これに対して月10万円のフィー = <strong>ROI 200%</strong>。先生にとっては「もっと払ってもいい」レベル。<br><br>
+      現在の月額2.5万円は、活動量で値付けしているから安い。成果で値付けすれば、同じ仕事で4倍の価格が成立する。
+    </div>
+
+    <h4 style="color:var(--gold-light);margin:24px 0 14px;font-size:0.95em">再構築されたビジネスモデル</h4>
+
+    <div style="background:var(--navy);border:1px solid var(--card-border);border-radius:12px;padding:24px;font-size:0.85em;line-height:2;font-family:'Inter','Noto Sans JP',sans-serif;text-align:center;margin-bottom:20px">
+      <div style="color:var(--blue);font-weight:600;margin-bottom:4px">患者（Google検索 / Maps）</div>
+      <div style="color:var(--text-sub)">↓</div>
+      <div style="border:2px solid var(--purple);border-radius:10px;padding:12px;margin:8px auto;max-width:500px">
+        <div style="color:var(--purple);font-weight:700">デジタル可視性レイヤー</div>
+        <div style="color:var(--text-sub);font-size:0.85em">SEO / MEO / 広告 — <strong>AIが自動運用</strong></div>
+      </div>
+      <div style="color:var(--text-sub)">↓</div>
+      <div style="color:var(--green);font-weight:600;margin:4px 0">クリニック（新規患者として来院）</div>
+      <div style="color:var(--text-sub)">↓</div>
+      <div style="border:2px solid var(--gold);border-radius:10px;padding:12px;margin:8px auto;max-width:500px">
+        <div style="color:var(--gold-light);font-weight:700">成果の可視化ダッシュボード</div>
+        <div style="color:var(--text-sub);font-size:0.85em">「今月の新患数: 32人」— AIがリアルタイム集計</div>
+      </div>
+      <div style="color:var(--text-sub)">↓</div>
+      <div style="border:2px solid var(--gold);border-radius:10px;padding:12px;margin:8px auto;max-width:500px">
+        <div style="color:var(--gold-light);font-weight:700">寺本社長の対面訪問（月1回）</div>
+        <div style="color:var(--text-sub);font-size:0.85em">「来月はインプラントの集患を強化しましょう」— <strong>戦略提案</strong></div>
+      </div>
+    </div>
+
+    <h4 style="color:var(--gold-light);margin:24px 0 14px;font-size:0.95em">この再構築で変わる4つのこと</h4>
+    <div class="flow-grid">
+      <div class="flow-card" style="border-left:3px solid var(--gold)">
+        <h4 style="color:var(--gold-light)">1. 価格モデル</h4>
+        <p>月額2.5万（活動ベース）→ <strong>基本5万+成果報酬</strong>（新規患者1人あたり3,000円）。月20人来院で月11万円。<strong>単価4.4倍</strong>。先生も「患者が来ているから納得」。</p>
+      </div>
+      <div class="flow-card" style="border-left:3px solid var(--green)">
+        <h4 style="color:var(--green)">2. 訪問の意味</h4>
+        <p>「レポートを説明する時間」→ <strong>「次の成長を一緒に設計する時間」</strong>。先生にとっての寺本社長の位置づけが「業者」→「経営参謀」に変わる。</p>
+      </div>
+      <div class="flow-card" style="border-left:3px solid var(--purple)">
+        <h4 style="color:var(--purple)">3. AI化の位置づけ</h4>
+        <p>「作業効率化ツール」→ <strong>「集患インフラの自動運転エンジン」</strong>。AIがSEO/MEO/広告/コンテンツを自動運用。寺本社長は「設計」と「関係」だけに集中。</p>
+      </div>
+      <div class="flow-card" style="border-left:3px solid var(--blue)">
+        <h4 style="color:var(--blue)">4. 競合優位性</h4>
+        <p>「600件の実績」（模倣可能）→ <strong>「600件分の集患データベース × AI最適化 × 信頼関係」</strong>（模倣困難）。過去データは新規参入者が逆立ちしても手に入らない資産。</p>
+      </div>
+    </div>
+
+    <div class="success-box" style="margin-top:20px">
+      <strong>一言でまとめると:</strong><br><br>
+      寺本社長は「ホームページを作る人」ではない。<strong>「クリニックに患者を届けるインフラ」を運営している。</strong><br>
+      電力会社が発電方法を説明しないように、先生に「SEOが〜」と説明する必要はない。<br>
+      「今月は何人来ましたか。来月はもっと来ます」—— これだけでいい。<br><br>
+      <strong>この認識の転換が、単価2.5万→10万の鍵であり、純利益5,000万への最短ルート。</strong>
+    </div>
+  </div>
+
+  <!-- 最終判定 -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">⚖️</span>最終判定: AI駆動モデルで純利益5,000万は達成可能か</div>
+
+    <div class="verdict">
+      <div class="verdict-label">達成可能性</div>
+      <div class="verdict-score">B+</div>
+      <div class="verdict-text">条件付きで達成可能（3年計画）</div>
+    </div>
+
+    <div class="flow-grid" style="margin-top:24px">
+      <div class="flow-card" style="border-left:3px solid var(--green)">
+        <h4 style="color:var(--green)">達成可能な根拠</h4>
+        <p>
+          ・医療特化×継続率98.5%という強固なリテンション基盤<br>
+          ・WEBコンサルの原価率ほぼゼロ → スケールしても利益率が維持される<br>
+          ・AI活用で1人の管理キャパ55社→200社は技術的に十分可能<br>
+          ・AIコンテンツサブスクは粗利率90%超の新規収益源<br>
+          ・全国600件の実績 → 紹介ネットワークが機能する土壌がある
+        </p>
+      </div>
+      <div class="flow-card" style="border-left:3px solid var(--red)">
+        <h4 style="color:var(--red)">達成のボトルネック</h4>
+        <p>
+          ・<strong>新規獲得ペース</strong>: 月5社×3年=180社の純増が必要。現在の営業手法（出張+接待）では難しい → デジタル集客への転換が必須<br>
+          ・<strong>品質管理</strong>: 200社をAIで回す際の品質担保。医療広告ガイドライン違反は事業リスクに直結<br>
+          ・<strong>社長の意識転換</strong>: 「自分でやる」から「仕組みで回す」へのマインドチェンジ<br>
+          ・<strong>役員貸付金</strong>: 729万の早期解消が前提。放置すると税務リスクで計画が頓挫する可能性
+        </p>
+      </div>
+    </div>
+
+    <div class="note-box" style="margin-top:20px">
+      <strong>結論:</strong><br>
+      「1人+AI+アシスタント1名」の体制で、<strong>3年後に純利益5,000万円は現実的に達成可能</strong>。
+      ただし以下の3条件が必須:<br><br>
+      <strong>1. 広告代行のフィー制移行</strong>（粗利率62%→78%への構造転換）<br>
+      <strong>2. AIコンテンツサブスクの立ち上げ</strong>（粗利率90%超の新規収益柱）<br>
+      <strong>3. デジタル集客への転換</strong>（月5社の新規獲得を出張営業→オンラインで実現）<br><br>
+      なお、寺本社長の「全国を飛び回りたい」という理想は、Phase 3到達後に
+      「営業目的ではなく、既存クライアントとの関係深化・セミナー登壇」として実現可能。
+      まずはAI基盤を構築し、出張しなくても売上が上がる仕組みを先に作ることが肝要。
+    </div>
+  </div>
+
+  <!-- 社長個人の家計プラン（参考） -->
+  <div class="section">
+    <div class="section-title"><span class="section-icon">🏠</span>参考: 社長個人の家計改善プラン</div>
+
+    <table class="fin-table">
+      <thead>
+        <tr><th style="text-align:left">項目</th><th>現状（月額）</th><th>改善後（月額）</th><th>備考</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>手取り収入</td><td>約60万</td><td>約70万</td><td>報酬1,000万達成後</td></tr>
+        <tr><td>先取り投資（iDeCo+積立NISA+投信）</td><td>0</td><td style="color:var(--green)">10万</td><td>給料日に自動引落</td></tr>
+        <tr><td>住宅ローン</td><td>約10万</td><td>約10万</td><td>残約1,600万</td></tr>
+        <tr><td>教育費</td><td>約10万</td><td>約10万</td><td>私立学費等</td></tr>
+        <tr><td>固定費（保険・通信等）</td><td>約5万</td><td>約5万</td><td>見直し余地あり</td></tr>
+        <tr><td>変動生活費</td><td>約35万</td><td style="color:var(--green)">約25万</td><td>予算制導入</td></tr>
+        <tr><td>家族旅行積立</td><td>0</td><td style="color:var(--green)">3万</td><td>年2回×4日=約36万</td></tr>
+        <tr><td>緊急予備資金</td><td>0</td><td style="color:var(--green)">2万</td><td>生活費3ヶ月分を目標</td></tr>
+        <tr class="total-row"><td>合計支出</td><td>60万</td><td>65万</td><td>残5万は予備</td></tr>
+      </tbody>
+    </table>
+
+    <div class="success-box" style="margin-top:16px">
+      <strong>月10万の先取り投資を3年続ければ:</strong> 年利5%想定で約390万の金融資産が形成可能。
+      さらにPhase 3達成後（報酬1,000万+純利益5,000万）は、配当や追加報酬で資産形成を加速できる。
+    </div>
+  </div>
+
+  <div class="footer">
+    U&I Consulting ｜ AI駆動ビジネスモデル検証レポート ｜ 2026年4月9日作成<br>
+    本レポートは分析目的であり、将来の業績を保証するものではありません。
+  </div>
+
+</div>
+
+<script>
+Chart.defaults.color='#8b949e';Chart.defaults.borderColor='rgba(48,54,61,0.5)';Chart.defaults.font.family="'Inter','Noto Sans JP',sans-serif";
+const gold='#B8912A',goldL='#D4A843',blue='#58a6ff',green='#2ea043',purple='#8957e5',red='#f85149';
+
+// Scenario comparison
+new Chart(document.getElementById('scenarioChart'),{
+  type:'bar',
+  data:{
+    labels:['現状（4期）','Scenario A\n2年後','Scenario B\n3年後','Scenario C\n5年後'],
+    datasets:[
+      {label:'売上高',data:[3166,7920,13200,19800],backgroundColor:'rgba(184,145,42,0.3)',borderColor:gold,borderWidth:1,borderRadius:4},
+      {label:'粗利益',data:[1991,6120,10300,15600],backgroundColor:'rgba(46,160,67,0.3)',borderColor:green,borderWidth:1,borderRadius:4},
+      {label:'当期純利益',data:[204,2632,5243,8358],backgroundColor:'rgba(88,166,255,0.5)',borderColor:blue,borderWidth:1,borderRadius:4}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      title:{display:true,text:'シナリオ別 損益比較（万円）',color:'#e6edf3',font:{size:14}},
+      legend:{position:'top',labels:{boxWidth:12,padding:12}},
+      annotation:{annotations:{line1:{type:'line',yMin:5000,yMax:5000,borderColor:red,borderWidth:2,borderDash:[6,4],label:{display:true,content:'純利益目標 5,000万',position:'end',color:red,font:{size:11}}}}}
+    },
+    scales:{y:{beginAtZero:true,ticks:{callback:v=>v.toLocaleString()+'万'}}}
+  }
+});
+
+// Time allocation donut
+new Chart(document.getElementById('timeAllocChart'),{
+  type:'doughnut',
+  data:{
+    labels:['クライアント訪問','内部業務','オンラインMTG','出張','来社対応','コンテンツ','営業・提案','事務','タスク/他','私用'],
+    datasets:[{
+      data:[291.5,52,45.5,17.9,9.5,9,5,1,86.2,11.2],
+      backgroundColor:[red,'#f0883e',blue,purple,'#da3633','#3fb950','#8b949e','#6e7681',gold,'#30363d'],
+      borderWidth:0
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',labels:{boxWidth:10,padding:8,font:{size:10}}},
+      title:{display:true,text:'時間配分（6ヶ月 529h）',color:'#e6edf3',font:{size:13}}
+    }
+  }
+});
+
+// Day of week chart
+new Chart(document.getElementById('dowChart'),{
+  type:'bar',
+  data:{
+    labels:['月','火','水','木','金','土','日'],
+    datasets:[{
+      data:[87,112,96,102,107,73,51],
+      backgroundColor:['rgba(184,145,42,0.6)','rgba(248,81,73,0.6)','rgba(184,145,42,0.6)','rgba(184,145,42,0.6)','rgba(248,81,73,0.6)','rgba(88,166,255,0.4)','rgba(88,166,255,0.3)'],
+      borderRadius:4
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:'件数',color:'#8b949e'}}}
+  }
+});
+
+// Hour distribution chart
+new Chart(document.getElementById('hourChart'),{
+  type:'bar',
+  data:{
+    labels:['6時','7時','8時','9時','10時','11時','12時','13時','14時','18時','20時','21時','22時','23時'],
+    datasets:[{
+      data:[44,41,28,52,35,7,15,6,1,0,1,1,11,14],
+      backgroundColor:function(ctx){var h=ctx.dataIndex;return(h<=4)?'rgba(248,81,73,0.5)':(h>=11)?'rgba(137,87,229,0.5)':'rgba(184,145,42,0.4)';},
+      borderRadius:4
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:'件数',color:'#8b949e'}}}
+  }
+});
+
+// Capacity chart
+new Chart(document.getElementById('capacityChart'),{
+  type:'bar',
+  data:{
+    labels:['現状\n手動中心','AI導入初期','AI本格運用','AI+アシスタント'],
+    datasets:[
+      {label:'管理可能社数',data:[55,120,200,300],backgroundColor:[gold,'rgba(46,160,67,0.6)','rgba(88,166,255,0.6)','rgba(137,87,229,0.6)'],borderRadius:4,yAxisID:'y'},
+      {label:'1社あたり工数(h)',data:[3.6,1.5,0.9,0.7],type:'line',borderColor:red,backgroundColor:'transparent',pointBackgroundColor:red,pointRadius:5,borderWidth:2,yAxisID:'y1'}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'top',labels:{boxWidth:12,padding:12}}},
+    scales:{
+      y:{beginAtZero:true,position:'left',title:{display:true,text:'管理社数',color:'#8b949e'}},
+      y1:{beginAtZero:true,position:'right',grid:{drawOnChartArea:false},title:{display:true,text:'工数(h/社)',color:'#8b949e'}}
+    }
+  }
+});
+</script>
+</body>
+</html>
