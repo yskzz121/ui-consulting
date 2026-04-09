@@ -235,6 +235,38 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
 .footer-info{font-size:0.75rem;margin-bottom:12px}
 .footer-confidential{font-size:0.7rem;font-weight:700;color:var(--gold);letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);display:inline-block;padding:4px 16px;border-radius:4px}
 
+/* ===== Meeting Minutes Section ===== */
+.minutes-box{background:linear-gradient(135deg,#FAFAF7 0%,#F5F2EC 100%);border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:12px;padding:28px 32px;margin-bottom:24px}
+.minutes-meta{display:flex;flex-wrap:wrap;gap:12px 24px;font-size:0.78rem;color:var(--text-sub);padding-bottom:14px;border-bottom:1px dashed var(--border);margin-bottom:18px}
+.minutes-meta span strong{color:var(--navy);margin-right:6px}
+.minutes-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.minutes-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px}
+.minutes-card h4{font-size:0.92rem;font-weight:700;color:var(--navy);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.minutes-card ul{list-style:none;padding:0}
+.minutes-card li{font-size:0.82rem;line-height:1.7;color:var(--text);padding:6px 0;padding-left:18px;position:relative}
+.minutes-card li::before{content:'▸';position:absolute;left:0;color:var(--gold);font-weight:700}
+.minutes-card li strong{color:var(--navy);font-weight:700}
+.minutes-card li .neg{color:var(--negative);font-weight:700}
+.minutes-card li .pos{color:var(--positive);font-weight:700}
+.minutes-card li .gold{color:var(--gold);font-weight:700}
+.todo-list{background:#1A2540;color:#fff;border-radius:10px;padding:22px 26px;margin-top:18px}
+.todo-list h4{font-family:'Noto Serif JP',serif;font-size:0.95rem;color:var(--gold-light);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(184,145,42,0.3)}
+.todo-list ol{padding-left:0;list-style:none;counter-reset:tdc}
+.todo-list ol li{counter-increment:tdc;position:relative;padding:8px 0 8px 36px;font-size:0.85rem;line-height:1.7;border-bottom:1px dashed rgba(255,255,255,0.1);color:rgba(255,255,255,0.9)}
+.todo-list ol li:last-child{border-bottom:none}
+.todo-list ol li::before{content:counter(tdc);position:absolute;left:0;top:8px;width:24px;height:24px;background:var(--gold);color:var(--navy-dark);border-radius:50%;text-align:center;line-height:24px;font-weight:700;font-size:0.75rem;font-family:'Inter',sans-serif}
+.todo-list ol li strong{color:var(--gold-light)}
+.forecast-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.forecast-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px;text-align:center}
+.fc-month{font-size:0.78rem;color:var(--gold);font-weight:700;letter-spacing:1px}
+.fc-total{font-family:'Inter',sans-serif;font-size:1.4rem;font-weight:800;color:var(--navy);margin:6px 0}
+.fc-detail{font-size:0.7rem;color:var(--text-sub);line-height:1.5}
+@media(max-width:768px){
+  .minutes-grid{grid-template-columns:1fr}
+  .forecast-row{grid-template-columns:1fr}
+  .minutes-box{padding:20px 18px}
+}
+
 /* ===== Login Screen ===== */
 .report-content{display:none}
 .login-screen{position:fixed;inset:0;background:var(--navy-dark);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9999;overflow-y:auto}
@@ -1111,6 +1143,114 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
         第5期累計は営業損失 -¥2,783,725。通期黒字化には残4ヶ月（4〜6月）で営業利益累計 +¥2,783,725、月平均 ¥695,931 が必要。3月実績 ¥1,117,701 を維持できれば達成可能だが、4月予測 ¥2,138,400・5月予測 ¥1,004,400 と急落見込み（議事録）。土地A単価戻し＋建物紹介案件＋外注最小化で月商 ¥4,500,000 を確保するKPIに月次でコミット。
       </div>
       <div class="pc-impact">想定効果: 第5期通期黒字化 → ROE プラス転換 → 新規借入余力解放</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 議事録ハイライト ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">📝</span> 議事録ハイライト — 4月9日 月次振り返りミーティング</div>
+  <div class="minutes-box">
+    <div class="minutes-meta">
+      <span><strong>日時:</strong>2026年4月9日 10:00〜</span>
+      <span><strong>場所:</strong>スタバ登川店</span>
+      <span><strong>参加者:</strong>当徹さん（代表）／上間（U&amp;I）／福原（U&amp;I）</span>
+      <span><strong>議題:</strong>2026年3月度 予実報告・振り返り</span>
+    </div>
+
+    <div class="minutes-grid">
+      <div class="minutes-card">
+        <h4>💰 経営数値の総括</h4>
+        <ul>
+          <li>売上高 <strong>¥4,045,834</strong> ／ 予算達成率 <span class="neg">78.0%</span>（-¥1,144,166）</li>
+          <li>前月比 <span class="neg">-¥121,037</span>（2月実績 ¥4,166,871 → 3月 ¥4,045,834）</li>
+          <li>営業利益 <strong>¥1,117,701</strong> ／ 利益率 <span class="pos">27.6%</span></li>
+          <li>売上は予算未達も、<span class="pos">建物部門の好調と固定費が予算内</span>に収まり、<span class="gold">今期1〜3月で最も高い営業利益を確保</span></li>
+        </ul>
+      </div>
+
+      <div class="minutes-card">
+        <h4>🏗️ 部門別ハイライト</h4>
+        <ul>
+          <li><strong>土地部門</strong> ¥2,817,945（予算比 67.1%）/ 15件 vs 予算13件</li>
+          <li>　└ 土地A 5件のみで予算46.2%。<span class="neg">仕掛中大型案件が翌月以降にズレ込み</span>が主因</li>
+          <li>　└ 土地C 7件と想定外に多く、公嘱協会・狭あい道路など<span class="pos">案件種別が広がる</span></li>
+          <li><strong>建物部門</strong> ¥1,217,889（予算比 <span class="pos">124.0%</span>）/ 11件 vs 予算9件</li>
+          <li>　└ 建物A 単価12.3万円を維持し<span class="pos">予算大幅達成</span></li>
+          <li>　└ 新規・知念忠様から表題登記3件まとめて受注 → <span class="gold">紹介・口コミに繋げたい</span></li>
+        </ul>
+      </div>
+
+      <div class="minutes-card">
+        <h4>💸 経費・販管費の状況</h4>
+        <ul>
+          <li>販管費合計 ¥2,928,133 / 予算 ¥2,975,995（<span class="pos">98.4%・概ね予算内</span>）</li>
+          <li>交際費 +¥28,693（実績 ¥88,693）— <span class="neg">飲食・接待の増加傾向、要注意</span></li>
+          <li>リース料 +¥46,899（実績 ¥152,142、前年比144.6%）— 機器導入の影響</li>
+          <li>諸会費 +¥79,470 — <span class="neg">予算計上漏れによる予算外計上、要反映</span></li>
+          <li>給与手当 +¥39,497 — 人員構成変化により前年比増</li>
+          <li><span class="pos">固定費が予算内に収まったことが27.6%の高利益率につながった</span></li>
+        </ul>
+      </div>
+
+      <div class="minutes-card">
+        <h4>👥 組織・人事の動き</h4>
+        <ul>
+          <li><strong>外間政也氏（まさや氏）3月末で退職</strong> — 上田・守人を中心とする体制へ移行</li>
+          <li>土地部門サポートスタッフ（パート）の<span class="gold">採用を本格的に進行中</span></li>
+          <li><span class="neg">休日稼働の廃止</span> — 平日1時間残業への切替方針をスタッフに共有（社長自身もパンク寸前）</li>
+          <li><span class="pos">事務・酒本さんの隠れた能力が浮き彫り</span> — まさや氏不在初月で幅広く活躍。今後さらに引き出す方針</li>
+        </ul>
+      </div>
+
+      <div class="minutes-card">
+        <h4>🏦 経営・財務・バックオフィス</h4>
+        <ul>
+          <li><strong>税理士の変更</strong> — 光成会計と本年6月で契約終了。<span class="gold">freee対応の税理士事務所を早期選定</span></li>
+          <li>売掛金 約¥7,000,000 — 電話・郵便で再催促実施。入金状況の継続確認</li>
+          <li><strong>AI自動化への取り組み（宿題事項）</strong> — 「依頼から納品・入金までの全工程」を細分化、工程ごとの使用データ・機材を洗い出し、AI自動化を具体検討</li>
+        </ul>
+      </div>
+
+      <div class="minutes-card">
+        <h4>🎯 見通し・注力事項</h4>
+        <ul>
+          <li><span class="neg">仕掛案件の確実な完了</span> — 土地Aの仕掛多数。4月以降の最優先事項</li>
+          <li>4・5月は売上落ち込み見込み、<span class="gold">6月の大型土地案件完了</span>が鍵 → 現場進捗管理を徹底</li>
+          <li><strong>業務フローの最適化と受注基準の明確化</strong> — 現場いっぱいいっぱいで新規営業ができない状態。「仕事を請ける基準（単価など）」を明確化、見積積算等をAIで自動化</li>
+          <li>短期: まさや氏退職後の体制でスタッフ業務を再確認しながら、4・5月の納品を確実に</li>
+        </ul>
+      </div>
+    </div>
+
+    <h4 style="font-size:0.95rem;font-weight:700;color:var(--navy);margin:24px 0 12px;display:flex;align-items:center;gap:8px">📅 月別売上予測（4〜6月）</h4>
+    <div class="forecast-row">
+      <div class="forecast-card">
+        <div class="fc-month">2026年4月 予測</div>
+        <div class="fc-total">¥4,638,000</div>
+        <div class="fc-detail">土地 ¥3,830,000 / 建物 ¥808,000</div>
+      </div>
+      <div class="forecast-card">
+        <div class="fc-month">2026年5月 予測</div>
+        <div class="fc-total" style="color:var(--negative)">¥1,633,000</div>
+        <div class="fc-detail">土地 ¥1,525,000 / 建物 ¥108,000<br><strong style="color:var(--negative)">⚠ 大幅落ち込み</strong></div>
+      </div>
+      <div class="forecast-card">
+        <div class="fc-month">2026年6月 予測</div>
+        <div class="fc-total" style="color:var(--positive)">¥6,325,000</div>
+        <div class="fc-detail">土地 ¥5,612,000 / 建物 ¥713,000<br><strong style="color:var(--positive)">大型案件完了で回復</strong></div>
+      </div>
+    </div>
+
+    <div class="todo-list">
+      <h4>✅ ToDo（次回ミーティングに向けたアクション）</h4>
+      <ol>
+        <li><strong>AI自動化の着手（メインアジェンダ）</strong> — 整理された業務フローを基に「最優先の案件管理ダッシュボード化」の導入スケジュール・テスト運用・スタッフへの落とし込み方法を次回MTGで具体決定</li>
+        <li><strong>労働環境の是正</strong> — 調査業務の遅れを休日カバーから平日残業（1時間程度）+ 業務効率化に完全切替</li>
+        <li><strong>採用活動</strong> — パート・アルバイト人材の採用を進める（休日稼働の代替要員としての側面も含む）</li>
+        <li><strong>仕掛案件の完了と売上確保</strong> — 土地A部門の仕掛案件を優先、スタッフ業務調整しながら4・5月の納品を確実に</li>
+        <li><strong>税理士の選定と売掛金回収</strong> — 6月契約終了に向けたfreee対応税理士の選定と滞留売掛金の催促継続</li>
+      </ol>
     </div>
   </div>
 </div>
