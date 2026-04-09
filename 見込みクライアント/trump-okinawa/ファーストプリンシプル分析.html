@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ファーストプリンシプル分析 — 沖縄トランプ株式会社</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1117;
+  --card:#161b22;
+  --border:#21262d;
+  --text:#e6edf3;
+  --text-sub:#8b949e;
+  --gold:#B8912A;
+  --gold-light:#D4A843;
+  --green:#2ea043;
+  --blue:#58a6ff;
+  --purple:#8957e5;
+  --red:#f85149;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Noto Sans JP',sans-serif;
+  line-height:1.8;
+  padding:0;
+}
+.container{max-width:1100px;margin:0 auto;padding:24px 20px 60px}
+
+/* Header */
+.header{
+  background:linear-gradient(135deg,#1a2332 0%,#1A2540 50%,#0F1829 100%);
+  border-bottom:1px solid rgba(184,145,42,0.15);
+  padding:48px 20px 36px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.header::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:
+    radial-gradient(ellipse at 30% 50%,rgba(137,87,229,0.08) 0%,transparent 60%),
+    radial-gradient(ellipse at 70% 50%,rgba(184,145,42,0.06) 0%,transparent 60%);
+}
+.header-content{position:relative;z-index:1}
+.header-brand{font-size:.85rem;color:var(--gold-light);letter-spacing:3px;margin-bottom:12px;font-weight:500}
+.header h1{font-family:'Shippori Mincho B1',serif;font-size:2.2em;font-weight:800;margin-bottom:6px;color:#fff}
+.header .subtitle{color:var(--text-sub);font-size:1.1em;font-family:'Noto Sans JP',sans-serif}
+.header .date{color:var(--text-sub);font-size:.85em;margin-top:10px}
+
+/* Section */
+.section{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:32px 28px;
+  margin-bottom:24px;
+}
+.section-title{
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.35rem;
+  font-weight:700;
+  margin-bottom:20px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(137,87,229,0.15);color:var(--purple);
+  font-family:'Inter',sans-serif;font-size:.8rem;font-weight:700;
+  flex-shrink:0;
+}
+
+/* Question Box */
+.question-box{
+  background:rgba(137,87,229,0.08);
+  border:1px solid rgba(137,87,229,0.25);
+  border-radius:10px;
+  padding:28px;
+  text-align:center;
+}
+.question-box p{font-size:1.05rem;color:var(--text);margin-bottom:16px}
+.label-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:20px}
+.label-tag{
+  background:rgba(137,87,229,0.12);border:1px solid rgba(137,87,229,0.3);
+  border-radius:6px;padding:6px 16px;font-size:.85rem;color:var(--purple);
+  font-weight:500;
+}
+.question-main{
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.3rem;font-weight:700;color:var(--text);
+  margin-top:16px;line-height:1.6;
+}
+
+/* Big Verdict */
+.verdict-box{
+  background:linear-gradient(135deg,rgba(137,87,229,0.06) 0%,rgba(184,145,42,0.04) 100%);
+  border:2px solid rgba(137,87,229,0.3);
+  border-radius:14px;
+  padding:40px 32px;
+  text-align:center;
+}
+.verdict-label{font-size:.9rem;color:var(--text-sub);letter-spacing:2px;margin-bottom:8px}
+.verdict-value{
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.8rem;font-weight:800;color:var(--purple);
+  margin-bottom:16px;line-height:1.4;
+}
+.verdict-desc{font-size:.95rem;color:var(--text-sub);max-width:700px;margin:0 auto;line-height:1.8}
+
+/* Card Grid */
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:22px 20px;
+}
+.card-label{font-size:.78rem;color:var(--text-sub);margin-bottom:6px;font-weight:500}
+.card-value{font-family:'Shippori Mincho B1',serif;font-size:1.1rem;font-weight:700;color:var(--gold-light);margin-bottom:8px}
+.card-desc{font-size:.85rem;color:var(--text-sub);line-height:1.7}
+
+/* Arrow Flow (horizontal) */
+.arrow-flow{display:flex;align-items:stretch;gap:0}
+.arrow-flow .card{flex:1;position:relative;border-radius:10px}
+.arrow-sep{
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;color:var(--gold);padding:0 8px;flex-shrink:0;
+}
+
+/* Left-bordered cards */
+.card-lb{border-left:3px solid var(--gold)}
+.card-lb.green{border-left-color:var(--green)}
+.card-lb.purple{border-left-color:var(--purple)}
+.card-lb.blue{border-left-color:var(--blue)}
+
+/* Comparison */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.compare-card{border-radius:10px;padding:24px 22px}
+.compare-card.red-card{background:rgba(248,81,73,0.05);border:1px solid rgba(248,81,73,0.25)}
+.compare-card.green-card{background:rgba(46,160,67,0.05);border:1px solid rgba(46,160,67,0.25)}
+.compare-card h3{font-family:'Shippori Mincho B1',serif;font-size:1.05rem;margin-bottom:14px;font-weight:700}
+.compare-card.red-card h3{color:var(--red)}
+.compare-card.green-card h3{color:var(--green)}
+.compare-item{display:flex;gap:8px;margin-bottom:10px;font-size:.9rem}
+.compare-item .ci-label{color:var(--text-sub);min-width:80px;flex-shrink:0}
+.compare-item .ci-value{color:var(--text)}
+
+/* Gold box */
+.gold-box{
+  background:rgba(184,145,42,0.08);
+  border:1px solid rgba(184,145,42,0.25);
+  border-radius:10px;
+  padding:24px 28px;
+  margin-bottom:20px;
+}
+.gold-box .calc{
+  font-family:'Inter','Noto Sans JP',sans-serif;
+  font-size:1.05rem;color:var(--gold-light);
+  text-align:center;margin-bottom:8px;font-weight:600;
+}
+.gold-box .calc-note{font-size:.9rem;color:var(--text-sub);text-align:center}
+
+/* Price cards */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.price-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:22px 20px;
+  text-align:center;
+}
+.price-card .pc-label{font-size:.78rem;color:var(--text-sub);margin-bottom:6px}
+.price-card .pc-value{font-family:'Inter',sans-serif;font-size:1.6rem;font-weight:700;margin-bottom:6px}
+.price-card .pc-desc{font-size:.8rem;color:var(--text-sub);line-height:1.6}
+.price-card.current .pc-value{color:var(--text-sub)}
+.price-card.new .pc-value{color:var(--green)}
+.price-card.diff .pc-value{color:var(--gold-light)}
+
+/* Table */
+.tbl{width:100%;border-collapse:collapse;font-size:.9rem}
+.tbl th{
+  text-align:left;padding:12px 16px;
+  background:rgba(137,87,229,0.08);
+  border-bottom:1px solid var(--border);
+  color:var(--purple);font-weight:600;font-size:.82rem;
+}
+.tbl td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:top}
+.tbl td:first-child{color:var(--gold-light);font-weight:600;white-space:nowrap}
+
+/* Flow diagram */
+.flow{display:flex;flex-direction:column;align-items:center;gap:0;padding:20px 0}
+.flow-node{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:18px 28px;
+  text-align:center;
+  max-width:600px;
+  width:100%;
+}
+.flow-node.purple-border{border-color:rgba(137,87,229,0.4);background:rgba(137,87,229,0.05)}
+.flow-node.gold-border{border-color:rgba(184,145,42,0.4);background:rgba(184,145,42,0.05)}
+.flow-node .fn-title{font-weight:700;font-size:.95rem;margin-bottom:4px}
+.flow-node .fn-desc{font-size:.82rem;color:var(--text-sub)}
+.flow-node .fn-ai{font-size:.75rem;color:var(--purple);margin-top:4px}
+.flow-node .fn-ai.gold{color:var(--gold-light)}
+.flow-arrow{
+  font-size:1.3rem;color:var(--text-sub);padding:6px 0;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* Success box */
+.success-box{
+  background:rgba(46,160,67,0.06);
+  border:1px solid rgba(46,160,67,0.25);
+  border-radius:10px;
+  padding:28px;
+}
+.success-box p{font-size:.95rem;line-height:2;margin-bottom:8px}
+.success-box .highlight{color:var(--green);font-weight:700}
+.success-box .quote{
+  font-family:'Shippori Mincho B1',serif;
+  font-size:1.1rem;font-weight:700;color:var(--gold-light);
+  margin:16px 0 8px;
+}
+
+/* Timeline */
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:28px}
+.tl-item:last-child{margin-bottom:0}
+.tl-dot{
+  position:absolute;left:-28px;top:6px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--purple);border:2px solid var(--bg);
+}
+.tl-item:nth-child(2) .tl-dot{background:var(--blue)}
+.tl-item:nth-child(3) .tl-dot{background:var(--green)}
+.tl-label{font-size:.78rem;color:var(--purple);font-weight:700;margin-bottom:4px}
+.tl-item:nth-child(2) .tl-label{color:var(--blue)}
+.tl-item:nth-child(3) .tl-label{color:var(--green)}
+.tl-title{font-family:'Shippori Mincho B1',serif;font-size:1rem;font-weight:700;margin-bottom:4px}
+.tl-desc{font-size:.88rem;color:var(--text-sub);line-height:1.7}
+
+/* Footer */
+.footer{
+  text-align:center;padding:32px 20px;
+  border-top:1px solid var(--border);
+  margin-top:40px;
+}
+.footer p{font-size:.78rem;color:var(--text-sub);margin-bottom:4px}
+.footer .conf{color:var(--red);font-weight:700;letter-spacing:2px;margin-top:8px;font-size:.72rem}
+
+/* Responsive */
+@media(max-width:768px){
+  body{padding:0}
+  .container{padding:16px 14px 40px}
+  .header{padding:32px 16px 24px}
+  .header h1{font-size:1.4rem}
+  .card-grid,.card-grid-4,.price-grid{grid-template-columns:1fr 1fr}
+  .compare-grid{grid-template-columns:1fr}
+  .arrow-flow{flex-direction:column;gap:0}
+  .arrow-sep{transform:rotate(90deg);padding:4px 0}
+  .section{padding:22px 18px}
+  .verdict-value{font-size:1.3rem}
+  .flow-node{max-width:100%}
+}
+@media(max-width:480px){
+  .card-grid,.card-grid-4,.price-grid{grid-template-columns:1fr}
+  .header h1{font-size:1.2rem}
+  .question-main{font-size:1.1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <div class="header-brand">沖縄トランプ &times; U&amp;I Consulting</div>
+    <h1>ファーストプリンシプル分析</h1>
+    <div class="subtitle">ビジネスの本質と再構築 &mdash; 沖縄トランプ株式会社</div>
+    <div class="date">2026年4月9日</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Section 1: 問い -->
+<div class="section">
+  <div class="section-title"><span class="section-num">1</span>問い</div>
+  <div class="question-box">
+    <div class="label-tags">
+      <span class="label-tag">WEBマーケティング</span>
+      <span class="label-tag">HP制作</span>
+      <span class="label-tag">SEO</span>
+      <span class="label-tag">MEO</span>
+      <span class="label-tag">Google広告</span>
+    </div>
+    <p>これらのラベルを全て剥がしたとき、</p>
+    <div class="question-main">沖縄トランプは本質的に何をしているのか？</div>
+  </div>
+</div>
+
+<!-- Section 2: ビジネスの本質 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">2</span>ビジネスの本質</div>
+  <div class="verdict-box">
+    <div class="verdict-label">BUSINESS ESSENCE</div>
+    <div class="verdict-value">医療クリニック向け 集患インフラ事業</div>
+    <div class="verdict-desc">患者（需要）とクリニック（供給）の間に立ち、デジタル上の「見つかりやすさ」を制御する規制市場のユーティリティ型ビジネス</div>
+  </div>
+</div>
+
+<!-- Section 3: 分解 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">3</span>分解 &mdash; 先生が根本的に欲しいもの</div>
+  <div class="arrow-flow">
+    <div class="card">
+      <div class="card-label">先生が欲しいもの</div>
+      <div class="card-value">安定した新規患者</div>
+      <div class="card-desc">経営の予測可能性</div>
+    </div>
+    <div class="arrow-sep">&rarr;</div>
+    <div class="card">
+      <div class="card-label">寺本社長が提供するもの</div>
+      <div class="card-value">集患のインフラ</div>
+      <div class="card-desc">電気・水道と同じ。ないと困る</div>
+    </div>
+    <div class="arrow-sep">&rarr;</div>
+    <div class="card">
+      <div class="card-label">先生にとっての位置づけ</div>
+      <div class="card-value">毎月払うユーティリティ</div>
+      <div class="card-desc">中身は理解していない。動けばいい</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 4: なぜ先生は自分でやらないのか -->
+<div class="section">
+  <div class="section-title"><span class="section-num">4</span>なぜ先生は自分でやらないのか</div>
+  <div class="card-grid-4">
+    <div class="card">
+      <div class="card-value" style="color:var(--red);font-size:1rem">時間がない</div>
+      <div class="card-desc">診療中は患者を診ている。1日の稼働がほぼ埋まっている</div>
+    </div>
+    <div class="card">
+      <div class="card-value" style="color:var(--red);font-size:1rem">専門知識がない</div>
+      <div class="card-desc">SEO/MEO/広告は専門領域。医師の訓練には含まれない</div>
+    </div>
+    <div class="card">
+      <div class="card-value" style="color:var(--red);font-size:1rem">規制リスク</div>
+      <div class="card-desc">医療広告ガイドライン違反は行政処分に直結。素人が触ると危険</div>
+    </div>
+    <div class="card">
+      <div class="card-value" style="color:var(--red);font-size:1rem">「お任せしたい」</div>
+      <div class="card-desc">よくわからないが、患者が来ればいい。仕組みは理解不要</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 5: 本質のアナロジー -->
+<div class="section">
+  <div class="section-title"><span class="section-num">5</span>本質のアナロジー</div>
+  <table class="tbl">
+    <thead>
+      <tr><th>アナロジー</th><th>共通点</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>電力会社</td>
+        <td>ないと事業が止まる。毎月払う。中身は理解していない。スイッチングコストが高い</td>
+      </tr>
+      <tr>
+        <td>税理士</td>
+        <td>規制知識が価値。先生は中身がわからない。信頼関係で継続。替えにくい</td>
+      </tr>
+      <tr>
+        <td>不動産の立地</td>
+        <td>「Googleで見つかる = いい立地にいる」。デジタル上の一等地を確保する仕事</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Section 6: 現状のビジネスと本質のズレ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">6</span>現状のビジネスと本質のズレ &mdash; 単価の天井</div>
+  <div class="compare-grid">
+    <div class="compare-card red-card">
+      <h3>今売っているもの（活動ベース）</h3>
+      <div class="compare-item"><span class="ci-label">商品:</span><span class="ci-value">HP制作、SEO、MEO、広告運用</span></div>
+      <div class="compare-item"><span class="ci-label">価格根拠:</span><span class="ci-value">作業量（ページ数、広告費）</span></div>
+      <div class="compare-item"><span class="ci-label">報告:</span><span class="ci-value">「アクセスが○%増えました」</span></div>
+      <div class="compare-item"><span class="ci-label">提供価値:</span><span class="ci-value">やったこと（活動）</span></div>
+      <div class="compare-item"><span class="ci-label">単価:</span><span class="ci-value" style="color:var(--red);font-weight:700">月額2.5万円 → 値上げ困難</span></div>
+    </div>
+    <div class="compare-card green-card">
+      <h3>本来売るべきもの（成果ベース）</h3>
+      <div class="compare-item"><span class="ci-label">商品:</span><span class="ci-value">月間新規患者数の安定供給</span></div>
+      <div class="compare-item"><span class="ci-label">価格根拠:</span><span class="ci-value">もたらした患者数・売上増</span></div>
+      <div class="compare-item"><span class="ci-label">報告:</span><span class="ci-value">「今月の新規患者は○人。前月比+○人」</span></div>
+      <div class="compare-item"><span class="ci-label">提供価値:</span><span class="ci-value">起きたこと（成果）</span></div>
+      <div class="compare-item"><span class="ci-label">単価:</span><span class="ci-value" style="color:var(--green);font-weight:700">基本5万+成果報酬 → 月10万超</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 7: なぜ単価4倍が可能なのか -->
+<div class="section">
+  <div class="section-title"><span class="section-num">7</span>なぜ単価4倍が可能なのか</div>
+  <div class="gold-box">
+    <div class="calc">月20人の新規患者 &times; 平均初診単価1万円 = <strong>月20万円の売上増</strong></div>
+    <div class="calc">これに対して月10万円のフィー = <strong>ROI 200%</strong></div>
+    <div class="calc-note">先生にとっては「もっと払ってもいい」レベル</div>
+  </div>
+  <div class="price-grid">
+    <div class="price-card current">
+      <div class="pc-label">現在の月額</div>
+      <div class="pc-value">2.5万円</div>
+      <div class="pc-desc">活動ベース。作業量で値付け</div>
+    </div>
+    <div class="price-card new">
+      <div class="pc-value" style="font-size:1.2rem;margin-top:6px">基本5万+成果報酬</div>
+      <div class="pc-label" style="margin-top:4px">成果ベース</div>
+      <div class="pc-value" style="font-size:1.4rem">= 月11万</div>
+      <div class="pc-desc">新患20人の場合</div>
+    </div>
+    <div class="price-card diff">
+      <div class="pc-label">単価の差</div>
+      <div class="pc-value">4.4倍</div>
+      <div class="pc-desc">同じ仕事で4倍の売上</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 8: 再構築されたビジネスモデル -->
+<div class="section">
+  <div class="section-title"><span class="section-num">8</span>再構築されたビジネスモデル</div>
+  <div class="flow">
+    <div class="flow-node">
+      <div class="fn-title">患者</div>
+      <div class="fn-desc">Google検索 / Google Maps</div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-node purple-border">
+      <div class="fn-title">デジタル可視性レイヤー</div>
+      <div class="fn-desc">SEO / MEO / 広告</div>
+      <div class="fn-ai">AIが自動運用</div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-node">
+      <div class="fn-title">クリニック</div>
+      <div class="fn-desc">新規患者として来院</div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-node gold-border">
+      <div class="fn-title">成果の可視化ダッシュボード</div>
+      <div class="fn-desc">「今月の新患数: 32人」</div>
+      <div class="fn-ai gold">AIがリアルタイム集計</div>
+    </div>
+    <div class="flow-arrow">&darr;</div>
+    <div class="flow-node gold-border">
+      <div class="fn-title">寺本社長の対面訪問（月1回）</div>
+      <div class="fn-desc">「来月はインプラントの集患を強化しましょう」</div>
+      <div class="fn-ai gold">戦略提案</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 9: この再構築で変わる4つのこと -->
+<div class="section">
+  <div class="section-title"><span class="section-num">9</span>この再構築で変わる4つのこと</div>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div class="card card-lb">
+      <div class="card-value" style="font-size:.95rem">価格モデル</div>
+      <div class="card-desc">月額2.5万 → 基本5万+成果報酬。月20人来院で月11万円。<strong style="color:var(--gold-light)">単価4.4倍</strong></div>
+    </div>
+    <div class="card card-lb green">
+      <div class="card-value" style="font-size:.95rem;color:var(--green)">訪問の意味</div>
+      <div class="card-desc">レポート説明 → 「次の成長を一緒に設計する時間」。<strong style="color:var(--green)">業者 → 経営参謀</strong></div>
+    </div>
+    <div class="card card-lb purple">
+      <div class="card-value" style="font-size:.95rem;color:var(--purple)">AI化の位置づけ</div>
+      <div class="card-desc">作業効率化ツール → <strong style="color:var(--purple)">「集患インフラの自動運転エンジン」</strong></div>
+    </div>
+    <div class="card card-lb blue">
+      <div class="card-value" style="font-size:.95rem;color:var(--blue)">競合優位性</div>
+      <div class="card-desc">600件の実績（模倣可能）→ <strong style="color:var(--blue)">600件分の集患データベース &times; AI &times; 信頼関係（模倣困難）</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 10: 結論 -->
+<div class="section">
+  <div class="section-title"><span class="section-num">10</span>結論</div>
+  <div class="success-box">
+    <p class="quote">「寺本社長は『ホームページを作る人』ではない。<br>『クリニックに患者を届けるインフラ』を運営している。」</p>
+    <p>電力会社が発電方法を説明しないように、先生に「SEOが〜」と説明する必要はない。</p>
+    <p class="quote">「今月は何人来ましたか。来月はもっと来ます」&mdash;&mdash; これだけでいい。</p>
+    <p>この認識の転換が、<span class="highlight">単価2.5万 → 10万の鍵</span>であり、<span class="highlight">純利益5,000万への最短ルート</span>。</p>
+  </div>
+</div>
+
+<!-- Section 11: 実現への3ステップ -->
+<div class="section">
+  <div class="section-title"><span class="section-num">11</span>実現への3ステップ</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Step 1 &mdash; 今すぐ</div>
+      <div class="tl-title">初診アンケート用紙を全クリニックに配布</div>
+      <div class="tl-desc">「何で知りましたか？」の1問だけ。これで成果が測定可能になる</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Step 2 &mdash; 3ヶ月以内</div>
+      <div class="tl-title">AIが自動生成する「集患レポート」を月次で全クライアントに送付</div>
+      <div class="tl-desc">レポートの軸を「アクセス数」から「新患数」に変える</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Step 3 &mdash; 6ヶ月以内</div>
+      <div class="tl-title">上位クライアント3社で成果報酬型の価格モデルを試行</div>
+      <div class="tl-desc">ROIが証明されれば全社に展開</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<!-- Footer -->
+<div class="footer">
+  <p>U&amp;I Consulting | 沖縄トランプ株式会社 ファーストプリンシプル分析 | 2026年4月9日</p>
+  <p class="conf">CONFIDENTIAL</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>沖縄トランプ株式会社 ｜ 分析ポータル</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1A2540;--navy-dark:#0F1829;--gold:#B8912A;--gold-light:#D4A843;--paper:#F5F2EC;--text:#2C2C2C;--text-sub:#6B6B6B;--border:#E0DCD4;--positive:#1B7A3D;--negative:#8B2020;--green:#2ea043;--blue:#58a6ff;--purple:#8957e5}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--text);min-height:100vh}
+
+.portal-header{background:linear-gradient(135deg,#1a2332 0%,#1A2540 50%,#0F1829 100%);color:#fff;padding:48px 24px 36px;text-align:center;position:relative;overflow:hidden}
+.portal-header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(184,145,42,0.08) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(184,145,42,0.06) 0%,transparent 60%)}
+.portal-header .inner{position:relative;z-index:1}
+.ui-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:22px}
+.ui-logo img{height:28px;opacity:0.85;flex-shrink:0}
+.ui-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px}
+.client-row{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:14px;flex-wrap:wrap}
+.ticker-badge{display:inline-block;background:rgba(184,145,42,0.15);border:1px solid rgba(184,145,42,0.3);border-radius:8px;padding:6px 16px;font-size:13px;color:var(--gold-light);letter-spacing:1.5px}
+.prospect-badge{display:inline-block;background:rgba(46,160,67,0.15);border:1px solid rgba(46,160,67,0.3);border-radius:8px;padding:6px 16px;font-size:13px;color:var(--green);letter-spacing:1.5px}
+.portal-header h1{font-family:'Noto Serif JP',serif;font-size:1.55rem;margin:8px 0 4px;letter-spacing:1.5px}
+.portal-header .sub{color:rgba(255,255,255,0.6);font-size:0.85rem}
+
+.container{max-width:1000px;margin:0 auto;padding:48px 24px 60px}
+.section-label{font-size:0.72rem;color:var(--text-sub);font-weight:700;letter-spacing:2px;margin-bottom:20px}
+
+.overview{background:#fff;border-radius:16px;padding:32px;margin-bottom:32px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.05)}
+.overview h2{font-family:'Noto Serif JP',serif;font-size:1.15rem;color:var(--navy);margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--gold)}
+.ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px}
+.ov-grid dt{font-size:0.78rem;color:var(--text-sub);font-weight:500}
+.ov-grid dd{font-size:0.88rem;color:var(--text);font-weight:500;margin-bottom:6px}
+.ov-essence{margin-top:24px;padding:18px;background:var(--paper);border-radius:10px;font-size:0.85rem;line-height:1.8;color:var(--text-sub);border-left:3px solid var(--purple)}
+.ov-essence strong{color:var(--purple);font-weight:700}
+
+.report-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.report-card{background:#fff;border-radius:16px;padding:28px 26px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.05);transition:all 0.2s;text-decoration:none;color:var(--text);display:block}
+.report-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.1);border-color:var(--gold)}
+.rc-icon{font-size:1.8rem;margin-bottom:12px}
+.rc-period{font-size:0.7rem;color:var(--gold);font-weight:700;letter-spacing:1.5px;margin-bottom:6px}
+.rc-title{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:10px;line-height:1.5}
+.rc-desc{font-size:0.78rem;color:var(--text-sub);line-height:1.7;margin-bottom:14px}
+.rc-meta{display:flex;align-items:center;gap:10px;font-size:0.7rem;color:var(--text-sub)}
+.rc-badge{display:inline-block;font-size:0.65rem;background:var(--gold);color:#fff;padding:3px 12px;border-radius:4px;font-weight:700;letter-spacing:0.5px}
+.rc-badge.green{background:var(--green)}
+.rc-badge.purple{background:var(--purple)}
+.rc-badge.blue{background:var(--blue)}
+
+.footer{background:var(--navy-dark);color:rgba(255,255,255,0.5);padding:32px 20px;text-align:center}
+.footer-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px}
+.footer-logo img{height:28px;opacity:0.85;flex-shrink:0}
+.footer-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:1.5px}
+.footer-info{font-size:0.75rem;margin-bottom:12px}
+.footer-conf{font-size:0.7rem;font-weight:700;color:var(--gold);letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);display:inline-block;padding:4px 16px;border-radius:4px}
+
+.portal-link{position:fixed;top:16px;left:16px;z-index:999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;background:#1A2540;border:1px solid rgba(184,145,42,0.2);color:#D4A843;text-decoration:none;font-size:.78rem;font-weight:500;transition:all .15s;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.portal-link:hover{background:#B8912A;color:#0F1829;border-color:#B8912A}
+.logout-btn{position:fixed;top:16px;right:16px;z-index:999;background:rgba(26,37,64,0.9);color:var(--gold-light);border:1px solid rgba(184,145,42,0.2);padding:8px 16px;border-radius:8px;font-size:.75rem;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .15s}
+.logout-btn:hover{background:var(--gold);color:var(--navy-dark)}
+
+.portal-content{display:none}
+.login-screen{position:fixed;inset:0;background:var(--navy-dark);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9999;overflow-y:auto}
+.login-screen::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(184,145,42,0.06) 0%,transparent 60%),radial-gradient(ellipse at 70% 60%,rgba(184,145,42,0.04) 0%,transparent 60%);pointer-events:none}
+.login-card{position:relative;width:100%;max-width:440px;background:rgba(26,37,64,0.95);border:1px solid rgba(184,145,42,0.15);border-radius:20px;padding:44px 36px;text-align:center;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+.login-ui-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:24px}
+.login-ui-logo img{height:28px;opacity:0.85}
+.login-ui-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.78rem;letter-spacing:1.5px}
+.login-icon{font-size:2.4rem;margin-bottom:14px}
+.login-title{font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:1px}
+.login-subtitle{font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:18px}
+.confidential-badge{display:inline-block;font-size:0.65rem;font-weight:700;color:var(--gold);letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);padding:4px 14px;border-radius:4px;margin-bottom:24px}
+.input-group{margin-bottom:18px;text-align:left}
+.input-group label{display:block;font-size:0.74rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.5px}
+.input-group input{width:100%;padding:13px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#fff;font-size:0.95rem;font-family:'Inter',sans-serif;letter-spacing:2px;outline:none;transition:all 0.2s}
+.input-group input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,145,42,0.15)}
+.input-group input::placeholder{color:rgba(255,255,255,0.25);letter-spacing:1px}
+.login-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--navy-dark);border:none;border-radius:10px;font-size:0.9rem;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.2s;letter-spacing:1px}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(184,145,42,0.4)}
+.error-msg{color:var(--negative);font-size:0.78rem;margin-top:12px;min-height:20px;font-weight:500}
+.login-footer{font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:20px;line-height:1.6}
+
+@media(max-width:768px){
+  .portal-header{padding:36px 16px 28px}
+  .client-row{flex-direction:column;gap:10px}
+  .portal-header h1{font-size:1.2rem}
+  .ov-grid{grid-template-columns:1fr}
+  .report-grid{grid-template-columns:1fr}
+  .container{padding:32px 16px 50px}
+  .overview{padding:22px 18px}
+}
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-ui-logo">
+      <img src="../../assets/ui_logo_white.png" alt="U&amp;I"><span>Consulting</span>
+    </div>
+    <div class="login-icon">🔒</div>
+    <div class="login-title">沖縄トランプ株式会社</div>
+    <div class="login-subtitle">閲覧にはパスワードが必要です</div>
+    <div class="confidential-badge">CONFIDENTIAL</div>
+    <div class="input-group">
+      <label>パスワード</label>
+      <input type="password" id="pwInput" placeholder="パスワードを入力" autocomplete="off" onkeydown="if(event.key==='Enter')attemptLogin()">
+    </div>
+    <button class="login-btn" onclick="attemptLogin()">ログイン</button>
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="login-footer">
+      U&amp;Iコンサルティング<br>
+      本ポータルは関係者専用です
+    </div>
+  </div>
+</div>
+
+<!-- Portal Content -->
+<div class="portal-content" id="portalContent">
+  <a class="portal-link" href="../../index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>ポータル</a>
+  <button class="logout-btn" onclick="logout()">ログアウト</button>
+
+  <div class="portal-header">
+    <div class="inner">
+      <div class="ui-logo">
+        <img src="../../assets/ui_logo_white.png" alt="U&amp;I"><span>Consulting</span>
+      </div>
+      <div class="client-row">
+        <span class="ticker-badge">沖縄トランプ株式会社</span>
+        <span class="prospect-badge">見込みクライアント</span>
+      </div>
+      <h1>分析ポータル</h1>
+      <div class="sub">企業分析・AI駆動モデル検証・ファーストプリンシプル分析</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- 企業概要 -->
+    <div class="overview">
+      <h2>企業概要</h2>
+      <dl class="ov-grid">
+        <dt>会社名</dt><dd>沖縄トランプ株式会社</dd>
+        <dt>代表</dt><dd>寺本社長</dd>
+        <dt>設立</dt><dd>2017年6月</dd>
+        <dt>所在地</dt><dd>那覇市久茂地3-13-12 宮里ビル202</dd>
+        <dt>事業内容</dt><dd>医療特化WEBマーケティング</dd>
+        <dt>実績</dt><dd>累計600件以上のクリニック支援</dd>
+        <dt>継続支援率</dt><dd>98.5%</dd>
+        <dt>売上高（4期）</dt><dd>3,166万円</dd>
+      </dl>
+      <div class="ov-essence">
+        <strong>ビジネスの本質（ファーストプリンシプル）:</strong><br>
+        「WEBマーケティング会社」ではなく、<strong>「医療クリニック向け集患インフラ事業」</strong>。
+        患者とクリニックの間に立ち、デジタル上の「見つかりやすさ」を制御する規制市場のユーティリティ。
+      </div>
+    </div>
+
+    <!-- レポート一覧 -->
+    <div class="section-label">REPORTS</div>
+    <div class="report-grid">
+      <a class="report-card" href="沖縄トランプ_企業分析.html">
+        <div class="rc-icon">📊</div>
+        <div class="rc-period">FINANCIAL ANALYSIS</div>
+        <div class="rc-title">企業分析レポート</div>
+        <div class="rc-desc">第3期〜第5期（途中）の財務3期比較、収益構造分析、ビジネスモデル分析、SWOT分析、コンサルティング着眼点</div>
+        <div class="rc-meta">
+          <span class="rc-badge">分析完了</span>
+          <span>2026年4月9日</span>
+        </div>
+      </a>
+      <a class="report-card" href="AI駆動モデル_検証レポート.html">
+        <div class="rc-icon">🤖</div>
+        <div class="rc-period">AI-DRIVEN MODEL</div>
+        <div class="rc-title">AI駆動モデル 達成可能性検証</div>
+        <div class="rc-desc">「1人+AI」で純利益5,000万円は実現できるか。3シナリオP/Lシミュレーション、カレンダー×財務クロス分析、訪問ティアリング設計</div>
+        <div class="rc-meta">
+          <span class="rc-badge purple">検証完了</span>
+          <span>2026年4月9日</span>
+        </div>
+      </a>
+      <a class="report-card" href="ファーストプリンシプル分析.html">
+        <div class="rc-icon">💎</div>
+        <div class="rc-period">FIRST PRINCIPLES</div>
+        <div class="rc-title">ファーストプリンシプル分析</div>
+        <div class="rc-desc">ビジネスの本質と再構築。「集患インフラ事業」としての再定義、活動ベース→成果ベースへの転換、単価4倍の根拠</div>
+        <div class="rc-meta">
+          <span class="rc-badge" style="background:var(--purple)">戦略提案</span>
+          <span>2026年4月9日</span>
+        </div>
+      </a>
+      <a class="report-card" href="サンプル_週次集患レポート.html">
+        <div class="rc-icon">📅</div>
+        <div class="rc-period">SAMPLE REPORT</div>
+        <div class="rc-title">週次集患レポート（サンプル）</div>
+        <div class="rc-desc">さくら歯科クリニック架空データによるレポートイメージ。新規患者数・来院経路・売上分析・広告ROI・MEO・提案</div>
+        <div class="rc-meta">
+          <span class="rc-badge green">サンプル</span>
+          <span>2026年4月9日</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-logo">
+      <img src="../../assets/ui_logo_white.png" alt="U&amp;I">
+      <span>Consulting</span>
+    </div>
+    <div class="footer-info">沖縄トランプ株式会社 分析ポータル</div>
+    <div class="footer-conf">CONFIDENTIAL</div>
+  </div>
+</div>
+
+<script>
+// SHA-256 hash
+async function sha256(message){
+  var msgBuffer=new TextEncoder().encode(message);
+  var hashBuffer=await crypto.subtle.digest('SHA-256',msgBuffer);
+  var hashArray=Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+}
+var HASH='696d44212d08cd8877e3898e2eaf3b75d3c67525346a2ab7489f0a099dfd2390';
+var STORAGE_KEY='trump_okinawa_auth';
+
+async function attemptLogin(){
+  var pw=document.getElementById('pwInput').value;
+  var h=await sha256(pw);
+  if(h===HASH){
+    sessionStorage.setItem(STORAGE_KEY,'1');
+    showPortal();
+  } else {
+    document.getElementById('errorMsg').textContent='パスワードが正しくありません';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').style.borderColor='#8B2020';
+    setTimeout(function(){document.getElementById('pwInput').style.borderColor='';},1500);
+  }
+}
+function showPortal(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('portalContent').style.display='block';
+}
+function logout(){
+  sessionStorage.removeItem(STORAGE_KEY);
+  location.reload();
+}
+if(sessionStorage.getItem(STORAGE_KEY)==='1'){showPortal();}
+</script>
+</body>
+</html>
