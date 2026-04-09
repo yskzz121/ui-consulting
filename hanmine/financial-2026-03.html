@@ -86,6 +86,60 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
 .cat-tag.top5{background:var(--gold-pale);color:var(--gold)}
 .cat-tag.alert{background:var(--negative-bg);color:var(--negative)}
 .cat-tag.new{background:var(--neutral-bg);color:var(--neutral)}
+.cat-tag.repeat{background:#E8F5E9;color:var(--positive)}
+.cat-tag.referral{background:#FFF8E1;color:#B8912A}
+.cat-tag.continue{background:#E3F2FD;color:#1565C0}
+.cat-tag.spot{background:#F5F5F5;color:#757575}
+.cat-tag.gov{background:#EDE7F6;color:#5E35B1}
+
+/* ===== Customer section / Transaction list ===== */
+.tx-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:8px}
+.tx-table thead th{background:var(--navy);color:#fff;padding:10px 8px;text-align:left;font-size:0.72rem;letter-spacing:0.3px;border-bottom:2px solid var(--gold)}
+.tx-table thead th.right{text-align:right}
+.tx-table tbody td{padding:8px;border-bottom:1px solid var(--border);color:var(--text);font-size:0.78rem}
+.tx-table tbody td.right{text-align:right;font-family:'Inter',sans-serif;font-weight:600}
+.tx-table tbody tr:hover{background:var(--gold-pale)}
+.tx-table tbody tr.cust-header{background:#FAFAF7;font-weight:700}
+.tx-table tbody tr.cust-header td{font-weight:700;color:var(--navy);border-top:2px solid var(--gold)}
+.tx-table .cust-tag{display:inline-block;font-size:0.62rem;padding:2px 7px;border-radius:3px;font-weight:700;letter-spacing:0.3px;margin-left:6px;vertical-align:middle}
+.tx-table .cust-tag.repeat{background:#E8F5E9;color:var(--positive)}
+.tx-table .cust-tag.new{background:#FFEBEE;color:var(--negative)}
+.tx-table .cust-tag.referral{background:#FFF8E1;color:#B8912A}
+.tx-table .cust-tag.gov{background:#EDE7F6;color:#5E35B1}
+.tx-table .cust-tag.spot{background:#F5F5F5;color:#757575}
+
+.cust-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.cust-metric{background:#FAFAF7;border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.cm-label{font-size:0.78rem;color:var(--text-sub);font-weight:600;margin-bottom:10px}
+.cm-value{font-family:'Inter',sans-serif;font-size:1.6rem;font-weight:800;color:var(--navy);line-height:1.1}
+.cm-sub{font-size:0.7rem;color:var(--text-light);margin-top:6px;line-height:1.5}
+
+.rn-bars{background:#FAFAF7;border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:24px}
+.rn-bars h4{font-size:0.92rem;font-weight:700;color:var(--navy);margin-bottom:16px}
+.rn-row{margin-bottom:18px}
+.rn-row:last-child{margin-bottom:0}
+.rn-label{display:flex;justify-content:space-between;font-size:0.82rem;font-weight:600;margin-bottom:6px;color:var(--text)}
+.rn-label span:last-child{font-family:'Inter',sans-serif}
+.rn-bar{height:24px;background:var(--paper-dark);border-radius:6px;overflow:hidden;display:flex}
+.rn-seg{height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Inter',sans-serif;font-size:0.7rem;font-weight:700;transition:all 0.3s}
+.rn-seg.repeat{background:var(--positive)}
+.rn-seg.new-corp{background:var(--negative)}
+.rn-seg.new-individual{background:var(--neutral)}
+.rn-seg.referral{background:var(--gold)}
+.rn-seg.spot{background:#9E9E9E}
+.rn-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:0.72rem;color:var(--text-sub)}
+.rn-legend span{display:flex;align-items:center;gap:6px}
+.rn-legend i{width:12px;height:12px;border-radius:2px;display:inline-block}
+
+.rank-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:8px}
+.rank-table thead th{background:var(--navy);color:#fff;padding:10px 12px;text-align:left;font-size:0.74rem}
+.rank-table thead th.right{text-align:right}
+.rank-table tbody td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.rank-table tbody td.right{text-align:right;font-family:'Inter',sans-serif;font-weight:600}
+.rank-table .rank-no{display:inline-block;width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;text-align:center;line-height:24px;font-size:0.7rem;font-weight:700;margin-right:8px}
+.rank-table tr:nth-child(1) .rank-no{background:linear-gradient(135deg,#FFD700,#B8912A)}
+.rank-table tr:nth-child(2) .rank-no{background:linear-gradient(135deg,#C0C0C0,#888)}
+.rank-table tr:nth-child(3) .rank-no{background:linear-gradient(135deg,#CD7F32,#8B5A2B)}
 
 /* ===== Two col / chart row ===== */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
@@ -230,6 +284,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
   .comp-table thead th,.comp-table tbody td{padding:8px 8px}
   .summary-box{padding:24px 20px}
   .sc-value{font-size:1.25rem}
+  .cust-metrics{grid-template-columns:repeat(2,1fr)}
+  .tx-table{font-size:0.7rem}
+  .tx-table thead th,.tx-table tbody td{padding:6px 5px}
 }
 </style>
 </head>
@@ -550,6 +607,229 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
       <tr class="highlight-row"><td>合計</td><td class="right">26件</td><td class="right">¥155,609</td><td class="right">¥4,045,834</td><td class="right">¥5,190,000</td><td class="right down">78.0%</td><td class="right down">-20.1%</td></tr>
     </tbody>
   </table>
+</div>
+
+<!-- ===== 取引先別売上明細 ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🧾</span> 取引先別売上明細 — 2026年3月（全31取引）</div>
+  <div class="section-sub">取引先・案件単位の全明細。※区分タグ：🟢リピート（FY5期内2回目以降）／🔴新規法人（3月初登場）／🟣公的機関／🟡紹介／⚪一般スポット／🆕新規個人</div>
+  <table class="tx-table">
+    <thead>
+      <tr>
+        <th>取引日</th>
+        <th>取引先 / 区分</th>
+        <th>業務内容</th>
+        <th>依頼者・案件</th>
+        <th>管理番号</th>
+        <th class="right">金額（税別）</th>
+        <th>担当</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- ou2株式会社（クレバリーホーム） REPEAT -->
+      <tr class="cust-header"><td colspan="5">ou2株式会社（クレバリーホーム）<span class="cust-tag repeat">リピート</span></td><td class="right">¥739,093</td><td>5件</td></tr>
+      <tr><td>03/05</td><td>Ou2 / クレバリーホーム</td><td>建物表題登記</td><td>眞榮里和宗・ひとみ様</td><td>2026_37</td><td class="right">¥101,819</td><td>政也</td></tr>
+      <tr><td>03/11</td><td>Ou2 / クレバリーホーム</td><td>建物表題登記</td><td>豊浜竜治様</td><td>2026_42</td><td class="right">¥91,819</td><td>政也</td></tr>
+      <tr><td>03/17</td><td>ou2株式会社</td><td>土地調査測量</td><td>喜屋武哲雄・浦良介様</td><td>2026_43</td><td class="right">¥70,000</td><td>上田</td></tr>
+      <tr><td>03/31</td><td>ou2株式会社</td><td>土地境界確定測量</td><td>嘉陽杏</td><td>2026_54</td><td class="right">¥335,455</td><td>守人</td></tr>
+      <tr><td>03/31</td><td>ou2株式会社</td><td>土地調査測量・高低測量</td><td>ou2株式会社</td><td>2026_60</td><td class="right">¥70,000</td><td>当徹</td></tr>
+      <tr><td>03/31</td><td>ou2株式会社</td><td>土地調査測量・高低測量</td><td>ou2株式会社</td><td>2026_61</td><td class="right">¥70,000</td><td>守人</td></tr>
+
+      <!-- 公嘱協会 REPEAT -->
+      <tr class="cust-header"><td colspan="5">公益社団法人 沖縄県公共嘱託登記土地家屋調査士協会<span class="cust-tag repeat">リピート</span></td><td class="right">¥636,364</td><td>1件</td></tr>
+      <tr><td>03/31</td><td>公嘱協会</td><td>土地境界確定測量・土地分筆登記</td><td>公嘱協会</td><td>2026_55</td><td class="right">¥636,364</td><td>上田</td></tr>
+
+      <!-- パナソニックホームズ REPEAT -->
+      <tr class="cust-header"><td colspan="5">パナソニックホームズ株式会社<span class="cust-tag repeat">リピート</span></td><td class="right">¥492,729</td><td>4件</td></tr>
+      <tr><td>03/25</td><td>パナソニックホームズ</td><td>建物表題登記</td><td>-</td><td>2026_47</td><td class="right">¥90,910</td><td>政也</td></tr>
+      <tr><td>03/25</td><td>パナソニックホームズ</td><td>住居表示申請取得</td><td>-</td><td>2026_47</td><td class="right">¥10,000</td><td>政也</td></tr>
+      <tr><td>03/31</td><td>パナソニックホームズ</td><td>土地境界確定測量</td><td>國吉眞保</td><td>2026_56</td><td class="right">¥321,819</td><td>守人</td></tr>
+      <tr><td>03/31</td><td>パナソニックホームズ</td><td>土地分筆登記</td><td>國吉眞保</td><td>2026_56</td><td class="right">¥70,000</td><td>守人</td></tr>
+
+      <!-- エスケーホーム REPEAT -->
+      <tr class="cust-header"><td colspan="5">株式会社エスケーホーム<span class="cust-tag repeat">リピート</span></td><td class="right">¥340,911</td><td>3件</td></tr>
+      <tr><td>03/05</td><td>エスケーホーム</td><td>建物表題登記</td><td>-</td><td>2026_32</td><td class="right">¥113,637</td><td>政也</td></tr>
+      <tr><td>03/16</td><td>エスケーホーム</td><td>建物表題登記</td><td>山城徳人様</td><td>2026_39</td><td class="right">¥113,637</td><td>政也</td></tr>
+      <tr><td>03/17</td><td>エスケーホーム</td><td>建物表題登記</td><td>玉城秀和・晶子様</td><td>2026_38</td><td class="right">¥113,637</td><td>政也</td></tr>
+
+      <!-- 行政 NEW -->
+      <tr class="cust-header"><td colspan="5">行政（那覇市）<span class="cust-tag gov">公的機関</span><span class="cust-tag new">新規</span></td><td class="right">¥290,304</td><td>1件</td></tr>
+      <tr><td>03/19</td><td>那覇市長</td><td>狭あい道路申請協議</td><td>那覇市</td><td>2026_44</td><td class="right">¥290,304</td><td>当徹</td></tr>
+
+      <!-- 新規顧客 知念忠 -->
+      <tr class="cust-header"><td colspan="5">新規顧客（知念忠様）<span class="cust-tag new">新規個人</span></td><td class="right">¥260,610</td><td>3件</td></tr>
+      <tr><td>03/19</td><td>新規顧客</td><td>建物表題登記</td><td>知念忠</td><td>2026_45</td><td class="right">¥102,728</td><td>当徹</td></tr>
+      <tr><td>03/19</td><td>新規顧客</td><td>建物表題登記（未登記）</td><td>知念忠</td><td>2026_45</td><td class="right">¥136,363</td><td>当徹</td></tr>
+      <tr><td>03/19</td><td>新規顧客</td><td>建物表題登記</td><td>知念忠</td><td>2026_45</td><td class="right">¥21,519</td><td>政也</td></tr>
+
+      <!-- 宮城匠 NEW -->
+      <tr class="cust-header"><td colspan="5">宮城匠司法書士事務所<span class="cust-tag new">新規法人</span></td><td class="right">¥227,273</td><td>1件</td></tr>
+      <tr><td>03/31</td><td>宮城匠司法書士事務所</td><td>土地境界確定測量</td><td>キーストーンエステート株式会社</td><td>2026_53</td><td class="right">¥227,273</td><td>上田</td></tr>
+
+      <!-- 株式会社ASAKA REPEAT -->
+      <tr class="cust-header"><td colspan="5">株式会社ASAKA<span class="cust-tag repeat">リピート</span></td><td class="right">¥203,091</td><td>3件</td></tr>
+      <tr><td>03/12</td><td>株式会社ASAKA</td><td>土地地目変更登記</td><td>株式会社ASAKA</td><td>2026_40</td><td class="right">¥109,091</td><td>政也</td></tr>
+      <tr><td>03/12</td><td>株式会社ASAKA</td><td>土地地目変更登記</td><td>株式会社ASAKA</td><td>2026_41</td><td class="right">¥30,000</td><td>守人</td></tr>
+      <tr><td>03/12</td><td>株式会社ASAKA</td><td>土地合筆</td><td>株式会社ASAKA</td><td>2026_41</td><td class="right">¥64,000</td><td>守人</td></tr>
+
+      <!-- 日商エステム NEW -->
+      <tr class="cust-header"><td colspan="5">株式会社日商エステム<span class="cust-tag new">新規法人</span></td><td class="right">¥192,728</td><td>1件</td></tr>
+      <tr><td>03/31</td><td>株式会社日商エステム</td><td>土地調査測量・高低測量</td><td>(株)日商エステム</td><td>2026_59</td><td class="right">¥192,728</td><td>当徹</td></tr>
+
+      <!-- 新規顧客 平良聡 -->
+      <tr class="cust-header"><td colspan="5">新規顧客（平良聡様）<span class="cust-tag new">新規個人</span></td><td class="right">¥119,091</td><td>1件</td></tr>
+      <tr><td>03/31</td><td>新規顧客</td><td>建物表題部変更登記</td><td>平良聡</td><td>2026_51</td><td class="right">¥119,091</td><td>政也</td></tr>
+
+      <!-- 紹介 -->
+      <tr class="cust-header"><td colspan="5">紹介経由（重久恵美子・広瀬美智様）<span class="cust-tag referral">紹介</span></td><td class="right">¥109,091</td><td>1件</td></tr>
+      <tr><td>03/31</td><td>紹介</td><td>土地合筆</td><td>重久恵美子・広瀬美智</td><td>2026_57</td><td class="right">¥109,091</td><td>守人</td></tr>
+
+      <!-- 一般 比嘉裕一 -->
+      <tr class="cust-header"><td colspan="5">一般（比嘉裕一様）<span class="cust-tag spot">スポット</span></td><td class="right">¥91,819</td><td>1件</td></tr>
+      <tr><td>03/18</td><td>一般</td><td>建物表題登記</td><td>比嘉裕一</td><td>2026_48</td><td class="right">¥91,819</td><td>政也</td></tr>
+
+      <!-- 大原工業 NEW -->
+      <tr class="cust-header"><td colspan="5">大原工業商事株式会社<span class="cust-tag new">新規法人</span></td><td class="right">¥90,910</td><td>1件</td></tr>
+      <tr><td>03/26</td><td>大原工業商事</td><td>土地調査測量(復元)</td><td>嘉手苅悦子</td><td>2026_46</td><td class="right">¥90,910</td><td>守人</td></tr>
+
+      <!-- サファリエステート NEW -->
+      <tr class="cust-header"><td colspan="5">サファリエステート株式会社<span class="cust-tag new">新規法人</span></td><td class="right">¥70,910</td><td>1件</td></tr>
+      <tr><td>03/26</td><td>サファリエステート</td><td>土地分筆登記</td><td>サファリエステート株式会社</td><td>2026_49</td><td class="right">¥70,910</td><td>守人</td></tr>
+
+      <!-- 一般 沖縄協会 -->
+      <tr class="cust-header"><td colspan="5">一般（公益社団法人沖縄協会）<span class="cust-tag spot">スポット</span></td><td class="right">¥63,637</td><td>1件</td></tr>
+      <tr><td>03/31</td><td>一般</td><td>建物滅失登記</td><td>公益社団法人沖縄協会</td><td>2026_52</td><td class="right">¥63,637</td><td>政也</td></tr>
+
+      <!-- 一般 復元 -->
+      <tr class="cust-header"><td colspan="5">一般（土地境界復元）<span class="cust-tag spot">スポット</span></td><td class="right">¥60,000</td><td>1件</td></tr>
+      <tr><td>03/31</td><td>一般</td><td>土地境界復元測量</td><td>-</td><td>2026_58</td><td class="right">¥60,000</td><td>上田</td></tr>
+
+      <!-- 一般 滅失 -->
+      <tr class="cust-header"><td colspan="5">一般（建物滅失）<span class="cust-tag spot">スポット</span></td><td class="right">¥57,273</td><td>1件</td></tr>
+      <tr><td>03/27</td><td>一般</td><td>建物滅失登記</td><td>-</td><td>2026_50</td><td class="right">¥57,273</td><td>政也</td></tr>
+
+      <tr class="highlight-row">
+        <td colspan="5"><strong>合計</strong></td>
+        <td class="right"><strong>¥4,045,834</strong></td>
+        <td><strong>31件 / 17顧客</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== 顧客分析ダッシュボード ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">👥</span> 顧客分析ダッシュボード — リピート/新規/担当者分布</div>
+  <div class="section-sub">取引先のリピート/新規判定はFY5期（2025年7月以降）の取引履歴に基づく。データベースは <code>db/transactions.csv</code> ／ <code>db/customers.csv</code> に蓄積中（FY5: 7ヶ月分・130取引・32顧客）。</div>
+
+  <div class="cust-metrics">
+    <div class="cust-metric">
+      <div class="cm-label">取引先数（3月）</div>
+      <div class="cm-value">17</div>
+      <div class="cm-sub">法人10 + 新規個人2 + 紹介1 + スポット4</div>
+    </div>
+    <div class="cust-metric">
+      <div class="cm-label">取引件数（3月）</div>
+      <div class="cm-value">31</div>
+      <div class="cm-sub">前年同月 21件 → +47.6%</div>
+    </div>
+    <div class="cust-metric">
+      <div class="cm-label">平均取引単価</div>
+      <div class="cm-value">¥130,511</div>
+      <div class="cm-sub">¥4,045,834 ÷ 31件</div>
+    </div>
+    <div class="cust-metric">
+      <div class="cm-label">Top5 集中度</div>
+      <div class="cm-value">61.8%</div>
+      <div class="cm-sub">ou2/公嘱/パナ/エスケー/行政</div>
+    </div>
+    <div class="cust-metric">
+      <div class="cm-label">法人リピート率</div>
+      <div class="cm-value alert-text-green">50.0%</div>
+      <div class="cm-sub">法人10社中 5社が継続取引</div>
+    </div>
+    <div class="cust-metric">
+      <div class="cm-label">法人新規率</div>
+      <div class="cm-value alert-text-green">50.0%</div>
+      <div class="cm-sub">法人10社中 5社が3月初登場</div>
+    </div>
+    <div class="cust-metric">
+      <div class="cm-label">新規個人獲得</div>
+      <div class="cm-value">2件</div>
+      <div class="cm-sub">知念忠様・平良聡様</div>
+    </div>
+    <div class="cust-metric">
+      <div class="cm-label">紹介経由案件</div>
+      <div class="cm-value">1件</div>
+      <div class="cm-sub">¥109,091（重久・広瀬）</div>
+    </div>
+  </div>
+
+  <div class="rn-bars">
+    <h4>📊 売上構成 — リピート vs 新規 vs 紹介 vs スポット</h4>
+    <div class="rn-row">
+      <div class="rn-label"><span>金額ベース構成（¥4,045,834）</span><span>5区分</span></div>
+      <div class="rn-bar">
+        <div class="rn-seg repeat" style="width:59.6%">59.6%</div>
+        <div class="rn-seg new-corp" style="width:21.6%">21.6%</div>
+        <div class="rn-seg new-individual" style="width:9.4%">9.4%</div>
+        <div class="rn-seg referral" style="width:2.7%">2.7%</div>
+        <div class="rn-seg spot" style="width:6.7%">6.7%</div>
+      </div>
+    </div>
+    <div class="rn-row">
+      <div class="rn-label"><span>件数ベース構成（31件）</span><span>5区分</span></div>
+      <div class="rn-bar">
+        <div class="rn-seg repeat" style="width:51.6%">16件</div>
+        <div class="rn-seg new-corp" style="width:25.8%">8件</div>
+        <div class="rn-seg new-individual" style="width:12.9%">4件</div>
+        <div class="rn-seg referral" style="width:3.2%">1件</div>
+        <div class="rn-seg spot" style="width:6.5%">2件</div>
+      </div>
+    </div>
+    <div class="rn-legend">
+      <span><i style="background:var(--positive)"></i>リピート法人 ¥2,412,188（5社）</span>
+      <span><i style="background:var(--negative)"></i>新規法人 ¥872,125（5社）</span>
+      <span><i style="background:var(--neutral)"></i>新規個人 ¥379,701（2件）</span>
+      <span><i style="background:var(--gold)"></i>紹介 ¥109,091（1件）</span>
+      <span><i style="background:#9E9E9E"></i>一般スポット ¥272,729（4件）</span>
+    </div>
+  </div>
+
+  <h4 style="font-size:0.95rem;font-weight:700;color:var(--navy);margin:24px 0 12px">🏆 FY5累計 トップ顧客ランキング（FY5: 2025年7月〜2026年3月）</h4>
+  <table class="rank-table">
+    <thead>
+      <tr>
+        <th>順位</th>
+        <th>顧客名</th>
+        <th>セグメント</th>
+        <th class="right">FY5累計売上</th>
+        <th class="right">取引数</th>
+        <th class="right">アクティブ月数</th>
+        <th>ステータス</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="rank-no">1</span></td><td>パナソニックホームズ株式会社</td><td>ハウスメーカー</td><td class="right">¥3,405,198</td><td class="right">26</td><td class="right">6</td><td><span class="cust-tag repeat">アクティブ</span></td></tr>
+      <tr><td><span class="rank-no">2</span></td><td>株式会社エスケーホーム</td><td>ハウスメーカー</td><td class="right">¥3,163,883</td><td class="right">12</td><td class="right">6</td><td><span class="cust-tag repeat">アクティブ</span></td></tr>
+      <tr><td><span class="rank-no">3</span></td><td>ou2株式会社（クレバリーホーム）</td><td>ハウスメーカー</td><td class="right">¥1,622,824</td><td class="right">18</td><td class="right">4</td><td><span class="cust-tag repeat">アクティブ</span></td></tr>
+      <tr><td><span class="rank-no">4</span></td><td>公益社団法人 沖縄県公嘱協会</td><td>業界団体</td><td class="right">¥1,644,258</td><td class="right">3</td><td class="right">3</td><td><span class="cust-tag repeat">アクティブ</span></td></tr>
+      <tr><td><span class="rank-no">5</span></td><td>大鏡建設株式会社</td><td>建設業</td><td class="right">¥860,911</td><td class="right">3</td><td class="right">3</td><td><span class="cust-tag spot">休眠化</span></td></tr>
+      <tr><td><span class="rank-no">6</span></td><td>土地家屋調査士法人匡事務所</td><td>士業連携</td><td class="right">¥711,673</td><td class="right">2</td><td class="right">2</td><td><span class="cust-tag spot">休眠化</span></td></tr>
+      <tr><td><span class="rank-no">7</span></td><td>沖電開発株式会社</td><td>不動産開発</td><td class="right">¥667,273</td><td class="right">2</td><td class="right">1</td><td><span class="cust-tag spot">休眠化</span></td></tr>
+      <tr><td><span class="rank-no">8</span></td><td>株式会社ASAKA</td><td>不動産開発</td><td class="right">¥451,729</td><td class="right">6</td><td class="right">3</td><td><span class="cust-tag repeat">アクティブ</span></td></tr>
+      <tr><td><span class="rank-no">9</span></td><td>株式会社ライズ</td><td>不動産開発</td><td class="right">¥402,728</td><td class="right">1</td><td class="right">1</td><td><span class="cust-tag new">最近獲得</span></td></tr>
+      <tr><td><span class="rank-no">10</span></td><td>株式会社エレファントライフ</td><td>不動産開発</td><td class="right">¥337,273</td><td class="right">1</td><td class="right">1</td><td><span class="cust-tag new">最近獲得</span></td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:20px;padding:16px 18px;background:var(--paper-dark);border-radius:8px;font-size:0.78rem;color:var(--text-sub);line-height:1.7">
+    <strong style="color:var(--navy)">💡 顧客戦略インサイト:</strong><br>
+    ・<strong>Top3ハウスメーカー（パナソニック・エスケー・ou2）でFY5累計の53.6%</strong>を占める。継続関係の維持と単価向上が最重要。<br>
+    ・<strong>3月の法人新規5社（行政・宮城匠・日商エステム・大原・サファリ）</strong>を継続取引化できれば、FY6の収益基盤強化につながる。特に行政案件（狭あい道路）は反復受注の可能性あり。<br>
+    ・<strong>休眠化顧客（大鏡・匡事務所・沖電）の再アクティブ化</strong>が短期成果の鍵。前回取引から3ヶ月以上空いている法人へのリーチ施策を実施すべき。<br>
+    ・<strong>紹介・一般スポット 計¥381,820（9.4%）</strong>。クライアント自己流入チャネルの仕組み化（紹介プログラム）で安定化を図る。
+  </div>
 </div>
 
 <!-- ===== 販管費 全勘定科目 ===== -->
