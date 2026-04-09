@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>土地家屋調査士法人 半嶺当徹事務所 ｜ 経営分析ポータル</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1A2540;--navy-dark:#0F1829;--gold:#B8912A;--gold-light:#D4A843;--paper:#F5F2EC;--text:#2C2C2C;--text-sub:#6B6B6B;--border:#E0DCD4;--positive:#1B7A3D;--negative:#8B2020}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--text);min-height:100vh}
+
+.portal-header{background:linear-gradient(135deg,#1a2332 0%,#1A2540 50%,#0F1829 100%);color:#fff;padding:48px 24px 36px;text-align:center;position:relative;overflow:hidden}
+.portal-header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(184,145,42,0.08) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(184,145,42,0.06) 0%,transparent 60%)}
+.portal-header .inner{position:relative;z-index:1}
+.ui-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:22px}
+.ui-logo img{height:28px;opacity:0.85;flex-shrink:0}
+.ui-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px}
+.client-row{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:14px;flex-wrap:wrap}
+.client-logo{height:60px;width:auto;max-width:280px;background:#fff;padding:10px 16px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,0.3);flex-shrink:0}
+.ticker-badge{display:inline-block;background:rgba(184,145,42,0.15);border:1px solid rgba(184,145,42,0.3);border-radius:8px;padding:6px 16px;font-size:13px;color:var(--gold-light);letter-spacing:1.5px}
+.portal-header h1{font-family:'Noto Serif JP',serif;font-size:1.55rem;margin:8px 0 4px;letter-spacing:1.5px}
+.portal-header .sub{color:rgba(255,255,255,0.6);font-size:0.85rem}
+
+.container{max-width:1000px;margin:0 auto;padding:48px 24px 60px}
+.section-label{font-size:0.72rem;color:var(--text-sub);font-weight:700;letter-spacing:2px;margin-bottom:20px}
+
+/* Company Overview */
+.overview{background:#fff;border-radius:16px;padding:32px;margin-bottom:32px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.05)}
+.overview h2{font-family:'Noto Serif JP',serif;font-size:1.15rem;color:var(--navy);margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--gold)}
+.ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px}
+.ov-grid dt{font-size:0.78rem;color:var(--text-sub);font-weight:500}
+.ov-grid dd{font-size:0.88rem;color:var(--text);font-weight:500;margin-bottom:6px}
+.ov-mvv{margin-top:24px;padding:18px;background:var(--paper);border-radius:10px;font-size:0.82rem;line-height:1.8;color:var(--text-sub)}
+.ov-mvv strong{color:var(--gold);font-weight:700;letter-spacing:1px}
+
+/* Reports */
+.report-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.report-card{background:#fff;border-radius:16px;padding:28px 26px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.05);transition:all 0.2s;text-decoration:none;color:var(--text);display:block}
+.report-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.1);border-color:var(--gold)}
+.rc-icon{font-size:1.8rem;margin-bottom:12px}
+.rc-period{font-size:0.7rem;color:var(--gold);font-weight:700;letter-spacing:1.5px;margin-bottom:6px}
+.rc-title{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:10px;line-height:1.5}
+.rc-desc{font-size:0.78rem;color:var(--text-sub);line-height:1.7;margin-bottom:14px}
+.rc-meta{display:flex;align-items:center;gap:10px;font-size:0.7rem;color:var(--text-light)}
+.rc-badge{display:inline-block;font-size:0.65rem;background:var(--gold);color:#fff;padding:3px 12px;border-radius:4px;font-weight:700;letter-spacing:0.5px}
+.rc-soon{background:var(--paper);color:var(--text-sub);border:1px dashed var(--border);text-align:center;padding:48px 24px;border-radius:16px}
+.rc-soon .rc-icon{opacity:0.4}
+
+.footer{background:var(--navy-dark);color:rgba(255,255,255,0.5);padding:32px 20px;text-align:center}
+.footer-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px}
+.footer-logo img{height:28px;opacity:0.85;flex-shrink:0}
+.footer-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:1.5px}
+.footer-info{font-size:0.75rem;margin-bottom:12px}
+.footer-conf{font-size:0.7rem;font-weight:700;color:var(--gold);letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);display:inline-block;padding:4px 16px;border-radius:4px}
+
+.portal-link{position:fixed;top:16px;left:16px;z-index:999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;background:#1A2540;border:1px solid rgba(184,145,42,0.2);color:#D4A843;text-decoration:none;font-size:.78rem;font-weight:500;transition:all .15s;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.portal-link:hover{background:#B8912A;color:#0F1829;border-color:#B8912A}
+.logout-btn{position:fixed;top:16px;right:16px;z-index:999;background:rgba(26,37,64,0.9);color:var(--gold-light);border:1px solid rgba(184,145,42,0.2);padding:8px 16px;border-radius:8px;font-size:.75rem;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .15s}
+.logout-btn:hover{background:var(--gold);color:var(--navy-dark)}
+
+/* Login Screen */
+.portal-content{display:none}
+.login-screen{position:fixed;inset:0;background:var(--navy-dark);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9999;overflow-y:auto}
+.login-screen::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(184,145,42,0.06) 0%,transparent 60%),radial-gradient(ellipse at 70% 60%,rgba(184,145,42,0.04) 0%,transparent 60%);pointer-events:none}
+.login-card{position:relative;width:100%;max-width:440px;background:rgba(26,37,64,0.95);border:1px solid rgba(184,145,42,0.15);border-radius:20px;padding:44px 36px;text-align:center;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+.login-ui-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:24px}
+.login-ui-logo img{height:28px;opacity:0.85}
+.login-ui-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.78rem;letter-spacing:1.5px}
+.login-client-logo{height:64px;width:auto;max-width:240px;background:#fff;padding:10px 16px;border-radius:10px;margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,0.3)}
+.login-icon{font-size:2.4rem;margin-bottom:14px}
+.login-title{font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:1px}
+.login-subtitle{font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:18px}
+.confidential-badge{display:inline-block;font-size:0.65rem;font-weight:700;color:var(--gold);letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);padding:4px 14px;border-radius:4px;margin-bottom:24px}
+.input-group{margin-bottom:18px;text-align:left}
+.input-group label{display:block;font-size:0.74rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.5px}
+.input-group input{width:100%;padding:13px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#fff;font-size:0.95rem;font-family:'Inter',sans-serif;letter-spacing:2px;outline:none;transition:all 0.2s}
+.input-group input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,145,42,0.15)}
+.input-group input::placeholder{color:rgba(255,255,255,0.25);letter-spacing:1px}
+.login-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--navy-dark);border:none;border-radius:10px;font-size:0.9rem;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.2s;letter-spacing:1px}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(184,145,42,0.4)}
+.error-msg{color:var(--negative);font-size:0.78rem;margin-top:12px;min-height:20px;font-weight:500}
+.login-footer{font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:20px;line-height:1.6}
+
+@media(max-width:768px){
+  .portal-header{padding:36px 16px 28px}
+  .client-row{flex-direction:column;gap:10px}
+  .client-logo{height:48px;max-width:220px;padding:6px 12px}
+  .portal-header h1{font-size:1.2rem}
+  .ov-grid{grid-template-columns:1fr}
+  .report-grid{grid-template-columns:1fr}
+  .container{padding:32px 16px 50px}
+  .overview{padding:22px 18px}
+}
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I"><span>Consulting</span>
+    </div>
+    <img class="login-client-logo" src="hanmine_logo.png" alt="土地家屋調査士法人 半嶺当徹事務所">
+    <div class="login-icon">🔒</div>
+    <div class="login-title">経営分析ポータル</div>
+    <div class="login-subtitle">閲覧にはパスワードが必要です</div>
+    <div class="confidential-badge">CONFIDENTIAL</div>
+    <div class="input-group">
+      <label>パスワード</label>
+      <input type="password" id="pwInput" placeholder="パスワードを入力" autocomplete="off">
+    </div>
+    <button class="login-btn" onclick="attemptLogin()">閲覧する</button>
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="login-footer">U&amp;Iコンサルティング ｜ 本資料は社外秘です</div>
+  </div>
+</div>
+
+<div class="portal-content" id="portalContent">
+
+<button class="logout-btn" onclick="logout()">ログアウト</button>
+<a class="portal-link" href="../index.html">← クライアント一覧</a>
+
+<div class="portal-header">
+  <div class="inner">
+    <div class="ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I"><span>Consulting</span>
+    </div>
+    <div class="client-row">
+      <img class="client-logo" src="hanmine_logo.png" alt="土地家屋調査士法人 半嶺当徹事務所">
+      <div class="ticker-badge">HANMINE TOTETSU</div>
+    </div>
+    <h1>経営分析ポータル</h1>
+    <div class="sub">沖縄県那覇市 ｜ 土地家屋調査士法人</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Company Overview -->
+<div class="overview">
+  <h2>会社概要</h2>
+  <dl class="ov-grid">
+    <div><dt>会社名</dt><dd>土地家屋調査士法人 半嶺当徹事務所</dd></div>
+    <div><dt>代表者</dt><dd>半嶺 当徹（土地家屋調査士・一級建築士）</dd></div>
+    <div><dt>所在地</dt><dd>沖縄県那覇市楚辺1丁目17番18号 3階</dd></div>
+    <div><dt>設立</dt><dd>2014年開業 / 2021年法人化</dd></div>
+    <div><dt>TEL</dt><dd>098-833-6156</dd></div>
+    <div><dt>Web</dt><dd><a href="https://www.hnmn.jp/" target="_blank" style="color:var(--gold);text-decoration:none">https://www.hnmn.jp/</a></dd></div>
+    <div><dt>従業員数</dt><dd>4名（正社員3名・パート1名）</dd></div>
+    <div><dt>事業内容</dt><dd>不動産表題部登記・測量業務</dd></div>
+  </dl>
+  <div class="ov-mvv">
+    <strong>MISSION</strong><br>
+    郷土愛を持ち、調査士業を通して社会を豊かにする。<br><br>
+    <strong>VISION</strong><br>
+    依頼者の心の声に寄り添い、課題解決に取り組む / 一人一人の可能性が広がる職場 / 新しい価値を創造し、ともに成長する<br><br>
+    <strong>VALUE</strong><br>
+    明元素・現状打破・受容・自責・他力
+  </div>
+</div>
+
+<!-- Reports -->
+<div class="section-label">REPORTS</div>
+<div class="report-grid">
+  <a class="report-card" href="./financial-2026-03.html">
+    <div class="rc-icon">📊</div>
+    <div class="rc-period">第5期 ｜ 2026年3月度</div>
+    <div class="rc-title">月次経営分析レポート</div>
+    <div class="rc-desc">予実・前年同月比・部門別売上・販管費全21科目分析・経営指標8項目（流動比率/自己資本比率/固定長期適合率/労働分配率/労働生産性/ROA/ROE/EBITDA）・借入余力3シナリオ・改善提言6件。</div>
+    <div class="rc-meta">
+      <span class="rc-badge">MONTHLY</span>
+      <span>最終更新: 2026年4月9日</span>
+    </div>
+  </a>
+  <div class="rc-soon">
+    <div class="rc-icon">📈</div>
+    <div class="rc-period">第5期 ｜ 上期通期予定</div>
+    <div class="rc-title">第5期 上期決算分析（予定）</div>
+    <div class="rc-desc">2025年7月〜2026年6月の通期決算後、半期/通期の総合分析レポートを作成予定。</div>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-logo">
+    <img src="../assets/ui_logo_white.png" alt="U&amp;I"><span>Consulting</span>
+  </div>
+  <div class="footer-info">
+    土地家屋調査士法人 半嶺当徹事務所 ｜ 経営分析ポータル
+  </div>
+  <div class="footer-conf">最重要機密（CONFIDENTIAL）</div>
+</div>
+
+</div>
+<!-- /portal-content -->
+
+<script>
+var CORRECT_HASH='a0c6889a24680f4e9b2b0139a1086a4c841cf5886c37a9cf1aaa40db53935e69';
+var SESSION_KEY='hanmine_auth';
+
+async function sha256(message){
+  var msgBuffer=new TextEncoder().encode(message);
+  var hashBuffer=await crypto.subtle.digest('SHA-256',msgBuffer);
+  var hashArray=Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+}
+async function attemptLogin(){
+  var pw=document.getElementById('pwInput').value;
+  var hash=await sha256(pw);
+  if(hash===CORRECT_HASH){
+    sessionStorage.setItem(SESSION_KEY,'1');
+    showPortal();
+  } else {
+    document.getElementById('errorMsg').textContent='パスワードが正しくありません';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').style.borderColor='#8B2020';
+    setTimeout(function(){document.getElementById('pwInput').style.borderColor='';},1500);
+  }
+}
+function showPortal(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('portalContent').style.display='block';
+}
+function logout(){
+  sessionStorage.removeItem(SESSION_KEY);
+  location.reload();
+}
+document.getElementById('pwInput').addEventListener('keydown',function(e){
+  if(e.key==='Enter') attemptLogin();
+});
+if(sessionStorage.getItem(SESSION_KEY)==='1') showPortal();
+</script>
+
+</body>
+</html>

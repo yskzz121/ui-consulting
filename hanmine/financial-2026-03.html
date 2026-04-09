@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>半嶺当徹土地家屋調査士事務所 ｜ 2026年3月度 月次経営分析レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{
+  --navy:#1A2540; --navy-light:#243352; --navy-dark:#0F1829;
+  --gold:#B8912A; --gold-light:#D4A843; --gold-pale:rgba(184,145,42,0.08);
+  --paper:#F5F2EC; --paper-dark:#EDE8DF;
+  --text:#2C2C2C; --text-sub:#6B6B6B; --text-light:#999;
+  --positive:#1B7A3D; --positive-bg:#E8F5E9;
+  --negative:#8B2020; --negative-bg:#FFEBEE;
+  --neutral:#E65100; --neutral-bg:#FFF3E0;
+  --border:#E0DCD4; --card-shadow:0 2px 12px rgba(0,0,0,0.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+.container{max-width:1200px;margin:0 auto;padding:40px 24px 60px}
+
+/* ===== Header ===== */
+.header{background:linear-gradient(135deg,#1a2332 0%,#1A2540 50%,#0F1829 100%);color:#fff;border-bottom:1px solid rgba(184,145,42,0.15);padding:48px 24px 40px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(184,145,42,0.08) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(184,145,42,0.06) 0%,transparent 60%)}
+.header-content{position:relative;z-index:1}
+.header-ui-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px}
+.header-ui-logo img{height:28px;opacity:0.85;flex-shrink:0}
+.header-ui-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:1.5px}
+.header-client-row{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:14px;flex-wrap:wrap}
+.client-logo{height:54px;width:auto;max-width:240px;background:#fff;padding:8px 14px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.25);flex-shrink:0}
+.ticker-badge{display:inline-block;background:rgba(184,145,42,0.15);border:1px solid rgba(184,145,42,0.3);border-radius:8px;padding:6px 16px;font-size:14px;color:var(--gold-light);letter-spacing:1px}
+.header h1{font-family:'Noto Serif JP',serif;font-size:1.9rem;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:2px}
+.header-period{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:4px}
+.period-fiscal{background:rgba(184,145,42,0.2);border:1px solid rgba(184,145,42,0.4);border-radius:6px;padding:4px 14px;font-size:0.85rem;color:var(--gold-light);font-weight:700;letter-spacing:1px}
+.period-month{font-size:1.1rem;color:rgba(255,255,255,0.9);font-weight:700;letter-spacing:1px}
+
+/* ===== Section ===== */
+.section{background:#fff;border-radius:16px;padding:32px;margin-bottom:28px;box-shadow:var(--card-shadow);border:1px solid var(--border)}
+.section-title{font-family:'Noto Serif JP',serif;font-size:1.25rem;font-weight:700;color:var(--navy);margin-bottom:24px;padding-bottom:12px;border-bottom:2px solid var(--gold);display:flex;align-items:center;gap:10px}
+.section-sub{font-size:0.85rem;color:var(--text-sub);margin-bottom:18px;margin-top:-12px}
+
+/* ===== Executive Summary ===== */
+.summary-box{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);color:#fff;border-radius:16px;padding:32px;margin-bottom:28px;position:relative;overflow:hidden}
+.summary-box::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 80% 20%,rgba(184,145,42,0.1) 0%,transparent 60%)}
+.summary-box-content{position:relative;z-index:1}
+.summary-box h3{color:var(--gold-light);font-family:'Noto Serif JP',serif;font-size:1.15rem;margin-bottom:14px;letter-spacing:1px}
+.summary-box p{font-size:0.95rem;line-height:1.85;color:rgba(255,255,255,0.92)}
+.summary-box .highlight{color:var(--gold-light);font-weight:700}
+.summary-box .neg{color:#FF8A8A;font-weight:700}
+.summary-box .pos{color:#7FE0A1;font-weight:700}
+
+/* ===== Score Row (Key Metrics) ===== */
+.score-row{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:8px}
+.score-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px 18px;box-shadow:var(--card-shadow);text-align:center}
+.sc-label{font-size:0.78rem;color:var(--text-sub);font-weight:500;margin-bottom:8px;letter-spacing:0.5px}
+.sc-value{font-family:'Inter',sans-serif;font-size:1.15rem;font-weight:800;color:var(--navy);line-height:1.2;letter-spacing:-0.5px}
+.sc-value.up{color:var(--positive)}
+.sc-value.down{color:var(--negative)}
+.sc-change{font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:700;margin-top:6px}
+.sc-change.up{color:var(--positive)}
+.sc-change.down{color:var(--negative)}
+.sc-sub{font-size:0.7rem;color:var(--text-light);margin-top:4px}
+
+/* ===== Comparison Table ===== */
+.comp-table{width:100%;border-collapse:collapse;font-size:0.85rem;margin-top:8px}
+.comp-table thead th{background:var(--navy);color:#fff;padding:12px 14px;text-align:left;font-weight:700;font-size:0.78rem;letter-spacing:0.5px;border-bottom:2px solid var(--gold)}
+.comp-table thead th.right{text-align:right}
+.comp-table tbody td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.comp-table tbody td.right{text-align:right;font-family:'Inter',sans-serif;font-weight:600}
+.comp-table tbody tr:hover{background:var(--gold-pale)}
+.comp-table tbody tr.highlight-row{background:var(--paper-dark);font-weight:700}
+.comp-table tbody tr.highlight-row td{font-weight:700}
+.comp-table tbody tr.subtotal-row{background:#FAFAF7;font-weight:700;border-top:2px solid var(--gold)}
+.comp-table tbody tr.subtotal-row td{font-weight:700}
+.up{color:var(--positive);font-weight:700}
+.down{color:var(--negative);font-weight:700}
+.neut{color:var(--text-sub)}
+.cat-tag{display:inline-block;font-size:0.65rem;padding:2px 8px;border-radius:4px;background:var(--paper-dark);color:var(--text-sub);font-weight:600;margin-right:6px}
+.cat-tag.top5{background:var(--gold-pale);color:var(--gold)}
+.cat-tag.alert{background:var(--negative-bg);color:var(--negative)}
+.cat-tag.new{background:var(--neutral-bg);color:var(--neutral)}
+
+/* ===== Two col / chart row ===== */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:8px}
+.chart-container{position:relative;height:300px;width:100%}
+.chart-card{background:#FAFAF7;border:1px solid var(--border);border-radius:12px;padding:20px}
+.chart-card h4{font-size:0.92rem;font-weight:700;color:var(--navy);margin-bottom:14px;text-align:center}
+
+/* ===== Metrics Grid ===== */
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.metric-card{background:#FAFAF7;border:1px solid var(--border);border-radius:12px;padding:22px}
+.mc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.mc-label{font-size:0.85rem;color:var(--text-sub);font-weight:600}
+.mc-badge{font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:4px;letter-spacing:0.5px}
+.mc-badge.good{background:var(--positive-bg);color:var(--positive)}
+.mc-badge.bad{background:var(--negative-bg);color:var(--negative)}
+.mc-badge.warn{background:var(--neutral-bg);color:var(--neutral)}
+.mc-values{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+.mc-current{font-family:'Inter',sans-serif;font-size:1.65rem;font-weight:800;color:var(--navy)}
+.mc-prev{font-size:0.72rem;color:var(--text-light)}
+.mc-bar{width:100%;height:6px;background:var(--paper-dark);border-radius:3px;overflow:hidden;margin-top:10px}
+.mc-bar-fill{height:100%;border-radius:3px;transition:width 0.4s ease}
+.mc-bar-fill.good{background:var(--positive)}
+.mc-bar-fill.bad{background:var(--negative)}
+.mc-bar-fill.warn{background:var(--neutral)}
+.mc-bar-fill.gold{background:var(--gold)}
+.mc-note{font-size:0.7rem;color:var(--text-sub);margin-top:8px;line-height:1.5}
+
+/* ===== Gauge Row ===== */
+.gauge-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.gauge-card{background:#FAFAF7;border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.gc-label{font-size:0.78rem;color:var(--text-sub);font-weight:600;margin-bottom:10px}
+.gc-value{font-family:'Inter',sans-serif;font-size:1.85rem;font-weight:800;line-height:1.1}
+.gc-unit{font-size:0.78rem;color:var(--text-sub);margin-top:2px}
+.gc-note{font-size:0.7rem;color:var(--text-light);margin-top:8px;line-height:1.5}
+
+/* ===== Loan capacity cards ===== */
+.loan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.loan-card{background:#FAFAF7;border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;position:relative}
+.loan-tag{display:inline-block;font-size:0.72rem;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:12px;letter-spacing:0.5px}
+.loan-tag.low{background:var(--positive-bg);color:var(--positive)}
+.loan-tag.mid{background:var(--gold-pale);color:var(--gold)}
+.loan-tag.high{background:var(--neutral-bg);color:var(--neutral)}
+.loan-amount{font-family:'Inter',sans-serif;font-size:1.95rem;font-weight:800;color:var(--navy);line-height:1.1}
+.loan-add{font-family:'Inter',sans-serif;font-size:0.95rem;font-weight:700;margin-top:8px;color:var(--text-sub)}
+.loan-add strong{color:var(--positive)}
+.loan-desc{font-size:0.72rem;color:var(--text-light);margin-top:10px;line-height:1.5}
+
+/* ===== Alert / Green Lamps ===== */
+.alert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.alert-block{padding:22px;border-radius:12px;border:1px solid var(--border)}
+.alert-block.danger{background:#FFF5F5}
+.alert-block.success{background:#F4FBF6}
+.alert-block h4{font-size:0.95rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.alert-block.danger h4{color:var(--negative)}
+.alert-block.success h4{color:var(--positive)}
+.alert-block ul{list-style:none;padding:0}
+.alert-block li{padding:9px 0;border-bottom:1px dashed var(--border);font-size:0.85rem;display:flex;align-items:center;gap:10px}
+.alert-block li:last-child{border-bottom:none}
+.lamp{display:inline-block;width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.lamp.red{background:var(--negative);box-shadow:0 0 8px rgba(139,32,32,0.6);animation:blinkRed 1.4s infinite}
+.lamp.green{background:var(--positive);box-shadow:0 0 8px rgba(27,122,61,0.6);animation:blinkGreen 1.6s infinite}
+.alert-text-red{color:var(--negative);font-weight:700;animation:textPulseRed 1.4s infinite}
+.alert-text-green{color:var(--positive);font-weight:700;animation:textPulseGreen 1.6s infinite}
+@keyframes blinkRed{0%,100%{opacity:1;box-shadow:0 0 8px rgba(139,32,32,0.6)}50%{opacity:0.4;box-shadow:0 0 16px rgba(139,32,32,0.9)}}
+@keyframes blinkGreen{0%,100%{opacity:1;box-shadow:0 0 8px rgba(27,122,61,0.6)}50%{opacity:0.4;box-shadow:0 0 16px rgba(27,122,61,0.9)}}
+@keyframes textPulseRed{0%,100%{opacity:1}50%{opacity:0.55}}
+@keyframes textPulseGreen{0%,100%{opacity:1}50%{opacity:0.55}}
+
+/* ===== Proposal Cards ===== */
+.proposal-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.proposal-card{background:#FAFAF7;border:1px solid var(--border);border-radius:12px;padding:24px}
+.pc-priority{display:inline-block;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:4px;background:var(--paper-dark);color:var(--text-sub);margin-bottom:10px;letter-spacing:0.5px}
+.pc-priority.critical{background:var(--negative-bg);color:var(--negative)}
+.pc-priority.important{background:var(--neutral-bg);color:var(--neutral)}
+.pc-priority.suggest{background:var(--positive-bg);color:var(--positive)}
+.pc-title{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:10px}
+.pc-body{font-size:0.85rem;color:var(--text-sub);line-height:1.7;margin-bottom:12px}
+.pc-impact{font-size:0.78rem;font-weight:700;color:var(--gold);padding-top:10px;border-top:1px dashed var(--border)}
+
+/* ===== Overview Grid (revenue breakdown) ===== */
+.overview-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:24px}
+.kv-list{background:#FAFAF7;border:1px solid var(--border);border-radius:12px;padding:18px 22px}
+.kv-list dl{display:grid;grid-template-columns:1fr auto;gap:6px 14px}
+.kv-list dt{font-size:0.82rem;color:var(--text-sub);align-self:center}
+.kv-list dd{font-family:'Inter',sans-serif;font-weight:700;text-align:right;color:var(--navy);font-size:0.92rem}
+
+/* ===== Footer ===== */
+.footer{background:var(--navy-dark);color:rgba(255,255,255,0.5);padding:32px 20px;text-align:center}
+.footer-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px}
+.footer-logo img{height:28px;opacity:0.85;flex-shrink:0}
+.footer-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.85rem;line-height:1;letter-spacing:1.5px}
+.footer-info{font-size:0.75rem;margin-bottom:12px}
+.footer-confidential{font-size:0.7rem;font-weight:700;color:var(--gold);letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);display:inline-block;padding:4px 16px;border-radius:4px}
+
+/* ===== Login Screen ===== */
+.report-content{display:none}
+.login-screen{position:fixed;inset:0;background:var(--navy-dark);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9999;overflow-y:auto}
+.login-screen::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(184,145,42,0.06) 0%,transparent 60%),radial-gradient(ellipse at 70% 60%,rgba(184,145,42,0.04) 0%,transparent 60%);pointer-events:none}
+.login-card{position:relative;width:100%;max-width:440px;background:rgba(26,37,64,0.95);border:1px solid rgba(184,145,42,0.15);border-radius:20px;padding:44px 36px;text-align:center;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+.login-ui-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:24px}
+.login-ui-logo img{height:28px;opacity:0.85}
+.login-ui-logo span{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.78rem;letter-spacing:1.5px}
+.login-client-logo{height:60px;width:auto;max-width:240px;background:#fff;padding:10px 16px;border-radius:10px;margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,0.3)}
+.login-icon{font-size:2.4rem;margin-bottom:14px}
+.login-title{font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:1px}
+.login-subtitle{font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:18px}
+.confidential-badge{display:inline-block;font-size:0.65rem;font-weight:700;color:var(--gold);letter-spacing:3px;border:1px solid rgba(184,145,42,0.3);padding:4px 14px;border-radius:4px;margin-bottom:24px}
+.input-group{margin-bottom:18px;text-align:left}
+.input-group label{display:block;font-size:0.74rem;color:rgba(255,255,255,0.6);margin-bottom:6px;letter-spacing:0.5px}
+.input-group input{width:100%;padding:13px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#fff;font-size:0.95rem;font-family:'Inter',sans-serif;letter-spacing:2px;outline:none;transition:all 0.2s}
+.input-group input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,145,42,0.15)}
+.input-group input::placeholder{color:rgba(255,255,255,0.25);letter-spacing:1px}
+.login-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--navy-dark);border:none;border-radius:10px;font-size:0.9rem;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.2s;letter-spacing:1px}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(184,145,42,0.4)}
+.error-msg{color:var(--negative);font-size:0.78rem;margin-top:12px;min-height:20px;font-weight:500}
+.login-footer{font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:20px;line-height:1.6}
+.logout-btn{position:fixed;top:16px;right:16px;z-index:999;background:rgba(26,37,64,0.9);color:var(--gold-light);border:1px solid rgba(184,145,42,0.2);padding:8px 16px;border-radius:8px;font-size:.75rem;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .15s}
+.logout-btn:hover{background:var(--gold);color:var(--navy-dark)}
+.back-link{position:fixed;top:16px;left:16px;z-index:999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;background:#1A2540;border:1px solid rgba(184,145,42,0.2);color:#D4A843;text-decoration:none;font-size:.78rem;font-weight:500;transition:all .15s;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.back-link:hover{background:#B8912A;color:#0F1829;border-color:#B8912A}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .container{padding:24px 14px 40px}
+  .header{padding:32px 16px 28px}
+  .header h1{font-size:1.4rem}
+  .header-client-row{flex-direction:column;gap:10px}
+  .client-logo{height:42px;max-width:200px;padding:6px 10px}
+  .ticker-badge{font-size:12px;padding:4px 12px}
+  .section{padding:20px 16px}
+  .score-row{grid-template-columns:repeat(2,1fr)}
+  .metrics-grid{grid-template-columns:1fr}
+  .chart-row{grid-template-columns:1fr}
+  .proposal-grid{grid-template-columns:1fr}
+  .two-col{grid-template-columns:1fr}
+  .gauge-row{grid-template-columns:repeat(2,1fr)}
+  .overview-grid{grid-template-columns:1fr}
+  .loan-grid{grid-template-columns:1fr}
+  .alert-grid{grid-template-columns:1fr}
+  .comp-table{font-size:0.72rem}
+  .comp-table thead th,.comp-table tbody td{padding:8px 8px}
+  .summary-box{padding:24px 20px}
+  .sc-value{font-size:1.25rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I"><span>Consulting</span>
+    </div>
+    <img class="login-client-logo" src="hanmine_logo.png" alt="土地家屋調査士法人 半嶺当徹事務所">
+    <div class="login-icon">🔒</div>
+    <div class="login-title">月次経営分析レポート</div>
+    <div class="login-subtitle">第5期 ｜ 2026年3月度</div>
+    <div class="confidential-badge">CONFIDENTIAL</div>
+    <div class="input-group">
+      <label>パスワード</label>
+      <input type="password" id="pwInput" placeholder="パスワードを入力" autocomplete="off">
+    </div>
+    <button class="login-btn" onclick="attemptLogin()">閲覧する</button>
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="login-footer">U&amp;Iコンサルティング ｜ 本資料は社外秘です</div>
+  </div>
+</div>
+
+<div class="report-content" id="reportContent">
+
+<button class="logout-btn" onclick="logout()">ログアウト</button>
+<a class="back-link" href="./index.html">← ポータル</a>
+
+<!-- ===== Header ===== -->
+<div class="header">
+  <div class="header-content">
+    <div class="header-ui-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I Consulting">
+      <span>Consulting</span>
+    </div>
+    <div class="header-client-row">
+      <img class="client-logo" src="hanmine_logo.png" alt="土地家屋調査士法人 半嶺当徹事務所">
+      <div class="ticker-badge">HANMINE TOTETSU</div>
+    </div>
+    <h1>月次経営分析レポート</h1>
+    <div class="header-period">
+      <span class="period-fiscal">第5期</span>
+      <span class="period-month">2026年3月度</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ===== Executive Summary ===== -->
+<div class="summary-box">
+  <div class="summary-box-content">
+    <h3>■ Executive Summary — 3月度の総括</h3>
+    <p>
+    3月度売上は <span class="highlight">¥4,045,834</span>（予算達成率 <span class="neg">78.0%</span>、前年同月比 <span class="neg">-20.1%</span>）。
+    会議で目標とした <span class="highlight">「月商400万円・営業利益率20%」</span> のうち、売上はラインを死守し、
+    <span class="pos">営業利益 ¥1,117,701（営業利益率 27.6%）と単月黒字着地</span> を達成。
+    2月の大幅赤字（営業利益 -¥1,291,712）から <span class="pos">+¥2,409,413 の急回復</span> を実現した点は高く評価される。
+    一方で、土地A（確定）の単価が前年の ¥413,227 から <span class="neg">¥332,364 へ約20%下落</span> し、件数も予算9件→実績5件と未達。
+    建物部門は単価<span class="pos">+11.8%</span>と健闘、新カテゴリ「建物B（滅失等）」が2件発生。
+    BSは <span class="pos">流動比率604%・固定長期適合率14%</span> と極めて健全だが、
+    第5期8ヶ月累計では <span class="neg">営業損失 -¥2,783,725・ROE -27.5%</span> を抱えており、
+    残4ヶ月での挽回が経営課題。<span class="highlight">まさや氏退職（3/31）後の3.5名体制で月商400万円を維持できるかが第6期への試金石</span>となる。
+    </p>
+  </div>
+</div>
+
+<!-- ===== Key Metrics ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">📊</span> Key Metrics — 損益サマリー</div>
+  <div class="score-row">
+    <div class="score-card">
+      <div class="sc-label">売上高</div>
+      <div class="sc-value down">¥4,045,834</div>
+      <div class="sc-change down">YoY -20.1%</div>
+      <div class="sc-sub">予算達成 78.0%</div>
+    </div>
+    <div class="score-card">
+      <div class="sc-label">粗利益（粗利率100%）</div>
+      <div class="sc-value down">¥4,045,834</div>
+      <div class="sc-change down">YoY -20.1%</div>
+      <div class="sc-sub">原価ゼロ業態</div>
+    </div>
+    <div class="score-card">
+      <div class="sc-label">営業利益</div>
+      <div class="sc-value up">¥1,117,701</div>
+      <div class="sc-change down">YoY -49.2%</div>
+      <div class="sc-sub">利益率 27.6%</div>
+    </div>
+    <div class="score-card">
+      <div class="sc-label">経常利益</div>
+      <div class="sc-value up">¥1,115,575</div>
+      <div class="sc-change down">YoY -49.5%</div>
+      <div class="sc-sub">利益率 27.6%</div>
+    </div>
+    <div class="score-card">
+      <div class="sc-label">純利益（試算）</div>
+      <div class="sc-value up">¥725,124</div>
+      <div class="sc-change down">YoY -49.5%</div>
+      <div class="sc-sub">利益率 17.9%</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== P/L Comparison Table ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">📋</span> 損益計算書 — 前年比 ＆ 予算比</div>
+  <div class="section-sub">※ 予算は5,000プラン（社内主予算）を基準。税金は概算35%で試算。</div>
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>科目</th>
+        <th class="right">前年同月<br>2025年3月</th>
+        <th class="right">予算<br>2026年3月</th>
+        <th class="right">実績<br>2026年3月</th>
+        <th class="right">予算差異</th>
+        <th class="right">YoY</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="highlight-row">
+        <td>売上高</td>
+        <td class="right">¥5,066,675</td>
+        <td class="right">¥5,190,000</td>
+        <td class="right">¥4,045,834</td>
+        <td class="right down">-¥1,144,166<br>(78.0%)</td>
+        <td class="right down">-20.1%</td>
+      </tr>
+      <tr>
+        <td>　土地部門</td>
+        <td class="right">¥2,926,050</td>
+        <td class="right">¥4,200,000</td>
+        <td class="right">¥2,817,945</td>
+        <td class="right down">-¥1,382,055</td>
+        <td class="right down">-3.7%</td>
+      </tr>
+      <tr>
+        <td>　建物部門</td>
+        <td class="right">¥2,140,625</td>
+        <td class="right">¥990,000</td>
+        <td class="right">¥1,227,889</td>
+        <td class="right up">+¥237,889</td>
+        <td class="right down">-42.6%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>売上総利益（粗利）</td>
+        <td class="right">¥5,066,675</td>
+        <td class="right">¥5,190,000</td>
+        <td class="right">¥4,045,834</td>
+        <td class="right down">-¥1,144,166</td>
+        <td class="right down">-20.1%</td>
+      </tr>
+      <tr>
+        <td>　粗利益率</td>
+        <td class="right">100.0%</td>
+        <td class="right">100.0%</td>
+        <td class="right">100.0%</td>
+        <td class="right neut">±0pt</td>
+        <td class="right neut">±0pt</td>
+      </tr>
+      <tr>
+        <td>販売管理費合計</td>
+        <td class="right">¥2,865,113</td>
+        <td class="right">¥2,930,995</td>
+        <td class="right">¥2,928,133</td>
+        <td class="right up">-¥2,862<br>(99.9%)</td>
+        <td class="right down">+2.2%</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>営業利益</td>
+        <td class="right">¥2,201,562</td>
+        <td class="right">¥2,259,005</td>
+        <td class="right">¥1,117,701</td>
+        <td class="right down">-¥1,141,304<br>(49.5%)</td>
+        <td class="right down">-49.2%</td>
+      </tr>
+      <tr>
+        <td>　営業利益率</td>
+        <td class="right">43.5%</td>
+        <td class="right">43.5%</td>
+        <td class="right">27.6%</td>
+        <td class="right down">-15.9pt</td>
+        <td class="right down">-15.9pt</td>
+      </tr>
+      <tr>
+        <td>営業外費用（支払利息）</td>
+        <td class="right">-</td>
+        <td class="right">¥3,009</td>
+        <td class="right">¥2,126</td>
+        <td class="right neut">-</td>
+        <td class="right neut">-</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>経常利益</td>
+        <td class="right">¥2,206,936</td>
+        <td class="right">¥2,255,996</td>
+        <td class="right">¥1,115,575</td>
+        <td class="right down">-¥1,140,421<br>(49.5%)</td>
+        <td class="right down">-49.5%</td>
+      </tr>
+      <tr>
+        <td>　経常利益率</td>
+        <td class="right">43.6%</td>
+        <td class="right">43.5%</td>
+        <td class="right">27.6%</td>
+        <td class="right down">-15.9pt</td>
+        <td class="right down">-16.0pt</td>
+      </tr>
+      <tr>
+        <td>税金（概算35%）</td>
+        <td class="right">¥772,428</td>
+        <td class="right">¥789,599</td>
+        <td class="right">¥390,451</td>
+        <td class="right neut">-</td>
+        <td class="right neut">-</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>純利益（税引後）</td>
+        <td class="right">¥1,434,508</td>
+        <td class="right">¥1,466,397</td>
+        <td class="right">¥725,124</td>
+        <td class="right down">-¥741,273<br>(49.5%)</td>
+        <td class="right down">-49.5%</td>
+      </tr>
+      <tr>
+        <td>　純利益率</td>
+        <td class="right">28.3%</td>
+        <td class="right">28.3%</td>
+        <td class="right">17.9%</td>
+        <td class="right down">-10.4pt</td>
+        <td class="right down">-10.4pt</td>
+      </tr>
+      <tr class="highlight-row">
+        <td>EBITDA（営業利益＋減価償却）</td>
+        <td class="right">¥2,201,562</td>
+        <td class="right">¥2,259,005</td>
+        <td class="right">¥1,117,701</td>
+        <td class="right down">-¥1,141,304</td>
+        <td class="right down">-49.2%</td>
+      </tr>
+      <tr>
+        <td>　EBITDAマージン</td>
+        <td class="right">43.5%</td>
+        <td class="right">43.5%</td>
+        <td class="right">27.6%</td>
+        <td class="right down">-15.9pt</td>
+        <td class="right down">-15.9pt</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== Charts: Revenue / Profit YoY ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">📈</span> 売上・利益 ビジュアル比較</div>
+  <div class="chart-row">
+    <div class="chart-card">
+      <h4>売上高・営業利益 — 前年/予算/実績</h4>
+      <div class="chart-container"><canvas id="chartSalesProfit"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>収益性指標 — 利益率トレンド</h4>
+      <div class="chart-container"><canvas id="chartMargin"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Revenue Breakdown ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🏗️</span> 部門別売上構成 — 案件構造分析</div>
+  <div class="chart-row">
+    <div class="chart-card">
+      <h4>部門別売上 構成比</h4>
+      <div class="chart-container"><canvas id="chartSegment"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>カテゴリ別 件数 × 単価</h4>
+      <div class="chart-container"><canvas id="chartCategory"></canvas></div>
+    </div>
+  </div>
+  <table class="comp-table" style="margin-top:24px">
+    <thead>
+      <tr>
+        <th>カテゴリ</th>
+        <th class="right">件数</th>
+        <th class="right">単価</th>
+        <th class="right">売上</th>
+        <th class="right">予算売上</th>
+        <th class="right">対予算</th>
+        <th class="right">YoY売上</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>土地A（確定）</td><td class="right">5件</td><td class="right">¥332,364</td><td class="right">¥1,661,821</td><td class="right">¥3,600,000</td><td class="right down">46.2%</td><td class="right down">-26.9%</td></tr>
+      <tr><td>土地B（復元）</td><td class="right">3件</td><td class="right">¥86,667</td><td class="right">¥260,001</td><td class="right">¥400,000</td><td class="right down">65.0%</td><td class="right down">-37.7%</td></tr>
+      <tr><td>土地C（申請）</td><td class="right">7件</td><td class="right">¥128,018</td><td class="right">¥896,123</td><td class="right">¥200,000</td><td class="right up">448.1%</td><td class="right up">+279.7%</td></tr>
+      <tr class="subtotal-row"><td>土地部門 計</td><td class="right">15件</td><td class="right">-</td><td class="right">¥2,817,945</td><td class="right">¥4,200,000</td><td class="right down">67.1%</td><td class="right down">-3.7%</td></tr>
+      <tr><td>建物A（表題等）</td><td class="right">9件</td><td class="right">¥122,998</td><td class="right">¥1,106,979</td><td class="right">¥990,000</td><td class="right up">111.8%</td><td class="right down">-48.3%</td></tr>
+      <tr><td>建物B（滅失等）</td><td class="right">2件</td><td class="right">¥60,455</td><td class="right">¥120,910</td><td class="right">¥0</td><td class="right up">NEW</td><td class="right up">NEW</td></tr>
+      <tr class="subtotal-row"><td>建物部門 計</td><td class="right">11件</td><td class="right">-</td><td class="right">¥1,227,889</td><td class="right">¥990,000</td><td class="right up">124.0%</td><td class="right down">-42.6%</td></tr>
+      <tr class="highlight-row"><td>合計</td><td class="right">26件</td><td class="right">¥155,609</td><td class="right">¥4,045,834</td><td class="right">¥5,190,000</td><td class="right down">78.0%</td><td class="right down">-20.1%</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== 販管費 全勘定科目 ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">💰</span> 販売管理費 — 全勘定科目（21項目）</div>
+  <div class="section-sub">※ Top5 はゴールド、予算比 ±25%以上の乖離は赤、新規発生科目はオレンジ表示。</div>
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>科目</th>
+        <th class="right">前年</th>
+        <th class="right">予算</th>
+        <th class="right">実績</th>
+        <th class="right">対売上比</th>
+        <th class="right">予算比</th>
+        <th class="right">YoY</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="cat-tag top5">Top1</span>給与手当</td><td class="right">¥814,481</td><td class="right">¥953,844</td><td class="right">¥993,341</td><td class="right">24.6%</td><td class="right down">104.1%</td><td class="right down">+22.0%</td></tr>
+      <tr><td><span class="cat-tag top5">Top2</span>役員報酬</td><td class="right">¥555,000</td><td class="right">¥605,000</td><td class="right">¥605,000</td><td class="right">15.0%</td><td class="right neut">100.0%</td><td class="right down">+9.0%</td></tr>
+      <tr><td><span class="cat-tag top5">Top3</span>法定福利費</td><td class="right">¥177,201</td><td class="right">¥211,965</td><td class="right">¥209,463</td><td class="right">5.2%</td><td class="right up">98.8%</td><td class="right down">+18.2%</td></tr>
+      <tr><td><span class="cat-tag top5">Top4</span>研修費</td><td class="right">¥143,434</td><td class="right">¥162,000</td><td class="right">¥165,000</td><td class="right">4.1%</td><td class="right neut">101.9%</td><td class="right down">+15.0%</td></tr>
+      <tr><td><span class="cat-tag top5">Top5</span>リース料</td><td class="right">¥105,243</td><td class="right">¥176,905</td><td class="right">¥152,142</td><td class="right">3.8%</td><td class="right up">86.0%</td><td class="right down">+44.6%</td></tr>
+      <tr><td>支払手数料</td><td class="right">¥65,236</td><td class="right">¥84,950</td><td class="right">¥91,235</td><td class="right">2.3%</td><td class="right neut">107.4%</td><td class="right down">+39.9%</td></tr>
+      <tr><td>消耗品費</td><td class="right">¥262,132</td><td class="right">¥120,000</td><td class="right">¥92,330</td><td class="right">2.3%</td><td class="right up">76.9%</td><td class="right up">-64.8%</td></tr>
+      <tr><td><span class="cat-tag alert">乖離大</span>交際費</td><td class="right">¥46,960</td><td class="right">¥60,000</td><td class="right">¥88,693</td><td class="right">2.2%</td><td class="right down">147.8%</td><td class="right down">+88.9%</td></tr>
+      <tr><td>福利厚生費</td><td class="right">¥93,895</td><td class="right">¥81,500</td><td class="right">¥87,894</td><td class="right">2.2%</td><td class="right down">107.8%</td><td class="right up">-6.4%</td></tr>
+      <tr><td>外注費</td><td class="right">¥272,250</td><td class="right">¥81,000</td><td class="right">¥80,375</td><td class="right">2.0%</td><td class="right up">99.2%</td><td class="right up">-70.5%</td></tr>
+      <tr><td><span class="cat-tag alert">乖離大</span><span class="cat-tag new">NEW</span>諸会費</td><td class="right">¥0</td><td class="right">¥0</td><td class="right">¥79,470</td><td class="right">2.0%</td><td class="right down">予算外</td><td class="right down">新規</td></tr>
+      <tr><td>通信費</td><td class="right">¥59,970</td><td class="right">¥87,541</td><td class="right">¥64,259</td><td class="right">1.6%</td><td class="right up">73.4%</td><td class="right down">+7.2%</td></tr>
+      <tr><td><span class="cat-tag alert">乖離大</span>旅費交通費</td><td class="right">¥61,431</td><td class="right">¥28,000</td><td class="right">¥59,288</td><td class="right">1.5%</td><td class="right down">211.7%</td><td class="right up">-3.5%</td></tr>
+      <tr><td><span class="cat-tag alert">乖離大</span>租税公課</td><td class="right">¥67,297</td><td class="right">¥109,000</td><td class="right">¥37,898</td><td class="right">0.9%</td><td class="right up">34.8%</td><td class="right up">-43.7%</td></tr>
+      <tr><td>車両費</td><td class="right">¥56,254</td><td class="right">¥74,890</td><td class="right">¥55,794</td><td class="right">1.4%</td><td class="right up">74.5%</td><td class="right up">-0.8%</td></tr>
+      <tr><td><span class="cat-tag alert">乖離大</span>保険料</td><td class="right">¥10,000</td><td class="right">¥49,400</td><td class="right">¥26,550</td><td class="right">0.7%</td><td class="right up">53.7%</td><td class="right down">+165.5%</td></tr>
+      <tr><td>会議費</td><td class="right">¥46,960</td><td class="right">¥16,000</td><td class="right">¥16,170</td><td class="right">0.4%</td><td class="right neut">101.1%</td><td class="right up">-65.6%</td></tr>
+      <tr><td>新聞図書費</td><td class="right">¥7,820</td><td class="right">¥9,000</td><td class="right">¥13,440</td><td class="right">0.3%</td><td class="right down">149.3%</td><td class="right down">+71.9%</td></tr>
+      <tr><td>水道光熱費</td><td class="right">¥10,276</td><td class="right">¥10,000</td><td class="right">¥9,791</td><td class="right">0.2%</td><td class="right up">97.9%</td><td class="right up">-4.7%</td></tr>
+      <tr><td><span class="cat-tag alert">乖離大</span>広告宣伝費</td><td class="right">¥9,273</td><td class="right">¥10,000</td><td class="right">¥0</td><td class="right">0.0%</td><td class="right up">0.0%</td><td class="right up">-100.0%</td></tr>
+      <tr><td>賞与・減価償却費</td><td class="right">¥0</td><td class="right">¥0</td><td class="right">¥0</td><td class="right">0.0%</td><td class="right neut">-</td><td class="right neut">-</td></tr>
+      <tr class="highlight-row">
+        <td>販管費 合計</td>
+        <td class="right">¥2,865,113</td>
+        <td class="right">¥2,930,995</td>
+        <td class="right">¥2,928,133</td>
+        <td class="right">72.4%</td>
+        <td class="right up">99.9%</td>
+        <td class="right down">+2.2%</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== 販管費 詳細分析 ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🔍</span> 販管費 詳細分析 — Top5 ＆ 乖離項目</div>
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="mc-header"><div class="mc-label">給与手当（Top1）</div><div class="mc-badge warn">YoY +22%</div></div>
+      <div class="mc-values"><div class="mc-current">¥993,341</div><div class="mc-prev">前年 ¥814,481 / 予算 ¥953,844</div></div>
+      <div class="mc-bar"><div class="mc-bar-fill warn" style="width:104%"></div></div>
+      <div class="mc-note">売上比24.6%。前年比 +¥178,860・予算比 +¥39,497。固定費の最大要因で、売上連動性なし。社員3名+パート1名のフル稼働状態。3.5名体制の付加価値向上が最重要課題。</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header"><div class="mc-label">役員報酬（Top2）</div><div class="mc-badge good">予算100%</div></div>
+      <div class="mc-values"><div class="mc-current">¥605,000</div><div class="mc-prev">前年 ¥555,000</div></div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:100%"></div></div>
+      <div class="mc-note">前年比 +¥50,000（+9%）。予算通り運用。役員1名分として水準は妥当。期首調整後、変動なし。</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header"><div class="mc-label">法定福利費（Top3）</div><div class="mc-badge good">予算98.8%</div></div>
+      <div class="mc-values"><div class="mc-current">¥209,463</div><div class="mc-prev">前年 ¥177,201</div></div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:98.8%"></div></div>
+      <div class="mc-note">給与増に連動して+18.2%。社会保険料率改定の影響もあり、想定範囲内。</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header"><div class="mc-label">研修費（Top4）</div><div class="mc-badge good">予算101.9%</div></div>
+      <div class="mc-values"><div class="mc-current">¥165,000</div><div class="mc-prev">前年 ¥143,434</div></div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:101.9%"></div></div>
+      <div class="mc-note">前年比+15.0%、予算通り執行。第5期は累計で約2,057,765円投入されており、士業として高水準の人材投資が継続中。投資回収のKPI設定が望ましい。</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header"><div class="mc-label">リース料（Top5）</div><div class="mc-badge good">予算86%</div></div>
+      <div class="mc-values"><div class="mc-current">¥152,142</div><div class="mc-prev">前年 ¥105,243</div></div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:86%"></div></div>
+      <div class="mc-note">前年比+44.6%（+¥46,899）。新規リース契約による増加と推定。CAD/測量機器・車両等の見直しで圧縮余地ありか要確認。</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header"><div class="mc-label">交際費（乖離大）</div><div class="mc-badge bad">予算+47.8%</div></div>
+      <div class="mc-values"><div class="mc-current">¥88,693</div><div class="mc-prev">前年 ¥46,960 / 予算 ¥60,000</div></div>
+      <div class="mc-bar"><div class="mc-bar-fill bad" style="width:147.8%"></div></div>
+      <div class="mc-note">前年比+88.9%・予算比 +¥28,693。2月議事録でも飲食偏重の反省あり。3月もコスト意識引き締めが効いていない可能性。月予算 ¥60,000 のキャップ運用を徹底すべき。</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header"><div class="mc-label">旅費交通費（乖離大）</div><div class="mc-badge bad">予算+111.7%</div></div>
+      <div class="mc-values"><div class="mc-current">¥59,288</div><div class="mc-prev">前年 ¥61,431 / 予算 ¥28,000</div></div>
+      <div class="mc-bar"><div class="mc-bar-fill bad" style="width:200%"></div></div>
+      <div class="mc-note">予算の2倍超。研修・出張継続中。前年比は同水準のため、予算設定そのものが過小だった可能性。月 ¥60,000 を新基準とした再設定が現実的。</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header"><div class="mc-label">諸会費（新規発生）</div><div class="mc-badge bad">NEW ¥79,470</div></div>
+      <div class="mc-values"><div class="mc-current">¥79,470</div><div class="mc-prev">前年 ¥0 / 予算 ¥0</div></div>
+      <div class="mc-bar"><div class="mc-bar-fill bad" style="width:100%"></div></div>
+      <div class="mc-note">予算外の新規発生科目。協会・組合費等の年会費か。年次費用なら3月固有の一時費用として、予算組替えで翌期から定常化を要確認。</div>
+    </div>
+    <div class="metric-card">
+      <div class="mc-header"><div class="mc-label">租税公課（乖離大）</div><div class="mc-badge good">予算34.8%</div></div>
+      <div class="mc-values"><div class="mc-current">¥37,898</div><div class="mc-prev">前年 ¥67,297 / 予算 ¥109,000</div></div>
+      <div class="mc-bar"><div class="mc-bar-fill good" style="width:34.8%"></div></div>
+      <div class="mc-note">予算比 -¥71,102 の大幅未消化。2月議事録で「税金支払いが多額」とあった反動か。科目仕訳を租税公課/支払手数料/雑費等で整理する必要あり（議事録指摘事項）。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 経営指標ダッシュボード ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">📐</span> 経営指標ダッシュボード — 8指標スナップショット</div>
+  <div class="section-sub">※ BS関連指標は税理士発行の試算表（令和8年2月19日時点／第5期累計集計）に基づく。3月単月数値はSTRC予実より算出。</div>
+  <div class="gauge-row">
+    <div class="gauge-card">
+      <div class="gc-label">流動比率</div>
+      <div class="gc-value alert-text-green">604.2%</div>
+      <div class="gc-unit">健全水準: 200%以上</div>
+      <div class="gc-note">流動資産 ¥25,092,336 ÷ 流動負債 ¥4,153,168。極めて潤沢。短期支払能力は問題なし。</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">自己資本比率</div>
+      <div class="gc-value" style="color:var(--neutral)">35.3%</div>
+      <div class="gc-unit">健全水準: 40%以上</div>
+      <div class="gc-note">純資産 ¥10,063,675 ÷ 総資産 ¥28,509,843。長期借入 ¥14,293,000 が効いて若干低め。50%目標。</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">固定長期適合率</div>
+      <div class="gc-value alert-text-green">14.0%</div>
+      <div class="gc-unit">健全水準: 100%以下</div>
+      <div class="gc-note">固定資産 ¥3,417,507 ÷ （純資産+固定負債）¥24,356,675。極めて優良。長期資金で固定資産を完全カバー。</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">労働分配率（単月）</div>
+      <div class="gc-value alert-text-green">46.9%</div>
+      <div class="gc-unit">士業平均: 50〜60%</div>
+      <div class="gc-note">人件費 ¥1,895,698 ÷ 粗利 ¥4,045,834。3月単月は健全水準。累計8ヶ月では56.2%とやや上振れ。</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">労働生産性（単月）</div>
+      <div class="gc-value alert-text-green">¥1,155,953</div>
+      <div class="gc-unit">/月/人（3.5人換算）</div>
+      <div class="gc-note">粗利 ¥4,045,834 ÷ 3.5人。年換算 ¥13,871,440/人。士業上位水準（業界目安 ¥8,000,000〜¥12,000,000/年）。</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">ROA（累計）</div>
+      <div class="gc-value alert-text-red">-9.7%</div>
+      <div class="gc-unit">第5期8ヶ月累計</div>
+      <div class="gc-note">累計純損益 -¥2,767,357 ÷ 総資産 ¥28,509,843。残4ヶ月で挽回必須。3月単月を維持できれば年率プラスへ復帰可能。</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">ROE（累計）</div>
+      <div class="gc-value alert-text-red">-27.5%</div>
+      <div class="gc-unit">第5期8ヶ月累計</div>
+      <div class="gc-note">累計純損益 -¥2,767,357 ÷ 純資産 ¥10,063,675。自己資本を毀損中。第5期通期での黒字化が至上命題。</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gc-label">EBITDA（単月）</div>
+      <div class="gc-value alert-text-green">¥1,117,701</div>
+      <div class="gc-unit">EBITDAマージン 27.6%</div>
+      <div class="gc-note">営業利益+減価償却。減価償却ほぼゼロのため営業利益と同値。単月では十分なキャッシュ創出力。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 借入余力 ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🏦</span> 銀行借入余力 — 3シナリオ試算</div>
+  <div class="section-sub">既存長期借入金: ¥14,293,000 ／ 月商: ¥4,045,834 ／ 推定年商: ¥48,550,008 ／ 評価基準: 中小・士業の無担保プロパー融資 月商倍率方式</div>
+  <div class="loan-grid">
+    <div class="loan-card">
+      <div class="loan-tag low">LOW（保守的）</div>
+      <div class="loan-amount">¥12,000,000</div>
+      <div class="loan-add">追加余力 <strong>¥0</strong></div>
+      <div class="loan-desc">月商×3ヶ月基準。既存借入 ¥14,293,000 が既に上限を超過。<br>保守的観点では新規借入は控えるべきライン。</div>
+    </div>
+    <div class="loan-card">
+      <div class="loan-tag mid">MID（標準）</div>
+      <div class="loan-amount">¥24,000,000</div>
+      <div class="loan-add">追加余力 <strong>+¥9,700,000</strong></div>
+      <div class="loan-desc">月商×6ヶ月基準。年商の約50%水準。<br>業績安定なら追加調達余地あり。設備投資・運転資金に活用可能。</div>
+    </div>
+    <div class="loan-card">
+      <div class="loan-tag high">HIGH（積極）</div>
+      <div class="loan-amount">¥36,000,000</div>
+      <div class="loan-add">追加余力 <strong>+¥21,700,000</strong></div>
+      <div class="loan-desc">月商×9ヶ月基準。年商規模相当。<br>事業拡大局面（拠点開設・M&amp;A・大型機器投資等）の上限目安。要事業計画提示。</div>
+    </div>
+  </div>
+  <div style="margin-top:18px;padding:14px 18px;background:var(--paper-dark);border-radius:8px;font-size:0.78rem;color:var(--text-sub);line-height:1.7">
+    <strong style="color:var(--navy)">補足:</strong> 現預金 ¥10,068,199・売掛金 ¥9,369,351（合計 ¥19,437,550）と短期流動性は厚い。即時返済能力は高水準。ただし第5期累計が赤字のため、銀行審査では「単月黒字の継続」「DSCR1.0以上の証明」が新規借入のキーとなる。残り4ヶ月で営業利益 ¥1,000,000/月を継続できれば、上期決算後の追加調達は十分可能。
+  </div>
+</div>
+
+<!-- ===== Alerts & Green Lamps ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🚨</span> 財務リスク・経営優良サイン — シグナルボード</div>
+  <div class="alert-grid">
+    <div class="alert-block danger">
+      <h4>🔴 リスクアラート</h4>
+      <ul>
+        <li><span class="lamp red"></span><span class="alert-text-red">売上予算 -22.0%</span> ／ 4ヶ月連続未達トレンド</li>
+        <li><span class="lamp red"></span><span class="alert-text-red">営業利益 YoY -49.2%</span> ／ 前年同月から半減</li>
+        <li><span class="lamp red"></span><span class="alert-text-red">第5期累計 営業損失 -¥2,783,725</span> ／ 8ヶ月累計</li>
+        <li><span class="lamp red"></span><span class="alert-text-red">ROE -27.5%（累計）</span> ／ 自己資本毀損中</li>
+        <li><span class="lamp red"></span><span class="alert-text-red">交際費 予算+47.8%</span> ／ 飲食偏重の継続懸念</li>
+        <li><span class="lamp red"></span><span class="alert-text-red">諸会費 ¥79,470 予算外発生</span> ／ 仕訳整理要</li>
+        <li><span class="lamp red"></span><span class="alert-text-red">土地A単価 -19.6%</span> ／ 主力商品の単価下落</li>
+      </ul>
+    </div>
+    <div class="alert-block success">
+      <h4>🟢 経営優良サイン</h4>
+      <ul>
+        <li><span class="lamp green"></span><span class="alert-text-green">流動比率 604%</span> ／ 業界水準の3倍超</li>
+        <li><span class="lamp green"></span><span class="alert-text-green">固定長期適合率 14%</span> ／ 極めて健全</li>
+        <li><span class="lamp green"></span><span class="alert-text-green">単月黒字復帰 +¥725,124</span> ／ 2月赤字から急回復</li>
+        <li><span class="lamp green"></span><span class="alert-text-green">単月労働分配率 46.9%</span> ／ 健全レンジ</li>
+        <li><span class="lamp green"></span><span class="alert-text-green">労働生産性 ¥1,155,953/人/月</span> ／ 士業上位水準</li>
+        <li><span class="lamp green"></span><span class="alert-text-green">EBITDA率 27.6%</span> ／ キャッシュ創出力健在</li>
+        <li><span class="lamp green"></span><span class="alert-text-green">建物部門 予算+24%・新カテゴリ発生</span> ／ 多角化兆し</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Proposals ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">💡</span> コンサルティング提言 — 4月以降のアクション</div>
+  <div class="proposal-grid">
+    <div class="proposal-card">
+      <div class="pc-priority critical">最重要 / 即時</div>
+      <div class="pc-title">土地A（確定測量）の単価戻しと件数の安定供給</div>
+      <div class="pc-body">
+        土地A単価が前年 ¥413,227 → ¥332,364 へ約20%下落、件数も予算9件→実績5件。主力商品の単価圧縮が営業利益半減の主因。京阪電鉄不動産・沖電開発など継続取引先への単価見直し交渉と、単価 ¥400,000 以上の案件選別を徹底。「月商 ¥4,000,000・営業利益率20%」死守には、土地A月7件 × ¥400,000 = ¥2,800,000 のラインが必要。
+      </div>
+      <div class="pc-impact">想定効果: 営業利益 +¥400,000/月（利益率 +10pt 回復）</div>
+    </div>
+    <div class="proposal-card">
+      <div class="pc-priority critical">最重要 / 即時</div>
+      <div class="pc-title">まさや氏退職後の3.5人体制で月商 ¥4,000,000 を維持</div>
+      <div class="pc-body">
+        3月末退職後、土地部門は上田・守人の2名+パート酒本氏の事務サポート体制となる。議事録で「土地サポートスタッフ（パート）採用」が決定済みのため、4月中の採用決定と引継ぎ完了を最優先。採用までの1〜2ヶ月は外注活用（測量・図面）で繁忙期の処理能力を確保。
+      </div>
+      <div class="pc-impact">想定効果: 売上下振れ防止 ¥800,000/月分 ＋ 採用後 労働生産性 10% 向上</div>
+    </div>
+    <div class="proposal-card">
+      <div class="pc-priority important">重要 / 中期</div>
+      <div class="pc-title">交際費・旅費・諸会費の固定費キャップ運用</div>
+      <div class="pc-body">
+        2月から「コスト意識引き締め」議論があったが、3月も交際費 ¥88,693（予算比+48%）・旅費 ¥59,288（予算の約2倍）・諸会費 ¥79,470（予算外）と緩み継続。月次の科目別キャップ（交際 ¥60,000・旅費 ¥60,000）を就業規則に明文化し、超過時は事前承認制とする。広告宣伝費 ¥10,000 は予算未消化のため、Webサイト経由の集客強化に振替を検討。
+      </div>
+      <div class="pc-impact">想定効果: 販管費 -¥50,000〜¥80,000/月（営業利益率 +1.5pt）</div>
+    </div>
+    <div class="proposal-card">
+      <div class="pc-priority important">重要 / 中期</div>
+      <div class="pc-title">紹介案件の仕組み化（リファラル営業）</div>
+      <div class="pc-body">
+        建物部門で沖縄スバル経由の紹介案件が継続発生。クレバリーホーム・パナソニックホームズ等のハウスメーカー案件と組み合わせ、「ハウスメーカー連携プログラム」として商品化。新規顧客（宮平氏等）からの紹介経路を体系化し、「紹介者特典」「年1回の案件レビュー会」等の仕掛けを導入。
+      </div>
+      <div class="pc-impact">想定効果: 建物部門 月 +¥300,000〜¥500,000（営業コストゼロ）</div>
+    </div>
+    <div class="proposal-card">
+      <div class="pc-priority suggest">推奨 / 中長期</div>
+      <div class="pc-title">売掛金 ¥9,369,351 の回収サイト短縮</div>
+      <div class="pc-body">
+        2月議事録で約 ¥7,000,000 の売掛金催促を実施したが、3月時点（試算表）でも ¥9,369,351 を保有。月商の約2.3ヶ月分相当でやや長め。請求書の支払期日明記・前金20%制導入・支払遅延先のブラックリスト管理を導入し、回転日数を60日→45日に短縮。キャッシュ創出と借入依存度低減を同時達成。
+      </div>
+      <div class="pc-impact">想定効果: 運転資金 +¥3,000,000（追加借入不要に）</div>
+    </div>
+    <div class="proposal-card">
+      <div class="pc-priority suggest">推奨 / 中長期</div>
+      <div class="pc-title">第5期 残4ヶ月での通期黒字化シナリオ策定</div>
+      <div class="pc-body">
+        第5期累計は営業損失 -¥2,783,725。通期黒字化には残4ヶ月（4〜6月）で営業利益累計 +¥2,783,725、月平均 ¥695,931 が必要。3月実績 ¥1,117,701 を維持できれば達成可能だが、4月予測 ¥2,138,400・5月予測 ¥1,004,400 と急落見込み（議事録）。土地A単価戻し＋建物紹介案件＋外注最小化で月商 ¥4,500,000 を確保するKPIに月次でコミット。
+      </div>
+      <div class="pc-impact">想定効果: 第5期通期黒字化 → ROE プラス転換 → 新規借入余力解放</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Closing Summary ===== -->
+<div class="summary-box">
+  <div class="summary-box-content">
+    <h3>■ 総合評価 — 第5期 残り4ヶ月の最重要メッセージ</h3>
+    <p>
+    <span class="highlight">3月度は単月黒字復帰という重要なマイルストーン</span>を達成した。
+    2月の大幅赤字から営業利益で<span class="pos">+¥2,409,413 の急回復</span>を実現したことは、現場の集中力と案件管理力の証左。
+    BS指標は<span class="pos">流動比率604%・固定長期適合率14%と極めて健全</span>で、短期的な資金繰りリスクはゼロ。
+    一方で、第5期累計では<span class="neg">営業損失 -¥2,783,725 ／ ROE -27.5%</span>と自己資本毀損が進行しており、
+    残4ヶ月での挽回ライン「<span class="highlight">月営業利益 ¥695,931</span>」を全社目標として共有すべき。
+    最大の論点は<span class="highlight">「土地A単価 ¥400,000 への回復」と「3.5人体制での生産性維持」</span>。
+    まさや氏退職を受けた採用は4月中に決着させ、月商 ¥4,000,000・営業利益率20%（議事録目標）を守り続けることが、
+    第6期に向けた信頼基盤の構築につながる。
+    </p>
+  </div>
+</div>
+
+</div>
+<!-- /container -->
+
+<!-- ===== Footer ===== -->
+<div class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <img src="../assets/ui_logo_white.png" alt="U&amp;I">
+      <span>Consulting</span>
+    </div>
+    <div class="footer-info">
+      土地家屋調査士法人 半嶺当徹事務所 ｜ 月次経営分析レポート 2026年3月度
+    </div>
+    <div class="footer-confidential">最重要機密（CONFIDENTIAL）</div>
+  </div>
+</div>
+
+</div>
+<!-- /report-content -->
+
+<script>
+// ===== Password Lock =====
+var CORRECT_HASH='a0c6889a24680f4e9b2b0139a1086a4c841cf5886c37a9cf1aaa40db53935e69';
+var SESSION_KEY='hanmine_auth';
+async function sha256(message){
+  var msgBuffer=new TextEncoder().encode(message);
+  var hashBuffer=await crypto.subtle.digest('SHA-256',msgBuffer);
+  var hashArray=Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+}
+async function attemptLogin(){
+  var pw=document.getElementById('pwInput').value;
+  var hash=await sha256(pw);
+  if(hash===CORRECT_HASH){
+    sessionStorage.setItem(SESSION_KEY,'1');
+    showReport();
+  } else {
+    document.getElementById('errorMsg').textContent='パスワードが正しくありません';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').style.borderColor='#8B2020';
+    setTimeout(function(){document.getElementById('pwInput').style.borderColor='';},1500);
+  }
+}
+function showReport(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('reportContent').style.display='block';
+  setTimeout(initCharts,50);
+}
+function logout(){
+  sessionStorage.removeItem(SESSION_KEY);
+  location.reload();
+}
+document.getElementById('pwInput').addEventListener('keydown',function(e){
+  if(e.key==='Enter') attemptLogin();
+});
+
+function initCharts(){
+Chart.defaults.font.family = "'Inter', 'Noto Sans JP', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#6B6B6B';
+
+const NAVY='#1A2540',NAVY_L='#243352',GOLD='#B8912A',GOLD_L='#D4A843',POS='#1B7A3D',NEG='#8B2020';
+
+// 1. Sales / Profit grouped bar
+new Chart(document.getElementById('chartSalesProfit'),{
+  type:'bar',
+  data:{
+    labels:['売上高','粗利益','営業利益','経常利益','純利益'],
+    datasets:[
+      {label:'前年同月(2025/3)',data:[5066675,5066675,2201562,2206936,1434508],backgroundColor:'#243352',borderRadius:4},
+      {label:'予算(2026/3)',data:[5190000,5190000,2259005,2255996,1466397],backgroundColor:'#D4A843',borderRadius:4},
+      {label:'実績(2026/3)',data:[4045834,4045834,1117701,1115575,725124],backgroundColor:'#B8912A',borderRadius:4}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}},
+    scales:{
+      y:{beginAtZero:true,ticks:{callback:v=>'¥'+(v/1000000).toFixed(1)+'M'}},
+      x:{ticks:{font:{size:10}}}
+    }
+  }
+});
+
+// 2. Margin trend
+new Chart(document.getElementById('chartMargin'),{
+  type:'bar',
+  data:{
+    labels:['粗利益率','営業利益率','経常利益率','純利益率','EBITDA率'],
+    datasets:[
+      {label:'前年同月',data:[100,43.5,43.6,28.3,43.5],backgroundColor:'#243352',borderRadius:4},
+      {label:'予算',data:[100,43.5,43.5,28.3,43.5],backgroundColor:'#D4A843',borderRadius:4},
+      {label:'実績',data:[100,27.6,27.6,17.9,27.6],backgroundColor:'#B8912A',borderRadius:4}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}},
+    scales:{y:{beginAtZero:true,max:110,ticks:{callback:v=>v+'%'}}}
+  }
+});
+
+// 3. Segment doughnut
+new Chart(document.getElementById('chartSegment'),{
+  type:'doughnut',
+  data:{
+    labels:['土地A(確定)','土地B(復元)','土地C(申請)','建物A(表題等)','建物B(滅失等)'],
+    datasets:[{
+      data:[1661821,260001,896123,1106979,120910],
+      backgroundColor:['#1A2540','#243352','#3B4D75','#B8912A','#D4A843'],
+      borderWidth:2,borderColor:'#fff'
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'right',labels:{font:{size:10},boxWidth:12}},
+      tooltip:{callbacks:{label:c=>c.label+': ¥'+c.parsed.toLocaleString()+' ('+(c.parsed/4045834*100).toFixed(1)+'%)'}}
+    }
+  }
+});
+
+// 4. Category mixed: bars=count, line=unit price
+new Chart(document.getElementById('chartCategory'),{
+  type:'bar',
+  data:{
+    labels:['土地A','土地B','土地C','建物A','建物B'],
+    datasets:[
+      {label:'件数',data:[5,3,7,9,2],backgroundColor:'#1A2540',borderRadius:4,yAxisID:'y'},
+      {label:'単価(千円)',data:[332,87,128,123,60],type:'line',borderColor:'#B8912A',backgroundColor:'#B8912A',tension:0.3,yAxisID:'y1',pointRadius:5,borderWidth:3}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}},
+    scales:{
+      y:{type:'linear',position:'left',beginAtZero:true,title:{display:true,text:'件数',font:{size:10}}},
+      y1:{type:'linear',position:'right',beginAtZero:true,grid:{drawOnChartArea:false},title:{display:true,text:'単価(千円)',font:{size:10}}}
+    }
+  }
+});
+}
+// Auto-show if already authenticated
+if(sessionStorage.getItem(SESSION_KEY)==='1') showReport();
+</script>
+
+</body>
+</html>
