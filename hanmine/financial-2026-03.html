@@ -74,6 +74,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
 .comp-table tbody tr.highlight-row td{font-weight:700}
 .comp-table tbody tr.subtotal-row{background:#FAFAF7;font-weight:700;border-top:2px solid var(--gold)}
 .comp-table tbody tr.subtotal-row td{font-weight:700}
+.comp-table tbody tr.anchor-row td{background:linear-gradient(135deg,#1A2540 0%,#243352 100%);color:#fff;padding:14px 16px;border-bottom:2px solid var(--gold)}
+.anchor-content{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;font-size:0.78rem}
+.anchor-label{background:rgba(184,145,42,0.2);border:1px solid rgba(184,145,42,0.4);color:var(--gold-light);padding:4px 12px;border-radius:6px;font-weight:700;letter-spacing:0.5px;font-size:0.72rem}
+.anchor-content span strong{color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:800;font-size:0.92rem;margin-left:4px}
+.anchor-content span:not(.anchor-label){color:rgba(255,255,255,0.85)}
 .up{color:var(--positive);font-weight:700}
 .down{color:var(--negative);font-weight:700}
 .neut{color:var(--text-sub)}
@@ -348,6 +353,20 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--t
       </tr>
     </thead>
     <tbody>
+      <tr class="anchor-row">
+        <td colspan="6">
+          <div class="anchor-content">
+            <span class="anchor-label">前年実績｜2025年3月</span>
+            <span>売上高 <strong>¥5,066,675</strong></span>
+            <span>粗利益 <strong>¥5,066,675</strong>（100.0%）</span>
+            <span>販管費 <strong>¥2,865,113</strong></span>
+            <span>営業利益 <strong>¥2,201,562</strong>（43.5%）</span>
+            <span>経常利益 <strong>¥2,206,936</strong>（43.6%）</span>
+            <span>純利益 <strong>¥1,434,508</strong>（28.3%）</span>
+            <span>EBITDA <strong>¥2,201,562</strong>（43.5%）</span>
+          </div>
+        </td>
+      </tr>
       <tr class="highlight-row">
         <td>売上高</td>
         <td class="right">¥5,066,675</td>
